@@ -20,6 +20,7 @@ export type UpdateInternshipInput = Partial<CreateInternshipInput>
 export interface InternshipFilters {
   stack?: string
   search?: string
+  includeUnpublished?: boolean
   page?: number
   perPage?: number
 }

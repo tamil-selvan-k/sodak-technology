@@ -21,7 +21,9 @@ export type UpdateJobInput = Partial<CreateJobInput>
 export interface JobFilters {
   department?: string
   isOpen?: boolean
+  isPublished?: boolean
   search?: string
+  includeUnpublished?: boolean
   page?: number
   perPage?: number
 }

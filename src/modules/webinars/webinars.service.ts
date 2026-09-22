@@ -7,7 +7,7 @@ import type { CreateWebinarInput, UpdateWebinarInput, WebinarFilters } from './w
 export async function listWebinars(filters: WebinarFilters = {}) {
   const { skip, take, page, perPage } = parsePagination(filters)
   const where = {
-    isPublished: true,
+    ...(filters.includeUnpublished ? {} : { isPublished: true }),
     deletedAt:   null,
     ...(filters.upcoming && { scheduledAt: { gte: new Date() } }),
   }
@@ -35,6 +35,10 @@ export async function updateWebinar(id: string, input: UpdateWebinarInput) {
 
 export async function publishWebinar(id: string) {
   return db.webinar.update({ where: { id }, data: { isPublished: true } })
+}
+
+export async function unpublishWebinar(id: string) {
+  return db.webinar.update({ where: { id }, data: { isPublished: false } })
 }
 
 export async function softDeleteWebinar(id: string) {

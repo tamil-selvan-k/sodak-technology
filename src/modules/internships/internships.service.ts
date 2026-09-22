@@ -6,7 +6,7 @@ import type { CreateInternshipInput, UpdateInternshipInput, InternshipFilters } 
 export async function listInternships(filters: InternshipFilters = {}) {
   const { skip, take, page, perPage } = parsePagination(filters)
   const where = {
-    isPublished: true,
+    ...(filters.includeUnpublished ? {} : { isPublished: true }),
     deletedAt:   null,
     ...(filters.stack  && { stackTags: { has: filters.stack } }),
     ...(filters.search && { companyName: { contains: filters.search, mode: 'insensitive' as const } }),
@@ -32,6 +32,10 @@ export async function updateInternship(id: string, input: UpdateInternshipInput)
 
 export async function publishInternship(id: string) {
   return db.internship.update({ where: { id }, data: { isPublished: true } })
+}
+
+export async function unpublishInternship(id: string) {
+  return db.internship.update({ where: { id }, data: { isPublished: false } })
 }
 
 export async function softDeleteInternship(id: string) {

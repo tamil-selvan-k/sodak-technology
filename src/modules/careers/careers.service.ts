@@ -7,7 +7,9 @@ import type { CreateJobInput, UpdateJobInput, JobFilters } from './careers.types
 export async function listJobs(filters: JobFilters = {}) {
   const { skip, take, page, perPage } = parsePagination(filters)
   const where = {
-    isPublished: true,
+    ...(filters.includeUnpublished
+      ? filters.isPublished !== undefined ? { isPublished: filters.isPublished } : {}
+      : { isPublished: true }),
     deletedAt:   null,
     ...(filters.isOpen     !== undefined && { isOpen: filters.isOpen }),
     ...(filters.department && { department: filters.department }),

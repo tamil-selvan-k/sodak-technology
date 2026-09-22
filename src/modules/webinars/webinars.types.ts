@@ -16,6 +16,7 @@ export type UpdateWebinarInput = Partial<CreateWebinarInput>
 
 export interface WebinarFilters {
   upcoming?: boolean
+  includeUnpublished?: boolean
   page?: number
   perPage?: number
 }
