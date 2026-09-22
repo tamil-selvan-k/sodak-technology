@@ -1,0 +1,577 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  // DATABASE_URL → Supabase pgbouncer pooler (port 6543, transaction mode) for runtime queries
+  // DIRECT_URL  → Supabase direct Postgres (port 5432) for `prisma migrate deploy` — DDL needs a direct connection
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ── Enums ────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  super_admin
+  editor
+  contributor
+  sales
+}
+
+enum InstitutionType {
+  Engineering
+  Arts
+  Polytechnic
+  University
+  Corporate
+}
+
+enum DeliveryMode {
+  on_campus
+  hybrid
+  online
+}
+
+enum LeadStatus {
+  new
+  contacted
+  proposal_sent
+  won
+  lost
+}
+
+enum BlogStatus {
+  draft
+  in_review
+  published
+}
+
+enum JobApplicationStatus {
+  new
+  reviewed
+  shortlisted
+  rejected
+}
+
+// ── Auth (NextAuth.js v5 required tables) ─────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  role          UserRole  @default(editor)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts   Account[]
+  sessions   Session[]
+  leadNotes  LeadNote[]
+  auditLogs  AuditLog[]
+  photos     Photo[]
+  mediaFiles MediaFile[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ── Trainers / Mentors ────────────────────────────────────────────────────────
+
+model Trainer {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  photoUrl        String?
+  currentCompany  String?
+  designation     String?
+  expertiseTags   String[]
+  bioHtml         String?  @db.Text
+  yearsExperience Int?
+  linkedinUrl     String?
+  githubUrl       String?
+  displayOrder    Int      @default(0)
+  isFeatured      Boolean  @default(false)
+  isMentor        Boolean  @default(false)
+  isPublished     Boolean  @default(false)
+  consentOnFile   Boolean  @default(false)
+
+  // Mentor-specific
+  mentorBio          String?
+  sessionTypes       String[]
+  availabilityStatus String?
+  bookingUrl         String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  stacks    TrainerStack[]
+  blogPosts BlogPost[]
+  webinars  Webinar[]
+
+  @@map("trainers")
+}
+
+model Stack {
+  id           String  @id @default(cuid())
+  name         String
+  slug         String  @unique
+  icon         String?
+  summary      String?
+  colorToken   String?
+  displayOrder Int     @default(0)
+
+  technologies  Technology[]
+  trainerStacks TrainerStack[]
+  programStacks ProgramStack[]
+
+  @@map("stacks")
+}
+
+model Technology {
+  id           String  @id @default(cuid())
+  name         String
+  logoUrl      String?
+  stackId      String
+  displayOrder Int     @default(0)
+
+  stack Stack @relation(fields: [stackId], references: [id])
+
+  @@unique([name, stackId])
+  @@map("technologies")
+}
+
+model TrainerStack {
+  trainerId String
+  stackId   String
+
+  trainer Trainer @relation(fields: [trainerId], references: [id], onDelete: Cascade)
+  stack   Stack   @relation(fields: [stackId], references: [id], onDelete: Cascade)
+
+  @@id([trainerId, stackId])
+  @@map("trainer_stacks")
+}
+
+// ── Institutions ──────────────────────────────────────────────────────────────
+
+model Institution {
+  id               String          @id @default(cuid())
+  name             String
+  slug             String          @unique
+  logoUrl          String?
+  city             String?
+  state            String?
+  type             InstitutionType?
+  affiliation      String?
+  website          String?
+  shortDescription String?
+  isPublished      Boolean         @default(false)
+  showOnHome       Boolean         @default(false)
+  displayOrder     Int             @default(0)
+  logoPermission   Boolean         @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  engagements InstitutionEngagement[]
+  photos      Photo[]
+
+  @@map("institutions")
+}
+
+model InstitutionEngagement {
+  id               String       @id @default(cuid())
+  institutionId    String
+  programDelivered String?
+  stacks           String[]
+  startDate        DateTime?
+  endDate          DateTime?
+  batchSize        Int?
+  yearOfStudents   String?
+  deliveryMode     DeliveryMode?
+  outcomeNotes     String?      @db.Text
+  testimonialText  String?      @db.Text
+  testimonialSource String?
+
+  institution Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+
+  @@map("institution_engagements")
+}
+
+// ── Programs ──────────────────────────────────────────────────────────────────
+
+model Program {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  trackCode       String?
+  summary         String?
+  descriptionHtml String?  @db.Text
+  duration        String?
+  deliveryMode    String?
+  targetAudience  String?
+  prerequisites   String?
+  syllabusJson    Json?
+  outcomes        String[]
+  brochurePdfUrl  String?
+  brochureKey     String?
+  isFeatured      Boolean  @default(false)
+  isPublished     Boolean  @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  stacks ProgramStack[]
+
+  @@map("programs")
+}
+
+model ProgramStack {
+  programId String
+  stackId   String
+
+  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+  stack   Stack   @relation(fields: [stackId], references: [id], onDelete: Cascade)
+
+  @@id([programId, stackId])
+  @@map("program_stacks")
+}
+
+// ── Gallery ───────────────────────────────────────────────────────────────────
+
+model Photo {
+  id                 String    @id @default(cuid())
+  title              String?
+  altText            String?
+  caption            String?
+  r2Key              String?
+  url                String
+  institutionId      String?
+  dateTaken          DateTime?
+  tags               String[]
+  displayOrder       Int       @default(0)
+  isPublished        Boolean   @default(false)
+  hasStudentFaces    Boolean   @default(false)
+  studentConsentRef  String?
+  uploadedById       String?
+
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  institution  Institution? @relation(fields: [institutionId], references: [id])
+  uploadedBy   User?        @relation(fields: [uploadedById], references: [id])
+
+  @@map("photos")
+}
+
+model MediaFile {
+  id           String    @id @default(cuid())
+  key          String    @unique
+  url          String
+  mimeType     String
+  sizeBytes    Int
+  originalName String
+  variants     Json?
+  uploadedById String?
+
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  uploadedBy User? @relation(fields: [uploadedById], references: [id])
+
+  @@map("media_files")
+}
+
+// ── Blog ──────────────────────────────────────────────────────────────────────
+
+model BlogPost {
+  id                 String     @id @default(cuid())
+  title              String
+  slug               String     @unique
+  coverImageUrl      String?
+  excerpt            String?
+  bodyHtml           String?    @db.Text
+  authorId           String?
+  category           String?
+  tags               String[]
+  readingTimeMinutes Int?
+  publishedAt        DateTime?
+  status             BlogStatus @default(draft)
+  metaTitle          String?
+  metaDescription    String?
+  ogImageUrl         String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  author       Trainer?    @relation(fields: [authorId], references: [id])
+  relatedFrom  PostRelated[] @relation("relatedFrom")
+  relatedTo    PostRelated[] @relation("relatedTo")
+
+  @@map("blog_posts")
+}
+
+model PostRelated {
+  postId        String
+  relatedPostId String
+
+  post        BlogPost @relation("relatedFrom", fields: [postId], references: [id], onDelete: Cascade)
+  relatedPost BlogPost @relation("relatedTo",   fields: [relatedPostId], references: [id], onDelete: Cascade)
+
+  @@id([postId, relatedPostId])
+  @@map("post_related")
+}
+
+// ── Leads ─────────────────────────────────────────────────────────────────────
+
+model Lead {
+  id                   String     @id @default(cuid())
+  name                 String
+  role                 String?
+  institutionOrCompany String?
+  email                String
+  phone                String?
+  city                 String?
+  programOfInterest    String?
+  batchSize            Int?
+  preferredTimeline    String?
+  message              String?    @db.Text
+  source               String?
+  status               LeadStatus @default(new)
+  meta                 Json?
+
+  createdAt DateTime @default(now())
+
+  notes LeadNote[]
+
+  @@map("leads")
+}
+
+model LeadNote {
+  id       String @id @default(cuid())
+  leadId   String
+  authorId String
+  body     String @db.Text
+
+  createdAt DateTime @default(now())
+
+  lead   Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id])
+
+  @@map("lead_notes")
+}
+
+// ── Careers ───────────────────────────────────────────────────────────────────
+
+model JobPost {
+  id             String   @id @default(cuid())
+  title          String
+  slug           String   @unique
+  department     String?
+  location       String?
+  employmentType String?
+  experienceMin  Int?
+  experienceMax  Int?
+  descriptionHtml String? @db.Text
+  responsibilities String[]
+  requirements   String[]
+  isOpen         Boolean  @default(true)
+  closesOn       DateTime?
+  isPublished    Boolean  @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  applications JobApplication[]
+
+  @@map("job_posts")
+}
+
+model JobApplication {
+  id              String               @id @default(cuid())
+  jobPostId       String
+  applicantName   String
+  email           String
+  phone           String?
+  yearsExperience Int?
+  coverNote       String?              @db.Text
+  resumeUrl       String?
+  status          JobApplicationStatus @default(new)
+
+  appliedAt DateTime @default(now())
+
+  jobPost JobPost @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+
+  @@map("job_applications")
+}
+
+// ── Webinars ──────────────────────────────────────────────────────────────────
+
+model Webinar {
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  description     String?   @db.Text
+  presenterId     String?
+  scheduledAt     DateTime?
+  durationMinutes Int?
+  platform        String?
+  registrationUrl String?
+  isPublished     Boolean   @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  presenter     Trainer?              @relation(fields: [presenterId], references: [id])
+  registrations WebinarRegistration[]
+
+  @@map("webinars")
+}
+
+model WebinarRegistration {
+  id        String   @id @default(cuid())
+  webinarId String
+  name      String
+  email     String
+  phone     String?
+
+  createdAt DateTime @default(now())
+
+  webinar Webinar @relation(fields: [webinarId], references: [id], onDelete: Cascade)
+
+  @@map("webinar_registrations")
+}
+
+// ── Internships ───────────────────────────────────────────────────────────────
+
+model Internship {
+  id                  String    @id @default(cuid())
+  companyName         String
+  companyLogoUrl      String?
+  roleTitle           String
+  location            String?
+  duration            String?
+  stipendRange        String?
+  stackTags           String[]
+  description         String?   @db.Text
+  requirements        String[]
+  applicationDeadline DateTime?
+  isPublished         Boolean   @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  applications InternshipApplication[]
+
+  @@map("internships")
+}
+
+model InternshipApplication {
+  id           String  @id @default(cuid())
+  internshipId String
+  name         String
+  email        String
+  phone        String?
+  collegeName  String?
+  cgpa         Float?
+
+  createdAt DateTime @default(now())
+
+  internship Internship @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+
+  @@map("internship_applications")
+}
+
+// ── Audit Log ─────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String
+  action     String
+  entityType String
+  entityId   String
+  oldValue   Json?
+  newValue   Json?
+
+  createdAt DateTime @default(now())
+
+  actor User @relation(fields: [actorId], references: [id])
+
+  @@map("audit_log")
+}
+
+// ── Site Settings (single row) ────────────────────────────────────────────────
+
+model SiteSetting {
+  id                Int    @id @default(1)
+  heroHeadline      String?
+  heroSubhead       String?
+  heroImageUrl      String?
+  notificationEmail String?
+  stats             Json?
+  socialLinks       Json?
+
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+// ── Redirects ─────────────────────────────────────────────────────────────────
+
+model Redirect {
+  id          String  @id @default(cuid())
+  source      String  @unique
+  destination String
+  isPermanent Boolean @default(true)
+
+  @@map("redirects")
+}

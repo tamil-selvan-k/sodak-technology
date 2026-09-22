@@ -1,0 +1,14 @@
+import { NextResponse } from 'next/server'
+import { auth, hasRole } from '@/lib/auth'
+import { publishProgram } from '@/modules/programs/programs.service'
+import { writeAuditLog } from '@/lib/audit'
+
+export async function POST(_req: Request, { params }: { params: { id: string } }) {
+  const session = await auth()
+  if (!session || !hasRole(session, 'editor')) {
+    return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+  }
+  const program = await publishProgram(params.id)
+  await writeAuditLog({ actorId: session.user.id, action: 'PUBLISH', entityType: 'program', entityId: params.id })
+  return NextResponse.json({ data: program })
+}
