@@ -28,18 +28,18 @@ export default function PlatformPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }}>
             {[
               {
-                icon: '🚩',
-                title: 'SODAK CTF',
-                desc: 'Capture-the-Flag competitions to build practical cybersecurity skills. Designed for students preparing for security-focused MNC roles.',
-                href: '/platform/ctf',
-                features: ['20+ challenge categories', 'Weekly live competitions', 'Leaderboard & certificates'],
-              },
-              {
                 icon: '📚',
                 title: 'SODAK LMS',
                 desc: 'A structured learning management system with video lessons, module quizzes, and progress tracking for every student in the program.',
                 href: '/platform/lms',
                 features: ['Video + text lessons', 'Progress tracking', 'Completion certificates'],
+              },
+              {
+                icon: '🚩',
+                title: 'SODAK CTF',
+                desc: 'Capture-the-Flag competitions to build practical cybersecurity skills. Designed for students preparing for security-focused MNC roles.',
+                href: '/platform/ctf',
+                features: ['20+ challenge categories', 'Weekly live competitions', 'Leaderboard & certificates'],
               },
               {
                 icon: '📊',

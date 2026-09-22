@@ -47,7 +47,7 @@ export default async function HomePage() {
                 {settings?.heroHeadline ?? 'Launch Your Tech Career'}
               </h1>
               <p className="t-lg c-muted" style={{ marginBottom: 32, maxWidth: 520 }}>
-                {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by 500+ colleges across Tamil Nadu'}
+                {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by 1000+ colleges across Tamil Nadu'}
               </p>
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
                 <Link href="/programs" className="btn btn-gold btn-lg">Explore Programs →</Link>
@@ -151,8 +151,8 @@ export default async function HomePage() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginTop: 40 }}>
               {stacks.map(stack => (
-                <Link key={stack.id} href={`/training/${stack.slug}`} style={{ textDecoration: 'none' }}>
-                  <div className="card card-light" style={{ padding: '28px 24px' }}>
+                <Link key={stack.id} href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+                  <div className="card card-light" style={{ padding: '28px 24px', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
                       <div style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>{stack.icon ?? '💻'}</div>
                       <div>
@@ -160,7 +160,7 @@ export default async function HomePage() {
                         <p className="t-sm c-body" style={{ marginTop: 4 }}>{stack.summary}</p>
                       </div>
                     </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
                       {(stack.technologies ?? []).slice(0, 4).map((tech: { name: string; logoUrl: string | null; displayOrder: number }) => (
                         <span key={tech.name} className="badge badge-light">{tech.name}</span>
                       ))}
@@ -182,11 +182,11 @@ export default async function HomePage() {
           <div className="section-header text-center">
             <p className="section-eyebrow">Our Network</p>
             <h2 className="t-h1 c-white">Trusted by Leading Institutions</h2>
-            <p>We deliver on-campus training directly inside your institution — no student travel required.</p>
+            <p style={{ color: '#94a3b8' }}>We deliver on-campus training directly inside your institution — no student travel required.</p>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginTop: 40 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginTop: 40, maxWidth: 700, margin: '40px auto 0' }}>
             {TRUST_BADGES.map(name => (
-              <div key={name} className="badge badge-dark badge-lg">{name}</div>
+              <div key={name} className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
             ))}
           </div>
           <div className="text-center" style={{ marginTop: 36 }}>
@@ -214,12 +214,9 @@ export default async function HomePage() {
               { code:'E', label:'Cybersecurity',  icon:'🔐', color:'#ef4444', href:'/programs' },
               { code:'✦', label:'Custom Program', icon:'⚙️', color:'#22c55e', href:'/contact'  },
             ].map(p => (
-              <Link key={p.code} href={p.href} style={{ textDecoration: 'none' }}>
+              <Link key={p.label} href={p.href} style={{ textDecoration: 'none' }}>
                 <div className="card card-light" style={{ textAlign: 'center', padding: '32px 20px' }}>
-                  <div style={{ fontSize: 36, marginBottom: 12 }}>{p.icon}</div>
-                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: p.color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, margin: '0 auto 10px' }}>
-                    {p.code}
-                  </div>
+                  <div style={{ fontSize: 36, marginBottom: 14 }}>{p.icon}</div>
                   <p className="t-card c-heading">{p.label}</p>
                 </div>
               </Link>
@@ -258,10 +255,10 @@ export default async function HomePage() {
               Our proprietary tools are designed to assess, practice, and certify students for industry roles.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20, marginTop: 40 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 40, maxWidth: 900, margin: '40px auto 0' }}>
             {[
-              { icon:'🚩', title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },
               { icon:'📚', title:'SODAK LMS', desc:'Structured learning paths with video lessons, quizzes, and progress tracking.', href:'/platform/lms' },
+              { icon:'🚩', title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },
               { icon:'📊', title:'Assessment Engine', desc:'AI-proctored aptitude and coding tests mirroring company formats.', href:'/platform/assessments' },
             ].map(p => (
               <Link key={p.title} href={p.href} style={{ textDecoration: 'none' }}>

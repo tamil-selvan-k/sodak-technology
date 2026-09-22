@@ -23,8 +23,8 @@ const NAV_ITEMS = [
     label: 'Platform', href: '/platform',
     dropdown: [
       { label: 'Platform Overview', href: '/platform' },
-      { label: 'SODAK CTF ↗',       href: '#', external: true },
       { label: 'SODAK LMS ↗',       href: '#', external: true },
+      { label: 'SODAK CTF ↗',       href: '#', external: true },
       { label: 'Assessment Engine ↗', href: '#', external: true },
     ],
   },

@@ -23,7 +23,7 @@ const CONTACT_FAQS = [
   },
   {
     question: 'Can we combine multiple tracks?',
-    answer: "Yes. Many colleges combine Placement Prep (Track A) with Cloud & DevOps (Track B) for final-year batches, or Assessment Screening (Track E) with any other track as the exit exam. Tell us what you want and we'll scope it.",
+    answer: "Yes. Many colleges combine Placement Prep with Cloud & DevOps for final-year batches, or add Assessment Screening as the exit track. Tell us what you want and we'll scope it.",
   },
   {
     question: 'Do you offer certifications?',
@@ -78,10 +78,10 @@ export default function ContactPage() {
                     { icon: '💬', title: 'WhatsApp us', sub: 'Fastest response channel', href: 'https://wa.me/918939366259' },
                   ].map(c => (
                     <a key={c.href} href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
-                      style={{ display: 'flex', gap: 12, alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
-                      <span style={{ fontSize: 20 }}>{c.icon}</span>
-                      <div>
-                        <p className="t-sm fw-600 c-heading">{c.title}</p>
+                      style={{ display: 'flex', gap: 12, alignItems: 'flex-start', textDecoration: 'none', color: 'inherit' }}>
+                      <span style={{ fontSize: 20, width: 28, flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', paddingTop: 1 }}>{c.icon}</span>
+                      <div style={{ minWidth: 0 }}>
+                        <p className="t-sm fw-600 c-heading" style={{ wordBreak: 'break-all' }}>{c.title}</p>
                         <p className="t-label c-muted">{c.sub}</p>
                       </div>
                     </a>
@@ -108,14 +108,27 @@ export default function ContactPage() {
                 <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 }}>Follow us</p>
                 <div style={{ display: 'flex', gap: 10 }}>
                   {[
-                    { label: 'in', href: 'https://linkedin.com/company/sodakedutech' },
-                    { label: 'tw', href: 'https://twitter.com/sodakedutech' },
-                    { label: 'yt', href: 'https://youtube.com/@sodakedutech' },
+                    {
+                      label: 'LinkedIn', href: 'https://linkedin.com/company/sodakedutech', bg: '#0a66c2',
+                      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>,
+                    },
+                    {
+                      label: 'X / Twitter', href: 'https://twitter.com/sodakedutech', bg: '#000',
+                      icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.74-8.851L2.25 2.25h6.988l4.255 5.627zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>,
+                    },
+                    {
+                      label: 'YouTube', href: 'https://youtube.com/@sodakedutech', bg: '#ff0000',
+                      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>,
+                    },
                   ].map(s => (
-                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                      className="footer-social"
-                      style={{ width: 40, height: 40, fontSize: 13 }}>
-                      {s.label}
+                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                      style={{
+                        width: 40, height: 40, borderRadius: 8, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                        background: s.bg, color: '#fff', textDecoration: 'none', transition: 'opacity 0.15s',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+                      onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
+                      {s.icon}
                     </a>
                   ))}
                 </div>

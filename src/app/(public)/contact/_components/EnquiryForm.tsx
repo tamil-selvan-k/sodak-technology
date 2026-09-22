@@ -20,6 +20,11 @@ export default function EnquiryForm() {
   const [errMsg, setErrMsg]   = useState('')
   const utmRef = useRef<Record<string, string>>({})
 
+  // Auto-set bypass token in dev so submit button isn't blocked
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') setToken('dev-bypass')
+  }, [])
+
   // Capture UTM params + referrer once on mount
   useEffect(() => {
     const p = new URLSearchParams(window.location.search)
@@ -146,12 +151,14 @@ export default function EnquiryForm() {
         />
       </div>
 
-      {/* Cloudflare Turnstile */}
-      <Turnstile
-        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'}
-        onSuccess={setToken}
-        options={{ theme: 'light', size: 'normal' }}
-      />
+      {/* Cloudflare Turnstile — only rendered in production */}
+      {process.env.NODE_ENV === 'production' && (
+        <Turnstile
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''}
+          onSuccess={setToken}
+          options={{ theme: 'light', size: 'normal' }}
+        />
+      )}
 
       {errMsg && (
         <p style={{ color: '#ef4444', fontSize: 13, marginTop: 4 }}>{errMsg}</p>

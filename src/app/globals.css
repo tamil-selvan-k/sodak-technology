@@ -126,7 +126,7 @@ section.s-lg { padding: 88px 0; }
   content: ''; display: inline-block; width: 18px; height: 2px;
   background: var(--dm-accent); flex-shrink: 0; border-radius: 2px;
 }
-.section-header p { font-size: 16px; color: #94a3b8; max-width: 620px; margin-top: 10px; line-height: 1.7; }
+.section-header p { font-size: 16px; color: #94a3b8; max-width: 620px; margin: 10px auto 0; line-height: 1.7; }
 .section-header p.dark { color: #475569; }
 
 /* ── Cards ── */

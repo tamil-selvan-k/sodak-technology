@@ -5,7 +5,7 @@ import { listInstitutions } from '@/modules/institutions/institutions.service'
 export const revalidate = 60
 export const metadata: Metadata = {
   title: 'Partner Institutions — SODAK Technology',
-  description: 'SODAK Technology partners with 500+ colleges across Tamil Nadu for on-campus placement training.',
+  description: 'SODAK Technology partners with 1000+ colleges across Tamil Nadu for on-campus placement training.',
 }
 
 export default async function InstitutionsPage() {
@@ -22,7 +22,7 @@ export default async function InstitutionsPage() {
           </div>
           <h1 className="t-page c-white" style={{ marginBottom: 12 }}>Partner Institutions</h1>
           <p className="t-lg c-muted" style={{ maxWidth: 540 }}>
-            We deliver on-campus placement training at 500+ engineering and arts colleges across Tamil Nadu and beyond.
+            We deliver on-campus placement training at 1000+ engineering and arts colleges across Tamil Nadu and beyond.
           </p>
         </div>
       </div>

@@ -39,7 +39,7 @@ export default async function CareersPage() {
               { icon: '🎓', title: 'Teach What You Know', desc: 'Share real industry experience — not just textbook content.' },
               { icon: '🏠', title: 'Flexible Delivery', desc: 'Part-time, weekend, and project-based trainer engagements available.' },
               { icon: '💰', title: 'Competitive Pay',    desc: 'Per-session and retainer models. Negotiable for senior experts.' },
-              { icon: '🌐', title: 'Pan-India Network',  desc: 'Train at 500+ colleges from Chennai to Hyderabad.' },
+              { icon: '🌐', title: 'Pan-India Network',  desc: 'Train at 1000+ colleges from Chennai to Hyderabad.' },
             ].map(b => (
               <div key={b.title} className="card card-dark" style={{ textAlign: 'center', padding: '28px 20px' }}>
                 <div style={{ fontSize: 40, marginBottom: 14 }}>{b.icon}</div>
@@ -65,9 +65,9 @@ export default async function CareersPage() {
                 <div style={{ fontSize: 48, marginBottom: 16 }}>👷</div>
                 <h2 className="t-h3 c-heading" style={{ marginBottom: 10 }}>No open positions right now</h2>
                 <p className="t-body c-body" style={{ marginBottom: 20 }}>
-                  We hire on a rolling basis. Drop us your resume and we&apos;ll reach out when a match opens up.
+                  We hire on a rolling basis. Express your interest and we&apos;ll reach out when a match opens up.
                 </p>
-                <Link href="/contact" className="btn btn-ghost">Send Your Resume →</Link>
+                <Link href="/contact" className="btn btn-ghost">Express Interest →</Link>
               </div>
             </div>
           ) : (

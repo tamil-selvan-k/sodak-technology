@@ -60,7 +60,7 @@ export default async function AboutPage() {
                 Our founding team were engineers who had been through the grind — campus drives, aptitude tests, technical rounds, and HR interviews. They knew exactly what students were missing and built SODAK to fill that gap.
               </p>
               <p className="t-body c-muted">
-                Today we train across 500+ colleges, with a roster of 50+ working engineers as trainers — every one of them currently employed at the same companies your students aspire to join.
+                Today we train across 1000+ colleges, with a roster of 50+ working engineers as trainers — every one of them currently employed at the same companies your students aspire to join.
               </p>
             </div>
             <div>

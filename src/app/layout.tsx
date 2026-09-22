@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Open_Sans, Instrument_Sans } from 'next/font/google'
 import './globals.css'
+import NavigationProgress from '@/components/ui/NavigationProgress'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -30,7 +31,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${openSans.variable} ${instrumentSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <NavigationProgress />
+        {children}
+      </body>
     </html>
   )
 }

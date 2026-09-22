@@ -42,7 +42,7 @@ export default async function ProgramsPage() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            {TRACKS.map((track, idx) => {
+            {TRACKS.map((track) => {
               const program = programs.find(p => p.trackCode === track.code)
               return (
                 <div key={track.code} className="card card-dark" style={{ display: 'flex', alignItems: 'flex-start', gap: 24, padding: '28px 32px' }}>
@@ -51,7 +51,6 @@ export default async function ProgramsPage() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
-                      <span className="badge" style={{ background: track.color + '22', color: track.color, border: `1px solid ${track.color}44` }}>Track {track.code}</span>
                       <h3 className="t-h3 c-white">{program?.title ?? track.label}</h3>
                     </div>
                     {program?.summary && <p className="t-body c-muted" style={{ marginBottom: 12 }}>{program.summary}</p>}

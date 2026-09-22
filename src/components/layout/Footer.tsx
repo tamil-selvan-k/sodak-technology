@@ -5,10 +5,10 @@ const COLUMNS = [
     title: 'Programs',
     links: [
       { label: 'All Campus Programs',   href: '/programs' },
-      { label: 'Track A — Placement',   href: '/programs' },
-      { label: 'Track B — Cloud',       href: '/programs' },
-      { label: 'Track C — Gen AI',      href: '/programs' },
-      { label: 'Track D — Cybersecurity', href: '/programs' },
+      { label: 'Placement Prep',        href: '/programs' },
+      { label: 'Cloud & DevOps',        href: '/programs' },
+      { label: 'Generative AI',         href: '/programs' },
+      { label: 'Cybersecurity',         href: '/programs' },
       { label: 'Corporate & FDP',       href: '/corporate' },
     ],
   },
@@ -26,8 +26,8 @@ const COLUMNS = [
     title: 'Platform',
     links: [
       { label: 'Platform Overview',  href: '/platform' },
-      { label: 'SODAK CTF ↗',        href: '#' },
       { label: 'SODAK LMS ↗',        href: '#' },
+      { label: 'SODAK CTF ↗',        href: '#' },
       { label: 'Assessment Engine ↗', href: '#' },
     ],
   },
@@ -55,7 +55,7 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer style={{ background: 'linear-gradient(135deg, #092848 0%, #0d4d8a 50%, #1661ae 100%)', borderTop: '1px solid rgba(0,160,255,0.15)' }}>
+    <footer style={{ background: 'linear-gradient(135deg, #092848 0%, #0d4d8a 50%, #1661ae 100%)', borderTop: '1px solid rgba(0,160,255,0.15)', paddingTop: 48 }}>
       <div className="container pt-16">
         {/* Top strip */}
         <div className="flex items-start justify-between gap-8 pb-12 border-b border-white/[0.07] flex-wrap">
