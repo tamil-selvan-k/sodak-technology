@@ -1,149 +1,162 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import EnquiryForm from './_components/EnquiryForm'
+import FaqAccordion from '@/components/ui/FaqAccordion'
 
 export const metadata: Metadata = {
-  title: 'Contact SODAK Technology',
-  description: 'Get in touch to book a campus placement training program or general enquiry.',
+  title: 'Contact & Enquiry',
+  description: 'Book a campus placement training program or ask a question. We respond within 24 hours.',
 }
+
+const CONTACT_FAQS = [
+  {
+    question: 'What is the minimum batch size you accept?',
+    answer: "There's no hard minimum, but programs are most effective with 20+ students. We've delivered workshops for batches of 30 up to 250. Smaller batches get more 1:1 time; larger batches leverage our assessment platform for efficient screening.",
+  },
+  {
+    question: 'Do you come to the campus or do students travel to you?',
+    answer: "We come to you. All programs are delivered at your institution — in your labs, lecture halls, or online. We don't require students to travel anywhere.",
+  },
+  {
+    question: 'How long does a typical program run?',
+    answer: "Programs range from a 1-day bootcamp to a 6-week intensive depending on the track and batch calendar. We design around your academic schedule — not the other way around.",
+  },
+  {
+    question: 'Can we combine multiple tracks?',
+    answer: "Yes. Many colleges combine Placement Prep (Track A) with Cloud & DevOps (Track B) for final-year batches, or Assessment Screening (Track E) with any other track as the exit exam. Tell us what you want and we'll scope it.",
+  },
+  {
+    question: 'Do you offer certifications?',
+    answer: "We issue SODAK Technology completion certificates. For cloud tracks, we align content to AWS/Azure certification paths and run practice assessments — but the certification exam is taken separately through the vendor.",
+  },
+  {
+    question: 'What about corporate and FDP training?',
+    answer: 'Yes — we run Faculty Development Programs (FDPs) and corporate upskilling programs. The process is the same: enquire here, we\'ll scope and propose.',
+  },
+]
 
 export default function ContactPage() {
   return (
     <>
-      {/* Page hero */}
-      <div className="page-hero">
+      {/* Hero */}
+      <section className="s-darker" style={{ padding: '72px 0 60px' }}>
         <div className="container">
-          <div className="breadcrumb" style={{ marginBottom: 18 }}>
-            <Link href="/"><span>Home</span></Link>
-            <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
-            <span className="active">Contact</span>
-          </div>
-          <h1 className="t-page c-white" style={{ marginBottom: 12 }}>Get in Touch</h1>
-          <p className="t-lg c-muted" style={{ maxWidth: 520 }}>
-            Book a free demo session, enquire about programs, or just say hello. We respond within one business day.
+          <p className="section-eyebrow">Get in Touch</p>
+          <h1 className="t-h1 c-white" style={{ maxWidth: 600, marginTop: 10 }}>
+            Book a campus program or ask a question
+          </h1>
+          <p className="t-lg" style={{ color: '#94a3b8', marginTop: 14, maxWidth: 560, lineHeight: 1.75 }}>
+            Share your placement calendar, batch size, and target companies — we&apos;ll design the right program and get back to you within 24 hours.
           </p>
         </div>
-      </div>
+      </section>
 
-      {/* Contact content */}
-      <section className="s-dark">
+      {/* Form + Sidebar */}
+      <section className="s-light">
         <div className="container">
-          <div className="two-col" style={{ alignItems: 'start' }}>
-            {/* Enquiry form */}
+          <div className="two-col gap-48" style={{ alignItems: 'start' }}>
+
+            {/* Left — Enquiry form */}
             <div>
-              <p className="section-eyebrow" style={{ marginBottom: 12 }}>Send an Enquiry</p>
-              <div className="card card-dark">
-                <form action="/api/v1/leads" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  {/* honeypot */}
-                  <input type="text" name="website_url" aria-hidden="true" tabIndex={-1} style={{ display: 'none' }} />
-
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label className="form-label c-muted" htmlFor="name">Your Name *</label>
-                      <input id="name" name="name" type="text" required className="form-input" placeholder="Priya Krishnan" style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }} />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label c-muted" htmlFor="phone">Phone Number *</label>
-                      <input id="phone" name="phone" type="tel" required className="form-input" placeholder="+91 98765 43210" style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }} />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label c-muted" htmlFor="email">Email Address *</label>
-                    <input id="email" name="email" type="email" required className="form-input" placeholder="you@example.com" style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }} />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label c-muted" htmlFor="institution">Institution / College</label>
-                    <input id="institution" name="institution" type="text" className="form-input" placeholder="Anna University, Chennai" style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }} />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label c-muted" htmlFor="enquiry_type">Enquiry Type</label>
-                    <select id="enquiry_type" name="enquiry_type" className="form-input" style={{ background: 'rgba(15,30,60,0.95)', borderColor: 'rgba(255,255,255,0.12)', color: '#94a3b8' }}>
-                      <option value="">Select a topic…</option>
-                      <option value="campus_program">Campus Training Program</option>
-                      <option value="corporate">Corporate / FDP Training</option>
-                      <option value="mentoring">1-on-1 Mentoring</option>
-                      <option value="placement_drive">Placement Drive</option>
-                      <option value="general">General Enquiry</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label c-muted" htmlFor="message">Message</label>
-                    <textarea id="message" name="message" className="form-input form-textarea" placeholder="Tell us about your requirements — student count, timeline, preferred topics…" rows={4} style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }} />
-                  </div>
-
-                  <button type="submit" className="btn btn-gold btn-full btn-lg">
-                    Send Enquiry →
-                  </button>
-                  <p className="t-micro c-muted text-center">We respond within 1 business day. No spam, ever.</p>
-                </form>
-              </div>
+              <h2 className="t-h2 c-heading" style={{ marginBottom: 6 }}>Send an enquiry</h2>
+              <p className="t-sm c-body" style={{ marginBottom: 28 }}>
+                We read every message. Typical response time: <strong>under 24 hours</strong> on working days.
+              </p>
+              <EnquiryForm />
             </div>
 
-            {/* Contact info */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-              <div className="card card-dark">
-                <p className="section-eyebrow" style={{ marginBottom: 14 }}>Contact Details</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {/* Right — Contact sidebar */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingTop: 40 }}>
+
+              {/* Direct contact */}
+              <div className="card card-light" style={{ padding: 28 }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 }}>Direct contact</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {[
-                    { icon: '📍', label: 'Address', value: 'Chennai, Tamil Nadu 600 001' },
-                    { icon: '📞', label: 'Phone',   value: '+91 89393 66259', href: 'tel:+918939366259' },
-                    { icon: '✉',  label: 'Email',   value: 'hello@sodakedutech.in', href: 'mailto:hello@sodakedutech.in' },
-                    { icon: '💬', label: 'WhatsApp', value: 'Chat on WhatsApp', href: 'https://wa.me/918939366259?text=Hi%20SODAK%20Team' },
+                    { icon: '📞', title: '+91 89393 66259', sub: 'Mon–Sat, 9 AM – 7 PM IST', href: 'tel:+918939366259' },
+                    { icon: '✉',  title: 'hello@sodakedutech.in', sub: 'General enquiries', href: 'mailto:hello@sodakedutech.in' },
+                    { icon: '💬', title: 'WhatsApp us', sub: 'Fastest response channel', href: 'https://wa.me/918939366259' },
                   ].map(c => (
-                    <div key={c.label} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                      <span style={{ fontSize: 20, lineHeight: 1, marginTop: 2 }}>{c.icon}</span>
+                    <a key={c.href} href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
+                      style={{ display: 'flex', gap: 12, alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+                      <span style={{ fontSize: 20 }}>{c.icon}</span>
                       <div>
-                        <p className="t-micro c-muted" style={{ marginBottom: 2 }}>{c.label}</p>
-                        {c.href ? (
-                          <a href={c.href} className="t-sm c-white" style={{ textDecoration: 'none' }}>{c.value}</a>
-                        ) : (
-                          <p className="t-sm c-white">{c.value}</p>
-                        )}
+                        <p className="t-sm fw-600 c-heading">{c.title}</p>
+                        <p className="t-label c-muted">{c.sub}</p>
                       </div>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </div>
 
-              <div className="card card-dark">
-                <p className="section-eyebrow" style={{ marginBottom: 14 }}>Office Hours</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span className="t-sm c-muted">Mon – Fri</span>
-                    <span className="t-sm c-white">9:00 AM – 6:00 PM</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span className="t-sm c-muted">Saturday</span>
-                    <span className="t-sm c-white">10:00 AM – 2:00 PM</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span className="t-sm c-muted">Sunday</span>
-                    <span className="t-sm c-muted">Closed</span>
+              {/* Location */}
+              <div className="card card-light" style={{ padding: 28 }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 }}>Location</p>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <span style={{ fontSize: 20 }}>📍</span>
+                  <div>
+                    <p className="t-sm fw-600 c-heading">Chennai, Tamil Nadu</p>
+                    <p className="t-sm c-body" style={{ marginTop: 4, lineHeight: 1.7 }}>
+                      We&apos;re campus-first — we come to you. Programs are delivered at your institution.
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="card card-dark">
-                <p className="section-eyebrow" style={{ marginBottom: 10 }}>Follow Us</p>
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              {/* Follow us */}
+              <div className="card card-light" style={{ padding: 28 }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 }}>Follow us</p>
+                <div style={{ display: 'flex', gap: 10 }}>
                   {[
-                    { label: 'LinkedIn',  href: 'https://linkedin.com/company/sodakedutech' },
-                    { label: 'Instagram', href: 'https://instagram.com/sodakedutech' },
-                    { label: 'YouTube',   href: 'https://youtube.com/@sodakedutech' },
-                    { label: 'Twitter',   href: 'https://twitter.com/sodakedutech' },
+                    { label: 'in', href: 'https://linkedin.com/company/sodakedutech' },
+                    { label: 'tw', href: 'https://twitter.com/sodakedutech' },
+                    { label: 'yt', href: 'https://youtube.com/@sodakedutech' },
                   ].map(s => (
                     <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                       className="badge badge-dark badge-lg" style={{ textDecoration: 'none' }}>
+                      className="footer-social"
+                      style={{ width: 40, height: 40, fontSize: 13 }}>
                       {s.label}
                     </a>
                   ))}
                 </div>
               </div>
+
+              {/* Next steps */}
+              <div className="card card-dark" style={{ padding: 28, background: 'var(--navy-900)' }}>
+                <p className="t-sm c-white fw-600" style={{ marginBottom: 8 }}>Typical next steps</p>
+                <ol style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 0, listStyle: 'none' }}>
+                  {[
+                    'We review your enquiry (within 24h)',
+                    '30-min call to understand your needs',
+                    'Custom program proposal sent',
+                    'Training scheduled and confirmed',
+                  ].map((step, i) => (
+                    <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#94a3b8' }}>
+                      <span style={{
+                        background: 'var(--gold-500)', color: 'var(--navy-950)',
+                        width: 20, height: 20, borderRadius: '50%',
+                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 11, fontWeight: 700, flexShrink: 0,
+                      }}>{i + 1}</span>
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="s-dark">
+        <div className="container" style={{ maxWidth: 760 }}>
+          <div className="section-header text-center">
+            <p className="section-eyebrow">FAQs</p>
+            <h2 className="t-h2 c-white">Common questions</h2>
+          </div>
+          <FaqAccordion items={CONTACT_FAQS} />
         </div>
       </section>
     </>

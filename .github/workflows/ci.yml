@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  # Stub values so type-check and build don't crash on missing env vars.
+  # Real secrets live in Vercel environment variables — never committed here.
+  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/sodak_ci?pgbouncer=true"
+  DIRECT_URL: "postgresql://postgres:postgres@localhost:5432/sodak_ci"
+  NEXTAUTH_SECRET: "ci-secret-placeholder-32-chars-long"
+  AUTH_SECRET: "ci-secret-placeholder-32-chars-long"
+  NEXT_PUBLIC_SITE_URL: "https://sodakedutech.in"
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: "1x00000000000000000000AA"
+  RESEND_API_KEY: "re_placeholder"
+  RESEND_FROM: "SODAK Technology <hello@sodakedutech.in>"
+  UPSTASH_REDIS_REST_URL: "https://placeholder.upstash.io"
+  UPSTASH_REDIS_REST_TOKEN: "placeholder"
+  TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA"
+  AWS_REGION: "ap-south-1"
+  AWS_S3_BUCKET: "sodakedutech-media"
+  AWS_ACCESS_KEY_ID: "placeholder"
+  AWS_SECRET_ACCESS_KEY: "placeholder"
+  NOTIFICATION_EMAIL: "admin@sodakedutech.in"
+
+jobs:
+  ci:
+    name: Lint · Type-check · Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm prisma generate
+
+      - name: Type-check
+        run: pnpm tsc --noEmit
+
+      - name: Build
+        run: pnpm build

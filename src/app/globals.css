@@ -431,3 +431,96 @@ section.s-lg { padding: 88px 0; }
   .card-light { background: rgba(255,255,255,0.96); }
   .card-dark  { background: rgba(0,40,80,0.9); }
 }
+
+/* ── Contact / Enquiry form ───────────────────────────────────────── */
+.form-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.radio-option { cursor: pointer; }
+.radio-option input[type="radio"] { display: none; }
+.radio-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  font-size: 13px;
+  color: #334155;
+  transition: border-color 0.15s, background 0.15s;
+}
+.radio-option input[type="radio"]:checked + .radio-box {
+  border-color: var(--gold-500);
+  background: rgba(200,160,53,0.06);
+  color: #1e293b;
+  font-weight: 500;
+}
+
+/* ── Footer social icons ─────────────────────────────────────────── */
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+.footer-social:hover { border-color: var(--gold-500); color: var(--gold-500); }
+
+/* ── Accordion (FAQ) ─────────────────────────────────────────────── */
+.accordion { display: flex; flex-direction: column; gap: 0; }
+.accordion-item { border-bottom: 1px solid rgba(255,255,255,0.08); }
+.accordion-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-align: left;
+}
+.accordion-icon {
+  font-size: 18px;
+  color: var(--gold-500);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.accordion-item.open .accordion-icon { transform: rotate(45deg); }
+.accordion-body {
+  display: none;
+  padding-bottom: 18px;
+}
+.accordion-item.open .accordion-body { display: block; }
+
+/* ── two-col gap override ────────────────────────────────────────── */
+.gap-48 { gap: 48px; }
+
+@media (max-width: 600px) {
+  .radio-group { grid-template-columns: 1fr; }
+  .form-card { padding: 24px; }
+}
