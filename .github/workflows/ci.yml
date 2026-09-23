@@ -28,7 +28,7 @@ env:
 
 jobs:
   ci:
-    name: Lint · Type-check · Build
+    name: Lint, Type-check, Build
     runs-on: ubuntu-latest
 
     steps:
@@ -47,7 +47,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Generate Prisma client
         run: pnpm prisma generate

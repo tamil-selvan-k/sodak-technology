@@ -1,26 +1,37 @@
 {
-  "session_id": "2026-09-16-boilerplate",
+  "session_id": "2026-09-23-ui-admin",
   "project_root": "C:/Users/DELL/Docs/sodakedutech",
-  "current_phase": "BOILERPLATE_COMPLETE",
+  "current_phase": "ADMIN_PAGES_COMPLETE",
   "execution_plan": {
     "progress": [
-      { "id": "config", "label": "Config files (package.json, tsconfig, next.config, tailwind, postcss, .env.example, .gitignore)", "status": "done" },
-      { "id": "prisma", "label": "Prisma schema (24 models, 6 enums)", "status": "done" },
-      { "id": "lib", "label": "Lib layer (db, auth, storage, email, audit, slugify, paginate, image, events, rate-limit)", "status": "done" },
-      { "id": "modules", "label": "11 domain modules — service + schema + types each", "status": "done" },
-      { "id": "components", "label": "UI components + Navbar + Footer + FloatButtons", "status": "done" },
-      { "id": "layouts", "label": "Root layout, public layout, admin layout, middleware", "status": "done" },
-      { "id": "api_trainers", "label": "API: trainers CRUD + publish/unpublish routes", "status": "done" },
-      { "id": "api_forms", "label": "API: forms/enquiry (full: rate-limit + honeypot + Turnstile + Zod), forms/webinar, forms/internship, forms/careers", "status": "done" },
-      { "id": "api_rest", "label": "API: programs, institutions, blog (+submit-review/publish/unpublish), leads (+status/notes/export), stacks, settings, webinars, internships, careers, photos (+bulk/SSE), media, audit-log, redirects, programs/brochure", "status": "done" },
-      { "id": "public_pages", "label": "28 public page stubs with generateMetadata and service data fetching", "status": "done" },
-      { "id": "admin_pages", "label": "18 admin page stubs + login page", "status": "done" },
-      { "id": "type_fixes", "label": "Cross-module type fixes: filter interfaces, buildMeta signature, email template names, service function name alignments", "status": "done" }
+      { "id": "config",        "label": "Config files (package.json, tsconfig, next.config, tailwind, postcss, .env.example, .gitignore)", "status": "done" },
+      { "id": "prisma",        "label": "Prisma schema (24 models, 6 enums)", "status": "done" },
+      { "id": "lib",           "label": "Lib layer (db, auth, storage, email, audit, slugify, paginate, image, events, rate-limit)", "status": "done" },
+      { "id": "modules",       "label": "11 domain modules — service + schema + types each", "status": "done" },
+      { "id": "components",    "label": "UI components + Navbar + Footer + FloatButtons", "status": "done" },
+      { "id": "layouts",       "label": "Root layout, public layout, admin layout, middleware", "status": "done" },
+      { "id": "api_trainers",  "label": "API: trainers CRUD + publish/unpublish routes", "status": "done" },
+      { "id": "api_forms",     "label": "API: forms/enquiry (rate-limit + honeypot + Turnstile + Zod), forms/webinar, forms/internship, forms/careers", "status": "done" },
+      { "id": "api_rest",      "label": "API: programs, institutions, blog, leads, stacks, settings, webinars, internships, careers, photos, media, audit-log, redirects, brochure, users", "status": "done" },
+      { "id": "public_pages",  "label": "28 public pages rebuilt to match wireframe exactly (all sections, styles, content)", "status": "done" },
+      { "id": "admin_7",       "label": "7 remaining admin pages: blog, webinars, internships, careers, settings, users, audit-log — all with stat cards, tables, CRUD actions", "status": "done" },
+      { "id": "auth_fixes",    "label": "NextAuth JWT sessions, Edge-safe middleware (getToken), argon2 serverExternalPackages fix, login redirect loop fix", "status": "done" },
+      { "id": "contact_form",  "label": "Contact page: EnquiryForm with Turnstile (dev bypass), UTM capture, Resend email templates, rate limiting", "status": "done" },
+      { "id": "ci_cd",         "label": "GitHub Actions CI (pnpm → prisma generate → tsc → build), vercel.json, .env.example", "status": "done" },
+      { "id": "brand_rename",  "label": "SoDak EduTech → SODAK Technology throughout codebase", "status": "done" },
+      { "id": "nav_progress",  "label": "Custom NavigationProgress bar (no package), root loading.tsx spinner", "status": "done" },
+      { "id": "ui_polish",     "label": "1000+ colleges, LMS/CTF swap, track labels cleaned, card height equalisation, section-header paragraph centering, social icon buttons, platform grid centering, footer padding", "status": "done" }
     ]
   },
+  "pending": [
+    { "id": "deployment",      "label": "Vercel deployment: connect repo, set env vars, verify sodakedutech.in domain in Resend" },
+    { "id": "s3_pipeline",     "label": "S3 media pipeline: upload endpoint, Sharp resize (original/lg/md/sm/thumb WebP+AVIF), signed brochure URLs — needs AWS credentials" },
+    { "id": "isr_revalidation","label": "ISR on-demand revalidation tags after admin publish/unpublish — needs Vercel deployment first" },
+    { "id": "seed_data",       "label": "Seed real stacks/programs/trainers data for production launch" }
+  ],
   "context_compaction_manifest": {
-    "last_compacted_turn": 1,
+    "last_compacted_turn": 2,
     "active_context_tokens": 0,
-    "purged_raw_logs": ["boilerplate-config-prisma-lib-modules-components-layouts-api-turn"]
+    "purged_raw_logs": ["boilerplate-config-prisma-lib-modules-components-layouts-api-turn", "ui-rebuild-admin-phase3-turn"]
   }
 }
