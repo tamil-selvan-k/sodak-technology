@@ -61,7 +61,7 @@ export default async function MentorsPage() {
       {/* Mentor cards */}
       <section className="s-light">
         <div className="container">
-          <div className="section-header">
+          <div className="section-header text-center">
             <p className="section-eyebrow">Our Mentors</p>
             <h2 className="t-h1 c-heading">Meet the Experts</h2>
           </div>

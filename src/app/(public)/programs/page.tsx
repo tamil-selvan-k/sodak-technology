@@ -35,7 +35,7 @@ export default async function ProgramsPage() {
       {/* Tracks */}
       <section className="s-dark">
         <div className="container">
-          <div className="section-header">
+          <div className="section-header text-center">
             <p className="section-eyebrow">Training Tracks</p>
             <h2 className="t-h1 c-white">Choose Your Path</h2>
             <p>Each track is designed around what MNCs actually test during campus drives.</p>

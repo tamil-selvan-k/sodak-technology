@@ -31,14 +31,14 @@ export default async function CoursesPage() {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
             {stacks.map(stack => (
-              <Link key={stack.id} href={`/training/${stack.slug}`} style={{ textDecoration: 'none' }}>
-                <div className="card card-dark" style={{ height: '100%' }}>
+              <Link key={stack.id} href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+                <div className="card card-dark" style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                   <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 14 }}>
                     <span style={{ fontSize: 32, lineHeight: 1 }}>{stack.icon ?? '💻'}</span>
                     <p className="t-card c-white">{stack.name}</p>
                   </div>
                   <p className="t-sm c-muted" style={{ marginBottom: 14 }}>{stack.summary}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
                     {(stack.technologies ?? []).map((tech: { name: string }) => (
                       <span key={tech.name} className="badge badge-dark">{tech.name}</span>
                     ))}

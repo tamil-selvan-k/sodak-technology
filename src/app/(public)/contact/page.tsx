@@ -122,12 +122,8 @@ export default function ContactPage() {
                     },
                   ].map(s => (
                     <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
-                      style={{
-                        width: 40, height: 40, borderRadius: 8, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        background: s.bg, color: '#fff', textDecoration: 'none', transition: 'opacity 0.15s',
-                      }}
-                      onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-                      onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
+                      className="social-icon-btn"
+                      style={{ background: s.bg }}>
                       {s.icon}
                     </a>
                   ))}

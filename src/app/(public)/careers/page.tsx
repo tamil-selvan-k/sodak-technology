@@ -54,7 +54,7 @@ export default async function CareersPage() {
       {/* Open positions */}
       <section className="s-light">
         <div className="container">
-          <div className="section-header">
+          <div className="section-header text-center">
             <p className="section-eyebrow">Open Positions</p>
             <h2 className="t-h1 c-heading">Current Openings</h2>
           </div>

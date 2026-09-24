@@ -91,7 +91,7 @@ export default async function AboutPage() {
             <p className="section-eyebrow">Our Values</p>
             <h2 className="t-h1 c-heading">What We Stand For</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20, marginTop: 40 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, marginTop: 40, justifyItems: 'center' }}>
             {VALUES.map(v => (
               <div key={v.title} className="card card-light">
                 <div style={{ fontSize: 40, marginBottom: 14 }}>{v.icon}</div>
