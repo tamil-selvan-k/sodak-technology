@@ -72,71 +72,76 @@ export default function TrainerForm({ trainer, stacks }: Props) {
     router.refresh()
   }
 
-  const field = 'w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[var(--gold-500)]'
-  const label = 'block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1'
+  const field = 'w-full px-3 py-2 text-sm rounded-lg focus:outline-none'
+  const fieldStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }
+  const label = 'block text-xs font-semibold uppercase tracking-wide mb-1.5'
+  const labelStyle: React.CSSProperties = { color: '#94a3b8' }
+  const cardStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '24px', marginBottom: 0 }
+  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#f8fafc', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid rgba(255,255,255,0.06)' }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl space-y-6">
+    <form onSubmit={handleSubmit} className="max-w-3xl space-y-5">
       {error && (
-        <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">{error}</div>
+        <div style={{ padding: '12px 16px', borderRadius: 8, fontSize: 13, background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171' }}>{error}</div>
       )}
 
-      <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-5">
-        <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide">Basic Info</h2>
+      <div style={cardStyle}>
+        <p style={sectionHead}>Basic Info</p>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2">
-            <label className={label} htmlFor="name">Name *</label>
-            <input id="name" name="name" required defaultValue={trainer?.name} className={field} placeholder="Full name" />
+            <label className={label} style={labelStyle} htmlFor="name">Name *</label>
+            <input id="name" name="name" required defaultValue={trainer?.name} className={field} style={fieldStyle} placeholder="Full name" />
           </div>
           <div>
-            <label className={label} htmlFor="designation">Designation</label>
-            <input id="designation" name="designation" defaultValue={trainer?.designation ?? ''} className={field} placeholder="e.g. Senior Engineer" />
+            <label className={label} style={labelStyle} htmlFor="designation">Designation</label>
+            <input id="designation" name="designation" defaultValue={trainer?.designation ?? ''} className={field} style={fieldStyle} placeholder="e.g. Senior Engineer" />
           </div>
           <div>
-            <label className={label} htmlFor="currentCompany">Current Company</label>
-            <input id="currentCompany" name="currentCompany" defaultValue={trainer?.currentCompany ?? ''} className={field} placeholder="e.g. Zoho" />
+            <label className={label} style={labelStyle} htmlFor="currentCompany">Current Company</label>
+            <input id="currentCompany" name="currentCompany" defaultValue={trainer?.currentCompany ?? ''} className={field} style={fieldStyle} placeholder="e.g. Zoho" />
           </div>
           <div>
-            <label className={label} htmlFor="yearsExperience">Years Experience</label>
-            <input id="yearsExperience" name="yearsExperience" type="number" min={0} max={50} defaultValue={trainer?.yearsExperience ?? ''} className={field} />
+            <label className={label} style={labelStyle} htmlFor="yearsExperience">Years Experience</label>
+            <input id="yearsExperience" name="yearsExperience" type="number" min={0} max={50} defaultValue={trainer?.yearsExperience ?? ''} className={field} style={fieldStyle} />
           </div>
           <div>
-            <label className={label} htmlFor="displayOrder">Display Order</label>
-            <input id="displayOrder" name="displayOrder" type="number" min={0} defaultValue={trainer?.displayOrder ?? 0} className={field} />
+            <label className={label} style={labelStyle} htmlFor="displayOrder">Display Order</label>
+            <input id="displayOrder" name="displayOrder" type="number" min={0} defaultValue={trainer?.displayOrder ?? 0} className={field} style={fieldStyle} />
           </div>
           <div>
-            <label className={label} htmlFor="linkedinUrl">LinkedIn URL</label>
-            <input id="linkedinUrl" name="linkedinUrl" type="url" defaultValue={trainer?.linkedinUrl ?? ''} className={field} placeholder="https://linkedin.com/in/..." />
+            <label className={label} style={labelStyle} htmlFor="linkedinUrl">LinkedIn URL</label>
+            <input id="linkedinUrl" name="linkedinUrl" type="url" defaultValue={trainer?.linkedinUrl ?? ''} className={field} style={fieldStyle} placeholder="https://linkedin.com/in/..." />
           </div>
           <div>
-            <label className={label} htmlFor="githubUrl">GitHub URL</label>
-            <input id="githubUrl" name="githubUrl" type="url" defaultValue={trainer?.githubUrl ?? ''} className={field} placeholder="https://github.com/..." />
+            <label className={label} style={labelStyle} htmlFor="githubUrl">GitHub URL</label>
+            <input id="githubUrl" name="githubUrl" type="url" defaultValue={trainer?.githubUrl ?? ''} className={field} style={fieldStyle} placeholder="https://github.com/..." />
           </div>
           <div className="col-span-2">
-            <label className={label} htmlFor="photoUrl">Photo URL</label>
-            <input id="photoUrl" name="photoUrl" type="url" defaultValue={trainer?.photoUrl ?? ''} className={field} placeholder="https://... (S3 upload in Phase 3)" />
+            <label className={label} style={labelStyle} htmlFor="photoUrl">Photo URL</label>
+            <input id="photoUrl" name="photoUrl" type="url" defaultValue={trainer?.photoUrl ?? ''} className={field} style={fieldStyle} placeholder="https://... (S3 upload in Phase 3)" />
           </div>
           <div className="col-span-2">
-            <label className={label} htmlFor="expertiseTags">Expertise Tags</label>
+            <label className={label} style={labelStyle} htmlFor="expertiseTags">Expertise Tags</label>
             <input
               id="expertiseTags"
               name="expertiseTags"
               defaultValue={trainer?.expertiseTags.join(', ') ?? ''}
               className={field}
+              style={fieldStyle}
               placeholder="React, Node.js, PostgreSQL (comma-separated)"
             />
           </div>
           <div className="col-span-2">
-            <label className={label} htmlFor="bioHtml">Bio (HTML allowed)</label>
-            <textarea id="bioHtml" name="bioHtml" rows={5} defaultValue={trainer?.bioHtml ?? ''} className={`${field} resize-y`} placeholder="<p>...</p>" />
+            <label className={label} style={labelStyle} htmlFor="bioHtml">Bio (HTML allowed)</label>
+            <textarea id="bioHtml" name="bioHtml" rows={5} defaultValue={trainer?.bioHtml ?? ''} className={`${field} resize-y`} style={fieldStyle} placeholder="<p>...</p>" />
           </div>
         </div>
       </div>
 
       {/* Stacks */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6">
-        <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide mb-4">Tech Stacks</h2>
+      <div style={cardStyle}>
+        <p style={sectionHead}>Tech Stacks</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {stacks.map(s => (
             <label key={s.id} className="flex items-center gap-2.5 cursor-pointer select-none">
@@ -146,15 +151,15 @@ export default function TrainerForm({ trainer, stacks }: Props) {
                 onChange={() => toggleStack(s.id)}
                 className="w-4 h-4 accent-[var(--gold-500)]"
               />
-              <span className="text-sm text-slate-700">{s.name}</span>
+              <span className="text-sm" style={{ color: '#cbd5e1' }}>{s.name}</span>
             </label>
           ))}
         </div>
       </div>
 
       {/* Flags */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6">
-        <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide mb-4">Flags</h2>
+      <div style={cardStyle}>
+        <p style={sectionHead}>Flags</p>
         <div className="space-y-3">
           {[
             { name: 'isMentor',      label: 'Is Mentor',       defaultChecked: trainer?.isMentor ?? false },
@@ -168,11 +173,11 @@ export default function TrainerForm({ trainer, stacks }: Props) {
                 defaultChecked={f.defaultChecked}
                 className="w-4 h-4 accent-[var(--gold-500)]"
               />
-              <span className="text-sm text-slate-700">{f.label}</span>
+              <span className="text-sm" style={{ color: '#cbd5e1' }}>{f.label}</span>
             </label>
           ))}
         </div>
-        <p className="mt-3 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+        <p style={{ marginTop: 16, fontSize: 12, color: '#fbbf24', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 8, padding: '10px 14px' }}>
           A trainer cannot be published until <strong>Consent on file</strong> is checked.
         </p>
       </div>

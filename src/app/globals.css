@@ -414,7 +414,7 @@ section.s-lg { padding: 88px 0; }
 .admin-nav-item { display: flex; align-items: center; padding: 0 20px; height: 40px; font-size: 13px; color: #94a3b8; border-left: 3px solid transparent; transition: background 0.15s, color 0.15s; }
 .admin-nav-item:hover { background: rgba(255,255,255,0.04); color: #e2e8f0; }
 .admin-nav-item.active { background: rgba(200,160,53,0.1); color: var(--gold-500); border-left-color: var(--gold-500); font-weight: 600; }
-.admin-nav-section { padding: 20px 20px 6px; font-size: 10px; font-weight: 600; color: var(--navy-600); text-transform: uppercase; letter-spacing: 0.08em; }
+.admin-nav-section { padding: 20px 20px 6px; font-size: 10px; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.08em; }
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {

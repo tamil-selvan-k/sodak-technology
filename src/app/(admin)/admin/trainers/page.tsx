@@ -28,19 +28,21 @@ export default async function AdminTrainersPage({ searchParams }: Props) {
   const noConsent = data.filter(t => !t.consentOnFile).length
 
   return (
-    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)' }}>
-      {/* Top bar — wireframe: admin/trainers.html */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 28 }}>
-        <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#0f172a' }}>Trainer Management</h1>
-          <p style={{ fontSize: 13, color: '#64748b', marginTop: 2 }}>Manage trainer profiles, domains and programs</p>
+    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: 'linear-gradient(160deg, #0a1628 0%, #0c2040 100%)' }}>
+      <div style={{ marginBottom: 32 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8a035', marginBottom: 6 }}>SODAK Technology</p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+          <div>
+            <h1 style={{ fontSize: 28, fontWeight: 800, color: '#fff', fontFamily: 'var(--font-instrument-sans)' }}>Trainer Management</h1>
+            <p style={{ fontSize: 13, color: '#475569', marginTop: 4 }}>Manage trainer profiles, domains and programs</p>
+          </div>
+          <Link
+            href="/admin/trainers/new"
+            style={{ padding: '9px 20px', fontSize: 13, fontWeight: 700, background: '#c8a035', color: '#0a0f1e', borderRadius: 8, textDecoration: 'none', whiteSpace: 'nowrap' }}
+          >
+            + Add Trainer
+          </Link>
         </div>
-        <Link
-          href="/admin/trainers/new"
-          style={{ padding: '9px 18px', fontSize: 13, fontWeight: 700, background: '#c8a035', color: '#0a0f1e', borderRadius: 6, textDecoration: 'none' }}
-        >
-          + Add Trainer
-        </Link>
       </div>
 
       {/* Stat cards */}
@@ -51,9 +53,9 @@ export default async function AdminTrainersPage({ searchParams }: Props) {
           { label: 'Mentors',         value: mentors },
           { label: 'Missing Consent', value: noConsent,      colour: 'text-amber-600' },
         ].map(c => (
-          <div key={c.label} className="bg-white border border-[#e2e8f0] rounded-[10px] p-5" style={{ padding: '20px 24px' }}>
-            <p className="text-[12px] uppercase tracking-widest text-slate-500 font-semibold mb-1">{c.label}</p>
-            <p className={`text-[32px] font-extrabold leading-none text-[#0f172a] ${c.colour ?? ''}`}>{c.value}</p>
+          <div key={c.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 24px' }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{c.label}</p>
+            <p style={{ fontSize: 32, fontWeight: 800, color: '#e2e8f0', lineHeight: 1 }}>{c.value}</p>
           </div>
         ))}
       </div>
@@ -66,7 +68,7 @@ export default async function AdminTrainersPage({ searchParams }: Props) {
         mentor={searchParams.mentor}
       />
 
-      <p className="mt-4 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2.5">
+      <p style={{ marginTop: 16, fontSize: 12, color: '#fbbf24', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 8, padding: '10px 16px' }}>
         <strong>Note:</strong> Unpublishing a trainer hides their profile from the public site. Program history is preserved.
         Trainers with <strong>No Consent</strong> cannot be published.
       </p>

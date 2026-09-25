@@ -45,10 +45,10 @@ const COLUMNS = [
   {
     title: 'Location',
     links: [
-      { label: '📍 Chennai, Tamil Nadu 600 001', href: '#' },
-      { label: '📞 +91 89393 66259',             href: 'tel:+918939366259' },
-      { label: '✉ hello@sodakedutech.in',         href: 'mailto:hello@sodakedutech.in' },
-      { label: '💬 Chat on WhatsApp',             href: 'https://wa.me/918939366259' },
+      { label: 'Chennai, Tamil Nadu 600 001', href: '#' },
+      { label: '+91 89393 66259',             href: 'tel:+918939366259' },
+      { label: 'hello@sodakedutech.in',         href: 'mailto:hello@sodakedutech.in' },
+      { label: 'Chat on WhatsApp',             href: 'https://wa.me/918939366259' },
     ],
   },
 ]
@@ -72,7 +72,7 @@ export default function Footer() {
           <div className="flex items-center gap-4 flex-wrap">
             <div className="text-right">
               <p className="text-xs text-white/40 mb-1">Ready to upskill your campus?</p>
-              <p className="text-sm text-white/60">📞 +91 89393 66259 · ✉ hello@sodakedutech.in</p>
+              <p className="text-sm text-white/60">+91 89393 66259 · hello@sodakedutech.in</p>
             </div>
             <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: 'linear-gradient(99deg,#00a0ff,#3dc8ef)' }}>
               Book a Program →

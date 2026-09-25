@@ -31,7 +31,7 @@ export default async function InstitutionsPage() {
         <div className="container">
           {institutions.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>🏫</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg></div>
               <h2 className="t-h2 c-white" style={{ marginBottom: 10 }}>Institutions coming soon</h2>
               <p className="t-body c-muted">Our partner directory is being published. Check back shortly.</p>
             </div>

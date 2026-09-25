@@ -20,7 +20,8 @@
       { "id": "ci_cd",         "label": "GitHub Actions CI (pnpm → prisma generate → tsc → build), vercel.json, .env.example", "status": "done" },
       { "id": "brand_rename",  "label": "SoDak EduTech → SODAK Technology throughout codebase", "status": "done" },
       { "id": "nav_progress",  "label": "Custom NavigationProgress bar (no package), root loading.tsx spinner", "status": "done" },
-      { "id": "ui_polish",     "label": "1000+ colleges, LMS/CTF swap, track labels cleaned, card height equalisation, section-header paragraph centering, social icon buttons, platform grid centering, footer padding", "status": "done" }
+      { "id": "ui_polish",     "label": "1000+ colleges, LMS/CTF swap, track labels cleaned, card height equalisation, section-header paragraph centering, social icon buttons, platform grid centering, footer padding", "status": "done" },
+      { "id": "emoji_to_svg",  "label": "All emoji characters replaced with monochrome inline SVGs using currentColor across all 29 public/admin pages and layout components", "status": "done" }
     ]
   },
   "pending": [

@@ -41,9 +41,9 @@ function tabFilter(file: MediaFile, tab: Tab) {
 }
 
 function fileIcon(mimeType: string) {
-  if (mimeType === 'application/pdf') return '📄'
-  if (mimeType.startsWith('video/')) return '🎬'
-  return '📷'
+  if (mimeType === 'application/pdf') return 'PDF'
+  if (mimeType.startsWith('video/')) return 'VID'
+  return 'IMG'
 }
 
 export default function MediaLibrary({ files, total, page, pages }: Props) {
@@ -105,15 +105,15 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
   return (
     <>
       {/* Upload section */}
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: 20, marginBottom: 24 }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 14 }}>Upload New File</p>
+      <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20, marginBottom: 24 }}>
+        <p style={{ fontSize: 14, fontWeight: 600, color: '#f8fafc', marginBottom: 14 }}>Upload New File</p>
         {uploadError && (
-          <p style={{ fontSize: 12, color: '#ef4444', marginBottom: 8 }}>{uploadError}</p>
+          <p style={{ fontSize: 12, color: '#f87171', marginBottom: 8 }}>{uploadError}</p>
         )}
         <div
           style={{
-            border: '2px dashed #cbd5e1', borderRadius: 10, padding: 48,
-            textAlign: 'center', background: '#fff', cursor: 'pointer',
+            border: '2px dashed rgba(255,255,255,0.2)', borderRadius: 10, padding: 48,
+            textAlign: 'center', background: 'rgba(255,255,255,0.03)', cursor: 'pointer',
             transition: 'border-color 0.15s, background 0.15s',
           }}
           onClick={() => inputRef.current?.click()}
@@ -121,11 +121,11 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
           onDrop={e => { e.preventDefault(); void handleUpload(e.dataTransfer.files) }}
           onMouseEnter={e => {
             ;(e.currentTarget as HTMLDivElement).style.borderColor = '#c8a035'
-            ;(e.currentTarget as HTMLDivElement).style.background = 'rgba(200,160,53,0.03)'
+            ;(e.currentTarget as HTMLDivElement).style.background = 'rgba(200,160,53,0.05)'
           }}
           onMouseLeave={e => {
-            ;(e.currentTarget as HTMLDivElement).style.borderColor = '#cbd5e1'
-            ;(e.currentTarget as HTMLDivElement).style.background = '#fff'
+            ;(e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.2)'
+            ;(e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.03)'
           }}
         >
           <input
@@ -136,8 +136,8 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
             style={{ display: 'none' }}
             onChange={e => void handleUpload(e.target.files)}
           />
-          <div style={{ fontSize: 48, marginBottom: 12 }}>📷</div>
-          <p style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 6 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}><svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M9 3L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2h-3.17L15 3H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3z"/></svg></div>
+          <p style={{ fontSize: 15, fontWeight: 700, color: '#e2e8f0', marginBottom: 6 }}>
             {uploading ? 'Uploading…' : 'Drop files here or click to upload'}
           </p>
           <p style={{ fontSize: 13, color: '#94a3b8', marginBottom: 4 }}>
@@ -147,7 +147,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: 0, borderBottom: '2px solid #e2e8f0', marginBottom: 24 }}>
+      <div style={{ display: 'flex', gap: 0, borderBottom: '2px solid rgba(255,255,255,0.08)', marginBottom: 24 }}>
         {TABS.map(tab => (
           <button
             key={tab}
@@ -155,9 +155,8 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
             style={{
               padding: '10px 18px', fontSize: 13,
               fontWeight: activeTab === tab ? 600 : 500,
-              color: activeTab === tab ? '#c8a035' : '#64748b',
+              color: activeTab === tab ? '#c8a035' : '#94a3b8',
               cursor: 'pointer',
-              borderBottom: `2px solid ${activeTab === tab ? '#c8a035' : 'transparent'}`,
               marginBottom: -2, background: 'none', border: 'none',
               borderBottomWidth: 2, borderBottomStyle: 'solid',
               borderBottomColor: activeTab === tab ? '#c8a035' : 'transparent',
@@ -177,20 +176,20 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
           </p>
         )}
         {visible.map(f => (
-          <div key={f.id} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, overflow: 'hidden' }}>
+          <div key={f.id} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
             {/* Thumbnail */}
             {f.mimeType.startsWith('image/') ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={f.url}
                 alt={f.originalName}
-                style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block', background: '#e8ecf0', cursor: 'pointer' }}
+                style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block', background: 'rgba(255,255,255,0.08)', cursor: 'pointer' }}
                 onClick={() => window.open(f.url, '_blank')}
               />
             ) : (
               <div
                 style={{
-                  height: 160, background: '#e8ecf0', display: 'flex', flexDirection: 'column',
+                  height: 160, background: 'rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center', gap: 8, color: '#94a3b8',
                   fontSize: 36, cursor: 'pointer',
                 }}
@@ -205,7 +204,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
 
             {/* Card body */}
             <div style={{ padding: 14 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', marginBottom: 3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#f8fafc', marginBottom: 3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {f.originalName}
               </div>
               <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 10 }}>
@@ -216,7 +215,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
                   onClick={() => handleDelete(f.id, f.originalName)}
                   style={{
                     padding: '5px 11px', borderRadius: 5, fontSize: 11, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid rgba(239,68,68,0.25)', background: 'rgba(239,68,68,0.07)', color: '#ef4444',
+                    border: '1px solid rgba(248,113,113,0.25)', background: 'rgba(248,113,113,0.08)', color: '#f87171',
                   }}
                 >
                   Delete
@@ -225,7 +224,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
                   onClick={() => copyUrl(f.id, f.url)}
                   style={{
                     padding: '5px 11px', borderRadius: 5, fontSize: 11, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid #e2e8f0', background: '#f8fafc', color: '#334155',
+                    border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.06)', color: '#94a3b8',
                     marginLeft: 'auto',
                   }}
                 >

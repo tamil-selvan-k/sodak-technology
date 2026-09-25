@@ -29,7 +29,7 @@ export default async function CareerDetailPage({ params }: Props) {
           </div>
           <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
             {job.department     && <span className="badge badge-gold">{job.department}</span>}
-            {job.location       && <span className="badge badge-dark">📍 {job.location}</span>}
+            {job.location       && <span className="badge badge-dark">{job.location}</span>}
             {job.employmentType && <span className="badge badge-green">{job.employmentType}</span>}
           </div>
           <h1 className="t-h1 c-white" style={{ marginBottom: 10 }}>{job.title}</h1>

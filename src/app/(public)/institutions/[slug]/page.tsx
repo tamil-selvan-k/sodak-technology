@@ -32,7 +32,7 @@ export default async function InstitutionDetailPage({ params }: Props) {
           </div>
           <h1 className="t-h1 c-white" style={{ marginBottom: 10 }}>{institution.name}</h1>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
-            {institution.city && <span className="badge badge-dark">📍 {institution.city}{institution.state ? `, ${institution.state}` : ''}</span>}
+            {institution.city && <span className="badge badge-dark">{institution.city}{institution.state ? `, ${institution.state}` : ''}</span>}
             {institution.type && <span className="badge badge-gold">{institution.type.replace('_', ' ')}</span>}
           </div>
           {institution.shortDescription && (

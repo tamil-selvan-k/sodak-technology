@@ -31,7 +31,7 @@ export default async function GalleryPage() {
         <div className="container">
           {photos.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>📷</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><path d="M9 3L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2h-3.17L15 3H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3z"/></svg></div>
               <h2 className="t-h2 c-white" style={{ marginBottom: 10 }}>Photos coming soon</h2>
               <p className="t-body c-muted">Our gallery is being curated. Follow us on social media for the latest.</p>
             </div>

@@ -6,10 +6,10 @@ import { useCallback, useTransition } from 'react'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 
-const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(59,130,246,0.2)] bg-[rgba(59,130,246,0.07)] text-[#3b82f6] hover:bg-[rgba(59,130,246,0.12)] transition-colors'
-const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(34,197,94,0.2)] bg-[rgba(34,197,94,0.07)] text-[#16a34a] hover:bg-[rgba(34,197,94,0.12)] transition-colors'
-const btnUnpub   = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(234,179,8,0.2)] bg-[rgba(234,179,8,0.07)] text-[#b45309] hover:bg-[rgba(234,179,8,0.12)] transition-colors'
-const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.07)] text-[#ef4444] hover:bg-[rgba(239,68,68,0.12)] transition-colors'
+const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(96,165,250,0.25)] bg-[rgba(96,165,250,0.08)] text-[#60a5fa] hover:bg-[rgba(96,165,250,0.14)] transition-colors'
+const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(74,222,128,0.25)] bg-[rgba(74,222,128,0.08)] text-[#4ade80] hover:bg-[rgba(74,222,128,0.14)] transition-colors'
+const btnUnpub   = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(251,191,36,0.25)] bg-[rgba(251,191,36,0.08)] text-[#fbbf24] hover:bg-[rgba(251,191,36,0.14)] transition-colors'
+const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(248,113,113,0.25)] bg-[rgba(248,113,113,0.08)] text-[#f87171] hover:bg-[rgba(248,113,113,0.14)] transition-colors'
 
 interface SerializedWebinar {
   id:              string
@@ -64,20 +64,21 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
         <select
           defaultValue={status}
           onChange={e => updateParam('status', e.target.value)}
-          className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-700 focus:outline-none focus:border-[var(--gold-500)]"
+          className="px-3 py-2 text-sm rounded-lg focus:outline-none"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
         >
-          <option value="">All Status</option>
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
+          <option value="" style={{ background: '#1a2342' }}>All Status</option>
+          <option value="published" style={{ background: '#1a2342' }}>Published</option>
+          <option value="draft" style={{ background: '#1a2342' }}>Draft</option>
         </select>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 10, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: '#f1f5f9' }}>
+            <tr style={{ background: 'rgba(255,255,255,0.06)' }}>
               {['Title', 'Presenter', 'Platform', 'Scheduled', 'Duration', 'Status', 'Actions'].map(h => (
-                <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b', textAlign: 'left' }}>{h}</th>
+                <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8', textAlign: 'left' }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -90,23 +91,23 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
             {webinars.map(w => {
               const isUpcoming = w.scheduledAt && new Date(w.scheduledAt) >= now
               return (
-                <tr key={w.id} className="hover:bg-[#f8fafc]" style={{ borderTop: '1px solid #f1f5f9' }}>
+                <tr key={w.id} className="hover:bg-[rgba(255,255,255,0.04)]" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <td style={{ padding: '11px 14px', maxWidth: 260 }}>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{w.title}</p>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: '#f8fafc', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{w.title}</p>
                   </td>
-                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#334155' }}>{w.presenterName ?? '—'}</td>
-                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#334155' }}>{w.platform ?? '—'}</td>
-                  <td style={{ padding: '11px 14px', fontSize: 12, color: '#475569' }}>
+                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#94a3b8' }}>{w.presenterName ?? '—'}</td>
+                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#94a3b8' }}>{w.platform ?? '—'}</td>
+                  <td style={{ padding: '11px 14px', fontSize: 12, color: '#94a3b8' }}>
                     <span>{formatDate(w.scheduledAt)}</span>
                     {w.scheduledAt && (
-                      <Badge variant={isUpcoming ? 'blue' : 'light'} className="ml-2">{isUpcoming ? 'Upcoming' : 'Past'}</Badge>
+                      <Badge variant={isUpcoming ? 'blue' : 'dark'} className="ml-2">{isUpcoming ? 'Upcoming' : 'Past'}</Badge>
                     )}
                   </td>
-                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#334155' }}>
+                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#94a3b8' }}>
                     {w.durationMinutes ? `${w.durationMinutes} min` : '—'}
                   </td>
                   <td style={{ padding: '11px 14px' }}>
-                    <Badge variant={w.isPublished ? 'green' : 'light'}>{w.isPublished ? 'Published' : 'Draft'}</Badge>
+                    <Badge variant={w.isPublished ? 'green' : 'dark'}>{w.isPublished ? 'Published' : 'Draft'}</Badge>
                   </td>
                   <td style={{ padding: '11px 14px' }}>
                     <div style={{ display: 'flex', gap: 6 }}>

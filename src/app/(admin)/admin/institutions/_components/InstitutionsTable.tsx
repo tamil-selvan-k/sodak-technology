@@ -5,9 +5,9 @@ import { useTransition } from 'react'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 
-const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(59,130,246,0.2)] bg-[rgba(59,130,246,0.07)] text-[#3b82f6] hover:bg-[rgba(59,130,246,0.12)] transition-colors'
-const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#e2e8f0] bg-[#f8fafc] text-[#334155] hover:bg-slate-100 transition-colors disabled:opacity-40'
-const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.07)] text-[#ef4444] hover:bg-[rgba(239,68,68,0.12)] transition-colors disabled:opacity-40'
+const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(96,165,250,0.25)] bg-[rgba(96,165,250,0.08)] text-[#60a5fa] hover:bg-[rgba(96,165,250,0.14)] transition-colors'
+const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.06)] text-[#94a3b8] hover:bg-[rgba(255,255,255,0.1)] transition-colors disabled:opacity-40'
+const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(248,113,113,0.25)] bg-[rgba(248,113,113,0.08)] text-[#f87171] hover:bg-[rgba(248,113,113,0.14)] transition-colors disabled:opacity-40'
 
 interface Institution {
   id: string
@@ -73,25 +73,27 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
           placeholder="Search institutions…"
           defaultValue={searchParams.get('search') ?? ''}
           onChange={e => updateFilter('search', e.target.value)}
-          className="text-[13px] border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-[var(--gold-500)] bg-white min-w-[200px]"
+          className="text-[13px] rounded-lg px-3 py-2 focus:outline-none min-w-[200px]"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
         />
         <select
           defaultValue={searchParams.get('type') ?? ''}
           onChange={e => updateFilter('type', e.target.value)}
-          className="text-[13px] border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-[var(--gold-500)] bg-white"
+          className="text-[13px] rounded-lg px-3 py-2 focus:outline-none"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
         >
-          <option value="">All Types</option>
-          {INST_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+          <option value="" style={{ background: '#1a2342' }}>All Types</option>
+          {INST_TYPES.map(t => <option key={t} value={t} style={{ background: '#1a2342' }}>{t}</option>)}
         </select>
       </div>
 
       {/* Table — wireframe-exact */}
-      <div className={`bg-white rounded-[10px] border border-[#e2e8f0] overflow-hidden transition-opacity ${isPending ? 'opacity-60' : ''}`}>
+      <div className={`rounded-[12px] overflow-hidden transition-opacity ${isPending ? 'opacity-60' : ''}`} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
         <table className="w-full border-collapse">
           <thead>
-            <tr style={{ background: '#f1f5f9' }}>
+            <tr style={{ background: 'rgba(0,0,0,0.2)' }}>
               {['Name', 'City / State', 'Type', 'Affiliation', 'Logo Perm.', 'On Home', 'Status', 'Actions'].map(h => (
-                <th key={h} className="px-3.5 py-2.5 text-[11px] font-bold text-left whitespace-nowrap text-[#64748b]" style={{ textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <th key={h} className="px-3.5 py-2.5 text-[11px] font-bold text-left whitespace-nowrap text-[#94a3b8]" style={{ textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   {h}
                 </th>
               ))}
@@ -104,18 +106,18 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
               </tr>
             )}
             {institutions.map(inst => (
-              <tr key={inst.id} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc] transition-colors">
-                <td className="px-3.5 py-[11px] text-[13px] text-[#334155]">
-                  <strong className="text-[#0f172a] font-semibold">{inst.name}</strong>
+              <tr key={inst.id} className="border-t border-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
+                <td className="px-3.5 py-[11px] text-[13px] text-[#e2e8f0]">
+                  <strong className="text-[#f8fafc] font-semibold">{inst.name}</strong>
                   {!inst.logoPermission && <Badge variant="amber" className="ml-2">No Logo Perm.</Badge>}
                 </td>
-                <td className="px-3.5 py-[11px] text-[13px] text-[#334155] whitespace-nowrap">
+                <td className="px-3.5 py-[11px] text-[13px] text-[#94a3b8] whitespace-nowrap">
                   {[inst.city, inst.state].filter(Boolean).join(', ') || '—'}
                 </td>
                 <td className="px-3.5 py-[11px]">
                   {inst.type ? <Badge variant="blue">{inst.type}</Badge> : <span className="text-[#94a3b8] text-[13px]">—</span>}
                 </td>
-                <td className="px-3.5 py-[11px] text-[13px] text-[#334155]">
+                <td className="px-3.5 py-[11px] text-[13px] text-[#94a3b8]">
                   {inst.affiliation ?? '—'}
                 </td>
                 <td className="px-3.5 py-[11px]">

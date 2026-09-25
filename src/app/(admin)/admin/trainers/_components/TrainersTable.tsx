@@ -8,10 +8,10 @@ import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 
 // Wireframe-exact admin action button styles
-const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(59,130,246,0.2)] bg-[rgba(59,130,246,0.07)] text-[#3b82f6] hover:bg-[rgba(59,130,246,0.12)] transition-colors'
-const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(34,197,94,0.2)] bg-[rgba(34,197,94,0.07)] text-[#16a34a] hover:bg-[rgba(34,197,94,0.12)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
-const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.07)] text-[#ef4444] hover:bg-[rgba(239,68,68,0.12)] transition-colors'
-const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#e2e8f0] bg-[#f8fafc] text-[#334155] hover:bg-slate-100 transition-colors'
+const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(96,165,250,0.25)] bg-[rgba(96,165,250,0.08)] text-[#60a5fa] hover:bg-[rgba(96,165,250,0.14)] transition-colors'
+const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(74,222,128,0.25)] bg-[rgba(74,222,128,0.08)] text-[#4ade80] hover:bg-[rgba(74,222,128,0.14)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
+const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(248,113,113,0.25)] bg-[rgba(248,113,113,0.08)] text-[#f87171] hover:bg-[rgba(248,113,113,0.14)] transition-colors'
+const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.06)] text-[#94a3b8] hover:bg-[rgba(255,255,255,0.1)] transition-colors'
 
 interface Props {
   trainers: TrainerWithStacks[]
@@ -70,47 +70,50 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
           placeholder="Search trainers…"
           defaultValue={search}
           onChange={e => updateParam('search', e.target.value)}
-          className="flex-1 min-w-[200px] px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[var(--gold-500)]"
+          className="flex-1 min-w-[200px] px-3 py-2 text-sm rounded-lg focus:outline-none"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
         />
         <select
           defaultValue={status}
           onChange={e => updateParam('status', e.target.value)}
-          className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-700 focus:outline-none focus:border-[var(--gold-500)]"
+          className="px-3 py-2 text-sm rounded-lg focus:outline-none"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
         >
-          <option value="">All Status</option>
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
+          <option value="" style={{ background: '#1a2342' }}>All Status</option>
+          <option value="published" style={{ background: '#1a2342' }}>Published</option>
+          <option value="draft" style={{ background: '#1a2342' }}>Draft</option>
         </select>
         <select
           defaultValue={mentor}
           onChange={e => updateParam('mentor', e.target.value)}
-          className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-700 focus:outline-none focus:border-[var(--gold-500)]"
+          className="px-3 py-2 text-sm rounded-lg focus:outline-none"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
         >
-          <option value="">All Roles</option>
-          <option value="1">Mentors only</option>
-          <option value="0">Trainers only</option>
+          <option value="" style={{ background: '#1a2342' }}>All Roles</option>
+          <option value="1" style={{ background: '#1a2342' }}>Mentors only</option>
+          <option value="0" style={{ background: '#1a2342' }}>Trainers only</option>
         </select>
       </div>
 
-      {/* Table — wireframe-exact styles */}
-      <div className="w-full bg-white rounded-[10px] border border-[#e2e8f0] overflow-hidden">
+      {/* Table */}
+      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
         <table className="w-full border-collapse">
           <thead>
-            <tr style={{ background: '#f1f5f9' }}>
+            <tr style={{ background: 'rgba(255,255,255,0.06)' }}>
               {['Photo','Name','Company','Stacks','Status','Actions'].map(h => (
-                <th key={h} className="px-3.5 py-2.5 text-left text-[11px] font-bold uppercase text-[#64748b]" style={{ letterSpacing: '0.06em' }}>{h}</th>
+                <th key={h} className="px-3.5 py-2.5 text-left text-[11px] font-bold uppercase text-[#94a3b8]" style={{ letterSpacing: '0.06em' }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {trainers.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-10 text-center text-sm text-[#94a3b8]">No trainers found.</td>
+                <td colSpan={6} className="px-4 py-10 text-center text-sm text-[#475569]">No trainers found.</td>
               </tr>
             )}
             {trainers.map(t => (
-              <tr key={t.id} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc] transition-colors">
-                <td className="px-3.5 py-[11px] text-[13px] text-[#334155]">
+              <tr key={t.id} className="border-t border-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
+                <td className="px-3.5 py-[11px] text-[13px] text-[#e2e8f0]">
                   {t.photoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={t.photoUrl} alt={t.name} className="w-11 h-11 rounded-full object-cover" />
@@ -123,21 +126,21 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
                     </div>
                   )}
                 </td>
-                <td className="px-3.5 py-[11px] text-[13px] text-[#334155]">
+                <td className="px-3.5 py-[11px] text-[13px] text-[#e2e8f0]">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <strong className="text-[13px] text-[#0f172a]">{t.name}</strong>
+                    <strong className="text-[13px] text-[#f8fafc]">{t.name}</strong>
                     {!t.consentOnFile && <Badge variant="amber">No Consent</Badge>}
                     {t.isFeatured && <Badge variant="gold">Featured</Badge>}
                   </div>
                   {t.designation && <span className="text-[11px] text-[#94a3b8]">{t.designation}</span>}
                 </td>
-                <td className="px-3.5 py-[11px] text-[13px] text-[#334155]">
+                <td className="px-3.5 py-[11px] text-[13px] text-[#e2e8f0]">
                   <strong className="text-[13px]">{t.currentCompany ?? '—'}</strong>
                 </td>
                 <td className="px-3.5 py-[11px] text-[13px] text-[#334155]">
                   <div className="flex flex-wrap gap-1">
                     {t.stacks.map(s => (
-                      <Badge key={s.stack.id} variant="light">{s.stack.name}</Badge>
+                      <Badge key={s.stack.id} variant="dark">{s.stack.name}</Badge>
                     ))}
                     {t.stacks.length === 0 && <span className="text-[#94a3b8] text-xs">—</span>}
                   </div>

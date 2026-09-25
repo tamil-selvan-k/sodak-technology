@@ -32,7 +32,7 @@ export default async function InternshipsPage() {
         <div className="container">
           {internships.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>💼</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 3.15 16.85 2 15.5 2h-7C7.15 2 6 3.15 6 4.64c0 .48.11.92.18 1.36H4c-1.1 0-1.99.9-1.99 2L2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5 0H9V4.64c0-.35.29-.64.64-.64h4.72c.35 0 .64.29.64.64V6z"/></svg></div>
               <h2 className="t-h2 c-white" style={{ marginBottom: 10 }}>Internships coming soon</h2>
               <p className="t-body c-muted">New opportunities will be posted here. Express your interest via the form below.</p>
               <Link href="/contact" className="btn btn-outline" style={{ marginTop: 20 }}>Express Interest →</Link>
@@ -45,8 +45,8 @@ export default async function InternshipsPage() {
                     <p className="t-card c-white" style={{ marginBottom: 8 }}>{intern.roleTitle}</p>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       <span className="badge badge-dark">{intern.companyName}</span>
-                      {intern.location      && <span className="badge badge-dark">📍 {intern.location}</span>}
-                      {intern.duration      && <span className="badge badge-dark">⏱ {intern.duration}</span>}
+                      {intern.location      && <span className="badge badge-dark">{intern.location}</span>}
+                      {intern.duration      && <span className="badge badge-dark">{intern.duration}</span>}
                       {intern.stipendRange  && <span className="badge badge-green">₹ {intern.stipendRange}</span>}
                     </div>
                     {intern.description && <p className="t-sm c-muted" style={{ marginTop: 10 }}>{intern.description}</p>}

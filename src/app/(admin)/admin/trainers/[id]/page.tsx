@@ -15,10 +15,11 @@ export default async function AdminEditTrainerPage({ params }: Props) {
   if (!trainer) notFound()
 
   return (
-    <main className="flex-1 p-8 min-w-0">
-      <div className="mb-7">
-        <h1 className="text-[22px] font-bold text-slate-900">Edit Trainer</h1>
-        <p className="text-sm text-slate-500 mt-0.5">{trainer.name}</p>
+    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: 'linear-gradient(160deg, #0a1628 0%, #0c2040 100%)' }}>
+      <div style={{ marginBottom: 32 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8a035', marginBottom: 6 }}>SODAK Technology</p>
+        <h1 style={{ fontSize: 28, fontWeight: 800, color: '#fff', fontFamily: 'var(--font-instrument-sans)' }}>Edit Trainer</h1>
+        <p style={{ fontSize: 13, color: '#475569', marginTop: 4 }}>{trainer.name}</p>
       </div>
       <TrainerForm trainer={trainer} stacks={stacks} />
     </main>

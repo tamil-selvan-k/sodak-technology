@@ -34,7 +34,7 @@ export default async function CoursesPage() {
               <Link key={stack.id} href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
                 <div className="card card-dark" style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                   <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 14 }}>
-                    <span style={{ fontSize: 32, lineHeight: 1 }}>{stack.icon ?? '💻'}</span>
+                    <span style={{ lineHeight: 1 }}>{stack.icon ?? <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>}</span>
                     <p className="t-card c-white">{stack.name}</p>
                   </div>
                   <p className="t-sm c-muted" style={{ marginBottom: 14 }}>{stack.summary}</p>

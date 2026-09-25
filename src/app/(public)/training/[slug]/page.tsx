@@ -49,7 +49,7 @@ export default async function TrainingStackPage({ params }: Props) {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 }}>
                 {(stack.technologies ?? []).map((tech: { name: string; logoUrl: string | null; displayOrder: number }) => (
                   <div key={tech.name} className="card card-dark" style={{ textAlign: 'center', padding: '20px 16px' }}>
-                    <div style={{ fontSize: 32, marginBottom: 8 }}>💻</div>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg></div>
                     <p className="t-sm c-white fw-600">{tech.name}</p>
                   </div>
                 ))}

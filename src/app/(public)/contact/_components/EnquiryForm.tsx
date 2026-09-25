@@ -4,10 +4,10 @@ import { useState, useRef, useEffect } from 'react'
 import { Turnstile } from '@marsidev/react-turnstile'
 
 const ROLES = [
-  { value: 'TPO',       label: 'Training & Placement Officer', icon: '🎓' },
-  { value: 'HoD',       label: 'Faculty / HoD',                icon: '🏫' },
-  { value: 'Corporate', label: 'Corporate / HR',                icon: '🏢' },
-  { value: 'Other',     label: 'Other',                         icon: '👤' },
+  { value: 'TPO',       label: 'Training & Placement Officer' },
+  { value: 'HoD',       label: 'Faculty / HoD' },
+  { value: 'Corporate', label: 'Corporate / HR' },
+  { value: 'Other',     label: 'Other' },
 ] as const
 
 type Role = typeof ROLES[number]['value']
@@ -108,7 +108,6 @@ export default function EnquiryForm() {
                 fontWeight: role === r.value ? 500 : 400,
                 transition: 'border-color 0.15s, background 0.15s',
               }}>
-                <span style={{ fontSize: 16 }}>{r.icon}</span>
                 <span>{r.label}</span>
               </span>
             </label>

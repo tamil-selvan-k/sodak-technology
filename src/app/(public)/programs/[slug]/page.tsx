@@ -46,13 +46,13 @@ export default async function ProgramDetailPage({ params }: Props) {
           {program.summary && <p className="t-lg c-muted" style={{ maxWidth: 600 }}>{program.summary}</p>}
           <div style={{ display: 'flex', gap: 20, marginTop: 20, flexWrap: 'wrap' }}>
             {program.duration && (
-              <div className="badge badge-dark badge-lg">⏱ {program.duration}</div>
+              <div className="badge badge-dark badge-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>{program.duration}</div>
             )}
             {program.deliveryMode && (
-              <div className="badge badge-dark badge-lg">🏫 {program.deliveryMode.replace('_', '-')}</div>
+              <div className="badge badge-dark badge-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>{program.deliveryMode.replace('_', '-')}</div>
             )}
             {program.targetAudience && (
-              <div className="badge badge-dark badge-lg">🎓 {program.targetAudience}</div>
+              <div className="badge badge-dark badge-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>{program.targetAudience}</div>
             )}
           </div>
         </div>

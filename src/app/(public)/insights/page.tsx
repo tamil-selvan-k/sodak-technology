@@ -31,7 +31,7 @@ export default async function InsightsPage() {
         <div className="container">
           {posts.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>📝</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
               <h2 className="t-h2 c-white" style={{ marginBottom: 10 }}>Articles coming soon</h2>
               <p className="t-body c-muted">Our trainers are writing the first batch of articles. Check back soon.</p>
             </div>

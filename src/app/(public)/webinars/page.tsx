@@ -35,7 +35,7 @@ export default async function WebinarsPage() {
         <div className="container">
           {webinars.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>📡</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5c-3.87 0-7 3.13-7 7h2c0-2.76 2.24-5 5-5s5 2.24 5 5h2c0-3.87-3.13-7-7-7zm1 9.464V12h-2v2.768c-.596.347-1 .984-1 1.732 0 1.1.9 2 2 2s2-.9 2-2c0-.748-.404-1.385-1-1.732zM12 1C5.925 1 1 5.925 1 12h2C3 7.029 7.029 3 12 3s9 4.029 9 9h2c0-6.075-4.925-11-11-11z"/></svg></div>
               <h2 className="t-h2 c-white" style={{ marginBottom: 10 }}>Webinars coming soon</h2>
               <p className="t-body c-muted">Upcoming sessions will be announced here. Follow us on social media to stay updated.</p>
             </div>

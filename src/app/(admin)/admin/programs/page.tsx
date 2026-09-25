@@ -24,15 +24,18 @@ export default async function AdminProgramsPage({ searchParams }: Props) {
   const withBrochure = programs.filter(p => p.brochureKey).length
 
   return (
-    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 28 }}>
-        <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#0f172a' }}>Programs</h1>
-          <p style={{ fontSize: 13, color: '#64748b', marginTop: 2 }}>Manage training programs and tracks</p>
+    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: 'linear-gradient(160deg, #0a1628 0%, #0c2040 100%)' }}>
+      <div style={{ marginBottom: 32 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8a035', marginBottom: 6 }}>SODAK Technology</p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+          <div>
+            <h1 style={{ fontSize: 28, fontWeight: 800, color: '#fff', fontFamily: 'var(--font-instrument-sans)' }}>Programs</h1>
+            <p style={{ fontSize: 13, color: '#475569', marginTop: 4 }}>Manage training programs and tracks</p>
+          </div>
+          <a href="/admin/programs/new" style={{ padding: '9px 20px', fontSize: 13, fontWeight: 700, background: '#c8a035', color: '#0a0f1e', borderRadius: 8, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            + Add Program
+          </a>
         </div>
-        <a href="/admin/programs/new" style={{ padding: '9px 18px', fontSize: 13, fontWeight: 700, background: '#c8a035', color: '#0a0f1e', border: 'none', borderRadius: 6, cursor: 'pointer', textDecoration: 'none' }}>
-          + Add Program
-        </a>
       </div>
 
       {/* Stat cards */}
@@ -43,9 +46,9 @@ export default async function AdminProgramsPage({ searchParams }: Props) {
           { label: 'With Brochure', value: withBrochure },
           { label: 'Delivery Modes', value: deliveryModes },
         ].map(({ label, value }) => (
-          <div key={label} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '20px 24px' }}>
-            <div style={{ fontSize: 12, color: '#64748b', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>{label}</div>
-            <div style={{ fontSize: 32, fontWeight: 800, color: '#0f172a' }}>{value}</div>
+          <div key={label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 24px' }}>
+            <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.07em', fontWeight: 700 }}>{label}</div>
+            <div style={{ fontSize: 32, fontWeight: 800, color: '#e2e8f0' }}>{value}</div>
           </div>
         ))}
       </div>

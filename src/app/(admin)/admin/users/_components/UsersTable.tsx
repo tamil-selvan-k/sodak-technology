@@ -4,8 +4,8 @@ import { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Badge from '@/components/ui/Badge'
 
-const btnEdit   = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(59,130,246,0.2)] bg-[rgba(59,130,246,0.07)] text-[#3b82f6] hover:bg-[rgba(59,130,246,0.12)] transition-colors'
-const btnDelete = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.07)] text-[#ef4444] hover:bg-[rgba(239,68,68,0.12)] transition-colors'
+const btnEdit   = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(96,165,250,0.25)] bg-[rgba(96,165,250,0.08)] text-[#60a5fa] hover:bg-[rgba(96,165,250,0.14)] transition-colors'
+const btnDelete = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(248,113,113,0.25)] bg-[rgba(248,113,113,0.08)] text-[#f87171] hover:bg-[rgba(248,113,113,0.14)] transition-colors'
 
 interface SerializedUser {
   id: string
@@ -16,11 +16,11 @@ interface SerializedUser {
   createdAt: string
 }
 
-const ROLE_BADGE: Record<string, { label: string; variant: 'plum' | 'blue' | 'amber' | 'light' }> = {
+const ROLE_BADGE: Record<string, { label: string; variant: 'plum' | 'blue' | 'amber' | 'dark' }> = {
   super_admin:  { label: 'Super Admin',  variant: 'plum' },
   editor:       { label: 'Editor',       variant: 'blue' },
   contributor:  { label: 'Contributor',  variant: 'amber' },
-  sales:        { label: 'Sales',        variant: 'light' },
+  sales:        { label: 'Sales',        variant: 'dark' },
 }
 
 function formatDate(iso: string) {
@@ -53,12 +53,12 @@ export default function UsersTable({ users }: { users: SerializedUser[] }) {
   }
 
   return (
-    <div style={{ background: '#fff', borderRadius: 10, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
-          <tr style={{ background: '#f1f5f9' }}>
+          <tr style={{ background: 'rgba(255,255,255,0.06)' }}>
             {['User', 'Email', 'Role', 'Status', 'Joined', 'Actions'].map(h => (
-              <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b', textAlign: 'left' }}>{h}</th>
+              <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8', textAlign: 'left' }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -71,10 +71,10 @@ export default function UsersTable({ users }: { users: SerializedUser[] }) {
             </tr>
           )}
           {users.map(u => {
-            const rb = ROLE_BADGE[u.role] ?? { label: u.role, variant: 'light' as const }
+            const rb = ROLE_BADGE[u.role] ?? { label: u.role, variant: 'dark' as const }
             return (
-              <tr key={u.id} className="hover:bg-[#f8fafc]" style={{ borderTop: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#334155' }}>
+              <tr key={u.id} className="hover:bg-[rgba(255,255,255,0.04)]" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: '#e2e8f0' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div style={{
                       width: 34, height: 34, borderRadius: '50%',
@@ -84,17 +84,17 @@ export default function UsersTable({ users }: { users: SerializedUser[] }) {
                     }}>
                       {initials(u.name, u.email)}
                     </div>
-                    <span style={{ fontWeight: 600, color: '#0f172a' }}>{u.name ?? '—'}</span>
+                    <span style={{ fontWeight: 600, color: '#f8fafc' }}>{u.name ?? '—'}</span>
                   </div>
                 </td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#334155' }}>{u.email}</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: '#94a3b8' }}>{u.email}</td>
                 <td style={{ padding: '11px 14px' }}>
                   <Badge variant={rb.variant}>{rb.label}</Badge>
                 </td>
                 <td style={{ padding: '11px 14px' }}>
                   <Badge variant={u.isActive ? 'green' : 'red'}>{u.isActive ? 'Active' : 'Inactive'}</Badge>
                 </td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{formatDate(u.createdAt)}</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: '#94a3b8' }}>{formatDate(u.createdAt)}</td>
                 <td style={{ padding: '11px 14px' }}>
                   <div style={{ display: 'flex', gap: 6 }}>
                     <a href={`/admin/users/${u.id}`} className={btnEdit}>Edit Role</a>

@@ -21,18 +21,18 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '8px 12px',
   fontSize: 13,
-  border: '1px solid #e2e8f0',
+  border: '1px solid rgba(255,255,255,0.12)',
   borderRadius: 6,
   outline: 'none',
-  color: '#334155',
-  background: '#fff',
+  color: '#e2e8f0',
+  background: 'rgba(255,255,255,0.06)',
   boxSizing: 'border-box',
 }
 
 const labelStyle: React.CSSProperties = {
   fontSize: 12,
   fontWeight: 600,
-  color: '#475569',
+  color: '#94a3b8',
   marginBottom: 6,
   display: 'block',
 }
@@ -40,16 +40,16 @@ const labelStyle: React.CSSProperties = {
 const sectionHeadStyle: React.CSSProperties = {
   fontSize: 13,
   fontWeight: 700,
-  color: '#0f172a',
+  color: '#f8fafc',
   marginBottom: 16,
   paddingBottom: 12,
-  borderBottom: '1px solid #f1f5f9',
+  borderBottom: '1px solid rgba(255,255,255,0.08)',
 }
 
 const cardStyle: React.CSSProperties = {
-  background: '#fff',
-  borderRadius: 10,
-  border: '1px solid #e2e8f0',
+  background: 'rgba(255,255,255,0.04)',
+  borderRadius: 12,
+  border: '1px solid rgba(255,255,255,0.08)',
   padding: 28,
   marginBottom: 20,
 }
@@ -125,8 +125,8 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
           borderRadius: 8,
           fontSize: 13,
           ...(toast.type === 'success'
-            ? { background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#15803d' }
-            : { background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626' }),
+            ? { background: 'rgba(74,222,128,0.1)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ade80' }
+            : { background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171' }),
         }}>
           {toast.message}
         </div>

@@ -68,7 +68,7 @@ export default async function MentorsPage() {
 
           {mentors.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>🧑‍💼</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg></div>
               <h2 className="t-h2 c-heading" style={{ marginBottom: 10 }}>Mentor profiles coming soon</h2>
               <p className="t-body c-body">Our mentor roster is being finalised. Reach out to express interest in early access.</p>
               <Link href="/contact" className="btn btn-ghost" style={{ marginTop: 20 }}>Get Early Access →</Link>

@@ -38,12 +38,11 @@ export default async function AdminUsersPage() {
   }))
 
   return (
-    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 28 }}>
-        <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#0f172a' }}>User Management</h1>
-          <p style={{ fontSize: 13, color: '#64748b', marginTop: 2 }}>Manage admin accounts and role assignments</p>
-        </div>
+    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: 'linear-gradient(160deg, #0a1628 0%, #0c2040 100%)' }}>
+      <div style={{ marginBottom: 32 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8a035', marginBottom: 6 }}>SODAK Technology</p>
+        <h1 style={{ fontSize: 28, fontWeight: 800, color: '#fff', fontFamily: 'var(--font-instrument-sans)' }}>User Management</h1>
+        <p style={{ fontSize: 13, color: '#475569', marginTop: 4 }}>Manage admin accounts and role assignments</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginBottom: 24 }}>
@@ -53,14 +52,14 @@ export default async function AdminUsersPage() {
           { label: 'Super Admins', value: adminUsers },
           { label: 'Last 30 Days', value: recentUsers },
         ].map(c => (
-          <div key={c.label} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '20px 24px' }}>
-            <div style={{ fontSize: 12, color: '#64748b', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>{c.label}</div>
-            <div style={{ fontSize: 32, fontWeight: 800, color: '#0f172a' }}>{c.value}</div>
+          <div key={c.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 24px' }}>
+            <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.07em', fontWeight: 700 }}>{c.label}</div>
+            <div style={{ fontSize: 32, fontWeight: 800, color: '#e2e8f0' }}>{c.value}</div>
           </div>
         ))}
       </div>
 
-      <p style={{ fontSize: 12, color: '#64748b', marginBottom: 16 }}>Visible to super_admin only</p>
+      <p style={{ fontSize: 12, color: '#94a3b8', marginBottom: 16 }}>Visible to super_admin only</p>
       <UsersTable users={serialised} />
     </main>
   )
