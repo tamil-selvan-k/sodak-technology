@@ -89,7 +89,6 @@ export default async function MentorsPage() {
     </div>
   ))}
 </div>
-          </div>
         </div>
       </section>
 
