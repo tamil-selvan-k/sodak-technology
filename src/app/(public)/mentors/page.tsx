@@ -46,14 +46,49 @@ export default async function MentorsPage() {
             <p className="section-eyebrow">The Process</p>
             <h2 className="t-h1 c-white">How Mentoring Works</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20, marginTop: 40 }}>
-            {HOW_IT_WORKS.map(s => (
-              <div key={s.step} className="card card-dark" style={{ textAlign: 'center', padding: '32px 24px' }}>
-                <div style={{ fontSize: 36, fontWeight: 800, color: '#00a0ff', marginBottom: 14, fontFamily: 'var(--font-instrument-sans)' }}>{s.step}</div>
-                <p className="t-card c-white" style={{ marginBottom: 8 }}>{s.title}</p>
-                <p className="t-sm c-muted">{s.desc}</p>
-              </div>
-            ))}
+         <div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 280px))',
+    justifyContent: 'center',
+    gap: 20,
+    marginTop: 40,
+    width: '100%',
+  }}
+>
+  {HOW_IT_WORKS.map(s => (
+    <div
+      key={s.step}
+      className="card card-dark"
+      style={{
+        textAlign: 'center',
+        padding: '32px 24px',
+        width: '100%',
+        boxSizing: 'border-box',
+      }}
+    >
+      <div
+        style={{
+          fontSize: 36,
+          fontWeight: 800,
+          color: '#00a0ff',
+          marginBottom: 14,
+          fontFamily: 'var(--font-instrument-sans)',
+        }}
+      >
+        {s.step}
+      </div>
+
+      <p className="t-card c-white" style={{ marginBottom: 8 }}>
+        {s.title}
+      </p>
+
+      <p className="t-sm c-muted">
+        {s.desc}
+      </p>
+    </div>
+  ))}
+</div>
           </div>
         </div>
       </section>
