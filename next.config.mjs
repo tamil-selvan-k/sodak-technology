@@ -16,10 +16,8 @@ async function getRedirects() {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    // Prevent webpack from bundling native .node binaries — required for @node-rs/argon2 on Next.js 14
-    serverComponentsExternalPackages: ['@node-rs/argon2', '@node-rs/argon2-win32-x64-msvc'],
-  },
+  // Prevent webpack from bundling native .node binaries — required for @node-rs/argon2
+  serverExternalPackages: ['@node-rs/argon2'],
   images: {
     remotePatterns: [
       ...(process.env.AWS_CLOUDFRONT_DOMAIN
