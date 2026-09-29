@@ -15,7 +15,7 @@ export default function Textarea({ label, error, hint, className = '', id, ...pr
         id={areaId}
         rows={4}
         className={`w-full px-3.5 py-2.5 rounded-md border border-[var(--dm-border)] bg-white text-sm text-[var(--dm-text)] placeholder:text-slate-400 transition-[border-color] outline-none resize-y
-          focus:border-[var(--gold-500)] focus:shadow-[0_0_0_3px_rgba(200,160,53,0.12)]
+          focus:border-[#4865ad] focus:shadow-[0_0_0_3px_rgba(72,101,173,0.12)]
           ${error ? 'border-red-500' : ''} ${className}`}
         {...props}
       />

@@ -71,7 +71,7 @@ export default async function MentorsPage() {
         style={{
           fontSize: 36,
           fontWeight: 800,
-          color: '#00a0ff',
+          color: '#4865ad',
           marginBottom: 14,
           fontFamily: 'var(--font-instrument-sans)',
         }}
@@ -113,13 +113,13 @@ export default async function MentorsPage() {
                 <Link key={m.id} href={`/mentors/${m.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-light" style={{ height: '100%' }}>
                     <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 14 }}>
-                      <div className="avatar avatar-lg" style={{ background: 'rgba(0,160,255,0.12)', fontSize: 24 }}>
+                      <div className="avatar avatar-lg" style={{ background: 'rgba(72,101,173,0.12)', fontSize: 24 }}>
                         {m.name.charAt(0)}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <p className="t-card c-heading">{m.name}</p>
                         <p className="t-sm c-body">{m.designation}</p>
-                        {m.currentCompany && <p className="t-micro" style={{ color: '#00a0ff', marginTop: 3 }}>{m.currentCompany}</p>}
+                        {m.currentCompany && <p className="t-micro" style={{ color: '#4865ad', marginTop: 3 }}>{m.currentCompany}</p>}
                       </div>
                       {m.availabilityStatus === 'available' && (
                         <span className="badge badge-green">Open</span>

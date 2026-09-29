@@ -10,21 +10,21 @@ const NAV_ITEMS = [
   {
     label: 'Learn', href: '/courses',
     dropdown: [
-      { label: 'Courses',       href: '/courses' },
-      { label: 'Campus Programs', href: '/programs' },
-      { label: 'Training Stacks', href: '/training' },
-      { label: 'Mentors (1-on-1)', href: '/mentors' },
-      { label: 'Webinars',      href: '/webinars' },
-      { label: 'Internships',   href: '/internships' },
+      { label: 'Courses',           href: '/courses' },
+      { label: 'Campus Programs',   href: '/programs' },
+      { label: 'Training Stacks',   href: '/training' },
+      { label: 'Mentors (1-on-1)',  href: '/mentors' },
+      { label: 'Webinars',          href: '/webinars' },
+      { label: 'Internships',       href: '/internships' },
     ],
   },
   { label: 'Institutions', href: '/institutions' },
   {
     label: 'Platform', href: '/platform',
     dropdown: [
-      { label: 'Platform Overview', href: '/platform' },
-      { label: 'SODAK LMS ↗',       href: '#', external: true },
-      { label: 'SODAK CTF ↗',       href: '#', external: true },
+      { label: 'Platform Overview',   href: '/platform' },
+      { label: 'SODAK LMS ↗',         href: '#', external: true },
+      { label: 'SODAK CTF ↗',         href: '#', external: true },
       { label: 'Assessment Engine ↗', href: '#', external: true },
     ],
   },
@@ -39,34 +39,63 @@ const NAV_ITEMS = [
 ] as const
 
 export default function Navbar() {
-  const pathname    = usePathname()
+  const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-[var(--dm-border)] h-[var(--nav-height)] flex items-center">
-      <div className="container flex items-center justify-between w-full">
+    <nav style={{
+      position: 'sticky', top: 0, zIndex: 100,
+      background: '#ffffff',
+      borderBottom: '1px solid #e2e8f0',
+      height: 64,
+      display: 'flex',
+      alignItems: 'center',
+    }}>
+      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-1 font-heading font-800">
-          <span className="text-[var(--navy-950)] font-extrabold text-xl">SODAK</span>
-          <span className="text-[var(--dm-accent)] font-extrabold text-xl">Technology</span>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 2, textDecoration: 'none' }}>
+          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 20, color: '#0f172a' }}>SODAK</span>
+          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 20, color: '#4865ad' }}>Technology</span>
         </Link>
 
         {/* Desktop nav */}
-        <ul className="hidden md:flex items-center gap-1">
+        <ul style={{ display: 'flex', alignItems: 'center', gap: 4, listStyle: 'none', margin: 0, padding: 0 }} className="hidden md:flex">
           {NAV_ITEMS.map(item => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
             return (
-              <li key={item.href} className="relative group">
+              <li key={item.href} style={{ position: 'relative' }} className="group">
                 <Link
                   href={item.href}
-                  className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive ? 'text-[var(--dm-accent)] font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                    padding: '6px 12px', borderRadius: '2rem',
+                    fontFamily: 'var(--font-inter), sans-serif',
+                    fontSize: 14, fontWeight: isActive ? 600 : 500,
+                    color: isActive ? '#4865ad' : '#334155',
+                    textDecoration: 'none',
+                    transition: 'color 0.15s',
+                  }}
                 >
-                  {item.label}{'dropdown' in item && <span className="ml-1 text-xs opacity-60">▾</span>}
+                  {item.label}
+                  {'dropdown' in item && <span style={{ fontSize: 10, opacity: 0.5 }}>▾</span>}
                 </Link>
                 {'dropdown' in item && (
-                  <div className="absolute top-full left-0 hidden group-hover:flex flex-col bg-white border border-[var(--dm-border)] rounded-xl shadow-lg min-w-[200px] py-2 z-50">
+                  <div className="hidden group-hover:flex flex-col" style={{
+                    position: 'absolute', top: '100%', left: 0,
+                    background: '#ffffff', border: '1px solid #e2e8f0',
+                    borderRadius: '1.5rem', minWidth: 200,
+                    padding: '8px 0', zIndex: 200,
+                    marginTop: 4,
+                  }}>
                     {item.dropdown.map(d => (
-                      <Link key={d.href} href={d.href} className="px-4 py-2 text-sm text-slate-700 hover:bg-[var(--dm-surface)] hover:text-[var(--dm-accent)] transition-colors">
+                      <Link key={d.href} href={d.href} style={{
+                        display: 'block', padding: '8px 16px',
+                        fontFamily: 'var(--font-inter), sans-serif',
+                        fontSize: 13, color: '#334155', textDecoration: 'none',
+                        transition: 'color 0.15s, background 0.15s',
+                      }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#4865ad'; (e.currentTarget as HTMLElement).style.background = 'rgba(72,101,173,0.05)'; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#334155'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
                         {d.label}
                       </Link>
                     ))}
@@ -77,15 +106,25 @@ export default function Navbar() {
           })}
         </ul>
 
-        <div className="hidden md:flex items-center gap-3">
-          <Link href="/contact" className="btn-gold text-sm font-semibold px-4 py-2 rounded-md bg-[var(--gold-500)] text-[var(--navy-950)] hover:bg-[var(--gold-400)] transition-colors">
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 12 }}>
+          <Link href="/contact" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            padding: '8px 20px', borderRadius: '2.5rem',
+            background: '#4865ad', color: '#ffffff',
+            fontFamily: 'var(--font-inter), sans-serif',
+            fontSize: 13, fontWeight: 600, textDecoration: 'none',
+            transition: 'opacity 0.15s',
+          }}
+          onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.88'}
+          onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '1'}>
             Book a Program →
           </Link>
         </div>
 
         {/* Hamburger */}
         <button
-          className="md:hidden p-2 text-slate-700"
+          className="md:hidden"
+          style={{ padding: 8, color: '#334155', background: 'none', border: 'none', cursor: 'pointer', fontSize: 20 }}
           onClick={() => setOpen(o => !o)}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
@@ -96,13 +135,26 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden absolute top-[var(--nav-height)] left-0 right-0 bg-white border-b border-[var(--dm-border)] py-4 px-6 flex flex-col gap-2 shadow-lg z-40">
+        <div className="md:hidden" style={{
+          position: 'absolute', top: 64, left: 0, right: 0,
+          background: '#ffffff', borderBottom: '1px solid #e2e8f0',
+          padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 4, zIndex: 200,
+        }}>
           {NAV_ITEMS.map(item => (
-            <Link key={item.href} href={item.href} className="py-2 text-sm font-medium text-slate-700" onClick={() => setOpen(false)}>
+            <Link key={item.href} href={item.href} style={{
+              padding: '10px 0', fontFamily: 'var(--font-inter), sans-serif',
+              fontSize: 14, fontWeight: 500, color: '#334155', textDecoration: 'none',
+              borderBottom: '1px solid #f1f5f9',
+            }} onClick={() => setOpen(false)}>
               {item.label}
             </Link>
           ))}
-          <Link href="/contact" className="mt-2 text-center py-2 px-4 rounded-md bg-[var(--gold-500)] text-[var(--navy-950)] font-semibold text-sm">
+          <Link href="/contact" style={{
+            marginTop: 8, textAlign: 'center', padding: '10px 20px',
+            borderRadius: '2.5rem', background: '#4865ad', color: '#ffffff',
+            fontFamily: 'var(--font-inter), sans-serif',
+            fontSize: 13, fontWeight: 600, textDecoration: 'none',
+          }} onClick={() => setOpen(false)}>
             Book a Program →
           </Link>
         </div>

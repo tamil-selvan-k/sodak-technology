@@ -73,7 +73,7 @@ export default async function InstitutionDetailPage({ params }: Props) {
                   {institution.website && (
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span className="t-sm c-muted">Website</span>
-                      <a href={institution.website} target="_blank" rel="noopener noreferrer" className="t-sm" style={{ color: '#00a0ff' }}>Visit →</a>
+                      <a href={institution.website} target="_blank" rel="noopener noreferrer" className="t-sm" style={{ color: '#4865ad' }}>Visit →</a>
                     </div>
                   )}
                 </div>

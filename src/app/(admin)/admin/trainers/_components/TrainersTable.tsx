@@ -7,11 +7,11 @@ import type { TrainerWithStacks } from '@/modules/trainers/trainers.types'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 
-// Wireframe-exact admin action button styles
-const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(96,165,250,0.25)] bg-[rgba(96,165,250,0.08)] text-[#60a5fa] hover:bg-[rgba(96,165,250,0.14)] transition-colors'
-const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(74,222,128,0.25)] bg-[rgba(74,222,128,0.08)] text-[#4ade80] hover:bg-[rgba(74,222,128,0.14)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
-const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(248,113,113,0.25)] bg-[rgba(248,113,113,0.08)] text-[#f87171] hover:bg-[rgba(248,113,113,0.14)] transition-colors'
-const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.06)] text-[#94a3b8] hover:bg-[rgba(255,255,255,0.1)] transition-colors'
+// Admin action button styles
+const btnEdit    = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#dbeafe] bg-[#eff6ff] text-[#2563eb] hover:bg-[#dbeafe] transition-colors'
+const btnPublish = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#bbf7d0] bg-[#f0fdf4] text-[#16a34a] hover:bg-[#bbf7d0] transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
+const btnDelete  = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#fecaca] bg-[#fef2f2] text-[#dc2626] hover:bg-[#fecaca] transition-colors'
+const btnDefault = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#e2e8f0] bg-[#f8fafc] text-[#64748b] hover:bg-[#e2e8f0] transition-colors'
 
 interface Props {
   trainers: TrainerWithStacks[]
@@ -71,70 +71,70 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
           defaultValue={search}
           onChange={e => updateParam('search', e.target.value)}
           className="flex-1 min-w-[200px] px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
+          style={{ background: '#ffffff', border: '1px solid #e2e8f0', color: '#0f172a' }}
         />
         <select
           defaultValue={status}
           onChange={e => updateParam('status', e.target.value)}
           className="px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
+          style={{ background: '#ffffff', border: '1px solid #e2e8f0', color: '#334155' }}
         >
-          <option value="" style={{ background: '#1a2342' }}>All Status</option>
-          <option value="published" style={{ background: '#1a2342' }}>Published</option>
-          <option value="draft" style={{ background: '#1a2342' }}>Draft</option>
+          <option value="">All Status</option>
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
         </select>
         <select
           defaultValue={mentor}
           onChange={e => updateParam('mentor', e.target.value)}
           className="px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
+          style={{ background: '#ffffff', border: '1px solid #e2e8f0', color: '#334155' }}
         >
-          <option value="" style={{ background: '#1a2342' }}>All Roles</option>
-          <option value="1" style={{ background: '#1a2342' }}>Mentors only</option>
-          <option value="0" style={{ background: '#1a2342' }}>Trainers only</option>
+          <option value="">All Roles</option>
+          <option value="1">Mentors only</option>
+          <option value="0">Trainers only</option>
         </select>
       </div>
 
       {/* Table */}
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '1rem', overflow: 'hidden' }}>
         <table className="w-full border-collapse">
           <thead>
-            <tr style={{ background: 'rgba(255,255,255,0.06)' }}>
+            <tr style={{ background: '#f8fafc' }}>
               {['Photo','Name','Company','Stacks','Status','Actions'].map(h => (
-                <th key={h} className="px-3.5 py-2.5 text-left text-[11px] font-bold uppercase text-[#94a3b8]" style={{ letterSpacing: '0.06em' }}>{h}</th>
+                <th key={h} className="px-3.5 py-2.5 text-left text-[11px] font-bold uppercase text-[#64748b]" style={{ letterSpacing: '0.06em' }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {trainers.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-10 text-center text-sm text-[#475569]">No trainers found.</td>
+                <td colSpan={6} className="px-4 py-10 text-center text-sm text-[#64748b]">No trainers found.</td>
               </tr>
             )}
             {trainers.map(t => (
-              <tr key={t.id} className="border-t border-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
-                <td className="px-3.5 py-[11px] text-[13px] text-[#e2e8f0]">
+              <tr key={t.id} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc] transition-colors">
+                <td className="px-3.5 py-[11px] text-[13px]">
                   {t.photoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={t.photoUrl} alt={t.name} className="w-11 h-11 rounded-full object-cover" />
                   ) : (
                     <div
                       className="w-11 h-11 rounded-full flex items-center justify-center text-[15px] font-bold flex-shrink-0"
-                      style={{ background: '#1a2342', color: '#c8a035' }}
+                      style={{ background: 'rgba(72,101,173,0.1)', color: '#4865ad' }}
                     >
                       {initials(t.name)}
                     </div>
                   )}
                 </td>
-                <td className="px-3.5 py-[11px] text-[13px] text-[#e2e8f0]">
+                <td className="px-3.5 py-[11px] text-[13px]">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <strong className="text-[13px] text-[#f8fafc]">{t.name}</strong>
+                    <strong className="text-[13px] text-[#0f172a]">{t.name}</strong>
                     {!t.consentOnFile && <Badge variant="amber">No Consent</Badge>}
                     {t.isFeatured && <Badge variant="gold">Featured</Badge>}
                   </div>
-                  {t.designation && <span className="text-[11px] text-[#94a3b8]">{t.designation}</span>}
+                  {t.designation && <span className="text-[11px] text-[#64748b]">{t.designation}</span>}
                 </td>
-                <td className="px-3.5 py-[11px] text-[13px] text-[#e2e8f0]">
+                <td className="px-3.5 py-[11px] text-[13px] text-[#334155]">
                   <strong className="text-[13px]">{t.currentCompany ?? '—'}</strong>
                 </td>
                 <td className="px-3.5 py-[11px] text-[13px] text-[#334155]">
@@ -142,7 +142,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
                     {t.stacks.map(s => (
                       <Badge key={s.stack.id} variant="dark">{s.stack.name}</Badge>
                     ))}
-                    {t.stacks.length === 0 && <span className="text-[#94a3b8] text-xs">—</span>}
+                    {t.stacks.length === 0 && <span className="text-[#64748b] text-xs">—</span>}
                   </div>
                 </td>
                 <td className="px-3.5 py-[11px]">

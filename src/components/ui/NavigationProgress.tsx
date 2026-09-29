@@ -68,10 +68,9 @@ export default function NavigationProgress() {
         left: 0,
         height: 3,
         width: `${width}%`,
-        background: '#c8a035',
+        background: '#4865ad',
         zIndex: 9999,
         borderRadius: '0 2px 2px 0',
-        boxShadow: '0 0 10px rgba(200,160,53,0.5)',
         transition: width === 100 ? 'width 0.2s ease' : 'width 0.5s ease-out',
         pointerEvents: 'none',
       }}

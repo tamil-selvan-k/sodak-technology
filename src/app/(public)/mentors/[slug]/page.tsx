@@ -29,7 +29,7 @@ export default async function MentorProfilePage({ params }: Props) {
             <span className="active">{mentor.name}</span>
           </div>
           <div style={{ display: 'flex', gap: 28, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-            <div className="avatar avatar-xxl" style={{ background: 'rgba(0,160,255,0.18)', fontSize: 40, flexShrink: 0 }}>
+            <div className="avatar avatar-xxl" style={{ background: 'rgba(72,101,173,0.18)', fontSize: 40, flexShrink: 0 }}>
               {mentor.name.charAt(0)}
             </div>
             <div>
@@ -39,7 +39,7 @@ export default async function MentorProfilePage({ params }: Props) {
               </div>
               <h1 className="t-h1 c-white" style={{ marginBottom: 8 }}>{mentor.name}</h1>
               <p className="t-lg c-muted">{mentor.designation}</p>
-              {mentor.currentCompany && <p className="t-body" style={{ color: '#00a0ff', marginTop: 6 }}>{mentor.currentCompany}</p>}
+              {mentor.currentCompany && <p className="t-body" style={{ color: '#4865ad', marginTop: 6 }}>{mentor.currentCompany}</p>}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
                 {(mentor.expertiseTags as string[] ?? []).map(tag => (
                   <span key={tag} className="badge badge-dark">{tag}</span>

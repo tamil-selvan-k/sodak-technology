@@ -7,10 +7,10 @@ interface Props {
 }
 
 const CLASSES: Record<Variant, string> = {
-  light: 'bg-white border border-[var(--dm-border)] rounded-xl p-6 transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md',
-  dark:  'bg-[var(--navy-800)] border border-[var(--gold-500)]/10 rounded-xl p-6 transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-dark',
-  ghost: 'bg-white/4 border border-white/7 rounded-xl p-6',
-  gold:  'bg-[var(--gold-500)]/6 border border-[var(--gold-500)]/20 rounded-xl p-6',
+  light: 'bg-white border border-[#e2e8f0] rounded-[2rem] p-6 transition-transform hover:-translate-y-0.5',
+  dark:  'bg-[#f8fafc] border border-[#e2e8f0] rounded-[2rem] p-6 transition-transform hover:-translate-y-0.5',
+  ghost: 'bg-white/4 border border-[#e2e8f0] rounded-[2rem] p-6',
+  gold:  'bg-[rgba(72,101,173,0.06)] border border-[rgba(72,101,173,0.2)] rounded-[2rem] p-6',
 }
 
 export default function Card({ variant = 'light', className = '', children }: Props) {

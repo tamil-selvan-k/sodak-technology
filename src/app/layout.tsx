@@ -1,19 +1,19 @@
 import type { Metadata } from 'next'
-import { Open_Sans, Instrument_Sans } from 'next/font/google'
+import { Inter, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import NavigationProgress from '@/components/ui/NavigationProgress'
 
-const openSans = Open_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-open-sans',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
   display: 'swap',
 })
 
-const instrumentSans = Instrument_Sans({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-instrument-sans',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-plus-jakarta',
   display: 'swap',
 })
 
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${openSans.variable} ${instrumentSans.variable}`}>
+    <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`}>
       <body>
         <NavigationProgress />
         {children}

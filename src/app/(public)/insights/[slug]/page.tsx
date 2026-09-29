@@ -36,7 +36,7 @@ export default async function InsightPostPage({ params }: Props) {
           <div style={{ display: 'flex', gap: 20, marginTop: 16, flexWrap: 'wrap', alignItems: 'center' }}>
             {post.author && (
               <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                <div className="avatar avatar-sm" style={{ background: 'rgba(0,160,255,0.2)', fontSize: 14 }}>
+                <div className="avatar avatar-sm" style={{ background: 'rgba(72,101,173,0.2)', fontSize: 14 }}>
                   {post.author.name.charAt(0)}
                 </div>
                 <span className="t-sm c-white">{post.author.name}</span>

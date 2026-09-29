@@ -4,12 +4,12 @@ const COLUMNS = [
   {
     title: 'Programs',
     links: [
-      { label: 'All Campus Programs',   href: '/programs' },
-      { label: 'Placement Prep',        href: '/programs' },
-      { label: 'Cloud & DevOps',        href: '/programs' },
-      { label: 'Generative AI',         href: '/programs' },
-      { label: 'Cybersecurity',         href: '/programs' },
-      { label: 'Corporate & FDP',       href: '/corporate' },
+      { label: 'All Campus Programs',  href: '/programs' },
+      { label: 'Placement Prep',       href: '/programs' },
+      { label: 'Cloud & DevOps',       href: '/programs' },
+      { label: 'Generative AI',        href: '/programs' },
+      { label: 'Cybersecurity',        href: '/programs' },
+      { label: 'Corporate & FDP',      href: '/corporate' },
     ],
   },
   {
@@ -25,21 +25,21 @@ const COLUMNS = [
   {
     title: 'Platform',
     links: [
-      { label: 'Platform Overview',  href: '/platform' },
-      { label: 'SODAK LMS ↗',        href: '#' },
-      { label: 'SODAK CTF ↗',        href: '#' },
+      { label: 'Platform Overview',   href: '/platform' },
+      { label: 'SODAK LMS ↗',         href: '#' },
+      { label: 'SODAK CTF ↗',         href: '#' },
       { label: 'Assessment Engine ↗', href: '#' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'About SODAK',       href: '/about' },
-      { label: 'Our Trainers',      href: '/trainers' },
-      { label: 'Institutions',      href: '/institutions' },
-      { label: 'Blog & Insights',   href: '/insights' },
-      { label: 'Careers',           href: '/careers' },
-      { label: 'Gallery',           href: '/gallery' },
+      { label: 'About SODAK',     href: '/about' },
+      { label: 'Our Trainers',    href: '/trainers' },
+      { label: 'Institutions',    href: '/institutions' },
+      { label: 'Blog & Insights', href: '/insights' },
+      { label: 'Careers',         href: '/careers' },
+      { label: 'Gallery',         href: '/gallery' },
     ],
   },
   {
@@ -47,48 +47,64 @@ const COLUMNS = [
     links: [
       { label: 'Chennai, Tamil Nadu 600 001', href: '#' },
       { label: '+91 89393 66259',             href: 'tel:+918939366259' },
-      { label: 'hello@sodakedutech.in',         href: 'mailto:hello@sodakedutech.in' },
-      { label: 'Chat on WhatsApp',             href: 'https://wa.me/918939366259' },
+      { label: 'hello@sodakedutech.in',       href: 'mailto:hello@sodakedutech.in' },
+      { label: 'Chat on WhatsApp',            href: 'https://wa.me/918939366259' },
     ],
   },
 ]
 
 export default function Footer() {
   return (
-    <footer style={{ background: 'linear-gradient(135deg, #092848 0%, #0d4d8a 50%, #1661ae 100%)', borderTop: '1px solid rgba(0,160,255,0.15)', paddingTop: 48 }}>
-      <div className="container pt-16">
+    <footer style={{ background: '#0f172b', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="container" style={{ paddingTop: 56 }}>
         {/* Top strip */}
-        <div className="flex items-start justify-between gap-8 pb-12 border-b border-white/[0.07] flex-wrap">
+        <div style={{
+          display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
+          gap: 32, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.07)',
+          flexWrap: 'wrap',
+        }}>
           <div style={{ maxWidth: 300 }}>
-            <div className="flex items-center gap-1 mb-4">
-              <span className="font-extrabold text-2xl text-white">SODAK</span>
-              <span className="font-extrabold text-2xl text-white/50">Technology</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 16 }}>
+              <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 22, color: '#ffffff' }}>SODAK</span>
+              <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 22, color: 'rgba(255,255,255,0.4)' }}>Technology</span>
             </div>
-            <p className="text-sm text-white/50 leading-7 mb-5">
+            <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, margin: 0 }}>
               Campus training by engineers who cleared the interviews your students are preparing for.
               Placement-first. Practice-led. Industry-backed.
             </p>
           </div>
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="text-right">
-              <p className="text-xs text-white/40 mb-1">Ready to upskill your campus?</p>
-              <p className="text-sm text-white/60">+91 89393 66259 · hello@sodakedutech.in</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+            <div style={{ textAlign: 'right' }}>
+              <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.35)', marginBottom: 4 }}>Ready to upskill your campus?</p>
+              <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>+91 89393 66259 · hello@sodakedutech.in</p>
             </div>
-            <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: 'linear-gradient(99deg,#00a0ff,#3dc8ef)' }}>
+            <Link href="/contact" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              padding: '10px 22px', borderRadius: '2.5rem',
+              background: '#4865ad', color: '#ffffff',
+              fontFamily: 'var(--font-inter), sans-serif',
+              fontSize: 13, fontWeight: 600, textDecoration: 'none',
+              whiteSpace: 'nowrap', transition: 'opacity 0.15s',
+            }}>
               Book a Program →
             </Link>
           </div>
         </div>
 
         {/* Link columns */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 py-10">
+        <div className="footer-grid">
           {COLUMNS.map(col => (
             <div key={col.title}>
-              <p className="text-xs font-bold text-white/30 uppercase tracking-widest mb-4">{col.title}</p>
-              <ul className="flex flex-col gap-2">
+              <p style={{
+                fontFamily: 'var(--font-inter), sans-serif',
+                fontSize: 10, fontWeight: 700,
+                color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase',
+                letterSpacing: '0.1em', marginBottom: 16,
+              }}>{col.title}</p>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {col.links.map(link => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-white/45 hover:text-white/80 transition-colors">
+                  <li key={link.href + link.label}>
+                    <Link href={link.href} className="footer-link">
                       {link.label}
                     </Link>
                   </li>
@@ -99,12 +115,18 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/[0.07] py-5 flex items-center justify-between flex-wrap gap-3">
-          <span className="text-xs text-white/30">© 2026 SODAK Technology Pvt. Ltd. All rights reserved.</span>
-          <div className="flex items-center gap-5 text-sm">
-            <Link href="/privacy" className="text-white/35 hover:text-white/70 transition-colors">Privacy Policy</Link>
-            <Link href="/terms"   className="text-white/35 hover:text-white/70 transition-colors">Terms of Service</Link>
-            <Link href="/admin"   className="text-[#00a0ff]/50 hover:text-[#00a0ff]/90 transition-colors">Admin ↗</Link>
+        <div style={{
+          borderTop: '1px solid rgba(255,255,255,0.07)',
+          padding: '20px 0', display: 'flex',
+          alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
+        }}>
+          <span style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.28)' }}>
+            © 2026 SODAK Technology Pvt. Ltd. All rights reserved.
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+            <Link href="/privacy" style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.32)', textDecoration: 'none', transition: 'color 0.15s' }}>Privacy Policy</Link>
+            <Link href="/terms"   style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.32)', textDecoration: 'none', transition: 'color 0.15s' }}>Terms of Service</Link>
+            <Link href="/admin"   style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(72,101,173,0.6)', textDecoration: 'none', transition: 'color 0.15s' }}>Admin ↗</Link>
           </div>
         </div>
       </div>

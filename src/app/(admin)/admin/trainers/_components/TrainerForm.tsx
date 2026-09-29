@@ -73,11 +73,11 @@ export default function TrainerForm({ trainer, stacks }: Props) {
   }
 
   const field = 'w-full px-3 py-2 text-sm rounded-lg focus:outline-none'
-  const fieldStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }
+  const fieldStyle: React.CSSProperties = { background: '#f8fafc', border: '1px solid #e2e8f0', color: '#334155' }
   const label = 'block text-xs font-semibold uppercase tracking-wide mb-1.5'
-  const labelStyle: React.CSSProperties = { color: '#94a3b8' }
-  const cardStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '24px', marginBottom: 0 }
-  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#f8fafc', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid rgba(255,255,255,0.06)' }
+  const labelStyle: React.CSSProperties = { color: '#64748b' }
+  const cardStyle: React.CSSProperties = { background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '24px', marginBottom: 0 }
+  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid #f1f5f9' }
 
   return (
     <form onSubmit={handleSubmit} className="max-w-3xl space-y-5">
@@ -151,7 +151,7 @@ export default function TrainerForm({ trainer, stacks }: Props) {
                 onChange={() => toggleStack(s.id)}
                 className="w-4 h-4 accent-[var(--gold-500)]"
               />
-              <span className="text-sm" style={{ color: '#cbd5e1' }}>{s.name}</span>
+              <span className="text-sm" style={{ color: '#334155' }}>{s.name}</span>
             </label>
           ))}
         </div>
@@ -173,11 +173,11 @@ export default function TrainerForm({ trainer, stacks }: Props) {
                 defaultChecked={f.defaultChecked}
                 className="w-4 h-4 accent-[var(--gold-500)]"
               />
-              <span className="text-sm" style={{ color: '#cbd5e1' }}>{f.label}</span>
+              <span className="text-sm" style={{ color: '#334155' }}>{f.label}</span>
             </label>
           ))}
         </div>
-        <p style={{ marginTop: 16, fontSize: 12, color: '#fbbf24', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 8, padding: '10px 14px' }}>
+        <p style={{ marginTop: 16, fontSize: 12, color: '#d97706', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 8, padding: '10px 14px' }}>
           A trainer cannot be published until <strong>Consent on file</strong> is checked.
         </p>
       </div>

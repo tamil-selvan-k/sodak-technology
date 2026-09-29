@@ -10,7 +10,7 @@ export default function Loading() {
         width: 36,
         height: 36,
         border: '3px solid #e2e8f0',
-        borderTopColor: '#c8a035',
+        borderTopColor: '#4865ad',
         borderRadius: '50%',
         animation: 'spin 0.7s linear infinite',
       }} />

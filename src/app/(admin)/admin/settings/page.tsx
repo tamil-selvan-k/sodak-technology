@@ -12,11 +12,11 @@ export default async function AdminSettingsPage() {
   const serialised = JSON.parse(JSON.stringify(settings)) as typeof settings
 
   return (
-    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: 'linear-gradient(160deg, #0a1628 0%, #0c2040 100%)' }}>
+    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: '#f8fafc' }}>
       <div style={{ marginBottom: 32 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8a035', marginBottom: 6 }}>SODAK Technology</p>
-        <h1 style={{ fontSize: 28, fontWeight: 800, color: '#fff', fontFamily: 'var(--font-instrument-sans)' }}>Site Settings</h1>
-        <p style={{ fontSize: 13, color: '#475569', marginTop: 4 }}>Manage site-wide content and configuration</p>
+        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4865ad', marginBottom: 6 }}>SODAK Technology</p>
+        <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Site Settings</h1>
+        <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Manage site-wide content and configuration</p>
       </div>
       <SettingsForm settings={serialised} />
     </main>

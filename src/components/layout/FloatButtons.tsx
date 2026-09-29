@@ -5,8 +5,7 @@ export default function FloatButtons() {
         href="https://wa.me/918939366259?text=Hi%20SODAK%20Team%2C%20I%20want%20to%20enquire%20about%20campus%20training."
         target="_blank"
         rel="noopener noreferrer"
-        className="float-btn"
-        style={{ background: '#25d366' }}
+        className="float-btn float-wa"
         title="WhatsApp us"
         aria-label="Chat on WhatsApp"
       >
@@ -14,8 +13,7 @@ export default function FloatButtons() {
       </a>
       <a
         href="tel:+918939366259"
-        className="float-btn"
-        style={{ background: 'var(--gold-500)' }}
+        className="float-btn float-tel"
         title="Call us"
         aria-label="Call SODAK Technology"
       >

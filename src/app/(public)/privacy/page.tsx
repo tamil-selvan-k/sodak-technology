@@ -37,7 +37,7 @@ export default function PrivacyPage() {
             <p>We use strictly necessary cookies for session management and analytics cookies (anonymous, aggregated). No third-party advertising cookies are used.</p>
 
             <h2>5. Your Rights</h2>
-            <p>You have the right to access, correct, or delete your personal data. To exercise these rights, email us at <a href="mailto:hello@sodakedutech.in" style={{ color: '#00a0ff' }}>hello@sodakedutech.in</a>.</p>
+            <p>You have the right to access, correct, or delete your personal data. To exercise these rights, email us at <a href="mailto:hello@sodakedutech.in" style={{ color: '#4865ad' }}>hello@sodakedutech.in</a>.</p>
 
             <h2>6. Contact</h2>
             <p>For privacy-related queries, contact SODAK Technology Pvt. Ltd., Chennai, Tamil Nadu 600 001 · hello@sodakedutech.in</p>

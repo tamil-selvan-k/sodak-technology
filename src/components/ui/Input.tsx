@@ -9,9 +9,9 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 export default function Input({ label, error, hint, dark, className = '', id, ...props }: Props) {
   const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
-  const base = `w-full px-3.5 py-2.5 rounded-md border text-sm transition-[border-color,box-shadow] outline-none
-    focus:border-[var(--gold-500)] focus:shadow-[0_0_0_3px_rgba(200,160,53,0.12)]
-    ${error ? 'border-red-500' : 'border-[var(--dm-border)]'}
+  const base = `w-full px-3.5 py-2.5 rounded-[2.5rem] border text-sm transition-[border-color] outline-none
+    focus:border-[#4865ad] focus:shadow-[0_0_0_3px_rgba(72,101,173,0.12)]
+    ${error ? 'border-red-500' : 'border-[#e2e8f0]'}
     ${dark ? 'bg-white/6 border-white/12 text-white placeholder:text-slate-600' : 'bg-white text-[var(--dm-text)] placeholder:text-slate-400'}`
 
   return (

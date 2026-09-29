@@ -38,8 +38,9 @@ export default function AdminSidebar({ email, role }: Props) {
 
   return (
     <aside className="admin-sidebar">
-      <div className="px-5 h-14 flex items-center border-b border-white/5">
-        <span className="text-base font-extrabold text-[var(--gold-500)]">SODAK Technology</span>
+      <div className="px-5 h-14 flex items-center" style={{ borderBottom: '1px solid #e2e8f0' }}>
+        <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#0f172a' }}>SODAK</span>
+        <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#4865ad', marginLeft: 3 }}>Admin</span>
       </div>
       <nav className="py-4">
         {NAV.map(item => (
@@ -56,9 +57,9 @@ export default function AdminSidebar({ email, role }: Props) {
           </span>
         ))}
       </nav>
-      <div className="mt-auto px-4 py-3 border-t border-white/5">
-        <p className="text-xs text-slate-500 truncate">{email}</p>
-        <p className="text-[11px] text-slate-600 mt-0.5">{role}</p>
+      <div className="mt-auto px-4 py-3" style={{ borderTop: '1px solid #e2e8f0' }}>
+        <p style={{ fontSize: 12, color: '#334155', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>
+        <p style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{role}</p>
       </div>
     </aside>
   )

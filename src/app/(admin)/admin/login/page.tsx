@@ -24,20 +24,21 @@ export default function AdminLoginPage() {
   const inputStyle: React.CSSProperties = {
     width: '100%',
     padding: '10px 14px',
-    background: 'rgba(255,255,255,0.06)',
-    border: '1px solid rgba(255,255,255,0.12)',
-    borderRadius: 8,
-    color: '#e2e8f0',
+    background: '#ffffff',
+    border: '1px solid #e2e8f0',
+    borderRadius: 10,
+    color: '#0f172a',
     fontSize: 13,
     outline: 'none',
     boxSizing: 'border-box',
+    transition: 'border-color 0.15s',
   }
 
   const labelStyle: React.CSSProperties = {
     display: 'block',
     fontSize: 12,
     fontWeight: 600,
-    color: '#94a3b8',
+    color: '#64748b',
     marginBottom: 6,
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
@@ -46,7 +47,7 @@ export default function AdminLoginPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(160deg, #0a1628 0%, #0c2040 100%)',
+      background: '#f8fafc',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -55,18 +56,20 @@ export default function AdminLoginPage() {
       <div style={{
         width: '100%',
         maxWidth: 400,
-        background: 'rgba(255,255,255,0.05)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: 20,
+        background: '#ffffff',
+        border: '1px solid #e2e8f0',
+        borderRadius: 24,
         padding: '48px 40px',
+        boxShadow: '0 4px 24px rgba(15,23,42,0.06)',
       }}>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8a035', marginBottom: 8 }}>
-          SODAK Technology
-        </p>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#fff', fontFamily: 'var(--font-instrument-sans)', marginBottom: 6 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 8 }}>
+          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 18, color: '#0f172a' }}>SODAK</span>
+          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 18, color: '#4865ad' }}>Technology</span>
+        </div>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif', marginBottom: 6 }}>
           Admin Login
         </h1>
-        <p style={{ fontSize: 13, color: '#475569', marginBottom: 32 }}>
+        <p style={{ fontSize: 13, color: '#64748b', marginBottom: 32 }}>
           Sign in to access the admin panel.
         </p>
 
@@ -100,7 +103,7 @@ export default function AdminLoginPage() {
           </div>
 
           {error && (
-            <p style={{ fontSize: 13, color: '#f87171', background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', borderRadius: 8, padding: '10px 14px' }}>
+            <p style={{ fontSize: 13, color: '#dc2626', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: '10px 14px' }}>
               {error}
             </p>
           )}
@@ -113,12 +116,12 @@ export default function AdminLoginPage() {
               padding: '11px 0',
               fontSize: 14,
               fontWeight: 700,
-              background: loading ? 'rgba(200,160,53,0.6)' : '#c8a035',
-              color: '#0a0f1e',
-              borderRadius: 8,
+              background: loading ? 'rgba(72,101,173,0.6)' : '#4865ad',
+              color: '#ffffff',
+              borderRadius: '2rem',
               border: 'none',
               cursor: loading ? 'not-allowed' : 'pointer',
-              transition: 'background 0.15s',
+              transition: 'opacity 0.15s',
               marginTop: 4,
             }}
           >

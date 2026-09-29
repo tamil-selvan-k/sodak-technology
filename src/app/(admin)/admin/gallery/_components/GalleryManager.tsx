@@ -30,10 +30,10 @@ interface Props {
   institutionFilter?: string
 }
 
-const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(96,165,250,0.25)] bg-[rgba(96,165,250,0.08)] text-[#60a5fa] hover:bg-[rgba(96,165,250,0.14)] transition-colors'
-const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(74,222,128,0.25)] bg-[rgba(74,222,128,0.08)] text-[#4ade80] hover:bg-[rgba(74,222,128,0.14)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
-const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(248,113,113,0.25)] bg-[rgba(248,113,113,0.08)] text-[#f87171] hover:bg-[rgba(248,113,113,0.14)] transition-colors'
-const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.06)] text-[#94a3b8] hover:bg-[rgba(255,255,255,0.1)] transition-colors'
+const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#dbeafe] bg-[#eff6ff] text-[#2563eb] hover:bg-[#dbeafe] transition-colors'
+const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#bbf7d0] bg-[#f0fdf4] text-[#16a34a] hover:bg-[#bbf7d0] transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
+const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#fecaca] bg-[#fef2f2] text-[#dc2626] hover:bg-[#fecaca] transition-colors'
+const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#f1f5f9] bg-[#f8fafc] text-[#64748b] hover:bg-[#f8fafc] transition-colors'
 
 function canPublish(p: Photo) {
   if (!p.altText) return false
@@ -172,18 +172,18 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
       {/* Upload + Filter bar */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 16, marginBottom: 24, alignItems: 'start' }}>
         {/* Upload area */}
-        <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-          <p style={{ fontSize: 14, fontWeight: 600, color: '#f8fafc', marginBottom: 12 }}>Bulk Upload Photos (max 20)</p>
+        <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: 20 }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 12 }}>Bulk Upload Photos (max 20)</p>
           {uploadProgress && (
             <div style={{ marginBottom: 10 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#94a3b8', marginBottom: 4 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#64748b', marginBottom: 4 }}>
                 <span>Uploading…</span>
                 <span>{uploadProgress.done} / {uploadProgress.total}</span>
               </div>
               <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
                 <div
                   style={{
-                    height: '100%', background: '#c8a035', borderRadius: 3,
+                    height: '100%', background: '#4865ad', borderRadius: 3,
                     width: `${Math.round((uploadProgress.done / uploadProgress.total) * 100)}%`,
                     transition: 'width 0.2s',
                   }}
@@ -197,11 +197,11 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
             </div>
           )}
           <div
-            style={{ border: '2px dashed rgba(255,255,255,0.2)', borderRadius: 10, padding: '32px 24px', textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.03)' }}
+            style={{ border: '2px dashed rgba(255,255,255,0.2)', borderRadius: 10, padding: '32px 24px', textAlign: 'center', cursor: 'pointer', background: '#ffffff' }}
             onClick={() => inputRef.current?.click()}
             onDragOver={e => e.preventDefault()}
             onDrop={e => { e.preventDefault(); void handleUpload(e.dataTransfer.files) }}
-            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#c8a035' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#4865ad' }}
             onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.2)' }}
           >
             <input
@@ -213,8 +213,8 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
               onChange={e => void handleUpload(e.target.files)}
             />
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M9 3L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2h-3.17L15 3H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3z"/></svg></div>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#e2e8f0', marginBottom: 4 }}>Drop photos or click to browse</p>
-            <p style={{ fontSize: 12, color: '#94a3b8' }}>JPG, PNG, WEBP — up to 20 files, 10 MB each</p>
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 4 }}>Drop photos or click to browse</p>
+            <p style={{ fontSize: 12, color: '#64748b' }}>JPG, PNG, WEBP — up to 20 files, 10 MB each</p>
           </div>
         </div>
 
@@ -223,7 +223,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
           <select
             value={institutionFilter ?? ''}
             onChange={e => changeInstitution(e.target.value)}
-            style={{ padding: '8px 12px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 6, fontSize: 13, color: '#e2e8f0', background: 'rgba(255,255,255,0.06)' }}
+            style={{ padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: 6, fontSize: 13, color: '#334155', background: '#f8fafc' }}
           >
             <option value="">All Institutions</option>
             {institutions.map(i => (
@@ -235,7 +235,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
               onClick={() => void bulkPublish()}
               style={{
                 padding: '8px 12px', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: 'pointer',
-                background: '#c8a035', color: '#0a0f1e', border: 'none',
+                background: '#4865ad', color: '#ffffff', border: 'none',
               }}
             >
               Publish {selected.size} selected
@@ -246,9 +246,9 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
 
       {/* Photo grid */}
       <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', background: 'rgba(255,255,255,0.03)', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0' }}>
           <thead>
-            <tr style={{ background: 'rgba(255,255,255,0.06)' }}>
+            <tr style={{ background: '#f8fafc' }}>
               <th style={{ padding: '10px 14px', textAlign: 'center', width: 40 }}>
                 <input
                   type="checkbox"
@@ -257,21 +257,21 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
                 />
               </th>
               {['Photo','Alt Text','Category','Flags','Status','Actions'].map(h => (
-                <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8' }}>{h}</th>
+                <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b' }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {photos.length === 0 && (
               <tr>
-                <td colSpan={7} style={{ padding: '40px 14px', textAlign: 'center', fontSize: 13, color: '#94a3b8' }}>
+                <td colSpan={7} style={{ padding: '40px 14px', textAlign: 'center', fontSize: 13, color: '#64748b' }}>
                   No photos yet. Upload some using the area above.
                 </td>
               </tr>
             )}
             {photos.map(p => (
-              <tr key={p.id} style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
-                onMouseEnter={e => (e.currentTarget as HTMLTableRowElement).style.background = 'rgba(255,255,255,0.04)'}
+              <tr key={p.id} style={{ borderTop: '1px solid #f1f5f9' }}
+                onMouseEnter={e => (e.currentTarget as HTMLTableRowElement).style.background = '#f8fafc'}
                 onMouseLeave={e => (e.currentTarget as HTMLTableRowElement).style.background = ''}
               >
                 <td style={{ padding: '11px 14px', textAlign: 'center' }}>
@@ -288,8 +288,8 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
                         type="text"
                         value={editAlt[p.id]}
                         onChange={e => setEditAlt(prev => ({ ...prev, [p.id]: e.target.value }))}
-                        style={{ flex: 1, padding: '5px 8px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 5, fontSize: 12, color: '#e2e8f0', background: 'rgba(255,255,255,0.06)' }}
-                        onFocus={e => (e.target.style.borderColor = '#c8a035')}
+                        style={{ flex: 1, padding: '5px 8px', border: '1px solid #e2e8f0', borderRadius: 5, fontSize: 12, color: '#334155', background: '#f8fafc' }}
+                        onFocus={e => (e.target.style.borderColor = '#4865ad')}
                         onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.12)')}
                       />
                       <button onClick={() => void handleSaveAlt(p.id)} className={btnPublish}>Save</button>
@@ -308,7 +308,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
                     </div>
                   )}
                 </td>
-                <td style={{ padding: '11px 14px', fontSize: 12, color: '#94a3b8' }}>
+                <td style={{ padding: '11px 14px', fontSize: 12, color: '#64748b' }}>
                   {p.title ?? (p.tags.length > 0 ? p.tags.join(', ') : '—')}
                 </td>
                 <td style={{ padding: '11px 14px' }}>
@@ -319,12 +319,12 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
                       </span>
                     )}
                     {p.hasStudentFaces && !p.studentConsentRef && (
-                      <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: 'rgba(251,191,36,0.12)', color: '#fbbf24', border: '1px solid rgba(251,191,36,0.25)' }}>
+                      <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: 'rgba(251,191,36,0.12)', color: '#d97706', border: '1px solid rgba(251,191,36,0.25)' }}>
                         No Consent Ref
                       </span>
                     )}
                     {!p.altText && (
-                      <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: 'rgba(251,191,36,0.12)', color: '#fbbf24', border: '1px solid rgba(251,191,36,0.25)' }}>
+                      <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: 'rgba(251,191,36,0.12)', color: '#d97706', border: '1px solid rgba(251,191,36,0.25)' }}>
                         No Alt Text
                       </span>
                     )}
@@ -366,7 +366,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
 
       {/* Pagination */}
       {pages > 1 && (
-        <div style={{ marginTop: 16, padding: '10px 14px', fontSize: 12, color: '#94a3b8' }}>
+        <div style={{ marginTop: 16, padding: '10px 14px', fontSize: 12, color: '#64748b' }}>
           Page {page} of {pages} — {total} photos
         </div>
       )}

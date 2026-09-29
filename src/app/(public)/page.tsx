@@ -119,7 +119,7 @@ export default async function HomePage() {
               {trainers.map(t => (
                 <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-dark" style={{ textAlign: 'center', padding: '28px 20px' }}>
-                    <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', fontSize: 28, background: 'rgba(0,160,255,0.15)' }}>
+                    <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', fontSize: 28, background: 'rgba(72,101,173,0.15)' }}>
                       {t.name.charAt(0)}
                     </div>
                     <p className="t-card c-white" style={{ marginBottom: 4 }}>{t.name}</p>
@@ -237,7 +237,7 @@ export default async function HomePage() {
             &ldquo;SODAK Technology&apos;s placement training changed my life. Three months after the bootcamp I got placed at Infosys — the mock interviews here were harder than the real thing!&rdquo;
           </blockquote>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
-            <div className="avatar avatar-md" style={{ background: 'rgba(0,160,255,0.2)', fontSize: 18 }}>S</div>
+            <div className="avatar avatar-md" style={{ background: 'rgba(72,101,173,0.2)', fontSize: 18 }}>S</div>
             <div style={{ textAlign: 'left' }}>
               <p className="t-sm c-white fw-600">Sivapriya N.</p>
               <p className="t-micro c-muted">Placed at Infosys · SRM Institute of Technology</p>
@@ -267,7 +267,7 @@ export default async function HomePage() {
                   <div style={{ display: 'flex', marginBottom: 14 }}>{p.icon}</div>
                   <p className="t-h3 c-heading" style={{ marginBottom: 8 }}>{p.title}</p>
                   <p className="t-sm c-body">{p.desc}</p>
-                  <p className="t-sm" style={{ color: '#00a0ff', marginTop: 14 }}>Learn more →</p>
+                  <p className="t-sm" style={{ color: '#4865ad', marginTop: 14 }}>Learn more →</p>
                 </div>
               </Link>
             ))}

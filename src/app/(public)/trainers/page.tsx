@@ -50,13 +50,13 @@ export default async function TrainersPage() {
               {trainers.map(t => (
                 <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-dark" style={{ padding: '28px 20px', textAlign: 'center', height: '100%' }}>
-                    <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', background: 'rgba(0,160,255,0.15)', fontSize: 26 }}>
+                    <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', background: 'rgba(72,101,173,0.15)', fontSize: 26 }}>
                       {t.name.charAt(0)}
                     </div>
                     <p className="t-card c-white" style={{ marginBottom: 4 }}>{t.name}</p>
                     <p className="t-sm c-muted">{t.designation}</p>
                     {t.currentCompany && (
-                      <p className="t-micro" style={{ color: '#00a0ff', marginTop: 6 }}>{t.currentCompany}</p>
+                      <p className="t-micro" style={{ color: '#4865ad', marginTop: 6 }}>{t.currentCompany}</p>
                     )}
                     {t.yearsExperience && (
                       <p className="t-micro c-muted" style={{ marginTop: 4 }}>{t.yearsExperience}+ years exp</p>

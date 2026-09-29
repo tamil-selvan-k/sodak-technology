@@ -115,12 +115,12 @@ export default async function AboutPage() {
               {trainers.slice(0, 8).map((t: { id: string; name: string; slug: string; designation: string | null; currentCompany: string | null }) => (
                 <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-dark" style={{ textAlign: 'center', padding: '24px 16px' }}>
-                    <div className="avatar avatar-lg" style={{ margin: '0 auto 12px', background: 'rgba(0,160,255,0.15)', fontSize: 24 }}>
+                    <div className="avatar avatar-lg" style={{ margin: '0 auto 12px', background: 'rgba(72,101,173,0.15)', fontSize: 24 }}>
                       {t.name.charAt(0)}
                     </div>
                     <p className="t-sm c-white fw-600">{t.name}</p>
                     <p className="t-micro c-muted" style={{ marginTop: 4 }}>{t.designation}</p>
-                    {t.currentCompany && <p className="t-micro" style={{ color: '#00a0ff', marginTop: 4 }}>{t.currentCompany}</p>}
+                    {t.currentCompany && <p className="t-micro" style={{ color: '#4865ad', marginTop: 4 }}>{t.currentCompany}</p>}
                   </div>
                 </Link>
               ))}
