@@ -51,9 +51,14 @@ export async function POST(req: Request) {
     }
   } else if (action === 'unpublish') {
     for (const id of ids) {
-      await unpublishPhoto(id)
-      await writeAuditLog({ actorId: session.user.id, action: 'UNPUBLISH', entityType: 'photo', entityId: id })
-      results.push({ id, ok: true })
+      try {
+        await unpublishPhoto(id)
+        await writeAuditLog({ actorId: session.user.id, action: 'UNPUBLISH', entityType: 'photo', entityId: id })
+        results.push({ id, ok: true })
+      } catch (err) {
+        results.push({ id, ok: false, error: (err as Error).message })
+        console.error('[bulk-unpublish] failed for', id, err)
+      }
     }
   } else {
     // soft delete

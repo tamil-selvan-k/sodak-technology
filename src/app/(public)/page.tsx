@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import HeroCarousel from '@/components/ui/HeroCarousel'
 import { listTrainers } from '@/modules/trainers/trainers.service'
 import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
@@ -40,11 +41,7 @@ export default async function HomePage() {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: 48, alignItems: 'center' }}>
             <div>
-              <div className="badge badge-gold" style={{ marginBottom: 20, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
-                Chennai&apos;s Top Campus Placement Trainers
-              </div>
-              <h1 className="t-hero c-white" style={{ marginBottom: 20 }}>
+<h1 className="t-hero c-white" style={{ marginBottom: 20 }}>
                 {settings?.heroHeadline ?? 'Launch Your Tech Career'}
               </h1>
               <p className="t-lg c-muted" style={{ marginBottom: 32, maxWidth: 520 }}>
@@ -60,17 +57,8 @@ export default async function HomePage() {
                 <span className="t-sm c-muted">✓ Placement guarantee*</span>
               </div>
             </div>
-            <div className="hero-img-box" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <div className="card-dark card" style={{ padding: '20px 24px', textAlign: 'center' }}>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}><svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg></div>
-                <p className="t-card c-white">Campus Training</p>
-                <p className="t-sm c-muted">Delivered on-site at your institution</p>
-              </div>
-              <div className="card-dark card" style={{ padding: '20px 24px', textAlign: 'center' }}>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}><svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 3.15 16.85 2 15.5 2h-7C7.15 2 6 3.15 6 4.64c0 .48.11.92.18 1.36H4c-1.1 0-1.99.9-1.99 2L2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5 0H9V4.64c0-.35.29-.64.64-.64h4.72c.35 0 .64.29.64.64V6z"/></svg></div>
-                <p className="t-card c-white">Placement Ready</p>
-                <p className="t-sm c-muted">Mock interviews + resume workshops</p>
-              </div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <HeroCarousel />
             </div>
           </div>
 
@@ -256,17 +244,17 @@ export default async function HomePage() {
               Our proprietary tools are designed to assess, practice, and certify students for industry roles.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 40, maxWidth: 900, margin: '40px auto 0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 40, maxWidth: 900, margin: '40px auto 0', alignItems: 'stretch' }}>
             {[
               { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>, title:'SODAK LMS', desc:'Structured learning paths with video lessons, quizzes, and progress tracking.', href:'/platform/lms' },
               { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>, title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },
               { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>, title:'Assessment Engine', desc:'AI-proctored aptitude and coding tests mirroring company formats.', href:'/platform/assessments' },
             ].map(p => (
-              <Link key={p.title} href={p.href} style={{ textDecoration: 'none' }}>
-                <div className="card card-light">
+              <Link key={p.title} href={p.href} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+                <div className="card card-light" style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                   <div style={{ display: 'flex', marginBottom: 14 }}>{p.icon}</div>
                   <p className="t-h3 c-heading" style={{ marginBottom: 8 }}>{p.title}</p>
-                  <p className="t-sm c-body">{p.desc}</p>
+                  <div style={{ flex: 1 }}><p className="t-sm c-body">{p.desc}</p></div>
                   <p className="t-sm" style={{ color: '#4865ad', marginTop: 14 }}>Learn more →</p>
                 </div>
               </Link>
@@ -287,7 +275,7 @@ export default async function HomePage() {
               <div key={i} className="review-card">
                 <div className="review-stars">{'★'.repeat(r.stars)}</div>
                 <p className="t-sm c-muted" style={{ margin: '10px 0 12px' }}>&ldquo;{r.text}&rdquo;</p>
-                <p className="t-sm c-white fw-600">{r.name}</p>
+                <p className="t-sm c-heading fw-600">{r.name}</p>
                 <p className="t-micro c-muted">{r.college}</p>
               </div>
             ))}
@@ -299,7 +287,7 @@ export default async function HomePage() {
               <div key={i} className="review-card">
                 <div className="review-stars">{'★'.repeat(r.stars)}</div>
                 <p className="t-sm c-muted" style={{ margin: '10px 0 12px' }}>&ldquo;{r.text}&rdquo;</p>
-                <p className="t-sm c-white fw-600">{r.name}</p>
+                <p className="t-sm c-heading fw-600">{r.name}</p>
                 <p className="t-micro c-muted">{r.college}</p>
               </div>
             ))}

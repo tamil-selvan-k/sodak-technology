@@ -38,7 +38,11 @@ export default function AdminSidebar({ email, role }: Props) {
 
   return (
     <aside className="admin-sidebar">
-      <div className="px-5 h-14 flex items-center" style={{ borderBottom: '1px solid #e2e8f0' }}>
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 10,
+        background: '#ffffff', borderBottom: '1px solid #e2e8f0',
+        padding: '0 20px', height: 56, display: 'flex', alignItems: 'center', flexShrink: 0,
+      }}>
         <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#0f172a' }}>SODAK</span>
         <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#4865ad', marginLeft: 3 }}>Admin</span>
       </div>

@@ -34,7 +34,7 @@ export async function updatePhoto(id: string, input: UpdatePhotoInput) {
 }
 
 export async function publishPhoto(id: string) {
-  const photo = await db.photo.findUniqueOrThrow({ where: { id } })
+  const photo = await db.photo.findFirstOrThrow({ where: { id, deletedAt: null } })
   if (!photo.altText) throw new AltTextError('alt_text is required before publishing a photo.')
   if (photo.hasStudentFaces && !photo.studentConsentRef) {
     throw new ConsentError('student_consent_ref is required when has_student_faces is true.')

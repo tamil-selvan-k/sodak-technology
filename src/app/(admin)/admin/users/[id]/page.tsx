@@ -62,7 +62,7 @@ export default function EditUserPage() {
       setError(json.error?.message ?? 'Save failed.')
     } else {
       setSuccess(true)
-      startTransition(() => setTimeout(() => router.push('/admin/users'), 800))
+      setTimeout(() => startTransition(() => router.push('/admin/users')), 800)
     }
     setSaving(false)
   }

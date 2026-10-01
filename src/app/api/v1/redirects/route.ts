@@ -5,9 +5,9 @@ import { z } from 'zod'
 import { writeAuditLog } from '@/lib/audit'
 
 const redirectSchema = z.object({
-  source: z.string().startsWith('/'),
-  destination: z.string(),
-  permanent: z.boolean().default(false),
+  source:      z.string().startsWith('/'),
+  destination: z.string().regex(/^\//, 'Destination must be a relative path starting with /'),
+  isPermanent: z.boolean().default(false),
 })
 
 export async function GET() {

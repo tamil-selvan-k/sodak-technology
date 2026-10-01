@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { listJobs } from '@/modules/careers/careers.service'
+import PublicPagination from '@/components/ui/PublicPagination'
 
 export const revalidate = 60
 export const metadata: Metadata = {
@@ -8,8 +9,11 @@ export const metadata: Metadata = {
   description: 'Join the SODAK team — open positions in training, technology, and business development.',
 }
 
-export default async function CareersPage() {
-  const { data: jobs } = await listJobs({ perPage: 30 }).catch(() => ({ data: [] }))
+interface Props { searchParams: { page?: string } }
+
+export default async function CareersPage({ searchParams }: Props) {
+  const page = Math.max(1, Number(searchParams.page ?? 1))
+  const { data: jobs, pagination } = await listJobs({ page, perPage: 20 }).catch(() => ({ data: [], pagination: { total: 0, page: 1, perPage: 20, pages: 0 } }))
 
   return (
     <>
@@ -88,6 +92,9 @@ export default async function CareersPage() {
                 </Link>
               ))}
             </div>
+          )}
+          {jobs.length > 0 && (
+            <PublicPagination page={pagination.page} pages={pagination.pages} total={pagination.total} basePath="/careers" />
           )}
         </div>
       </section>

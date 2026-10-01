@@ -61,7 +61,7 @@ export async function updateTrainer(id: string, input: UpdateTrainerInput) {
   const { stackIds, ...data } = input
 
   return db.trainer.update({
-    where: { id },
+    where: { id, deletedAt: null },
     data: {
       ...data,
       ...(data.name && { slug: slugify(data.name) }),
@@ -77,7 +77,7 @@ export async function updateTrainer(id: string, input: UpdateTrainerInput) {
 }
 
 export async function publishTrainer(id: string) {
-  const trainer = await db.trainer.findUniqueOrThrow({ where: { id } })
+  const trainer = await db.trainer.findFirstOrThrow({ where: { id, deletedAt: null } })
 
   if (!trainer.consentOnFile) {
     throw new ConsentError('Trainer consent_on_file must be true before publishing.')

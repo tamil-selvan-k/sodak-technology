@@ -8,7 +8,9 @@ import type { CreateLeadInput, LeadFilters } from './leads.types'
 export async function createLead(input: CreateLeadInput) {
   const lead = await db.lead.create({ data: input })
 
-  await Promise.all([
+  // Fire-and-forget: email failure must not reject createLead or the caller
+  // will 500, the user retries, and a duplicate lead is inserted.
+  Promise.all([
     sendEmail({
       to: process.env.NOTIFICATION_EMAIL!,
       template: 'lead-notification',
@@ -19,7 +21,7 @@ export async function createLead(input: CreateLeadInput) {
       template: 'lead-acknowledgement',
       data: { name: lead.name },
     }),
-  ])
+  ]).catch(err => console.error('[email] lead notification failed:', err))
 
   return lead
 }

@@ -1,12 +1,16 @@
 import Link from 'next/link'
 import { listTrainers } from '@/modules/trainers/trainers.service'
+import PublicPagination from '@/components/ui/PublicPagination'
 
 export const revalidate = 60
 
 const TRUST = ['TCS','Infosys','Wipro','HCL','Cognizant','Accenture','IBM','Capgemini','Zoho','Freshworks']
 
-export default async function TrainersPage() {
-  const { data: trainers } = await listTrainers({ isMentor: false, perPage: 50 }).catch(() => ({ data: [] }))
+interface Props { searchParams: { page?: string } }
+
+export default async function TrainersPage({ searchParams }: Props) {
+  const page = Math.max(1, Number(searchParams.page ?? 1))
+  const { data: trainers, pagination } = await listTrainers({ isMentor: false, page, perPage: 20 }).catch(() => ({ data: [], pagination: { total: 0, page: 1, perPage: 20, pages: 0 } }))
 
   return (
     <>
@@ -71,6 +75,7 @@ export default async function TrainersPage() {
               ))}
             </div>
           )}
+          <PublicPagination page={pagination.page} pages={pagination.pages} total={pagination.total} basePath="/trainers" />
         </div>
       </section>
 

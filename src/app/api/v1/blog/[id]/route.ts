@@ -15,6 +15,16 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (!session || !hasRole(session, 'contributor')) {
     return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
   }
+
+  // Contributors may only edit their own posts; editors and above can edit any post.
+  if (session.user.role === 'contributor') {
+    const existing = await getPostById(params.id)
+    if (!existing) return NextResponse.json({ error: { code: 'NOT_FOUND', message: 'Post not found' } }, { status: 404 })
+    if (existing.authorId !== session.user.id) {
+      return NextResponse.json({ error: { code: 'FORBIDDEN', message: 'You can only edit your own posts.' } }, { status: 403 })
+    }
+  }
+
   const body = await req.json()
   const parsed = updatePostSchema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })

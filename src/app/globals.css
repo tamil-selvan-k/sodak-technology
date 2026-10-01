@@ -431,7 +431,8 @@ section.s-lg { padding: 88px 0; }
 }
 
 /* ── Admin layout ── */
-.admin-sidebar { width: 220px; min-height: 100vh; background: #ffffff; border-right: 1px solid #e2e8f0; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.admin-sidebar { width: 220px; min-height: 100vh; background: #ffffff; border-right: 1px solid #e2e8f0; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; scrollbar-width: none; }
+.admin-sidebar::-webkit-scrollbar { display: none; }
 .admin-nav-item { display: flex; align-items: center; padding: 0 20px; height: 40px; font-size: 13px; color: #64748b; border-left: 3px solid transparent; transition: background 0.15s, color 0.15s; text-decoration: none; }
 .admin-nav-item:hover { background: rgba(72,101,173,0.05); color: #4865ad; }
 .admin-nav-item.active { background: rgba(72,101,173,0.08); color: #4865ad; border-left-color: #4865ad; font-weight: 600; }

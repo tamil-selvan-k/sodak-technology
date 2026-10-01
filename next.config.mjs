@@ -17,7 +17,7 @@ async function getRedirects() {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Prevent webpack from bundling native .node binaries — covers main pkg + all platform-specific sub-packages
-  serverExternalPackages: ['@node-rs/argon2'],
+  serverExternalPackages: ['@node-rs/argon2', 'sharp'],
   webpack(config, { isServer }) {
     if (isServer) {
       // Externalize all @node-rs/argon2 platform variants (win32, linux, darwin) via regex
@@ -31,10 +31,12 @@ const nextConfig = {
       ...(process.env.AWS_CLOUDFRONT_DOMAIN
         ? [{ protocol: 'https', hostname: process.env.AWS_CLOUDFRONT_DOMAIN }]
         : []),
-      {
-        protocol: 'https',
-        hostname: `${process.env.AWS_S3_BUCKET ?? ''}.s3.${process.env.AWS_REGION ?? 'ap-south-1'}.amazonaws.com`,
-      },
+      ...(process.env.AWS_S3_BUCKET
+        ? [{
+            protocol: 'https',
+            hostname: `${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION ?? 'ap-south-1'}.amazonaws.com`,
+          }]
+        : []),
     ],
   },
   async redirects() {

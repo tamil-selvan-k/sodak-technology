@@ -14,8 +14,6 @@ build/
 .env.local
 .env.*.local
 
-# prisma
-prisma/migrations/*.sql
 
 # OS
 .DS_Store

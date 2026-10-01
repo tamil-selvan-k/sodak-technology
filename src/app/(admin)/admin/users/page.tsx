@@ -1,31 +1,32 @@
+import { Suspense } from 'react'
 import { auth, hasRole } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
+import { parsePagination, buildMeta } from '@/lib/paginate'
 import UsersTable from './_components/UsersTable'
+import Pagination from '@/components/ui/Pagination'
 
 export const metadata = { title: 'Users — SODAK Admin' }
 
-export default async function AdminUsersPage() {
+interface Props { searchParams: { page?: string } }
+
+export default async function AdminUsersPage({ searchParams }: Props) {
   const session = await auth()
   if (!session || !hasRole(session, 'super_admin')) redirect('/admin')
 
-  const users = await db.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      isActive: true,
-      createdAt: true,
-    },
-    orderBy: { createdAt: 'desc' },
-  })
+  const { skip, take, page, perPage } = parsePagination({ page: searchParams.page ? Number(searchParams.page) : 1 })
+  const SELECT = { id: true, name: true, email: true, role: true, isActive: true, createdAt: true } as const
 
+  const [users, totalUsers] = await Promise.all([
+    db.user.findMany({ select: SELECT, orderBy: { createdAt: 'desc' }, skip, take }),
+    db.user.count(),
+  ])
+
+  const pagination = buildMeta(totalUsers, page, perPage)
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
 
-  const totalUsers = users.length
   const activeUsers = users.filter(u => u.isActive).length
-  const adminUsers = users.filter(u => u.role === 'super_admin').length
+  const adminUsers  = users.filter(u => u.role === 'super_admin').length
   const recentUsers = users.filter(u => u.createdAt >= thirtyDaysAgo).length
 
   const serialised = users.map(u => ({
@@ -47,7 +48,7 @@ export default async function AdminUsersPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'Total Users',  value: totalUsers },
+          { label: 'Total Users',  value: pagination.total },
           { label: 'Active',       value: activeUsers },
           { label: 'Super Admins', value: adminUsers },
           { label: 'Last 30 Days', value: recentUsers },
@@ -61,6 +62,9 @@ export default async function AdminUsersPage() {
 
       <p style={{ fontSize: 12, color: '#64748b', marginBottom: 16 }}>Visible to super_admin only</p>
       <UsersTable users={serialised} />
+      <Suspense fallback={null}>
+        <Pagination total={pagination.total} page={pagination.page} perPage={pagination.perPage} pages={pagination.pages} />
+      </Suspense>
     </main>
   )
 }

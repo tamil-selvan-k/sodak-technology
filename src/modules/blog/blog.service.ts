@@ -52,7 +52,7 @@ export async function createPost(input: CreatePostInput) {
 
 export async function updatePost(id: string, input: UpdatePostInput) {
   return db.blogPost.update({
-    where: { id },
+    where: { id, deletedAt: null },
     data: { ...input, ...(input.title && { slug: slugify(input.title) }) },
     include: WITH_AUTHOR,
   })

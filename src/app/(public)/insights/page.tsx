@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { listPosts } from '@/modules/blog/blog.service'
+import PublicPagination from '@/components/ui/PublicPagination'
 
 export const revalidate = 60
 export const metadata: Metadata = {
@@ -8,8 +9,11 @@ export const metadata: Metadata = {
   description: 'Placement tips, technical tutorials, and career advice from SODAK trainers.',
 }
 
-export default async function InsightsPage() {
-  const { data: posts } = await listPosts({ status: 'published', perPage: 30 }).catch(() => ({ data: [] }))
+interface Props { searchParams: { page?: string } }
+
+export default async function InsightsPage({ searchParams }: Props) {
+  const page = Math.max(1, Number(searchParams.page ?? 1))
+  const { data: posts, pagination } = await listPosts({ status: 'published', page, perPage: 12 }).catch(() => ({ data: [], pagination: { total: 0, page: 1, perPage: 12, pages: 0 } }))
 
   return (
     <>
@@ -57,6 +61,7 @@ export default async function InsightsPage() {
               ))}
             </div>
           )}
+          <PublicPagination page={pagination.page} pages={pagination.pages} total={pagination.total} basePath="/insights" />
         </div>
       </section>
     </>

@@ -4,6 +4,10 @@ import * as settingsService from '@/modules/settings/settings.service'
 import { updateSettingsSchema } from '@/modules/settings/settings.schema'
 
 export async function GET() {
+  const session = await auth()
+  if (!session) {
+    return NextResponse.json({ error: { code: 'UNAUTHORIZED', message: 'Unauthorized.' } }, { status: 401 })
+  }
   const settings = await settingsService.getSettings()
   return NextResponse.json({ data: settings })
 }
