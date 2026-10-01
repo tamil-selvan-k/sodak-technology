@@ -1,6 +1,5 @@
 {
   "framework": "nextjs",
   "buildCommand": "prisma generate && prisma migrate deploy && next build",
-  "installCommand": "pnpm install --frozen-lockfile",
-  "nodeVersion": "20.x"
+  "installCommand": "pnpm install --frozen-lockfile"
 }
