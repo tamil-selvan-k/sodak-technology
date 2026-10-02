@@ -1,8 +1,10 @@
 import Link from 'next/link'
-import HeroCarousel from '@/components/ui/HeroCarousel'
+import dynamic from 'next/dynamic'
+const HeroCarousel = dynamic(() => import('@/components/ui/HeroCarousel'), { ssr: false })
 import { listTrainers } from '@/modules/trainers/trainers.service'
 import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
+import { listInstitutionNames } from '@/modules/institutions/institutions.service'
 import StatCounter from '@/components/ui/StatCounter'
 
 const COMPANIES = [
@@ -19,20 +21,44 @@ const REVIEWS = [
   { name: 'Rahul G.', college: 'KCG College', text: 'Excellent trainers. The hands-on labs made all the difference during the placement drive.', stars: 5 },
 ]
 
-const TRUST_BADGES = ['Anna University','IIT Madras','VIT','SRM','PSG Tech','Sathyabama','Saveetha','KCG College','Rajalakshmi','JEPPIAAR']
+// Fallback list: confirmed SODAK partners first, then well-known TN engineering colleges.
+// Replaced once the DB has published institutions with showOnHome = true.
+const FALLBACK_INSTITUTIONS = [
+  'St. Joseph\'s College of Engineering',
+  'Sathyabama Institute of Science and Technology',
+  'Anna University',
+  'SRM Institute of Science and Technology',
+  'VIT Chennai',
+  'Saveetha Engineering College',
+  'Rajalakshmi Engineering College',
+  'Panimalar Engineering College',
+  'Easwari Engineering College',
+  'Sri Venkateswara College of Engineering',
+  'Hindustan Institute of Technology',
+  'KCG College of Technology',
+  'Jeppiaar Engineering College',
+  'Vel Tech University',
+]
 
 export const revalidate = 60
 
 export default async function HomePage() {
-  const [trainersResult, stacksResult, settings] = await Promise.all([
+  const [trainersResult, stacksResult, settings, institutionsResult] = await Promise.all([
     listTrainers({ isPublished: true, perPage: 8 }).catch(() => ({ data: [] })),
     listStacks().catch(() => []),
     getSettings().catch(() => null),
+    listInstitutionNames({ showOnHome: true, perPage: 20 }).catch(() => ({ data: [] as Array<{ id: string; name: string; slug: string; logoUrl: string | null; logoPermission: boolean }>, pagination: { total: 0, page: 1, perPage: 20, pages: 0 } })),
   ])
 
   const trainers = trainersResult.data ?? []
   const stacks   = Array.isArray(stacksResult) ? stacksResult : []
   const stats    = (settings?.stats ?? { placements: 5000, colleges: 500, trainers: 50, years: 8 }) as Record<string, number>
+
+  // Use DB institution names when available; fall back to static list.
+  const institutionNames: string[] =
+    institutionsResult.data.length > 0
+      ? institutionsResult.data.map((i) => i.name)
+      : FALLBACK_INSTITUTIONS
 
   return (
     <>
@@ -81,13 +107,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Company Marquee ── */}
+      {/* ── Institution Marquee ── */}
       <section className="s-dark s-sm">
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '20px 0' }}>
           <div className="marquee-wrap">
             <div className="marquee-track">
-              {[...TRUST_BADGES, ...TRUST_BADGES].map((name, i) => (
-                <div key={i} className="marquee-item">{name}</div>
+              {institutionNames.map((name) => (
+                <div key={`a-${name}`} className="marquee-item">{name}</div>
+              ))}
+              {institutionNames.map((name) => (
+                <div key={`b-${name}`} className="marquee-item">{name}</div>
               ))}
             </div>
           </div>
@@ -174,7 +203,7 @@ export default async function HomePage() {
             <p style={{ color: '#94a3b8' }}>We deliver on-campus training directly inside your institution — no student travel required.</p>
           </div>
           <div className="trust-grid">
-            {TRUST_BADGES.map(name => (
+            {institutionNames.map(name => (
               <div key={name} className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
             ))}
           </div>

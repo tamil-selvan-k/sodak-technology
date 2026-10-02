@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const NAV_ITEMS = [
   { label: 'About',        href: '/about' },
@@ -42,6 +42,12 @@ export default function Navbar() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
+  useEffect(() => {
+    const close = () => { if (window.innerWidth > 960) setOpen(false) }
+    window.addEventListener('resize', close)
+    return () => window.removeEventListener('resize', close)
+  }, [])
+
   return (
     <nav style={{
       position: 'sticky', top: 0, zIndex: 100,
@@ -59,7 +65,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <ul style={{ display: 'flex', alignItems: 'center', gap: 4, listStyle: 'none', margin: 0, padding: 0 }} className="hidden md:flex">
+        <ul style={{ alignItems: 'center', gap: 4, listStyle: 'none', margin: 0, padding: 0 }} className="nav-desktop-links">
           {NAV_ITEMS.map(item => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
             return (
@@ -106,7 +112,7 @@ export default function Navbar() {
           })}
         </ul>
 
-        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 12 }}>
+        <div className="nav-desktop-links" style={{ alignItems: 'center', gap: 12 }}>
           <Link href="/contact" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '8px 20px', borderRadius: '2.5rem',
@@ -123,8 +129,8 @@ export default function Navbar() {
 
         {/* Hamburger */}
         <button
-          className="md:hidden"
-          style={{ padding: 8, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          className="nav-hamburger-btn"
+          style={{ padding: 8, background: 'none', border: 'none', cursor: 'pointer' }}
           onClick={() => setOpen(o => !o)}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
@@ -146,10 +152,10 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden" style={{
+        <div className="nav-mobile-menu" style={{
           position: 'absolute', top: 64, left: 0, right: 0,
           background: '#ffffff', borderBottom: '1px solid #e2e8f0',
-          padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 4, zIndex: 200,
+          padding: '16px 24px', flexDirection: 'column', gap: 4, zIndex: 200,
         }}>
           {NAV_ITEMS.map(item => (
             <Link key={item.href} href={item.href} style={{

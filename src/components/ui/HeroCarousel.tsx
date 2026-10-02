@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 const SLIDES = [
   { label: 'On-Campus Training',  src: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=900&q=85' },
@@ -28,24 +28,60 @@ function getSlot(i: number, index: number, n: number): string {
 
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0)
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+  const [paused, setPaused] = useState(false)
   const n = SLIDES.length
 
-  const stopTimer = () => {
-    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null }
-  }
-  const startTimer = () => {
-    stopTimer()
-    timerRef.current = setInterval(() => setIndex(i => (i + 1) % n), 3500)
-  }
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 960px)')
+    setIsMobile(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
-  useEffect(() => { startTimer(); return stopTimer }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (paused) return
+    const id = setInterval(() => setIndex(i => (i + 1) % n), 3500)
+    return () => clearInterval(id)
+  }, [n, paused])
+
+  if (isMobile) {
+    const currentSlide = SLIDES[index] ?? SLIDES[0]!
+    // Single flat card — no 3D transforms, no overflow
+    return (
+      <div style={{ width: '100%', maxWidth: 360, margin: '0 auto', position: 'relative' }}
+        onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+        <div style={{ width: '100%', height: 220, borderRadius: 20, overflow: 'hidden', position: 'relative' }}>
+          <Image
+            src={currentSlide.src}
+            alt={currentSlide.label}
+            fill
+            sizes="360px"
+            unoptimized
+            style={{ objectFit: 'cover' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.7))' }} />
+          <p style={{ position: 'absolute', bottom: 16, left: 16, color: 'white', fontWeight: 700, fontSize: 14, zIndex: 2, margin: 0 }}>
+            {currentSlide.label}
+          </p>
+        </div>
+        {/* Dot indicators */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 12 }}>
+          {SLIDES.map((_, i) => (
+            <button key={i} onClick={() => setIndex(i)} aria-label={`Slide ${i + 1}`}
+              style={{ width: i === index ? 20 : 8, height: 8, borderRadius: 4, border: 'none', cursor: 'pointer', padding: 0, transition: 'width 0.3s', background: i === index ? '#c8a035' : 'rgba(255,255,255,0.35)' }} />
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
       style={{ width: 420, height: 380, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', perspective: 1200, marginLeft: -20 }}
-      onMouseEnter={stopTimer}
-      onMouseLeave={startTimer}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
       {SLIDES.map((slide, i) => {
         const slot = getSlot(i, index, n)

@@ -19,7 +19,9 @@ const WITH_ENGAGEMENTS = { engagements: true } as const
 // ── Cache types ───────────────────────────────────────────────────────────────
 
 type InstitutionRecord     = Prisma.InstitutionGetPayload<{ include: typeof WITH_ENGAGEMENTS }>
+type InstitutionSlim       = { id: string; name: string; slug: string; logoUrl: string | null; logoPermission: boolean }
 type InstitutionListResult = { data: InstitutionRecord[]; pagination: PaginationMeta }
+type InstitutionSlimResult = { data: InstitutionSlim[]; pagination: PaginationMeta }
 
 // ── Cache helpers ─────────────────────────────────────────────────────────────
 
@@ -68,6 +70,30 @@ export async function listInstitutions(filters: InstitutionFilters = {}): Promis
     db.institution.count({ where }),
   ])
   const result: InstitutionListResult = { data: institutions, pagination: buildMeta(total, page, perPage) }
+  await cacheSet(key, result, LIST_TTL)
+  return result
+}
+
+// Slim query: only id/name/slug/logo — avoids fetching the engagements join.
+// Use for contexts that only need institution names (e.g. home page marquee).
+export async function listInstitutionNames(filters: Pick<InstitutionFilters, 'showOnHome' | 'page' | 'perPage'> = {}): Promise<InstitutionSlimResult> {
+  const { skip, take, page, perPage } = parsePagination(filters)
+
+  const version = await cacheGet<number>(VERSION_KEY).then(v => v ?? 0)
+  const key = buildListKey(version, { ...filters, page, perPage }) + ':slim'
+  const cached = await cacheGet<InstitutionSlimResult>(key)
+  if (cached !== null) return cached
+
+  const where = {
+    isPublished: true,
+    deletedAt: null,
+    ...(filters.showOnHome !== undefined && { showOnHome: filters.showOnHome }),
+  }
+  const [institutions, total] = await Promise.all([
+    db.institution.findMany({ where, select: { id: true, name: true, slug: true, logoUrl: true, logoPermission: true }, orderBy: { displayOrder: 'asc' }, skip, take }),
+    db.institution.count({ where }),
+  ])
+  const result: InstitutionSlimResult = { data: institutions, pagination: buildMeta(total, page, perPage) }
   await cacheSet(key, result, LIST_TTL)
   return result
 }
