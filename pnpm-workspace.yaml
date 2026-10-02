@@ -1,8 +1,2 @@
-allowBuilds:
-  '@prisma/client': false
-  '@prisma/engines': false
-  argon2: set this to true or false
-  esbuild: false
-  prisma: false
-  sharp: false
-  unrs-resolver: false
+packages:
+  - '.'
