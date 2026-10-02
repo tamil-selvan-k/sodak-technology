@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import * as trainersService from '@/modules/trainers/trainers.service'
 import { createTrainerSchema } from '@/modules/trainers/trainers.schema'
 import { writeAuditLog } from '@/lib/audit'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
   const params = Object.fromEntries(req.nextUrl.searchParams)

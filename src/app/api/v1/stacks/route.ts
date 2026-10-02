@@ -4,6 +4,13 @@ import * as stacksService from '@/modules/stacks/stacks.service'
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const stacks = await stacksService.listStacks()
-  return NextResponse.json({ data: stacks })
+  try {
+    const stacks = await stacksService.listStacks()
+    return NextResponse.json({ data: stacks })
+  } catch {
+    return NextResponse.json(
+      { error: { code: 'INTERNAL_ERROR', message: 'Failed to fetch stacks' } },
+      { status: 500 }
+    )
+  }
 }

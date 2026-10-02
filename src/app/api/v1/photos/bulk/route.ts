@@ -5,6 +5,7 @@ import { publishPhoto, unpublishPhoto } from '@/modules/gallery/gallery.service'
 import { writeAuditLog } from '@/lib/audit'
 import { AltTextError, ConsentError } from '@/modules/gallery/gallery.service'
 import { z } from 'zod'
+export const dynamic = 'force-dynamic'
 
 const bulkSchema = z.object({
   ids:    z.array(z.string().cuid()).min(1).max(50),

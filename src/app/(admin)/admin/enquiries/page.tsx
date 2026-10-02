@@ -1,18 +1,12 @@
 import { auth } from '@/lib/auth'
 import { listLeads } from '@/modules/leads/leads.service'
 import Link from 'next/link'
+import EnquiryStatusSelect from './_components/EnquiryStatusSelect'
 
 export const metadata = { title: 'Enquiries — SODAK Admin' }
 
 interface Props { searchParams: { status?: string; page?: string } }
 
-const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> = {
-  new:           { label: 'New',           color: '#2563eb', bg: 'rgba(59,130,246,0.1)' },
-  contacted:     { label: 'Contacted',     color: '#92400e', bg: 'rgba(251,191,36,0.1)' },
-  proposal_sent: { label: 'Proposal Sent', color: '#166534', bg: 'rgba(34,197,94,0.1)' },
-  won:           { label: 'Won',           color: '#4865ad', bg: 'rgba(72,101,173,0.1)' },
-  lost:          { label: 'Lost',          color: '#64748b', bg: 'rgba(100,116,139,0.1)' },
-}
 
 function formatDate(iso: string | Date) {
   return new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
@@ -68,7 +62,7 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
               border: `1px solid ${searchParams.status === s || (!s && !searchParams.status) ? 'rgba(72,101,173,0.3)' : '#e2e8f0'}`,
             }}
           >
-            {s ? (STATUS_MAP[s]?.label ?? s) : 'All'}
+            {s ? ({ new: 'New', contacted: 'Contacted', proposal_sent: 'Proposal Sent', won: 'Won', lost: 'Lost' }[s] ?? s) : 'All'}
           </Link>
         ))}
       </div>
@@ -92,7 +86,6 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
               </tr>
             )}
             {data.map(lead => {
-              const sm = STATUS_MAP[lead.status] ?? STATUS_MAP.new!
               return (
                 <tr key={lead.id} style={{ borderTop: '1px solid #f1f5f9' }} className="hover:bg-[#f8fafc]">
                   <td style={{ padding: '11px 14px', fontSize: 13, color: '#334155', fontWeight: 600 }}>{lead.name}</td>
@@ -101,9 +94,7 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
                   <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{lead.institutionOrCompany ?? '—'}</td>
                   <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{lead.programOfInterest ?? '—'}</td>
                   <td style={{ padding: '11px 14px' }}>
-                    <span style={{ padding: '2px 9px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: sm.bg, color: sm.color }}>
-                      {sm.label}
-                    </span>
+                    <EnquiryStatusSelect leadId={lead.id} status={lead.status as never} />
                   </td>
                   <td style={{ padding: '11px 14px', fontSize: 12, color: '#64748b' }}>{formatDate(lead.createdAt)}</td>
                 </tr>

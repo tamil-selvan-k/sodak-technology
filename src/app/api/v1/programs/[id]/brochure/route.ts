@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { signedDownloadUrl } from '@/lib/storage'
 import { sendEmail } from '@/lib/email'
 import { z } from 'zod'
+export const dynamic = 'force-dynamic'
 
 const schema = z.object({
   name: z.string().min(2).max(100),

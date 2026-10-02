@@ -27,7 +27,7 @@
 
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
 body {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   background: #ffffff;
@@ -442,6 +442,35 @@ section.s-lg { padding: 88px 0; }
 .two-col { display: grid; grid-template-columns: 3fr 2fr; gap: 48px; }
 .gap-48  { gap: 48px; }
 
+/* ── Two-column hero grid — collapses on mobile ── */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 48px;
+  align-items: center;
+}
+
+/* ── Trust/partner badge grid ── */
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-top: 40px;
+  max-width: 700px;
+  margin: 40px auto 0;
+}
+
+/* ── Platform 3-col grid ── */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+  max-width: 900px;
+  margin: 40px auto 0;
+  align-items: stretch;
+}
+
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .container { padding: 0 32px; }
@@ -451,6 +480,9 @@ section.s-lg { padding: 88px 0; }
   .container { padding: 0 20px; }
   section { padding: 48px 0; }
   .hero-img-box { display: none !important; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  .platform-grid { grid-template-columns: 1fr; }
   .cta-gold .container { flex-direction: column; text-align: center; }
   .radio-group { grid-template-columns: 1fr; }
   .form-card { padding: 24px; }

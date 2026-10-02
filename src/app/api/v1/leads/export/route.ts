@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { writeAuditLog } from '@/lib/audit'
 import { z } from 'zod'
+export const dynamic = 'force-dynamic'
 
 const exportParamsSchema = z.object({
   from: z.string().datetime({ offset: true }).optional(),

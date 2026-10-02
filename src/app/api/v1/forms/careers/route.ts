@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { formRateLimit, getIP } from '@/lib/rate-limit'
 import { z } from 'zod'
 import { createApplication } from '@/modules/careers/careers.service'
+export const dynamic = 'force-dynamic'
 
 const schema = z.object({
   jobId: z.string().cuid(),

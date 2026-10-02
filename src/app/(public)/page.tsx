@@ -39,9 +39,9 @@ export default async function HomePage() {
       {/* ── Hero ── */}
       <section className="s-dark" style={{ padding: '80px 0 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: 48, alignItems: 'center' }}>
+          <div className="hero-grid">
             <div>
-<h1 className="t-hero c-white" style={{ marginBottom: 20 }}>
+              <h1 className="t-hero c-white" style={{ marginBottom: 20 }}>
                 {settings?.heroHeadline ?? 'Launch Your Tech Career'}
               </h1>
               <p className="t-lg c-muted" style={{ marginBottom: 32, maxWidth: 520 }}>
@@ -57,7 +57,7 @@ export default async function HomePage() {
                 <span className="t-sm c-muted">✓ Placement guarantee*</span>
               </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="hero-img-box" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <HeroCarousel />
             </div>
           </div>
@@ -173,7 +173,7 @@ export default async function HomePage() {
             <h2 className="t-h1 c-white">Trusted by Leading Institutions</h2>
             <p style={{ color: '#94a3b8' }}>We deliver on-campus training directly inside your institution — no student travel required.</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginTop: 40, maxWidth: 700, margin: '40px auto 0' }}>
+          <div className="trust-grid">
             {TRUST_BADGES.map(name => (
               <div key={name} className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
             ))}
@@ -244,7 +244,7 @@ export default async function HomePage() {
               Our proprietary tools are designed to assess, practice, and certify students for industry roles.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 40, maxWidth: 900, margin: '40px auto 0', alignItems: 'stretch' }}>
+          <div className="platform-grid">
             {[
               { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>, title:'SODAK LMS', desc:'Structured learning paths with video lessons, quizzes, and progress tracking.', href:'/platform/lms' },
               { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>, title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },

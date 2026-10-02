@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import * as institutionsService from '@/modules/institutions/institutions.service'
 import { createInstitutionSchema } from '@/modules/institutions/institutions.schema'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
   const p = Object.fromEntries(req.nextUrl.searchParams)

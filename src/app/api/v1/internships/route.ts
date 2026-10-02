@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { listInternships, createInternship } from '@/modules/internships/internships.service'
 import { createInternshipSchema } from '@/modules/internships/internships.schema'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)

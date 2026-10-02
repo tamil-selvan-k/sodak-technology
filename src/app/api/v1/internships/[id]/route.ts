@@ -4,6 +4,7 @@ import { updateInternship, softDeleteInternship } from '@/modules/internships/in
 import { updateInternshipSchema } from '@/modules/internships/internships.schema'
 import { writeAuditLog } from '@/lib/audit'
 import { db } from '@/lib/db'
+export const dynamic = 'force-dynamic'
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const internship = await db.internship.findFirst({ where: { id: params.id, deletedAt: null } })

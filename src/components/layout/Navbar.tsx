@@ -124,12 +124,23 @@ export default function Navbar() {
         {/* Hamburger */}
         <button
           className="md:hidden"
-          style={{ padding: 8, color: '#334155', background: 'none', border: 'none', cursor: 'pointer', fontSize: 20 }}
+          style={{ padding: 8, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           onClick={() => setOpen(o => !o)}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
         >
-          {open ? '✕' : '☰'}
+          {open ? (
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <line x1="4" y1="4" x2="18" y2="18" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="18" y1="4" x2="4" y2="18" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          ) : (
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="2" y1="5.5" x2="20" y2="5.5" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="2" y1="11" x2="20" y2="11" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="2" y1="16.5" x2="20" y2="16.5" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          )}
         </button>
       </div>
 

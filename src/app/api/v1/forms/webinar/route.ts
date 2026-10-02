@@ -3,6 +3,7 @@ import { formRateLimit, getIP } from '@/lib/rate-limit'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { sendEmail } from '@/lib/email'
+export const dynamic = 'force-dynamic'
 
 const schema = z.object({
   name: z.string().min(2).max(100),

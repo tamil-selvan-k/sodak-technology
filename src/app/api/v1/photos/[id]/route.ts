@@ -4,6 +4,7 @@ import { getPhotoById, updatePhoto, deletePhoto } from '@/modules/gallery/galler
 import { updatePhotoSchema } from '@/modules/gallery/gallery.schema'
 import { writeAuditLog } from '@/lib/audit'
 import { ConsentError, AltTextError } from '@/modules/gallery/gallery.service'
+export const dynamic = 'force-dynamic'
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const photo = await getPhotoById(params.id)

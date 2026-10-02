@@ -76,7 +76,7 @@ export default function EnquiryForm() {
       <div className="form-card text-center" style={{ padding: '60px 36px' }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
         <h3 className="t-h3 c-heading" style={{ marginBottom: 8 }}>Message sent!</h3>
-        <p className="t-sm c-body">We'll get back to you within 24 hours on working days. Check your inbox for a confirmation.</p>
+        <p className="t-sm c-body">We&apos;ll get back to you within 24 hours on working days. Check your inbox for a confirmation.</p>
       </div>
     )
   }

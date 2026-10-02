@@ -21,11 +21,17 @@
       { "id": "brand_rename",  "label": "SoDak EduTech → SODAK Technology throughout codebase", "status": "done" },
       { "id": "nav_progress",  "label": "Custom NavigationProgress bar (no package), root loading.tsx spinner", "status": "done" },
       { "id": "ui_polish",     "label": "1000+ colleges, LMS/CTF swap, track labels cleaned, card height equalisation, section-header paragraph centering, social icon buttons, platform grid centering, footer padding", "status": "done" },
-      { "id": "emoji_to_svg",  "label": "All emoji characters replaced with monochrome inline SVGs using currentColor across all 29 public/admin pages and layout components", "status": "done" }
+      { "id": "emoji_to_svg",  "label": "All emoji characters replaced with monochrome inline SVGs using currentColor across all 29 public/admin pages and layout components", "status": "done" },
+      { "id": "ci_fixes",      "label": "CI fixes: force-dynamic on /api/v1/stacks (prevent build-time Prisma), pnpm-workspace.yaml packages field (fix pnpm store path error in setup-node)", "status": "done" },
+      { "id": "security_bugs", "label": "10 security/correctness fixes: blog PATCH ownership, redirect destination validation, leads fire-and-forget email, soft-delete guards, bulk unpublish error handling, GET /settings auth guard, /api/revalidate route", "status": "done" },
+      { "id": "responsive",    "label": "Full responsive design: 290-line media query block, Navbar 960px hamburger, HeroCarousel mobile/tablet/desktop transforms, AdminSidebar mobile overlay, admin grids collapse on mobile — pending merge from worktree branch", "status": "in_progress" },
+      { "id": "vercel_autodeploy", "label": "CI auto-deploy job to Vercel after tests pass on main push — pending VERCEL_TOKEN/ORG_ID/PROJECT_ID GitHub secrets from user", "status": "in_progress" }
     ]
   },
   "pending": [
-    { "id": "deployment",      "label": "Vercel deployment: connect repo, set env vars, verify sodakedutech.in domain in Resend" },
+    { "id": "merge_responsive", "label": "Merge worktree-agent responsive branch into main and push" },
+    { "id": "vercel_secrets",  "label": "User to add VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID as GitHub secrets, then push ci.yml" },
+    { "id": "deployment",      "label": "Set Vercel env vars: DATABASE_URL, AUTH_SECRET, RESEND_API_KEY, TURNSTILE keys, AWS keys, UPSTASH keys, REVALIDATE_SECRET" },
     { "id": "s3_pipeline",     "label": "S3 media pipeline: upload endpoint, Sharp resize (original/lg/md/sm/thumb WebP+AVIF), signed brochure URLs — needs AWS credentials" },
     { "id": "isr_revalidation","label": "ISR on-demand revalidation tags after admin publish/unpublish — needs Vercel deployment first" },
     { "id": "seed_data",       "label": "Seed real stacks/programs/trainers data for production launch" }

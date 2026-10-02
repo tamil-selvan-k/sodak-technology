@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import * as blogService from '@/modules/blog/blog.service'
 import { createPostSchema } from '@/modules/blog/blog.schema'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
   const p = Object.fromEntries(req.nextUrl.searchParams)

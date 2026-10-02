@@ -7,6 +7,7 @@ Converting a static HTML wireframe (`C:/Users/DELL/Docs/wireframe/`) into a prod
 **Reference documents:**
 - SRS: `C:/Users/DELL/Docs/sodakedutech/docs/02-SODAK-EduTech-SRS-v1.md`
 - Wireframe: `C:/Users/DELL/Docs/wireframe/` (approved visual reference — deviations need explicit approval)
+- progress.json: `progress.json` (Must update progress at every notable progresses)
 
 **Scope:** 35 public pages + 7 admin pages (with 10 more admin sections to build), REST API, Prisma/PostgreSQL, media pipeline, email notifications, lead management.
 

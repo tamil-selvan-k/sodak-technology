@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { getPostById, updatePost, softDeletePost } from '@/modules/blog/blog.service'
 import { updatePostSchema } from '@/modules/blog/blog.schema'
 import { writeAuditLog } from '@/lib/audit'
+export const dynamic = 'force-dynamic'
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const post = await getPostById(params.id)

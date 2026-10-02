@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { listPhotos, createPhoto } from '@/modules/gallery/gallery.service'
 import { createPhotoSchema } from '@/modules/gallery/gallery.schema'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)

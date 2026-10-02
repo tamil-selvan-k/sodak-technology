@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { updateLeadStatus } from '@/modules/leads/leads.service'
 import { z } from 'zod'
 import { writeAuditLog } from '@/lib/audit'
+export const dynamic = 'force-dynamic'
 
 const schema = z.object({ status: z.enum(['new', 'contacted', 'proposal_sent', 'won', 'lost']) })
 

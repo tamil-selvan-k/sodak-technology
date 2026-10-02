@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { publishPhoto } from '@/modules/gallery/gallery.service'
 import { writeAuditLog } from '@/lib/audit'
+export const dynamic = 'force-dynamic'
 
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
   const session = await auth()

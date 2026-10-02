@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { listWebinars, createWebinar } from '@/modules/webinars/webinars.service'
 import { createWebinarSchema } from '@/modules/webinars/webinars.schema'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)

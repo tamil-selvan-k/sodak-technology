@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import * as trainersService from '@/modules/trainers/trainers.service'
 import { updateTrainerSchema } from '@/modules/trainers/trainers.schema'
 import { writeAuditLog } from '@/lib/audit'
+export const dynamic = 'force-dynamic'
 
 type Params = { params: { id: string } }
 

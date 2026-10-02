@@ -4,6 +4,7 @@ import { getJobBySlug, updateJob, softDeleteJob } from '@/modules/careers/career
 import { updateJobSchema } from '@/modules/careers/careers.schema'
 import { writeAuditLog } from '@/lib/audit'
 import { db } from '@/lib/db'
+export const dynamic = 'force-dynamic'
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const job = await db.jobPost.findFirst({ where: { id: params.id, deletedAt: null } })

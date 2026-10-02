@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { enquirySchema } from '@/modules/leads/leads.schema'
 import * as leadsService from '@/modules/leads/leads.service'
 import { formRateLimit, getIP } from '@/lib/rate-limit'
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
   // Rate limit

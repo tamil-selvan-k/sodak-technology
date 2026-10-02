@@ -4,6 +4,7 @@ import { updateWebinar, softDeleteWebinar } from '@/modules/webinars/webinars.se
 import { updateWebinarSchema } from '@/modules/webinars/webinars.schema'
 import { writeAuditLog } from '@/lib/audit'
 import { db } from '@/lib/db'
+export const dynamic = 'force-dynamic'
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const webinar = await db.webinar.findFirst({ where: { id: params.id, deletedAt: null }, include: { presenter: true } })

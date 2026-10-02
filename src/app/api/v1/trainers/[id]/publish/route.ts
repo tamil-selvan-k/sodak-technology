@@ -4,6 +4,7 @@ import * as trainersService from '@/modules/trainers/trainers.service'
 import { ConsentError } from '@/modules/trainers/trainers.service'
 import { writeAuditLog } from '@/lib/audit'
 import '@/lib/notification-handlers' // register event handlers before emit fires
+export const dynamic = 'force-dynamic'
 
 type Params = { params: { id: string } }
 

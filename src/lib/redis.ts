@@ -5,6 +5,8 @@ export interface KV {
   get<T>(key: string): Promise<T | null>
   set(key: string, value: unknown, exSeconds: number): Promise<void>
   del(key: string): Promise<void>
+  /** Atomically increment a counter and return the new value. */
+  incr(key: string): Promise<number>
 }
 
 function createUpstashKV(): KV {
@@ -16,6 +18,7 @@ function createUpstashKV(): KV {
     get:  (key)                    => client.get(key),
     set:  (key, value, exSeconds)  => client.set(key, value, { ex: exSeconds }).then(() => undefined),
     del:  (key)                    => client.del(key).then(() => undefined),
+    incr: (key)                    => client.incr(key),
   }
 }
 
@@ -36,6 +39,9 @@ function createIoRedisKV(): KV {
     },
     async del(key: string) {
       await client.del(key)
+    },
+    async incr(key: string) {
+      return client.incr(key)
     },
   }
 }

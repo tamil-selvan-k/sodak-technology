@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { z } from 'zod'
 import { writeAuditLog } from '@/lib/audit'
+export const dynamic = 'force-dynamic'
 
 const redirectSchema = z.object({
   source:      z.string().startsWith('/'),

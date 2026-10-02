@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { addNote } from '@/modules/leads/leads.service'
 import { z } from 'zod'
+export const dynamic = 'force-dynamic'
 
 const schema = z.object({ body: z.string().min(1).max(5000) })
 

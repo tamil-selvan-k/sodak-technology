@@ -6,42 +6,39 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  # Stub values so type-check and build don't crash on missing env vars.
-  # Real secrets live in Vercel environment variables — never committed here.
-  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/sodak_ci?pgbouncer=true"
-  DIRECT_URL: "postgresql://postgres:postgres@localhost:5432/sodak_ci"
-  NEXTAUTH_SECRET: "ci-secret-placeholder-32-chars-long"
-  AUTH_SECRET: "ci-secret-placeholder-32-chars-long"
-  NEXT_PUBLIC_SITE_URL: "https://sodakedutech.in"
-  NEXT_PUBLIC_TURNSTILE_SITE_KEY: "1x00000000000000000000AA"
-  RESEND_API_KEY: "re_placeholder"
-  RESEND_FROM: "SODAK Technology <hello@sodakedutech.in>"
-  UPSTASH_REDIS_REST_URL: "https://placeholder.upstash.io"
-  UPSTASH_REDIS_REST_TOKEN: "placeholder"
-  TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA"
-  AWS_REGION: "ap-south-1"
-  AWS_S3_BUCKET: "sodakedutech-media"
-  AWS_ACCESS_KEY_ID: "placeholder"
-  AWS_SECRET_ACCESS_KEY: "placeholder"
-  NOTIFICATION_EMAIL: "admin@sodakedutech.in"
-
 jobs:
-  ci:
+  # ── Job 1: static checks (no DB needed) ─────────────────────────────────────
+  lint-typecheck-build:
     name: Lint, Type-check, Build
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    env:
+      # Stub values — real secrets are never needed for these static checks
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/sodak_ci?pgbouncer=true"
+      DIRECT_URL: "postgresql://postgres:postgres@localhost:5432/sodak_ci"
+      NEXTAUTH_SECRET: "ci-secret-placeholder-32-chars-long"
+      AUTH_SECRET: "ci-secret-placeholder-32-chars-long"
+      NEXT_PUBLIC_SITE_URL: "https://sodakedutech.in"
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: "1x00000000000000000000AA"
+      RESEND_API_KEY: "re_placeholder"
+      RESEND_FROM: "SODAK Technology <hello@sodakedutech.in>"
+      UPSTASH_REDIS_REST_URL: "https://placeholder.upstash.io"
+      UPSTASH_REDIS_REST_TOKEN: "placeholder"
+      TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA"
+      AWS_REGION: "ap-south-1"
+      AWS_S3_BUCKET: "sodakedutech-media"
+      AWS_ACCESS_KEY_ID: "placeholder"
+      AWS_SECRET_ACCESS_KEY: "placeholder"
+      NOTIFICATION_EMAIL: "admin@sodakedutech.in"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
@@ -52,30 +49,32 @@ jobs:
       - name: Generate Prisma client
         run: pnpm prisma generate
 
+      - name: Lint
+        run: pnpm lint
+
       - name: Type-check
         run: pnpm tsc --noEmit
 
       - name: Build
         run: pnpm build
 
-  deploy:
-    name: Deploy to Vercel (Production)
+  # ── Job 2: database checks (real DB via GitHub secrets) ──────────────────────
+  db-check:
+    name: DB — Migrate & Connect
     runs-on: ubuntu-latest
-    needs: ci
-    # Only deploy on push to main — not on pull requests
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
@@ -83,11 +82,40 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install Vercel CLI
-        run: pnpm add -g vercel@latest
+      - name: Generate Prisma client
+        run: pnpm prisma generate
+
+      - name: Validate Prisma schema
+        run: pnpm prisma validate
+
+      - name: Run migrations & verify connection
+        run: |
+          # Skip if DATABASE_URL secret is not configured yet
+          if [ -z "$DIRECT_URL" ] || [[ "$DIRECT_URL" == *"localhost"* ]]; then
+            echo "⚠️  DIRECT_URL secret not set — skipping DB checks"
+            echo "Add DATABASE_URL and DIRECT_URL to GitHub Secrets to enable this step."
+            exit 0
+          fi
+          pnpm prisma migrate deploy
+          # migrate status checks connectivity and confirms all migrations applied
+          pnpm prisma migrate status
+
+  # ── Job 3: deploy to Vercel (main push only, after both jobs pass) ────────────
+  deploy:
+    name: Deploy to Vercel (Production)
+    runs-on: ubuntu-latest
+    needs: [lint-typecheck-build, db-check]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Required GitHub secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+    # Required GitHub secrets: DATABASE_URL, DIRECT_URL (for migrations)
+
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Deploy to Vercel
-        run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npm install -g vercel@latest
+          vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

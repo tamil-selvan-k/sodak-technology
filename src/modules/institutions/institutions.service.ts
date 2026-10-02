@@ -2,12 +2,60 @@
 import { db } from '@/lib/db'
 import { slugify } from '@/lib/slugify'
 import { parsePagination, buildMeta } from '@/lib/paginate'
+import {
+  cacheGet,
+  cacheSet,
+  cacheDel,
+  cacheInvalidateLists,
+  LIST_TTL,
+  RECORD_TTL,
+} from '@/lib/cache'
+import type { Prisma } from '@prisma/client'
+import type { PaginationMeta } from '@/lib/paginate'
 import type { CreateInstitutionInput, UpdateInstitutionInput, InstitutionFilters } from './institutions.types'
 
 const WITH_ENGAGEMENTS = { engagements: true } as const
 
-export async function listInstitutions(filters: InstitutionFilters = {}) {
+// ── Cache types ───────────────────────────────────────────────────────────────
+
+type InstitutionRecord     = Prisma.InstitutionGetPayload<{ include: typeof WITH_ENGAGEMENTS }>
+type InstitutionListResult = { data: InstitutionRecord[]; pagination: PaginationMeta }
+
+// ── Cache helpers ─────────────────────────────────────────────────────────────
+
+const VERSION_KEY = 'institutions:v'
+
+function buildListKey(version: number, filters: InstitutionFilters): string {
+  const { page = 1, perPage = 20, includeUnpublished, showOnHome, type, search } = filters
+  return (
+    `inst:list:v${version}:p${page}:pp${perPage}` +
+    `:incl${includeUnpublished ? 1 : 0}` +
+    `:h${showOnHome ?? ''}` +
+    `:t${type ?? ''}` +
+    `:q${search ?? ''}`
+  )
+}
+
+function idKey(id: string): string    { return `institutions:id:${id}` }
+function slugCacheKey(slug: string): string { return `institutions:slug:${slug}` }
+
+async function invalidate(id: string, slug: string): Promise<void> {
+  await Promise.all([
+    cacheInvalidateLists(VERSION_KEY),
+    cacheDel(idKey(id), slugCacheKey(slug)),
+  ])
+}
+
+// ── Service functions ─────────────────────────────────────────────────────────
+
+export async function listInstitutions(filters: InstitutionFilters = {}): Promise<InstitutionListResult> {
   const { skip, take, page, perPage } = parsePagination(filters)
+
+  const version = await cacheGet<number>(VERSION_KEY).then(v => v ?? 0)
+  const key = buildListKey(version, { ...filters, page, perPage })
+  const cached = await cacheGet<InstitutionListResult>(key)
+  if (cached !== null) return cached
+
   const where = {
     ...(filters.includeUnpublished ? {} : { isPublished: true }),
     deletedAt:   null,
@@ -19,15 +67,29 @@ export async function listInstitutions(filters: InstitutionFilters = {}) {
     db.institution.findMany({ where, include: WITH_ENGAGEMENTS, orderBy: { displayOrder: 'asc' }, skip, take }),
     db.institution.count({ where }),
   ])
-  return { data: institutions, pagination: buildMeta(total, page, perPage) }
+  const result: InstitutionListResult = { data: institutions, pagination: buildMeta(total, page, perPage) }
+  await cacheSet(key, result, LIST_TTL)
+  return result
 }
 
-export async function getInstitutionBySlug(slug: string) {
-  return db.institution.findFirst({ where: { slug, isPublished: true, deletedAt: null }, include: WITH_ENGAGEMENTS })
+export async function getInstitutionBySlug(slug: string): Promise<InstitutionRecord | null> {
+  const key = slugCacheKey(slug)
+  const cached = await cacheGet<InstitutionRecord>(key)
+  if (cached !== null) return cached
+
+  const institution = await db.institution.findFirst({ where: { slug, isPublished: true, deletedAt: null }, include: WITH_ENGAGEMENTS })
+  await cacheSet(key, institution, RECORD_TTL)
+  return institution
 }
 
-export async function getInstitutionById(id: string) {
-  return db.institution.findFirst({ where: { id, deletedAt: null }, include: WITH_ENGAGEMENTS })
+export async function getInstitutionById(id: string): Promise<InstitutionRecord | null> {
+  const key = idKey(id)
+  const cached = await cacheGet<InstitutionRecord>(key)
+  if (cached !== null) return cached
+
+  const institution = await db.institution.findFirst({ where: { id, deletedAt: null }, include: WITH_ENGAGEMENTS })
+  await cacheSet(key, institution, RECORD_TTL)
+  return institution
 }
 
 export async function getByTrainerId(_trainerId: string) {
@@ -36,28 +98,41 @@ export async function getByTrainerId(_trainerId: string) {
 }
 
 export async function createInstitution(input: CreateInstitutionInput) {
-  return db.institution.create({ data: { ...input, slug: slugify(input.name) }, include: WITH_ENGAGEMENTS })
+  const institution = await db.institution.create({ data: { ...input, slug: slugify(input.name) }, include: WITH_ENGAGEMENTS })
+  await cacheInvalidateLists(VERSION_KEY)
+  return institution
 }
 
 export async function updateInstitution(id: string, input: UpdateInstitutionInput) {
-  return db.institution.update({
+  const institution = await db.institution.update({
     where: { id },
     data: { ...input, ...(input.name && { slug: slugify(input.name) }) },
     include: WITH_ENGAGEMENTS,
   })
+  await invalidate(id, institution.slug)
+  return institution
 }
 
 export async function publishInstitution(id: string) {
   // CLAUDE.md rule: logo_permission = false → never *render* the logo; render text name instead.
   // The stored logoUrl is preserved so it can be displayed once permission is granted later.
   // Enforcement is on the rendering side: check logoPermission before showing the <img>.
-  return db.institution.update({ where: { id }, data: { isPublished: true }, include: WITH_ENGAGEMENTS })
+  const institution = await db.institution.update({ where: { id }, data: { isPublished: true }, include: WITH_ENGAGEMENTS })
+  await invalidate(id, institution.slug)
+  return institution
 }
 
 export async function unpublishInstitution(id: string) {
-  return db.institution.update({ where: { id }, data: { isPublished: false } })
+  const institution = await db.institution.update({ where: { id }, data: { isPublished: false }, include: WITH_ENGAGEMENTS })
+  await invalidate(id, institution.slug)
+  return institution
 }
 
 export async function softDeleteInstitution(id: string) {
-  return db.institution.update({ where: { id }, data: { deletedAt: new Date() } })
+  const result = await db.institution.update({ where: { id }, data: { deletedAt: new Date() } })
+  await Promise.all([
+    cacheInvalidateLists(VERSION_KEY),
+    cacheDel(idKey(id), slugCacheKey(result.slug)),
+  ])
+  return result
 }

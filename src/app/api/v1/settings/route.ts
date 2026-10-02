@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import * as settingsService from '@/modules/settings/settings.service'
 import { updateSettingsSchema } from '@/modules/settings/settings.schema'
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
   const session = await auth()

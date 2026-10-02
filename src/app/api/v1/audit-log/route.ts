@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { parsePagination, buildMeta } from '@/lib/paginate'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   const session = await auth()

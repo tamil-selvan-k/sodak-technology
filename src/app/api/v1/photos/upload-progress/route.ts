@@ -2,6 +2,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { kv } from '@/lib/redis'
 import type { UploadProgress } from '@/lib/upload-progress'
 import { NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   const session = await auth()
