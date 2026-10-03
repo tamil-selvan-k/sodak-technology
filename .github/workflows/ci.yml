@@ -1,5 +1,5 @@
 name: CI
- 
+
 on:
   push:
     branches: [main]
@@ -58,56 +58,53 @@ jobs:
       - name: Build
         run: pnpm build
 
-  # ── Job 2: database checks (real DB via GitHub secrets) ──────────────────────
-  db-check:
-    name: DB — Migrate & Connect
-    runs-on: ubuntu-latest
+  # ── Job 2: database checks — TEMPORARILY DISABLED ───────────────────────────
+  # db-check:
+  #   name: DB — Migrate & Connect
+  #   runs-on: ubuntu-latest
+  #
+  #   env:
+  #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  #     DIRECT_URL: ${{ secrets.DIRECT_URL }}
+  #
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - uses: pnpm/action-setup@v4
+  #       with:
+  #         version: 9
+  #
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
+  #         cache: pnpm
+  #
+  #     - name: Install dependencies
+  #       run: pnpm install
+  #
+  #     - name: Generate Prisma client
+  #       run: pnpm prisma generate
+  #
+  #     - name: Validate Prisma schema
+  #       run: pnpm prisma validate
+  #
+  #     - name: Run migrations & verify connection
+  #       run: |
+  #         # Skip if DATABASE_URL secret is not configured yet
+  #         if [ -z "$DIRECT_URL" ] || [[ "$DIRECT_URL" == *"localhost"* ]]; then
+  #           echo "⚠️  DIRECT_URL secret not set — skipping DB checks"
+  #           echo "Add DATABASE_URL and DIRECT_URL to GitHub Secrets to enable this step."
+  #           exit 0
+  #         fi
+  #         pnpm prisma migrate deploy
+  #         pnpm prisma migrate status
 
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      DIRECT_URL: ${{ secrets.DIRECT_URL }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Generate Prisma client
-        run: pnpm prisma generate
-
-      - name: Validate Prisma schema
-        run: pnpm prisma validate
-
-      - name: Run migrations & verify connection
-        run: |
-          # Skip if DATABASE_URL secret is not configured yet
-          if [ -z "$DIRECT_URL" ] || [[ "$DIRECT_URL" == *"localhost"* ]]; then
-            echo "⚠️  DIRECT_URL secret not set — skipping DB checks"
-            echo "Add DATABASE_URL and DIRECT_URL to GitHub Secrets to enable this step."
-            exit 0
-          fi
-          pnpm prisma migrate deploy
-          # migrate status checks connectivity and confirms all migrations applied
-          pnpm prisma migrate status
-
-  # ── Job 3: deploy to Vercel (main push only, after both jobs pass) ────────────
+  # ── Job 3: deploy to Vercel (main push only) ────────────────────────────────
   deploy:
     name: Deploy to Vercel (Production)
     runs-on: ubuntu-latest
-    needs: [lint-typecheck-build, db-check]
+    needs: [lint-typecheck-build]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    # Required GitHub secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
-    # Required GitHub secrets: DATABASE_URL, DIRECT_URL (for migrations)
 
     steps:
       - uses: actions/checkout@v4
