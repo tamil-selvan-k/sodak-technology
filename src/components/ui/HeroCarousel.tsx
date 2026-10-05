@@ -28,7 +28,7 @@ function getSlot(i: number, index: number, n: number): string {
 
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(true)
   const [paused, setPaused] = useState(false)
   const n = SLIDES.length
 

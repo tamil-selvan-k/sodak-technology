@@ -22,6 +22,7 @@ export async function POST(_req: NextRequest, { params }: Params) {
     if (err instanceof ConsentError) {
       return NextResponse.json({ error: { code: err.code, message: err.message } }, { status: 422 })
     }
-    throw err
+    console.error('[trainers/[id]/publish/POST] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
   }
 }

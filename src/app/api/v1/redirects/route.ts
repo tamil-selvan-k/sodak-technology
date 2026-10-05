@@ -12,32 +12,47 @@ const redirectSchema = z.object({
 })
 
 export async function GET() {
-  const redirects = await db.redirect.findMany({ orderBy: { source: 'asc' } })
-  return NextResponse.json({ data: redirects })
+  try {
+    const redirects = await db.redirect.findMany({ orderBy: { source: 'asc' } })
+    return NextResponse.json({ data: redirects })
+  } catch (err) {
+    console.error('[redirects/GET] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
+  }
 }
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session || !hasRole(session, 'super_admin')) {
-    return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
-  }
-  const body = await req.json()
-  const parsed = redirectSchema.safeParse(body)
-  if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
+  try {
+    const session = await auth()
+    if (!session || !hasRole(session, 'super_admin')) {
+      return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+    }
+    const body = await req.json()
+    const parsed = redirectSchema.safeParse(body)
+    if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
 
-  const redirect = await db.redirect.create({ data: parsed.data })
-  await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'redirect', entityId: redirect.id, newValue: parsed.data })
-  return NextResponse.json({ data: redirect }, { status: 201 })
+    const redirect = await db.redirect.create({ data: parsed.data })
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'redirect', entityId: redirect.id, newValue: parsed.data })
+    return NextResponse.json({ data: redirect }, { status: 201 })
+  } catch (err) {
+    console.error('[redirects/POST] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
+  }
 }
 
 export async function DELETE(req: Request) {
-  const session = await auth()
-  if (!session || !hasRole(session, 'super_admin')) {
-    return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+  try {
+    const session = await auth()
+    if (!session || !hasRole(session, 'super_admin')) {
+      return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+    }
+    const { id } = await req.json()
+    if (!id) return NextResponse.json({ error: { code: 'BAD_REQUEST' } }, { status: 400 })
+    await db.redirect.delete({ where: { id } })
+    await writeAuditLog({ actorId: session.user.id, action: 'DELETE', entityType: 'redirect', entityId: id })
+    return new NextResponse(null, { status: 204 })
+  } catch (err) {
+    console.error('[redirects/DELETE] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
   }
-  const { id } = await req.json()
-  if (!id) return NextResponse.json({ error: { code: 'BAD_REQUEST' } }, { status: 400 })
-  await db.redirect.delete({ where: { id } })
-  await writeAuditLog({ actorId: session.user.id, action: 'DELETE', entityType: 'redirect', entityId: id })
-  return new NextResponse(null, { status: 204 })
 }

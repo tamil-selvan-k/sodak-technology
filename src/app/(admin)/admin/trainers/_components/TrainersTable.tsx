@@ -97,7 +97,8 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
 
       {/* Table */}
       <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '1rem', overflow: 'hidden' }}>
-        <table className="w-full border-collapse">
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table className="w-full border-collapse" style={{ minWidth: 680 }}>
           <thead>
             <tr style={{ background: '#f8fafc' }}>
               {['Photo','Name','Company','Stacks','Status','Actions'].map(h => (
@@ -175,6 +176,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
             ))}
           </tbody>
         </table>
+        </div>{/* /scroll-wrapper */}
       </div>
 
       <Pagination {...pagination} />

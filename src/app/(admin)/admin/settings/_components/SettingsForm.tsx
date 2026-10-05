@@ -160,7 +160,7 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
       {/* Stats */}
       <div style={cardStyle}>
         <p style={sectionHeadStyle}>Homepage Stats</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+        <div className="admin-two-col" style={{ gap: 18 }}>
           {[
             { label: 'Stacks', value: stacks, set: setStacks },
             { label: 'Technologies', value: technologies, set: setTechnologies },
@@ -185,7 +185,7 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
       {/* Social Links */}
       <div style={cardStyle}>
         <p style={sectionHeadStyle}>Social Links</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+        <div className="admin-two-col" style={{ gap: 18 }}>
           {[
             { label: 'LinkedIn URL', value: linkedin, set: setLinkedin, ph: 'https://linkedin.com/company/sodakedutech' },
             { label: 'Twitter / X URL', value: twitter, set: setTwitter, ph: 'https://twitter.com/sodakedutech' },

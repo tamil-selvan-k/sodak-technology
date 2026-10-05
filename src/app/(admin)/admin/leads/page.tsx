@@ -30,7 +30,7 @@ export default async function AdminLeadsPage({ searchParams }: Props) {
   const pipeline   = data.filter(l => ['new','contacted','proposal_sent'].includes(l.status)).length
 
   return (
-    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: '#f8fafc' }}>
+    <main className="admin-main">
       <div style={{ marginBottom: 32 }}>
         <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4865ad', marginBottom: 6 }}>SODAK Technology</p>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Leads CRM</h1>
@@ -38,7 +38,7 @@ export default async function AdminLeadsPage({ searchParams }: Props) {
       </div>
 
       {/* Stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginBottom: 24 }}>
+      <div className="admin-stat-grid-4">
         {[
           { label: 'Total Leads',  value: pagination.total },
           { label: 'In Pipeline',  value: pipeline },
@@ -73,7 +73,8 @@ export default async function AdminLeadsPage({ searchParams }: Props) {
 
       {/* Table */}
       <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table style={{ width: '100%', minWidth: 750, borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#f8fafc' }}>
               {['Name', 'Email', 'Role', 'Institution / Company', 'Program', 'Source', 'Status', 'Date'].map(h => (
@@ -110,6 +111,7 @@ export default async function AdminLeadsPage({ searchParams }: Props) {
             })}
           </tbody>
         </table>
+        </div>{/* /scroll-wrapper */}
       </div>
 
       {pagination.pages > 1 && (

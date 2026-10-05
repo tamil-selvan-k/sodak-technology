@@ -98,3 +98,13 @@ export async function addNote(leadId: string, authorId: string, body: string) {
   await invalidateLeadCache()
   return result
 }
+
+/**
+ * Create a lead record without sending notification emails.
+ * Use this when the calling route handles its own email (e.g. brochure download).
+ */
+export async function createLeadRecord(input: CreateLeadInput) {
+  const lead = await db.lead.create({ data: input })
+  await invalidateLeadCache()
+  return lead
+}

@@ -25,7 +25,7 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
   const wonCount           = data.filter(l => l.status === 'won').length
 
   return (
-    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: '#f8fafc' }}>
+    <main className="admin-main">
       <div style={{ marginBottom: 32 }}>
         <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4865ad', marginBottom: 6 }}>SODAK Technology</p>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Enquiries</h1>
@@ -33,7 +33,7 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
       </div>
 
       {/* Stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 16, marginBottom: 24 }}>
+      <div className="admin-stat-grid-5">
         {[
           { label: 'Total Enquiries', value: pagination.total },
           { label: 'New',             value: newCount },
@@ -69,7 +69,8 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
 
       {/* Table */}
       <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table style={{ width: '100%', minWidth: 700, borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#f8fafc' }}>
               {['Name', 'Email', 'Role', 'Institution', 'Program', 'Status', 'Date'].map(h => (
@@ -102,6 +103,7 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
             })}
           </tbody>
         </table>
+        </div>{/* /scroll-wrapper */}
       </div>
 
       {pagination.pages > 1 && (

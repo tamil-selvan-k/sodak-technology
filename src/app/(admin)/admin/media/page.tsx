@@ -24,7 +24,7 @@ export default async function AdminMediaPage({ searchParams }: Props) {
   }))
 
   return (
-    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: '#f8fafc' }}>
+    <main className="admin-main">
       <div style={{ marginBottom: 32 }}>
         <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4865ad', marginBottom: 6 }}>SODAK Technology</p>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Media Library</h1>
@@ -32,7 +32,7 @@ export default async function AdminMediaPage({ searchParams }: Props) {
       </div>
 
       {/* Stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginBottom: 24 }}>
+      <div className="admin-stat-grid-4">
         {[
           { label: 'Total Files',  value: total },
           { label: 'Images',       value: media.filter(f => f.mimeType.startsWith('image/')).length },

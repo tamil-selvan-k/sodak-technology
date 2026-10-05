@@ -101,7 +101,8 @@ export default function AuditTable({
       </div>
 
       <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table style={{ width: '100%', minWidth: 680, borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#f8fafc' }}>
               {['Timestamp', 'Action', 'Entity', 'Entity ID', 'Actor', 'Details'].map(h => (
@@ -154,7 +155,7 @@ export default function AuditTable({
                 {expandedId === l.id && (
                   <tr key={`${l.id}-diff`} style={{ background: '#fafafa', borderTop: '1px solid #f1f5f9' }}>
                     <td colSpan={6} style={{ padding: '12px 14px' }}>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                      <div className="admin-two-col" style={{ gap: 12 }}>
                         {l.oldValue !== null && (
                           <div>
                             <p style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', marginBottom: 4 }}>OLD</p>
@@ -179,6 +180,7 @@ export default function AuditTable({
             ))}
           </tbody>
         </table>
+        </div>{/* /scroll-wrapper */}
       </div>
 
       {/* Pagination */}

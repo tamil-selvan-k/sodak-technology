@@ -29,14 +29,19 @@ const subjects: Record<EmailTemplate, string> = {
   'brochure-download':          'Your program brochure — SODAK Technology',
 }
 
-export async function sendEmail({ to, template, data }: SendOptions) {
-  const html = renderTemplate(template, data)
-  return resend.emails.send({
-    from: FROM,
-    to,
-    subject: subjects[template],
-    html,
-  })
+export async function sendEmail({ to, template, data }: SendOptions): Promise<void> {
+  try {
+    const html = renderTemplate(template, data)
+    await resend.emails.send({
+      from: FROM,
+      to,
+      subject: subjects[template],
+      html,
+    })
+  } catch (err) {
+    // Email failure is logged but must not crash the calling request.
+    console.error('[email] send failed (template=%s):', template, err)
+  }
 }
 
 function baseLayout(content: string, title: string): string {

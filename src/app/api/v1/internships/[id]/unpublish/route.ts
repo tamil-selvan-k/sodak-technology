@@ -5,11 +5,16 @@ import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
-  const session = await auth()
-  if (!session || !hasRole(session, 'editor')) {
-    return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+  try {
+    const session = await auth()
+    if (!session || !hasRole(session, 'editor')) {
+      return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+    }
+    const internship = await unpublishInternship(params.id)
+    await writeAuditLog({ actorId: session.user.id, action: 'UNPUBLISH', entityType: 'internship', entityId: params.id })
+    return NextResponse.json({ data: internship })
+  } catch (err) {
+    console.error('[internships/[id]/unpublish/POST] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
   }
-  const internship = await unpublishInternship(params.id)
-  await writeAuditLog({ actorId: session.user.id, action: 'UNPUBLISH', entityType: 'internship', entityId: params.id })
-  return NextResponse.json({ data: internship })
 }

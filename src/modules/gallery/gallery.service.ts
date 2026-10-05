@@ -26,7 +26,7 @@ export async function createPhoto(input: CreatePhotoInput) {
 }
 
 export async function getPhotoById(id: string) {
-  return db.photo.findUnique({ where: { id } })
+  return db.photo.findFirst({ where: { id, deletedAt: null } })
 }
 
 export async function updatePhoto(id: string, input: UpdatePhotoInput) {

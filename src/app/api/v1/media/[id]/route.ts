@@ -6,15 +6,20 @@ import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
-  const session = await auth()
-  if (!session || !hasRole(session, 'editor')) {
-    return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
-  }
-  const file = await db.mediaFile.findUnique({ where: { id: params.id } })
-  if (!file) return NextResponse.json({ error: { code: 'NOT_FOUND' } }, { status: 404 })
+  try {
+    const session = await auth()
+    if (!session || !hasRole(session, 'editor')) {
+      return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+    }
+    const file = await db.mediaFile.findUnique({ where: { id: params.id } })
+    if (!file) return NextResponse.json({ error: { code: 'NOT_FOUND' } }, { status: 404 })
 
-  await deleteFile(file.key)
-  await db.mediaFile.update({ where: { id: params.id }, data: { deletedAt: new Date() } })
-  await writeAuditLog({ actorId: session.user.id, action: 'DELETE', entityType: 'media', entityId: params.id })
-  return new NextResponse(null, { status: 204 })
+    await deleteFile(file.key)
+    await db.mediaFile.update({ where: { id: params.id }, data: { deletedAt: new Date() } })
+    await writeAuditLog({ actorId: session.user.id, action: 'DELETE', entityType: 'media', entityId: params.id })
+    return new NextResponse(null, { status: 204 })
+  } catch (err) {
+    console.error('[media/[id]/DELETE] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
+  }
 }

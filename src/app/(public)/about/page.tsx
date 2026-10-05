@@ -1,9 +1,23 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { listTrainers } from '@/modules/trainers/trainers.service'
 import { getSettings } from '@/modules/settings/settings.service'
 import StatCounter from '@/components/ui/StatCounter'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'About Us',
+  description: 'Learn about SODAK Technology — founded in 2016, now partnered with 500+ engineering colleges across Tamil Nadu and helping 5,000+ students land their dream jobs every year.',
+  openGraph: {
+    title: 'About SODAK Technology',
+    description: 'Our story, our values, and the team behind India\'s fastest-growing campus placement training company.',
+    url: 'https://sodakedutech.in/about',
+    siteName: 'SODAK Technology',
+    locale: 'en_IN',
+    type: 'website',
+  },
+}
 
 const TIMELINE = [
   { year: '2016', title: 'SODAK Founded', desc: 'Started as a small placement coaching unit serving 3 colleges in Chennai.' },

@@ -1,8 +1,22 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { listTrainers } from '@/modules/trainers/trainers.service'
 import PublicPagination from '@/components/ui/PublicPagination'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Our Expert Trainers',
+  description: 'Meet the SODAK Technology trainers — working engineers from TCS, Infosys, Wipro, HCL and more who train students inside campus for placement readiness.',
+  openGraph: {
+    title: 'Our Expert Trainers | SODAK Technology',
+    description: 'Every SODAK trainer is a working engineer from a top MNC — teaching what they practice every day.',
+    url: 'https://sodakedutech.in/trainers',
+    siteName: 'SODAK Technology',
+    locale: 'en_IN',
+    type: 'website',
+  },
+}
 
 const TRUST = ['TCS','Infosys','Wipro','HCL','Cognizant','Accenture','IBM','Capgemini','Zoho','Freshworks']
 

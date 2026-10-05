@@ -89,7 +89,8 @@ export default function BlogTable({ posts, pagination, search = '', status = '' 
       </div>
 
       <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table style={{ width: '100%', minWidth: 640, borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#f8fafc' }}>
               {['Title', 'Author', 'Category', 'Status', 'Published', 'Actions'].map(h => (
@@ -135,6 +136,7 @@ export default function BlogTable({ posts, pagination, search = '', status = '' 
             })}
           </tbody>
         </table>
+        </div>{/* /scroll-wrapper */}
       </div>
 
       {pagination.pages > 1 && (

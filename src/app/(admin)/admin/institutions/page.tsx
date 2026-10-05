@@ -24,7 +24,7 @@ export default async function AdminInstitutionsPage({ searchParams }: Props) {
   const logoPerm = institutions.filter(i => i.logoPermission).length
 
   return (
-    <main className="flex-1 min-w-0" style={{ padding: '32px 40px', maxWidth: 'calc(100vw - 220px)', minHeight: '100vh', background: '#f8fafc' }}>
+    <main className="admin-main">
       <div style={{ marginBottom: 32 }}>
         <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4865ad', marginBottom: 6 }}>SODAK Technology</p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
@@ -39,7 +39,7 @@ export default async function AdminInstitutionsPage({ searchParams }: Props) {
       </div>
 
       {/* Stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginBottom: 24 }}>
+      <div className="admin-stat-grid-4">
         {[
           { label: 'Total Institutions', value: pagination.total },
           { label: 'Published', value: published },

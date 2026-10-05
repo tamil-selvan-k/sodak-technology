@@ -88,7 +88,7 @@ export default function TrainerForm({ trainer, stacks }: Props) {
       <div style={cardStyle}>
         <p style={sectionHead}>Basic Info</p>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="col-span-2">
             <label className={label} style={labelStyle} htmlFor="name">Name *</label>
             <input id="name" name="name" required defaultValue={trainer?.name} className={field} style={fieldStyle} placeholder="Full name" />

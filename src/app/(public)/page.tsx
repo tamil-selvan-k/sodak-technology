@@ -1,11 +1,24 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
-const HeroCarousel = dynamic(() => import('@/components/ui/HeroCarousel'), { ssr: false })
+import HeroCarousel from '@/components/ui/HeroCarousel'
 import { listTrainers } from '@/modules/trainers/trainers.service'
 import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
 import { listInstitutionNames } from '@/modules/institutions/institutions.service'
 import StatCounter from '@/components/ui/StatCounter'
+
+export const metadata: Metadata = {
+  title: 'Campus Placement Training in Chennai | SODAK Technology',
+  description: 'SODAK Technology delivers hands-on campus placement training for engineering colleges across Tamil Nadu — with certified trainers from TCS, Infosys, Wipro and more.',
+  openGraph: {
+    title: 'Campus Placement Training in Chennai | SODAK Technology',
+    description: 'Hands-on placement training delivered inside your campus by working engineers from top MNCs.',
+    url: 'https://sodakedutech.in',
+    siteName: 'SODAK Technology',
+    locale: 'en_IN',
+    type: 'website',
+  },
+}
 
 const COMPANIES = [
   'TCS','Infosys','Wipro','HCL','Cognizant','Accenture','IBM','Capgemini',
@@ -203,8 +216,8 @@ export default async function HomePage() {
             <p style={{ color: '#94a3b8' }}>We deliver on-campus training directly inside your institution — no student travel required.</p>
           </div>
           <div className="trust-grid">
-            {institutionNames.map(name => (
-              <div key={name} className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
+            {institutionNames.map((name, i) => (
+              <div key={`trust-${i}-${name}`} className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
             ))}
           </div>
           <div className="text-center" style={{ marginTop: 36 }}>

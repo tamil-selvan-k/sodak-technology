@@ -74,7 +74,8 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
       </div>
 
       <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table style={{ width: '100%', minWidth: 700, borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#f8fafc' }}>
               {['Title', 'Presenter', 'Platform', 'Scheduled', 'Duration', 'Status', 'Actions'].map(h => (
@@ -127,6 +128,7 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
             })}
           </tbody>
         </table>
+        </div>{/* /scroll-wrapper */}
       </div>
 
       {pagination.pages > 1 && (

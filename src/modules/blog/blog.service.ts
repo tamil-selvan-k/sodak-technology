@@ -77,8 +77,8 @@ export async function listPosts(filters: BlogFilters = {}): Promise<PostListResu
     // When includeUnpublished is false, always lock to published regardless of any caller-
     // supplied status, to prevent accidental draft exposure via the public API.
     ...(filters.includeUnpublished
-      ? filters.status ? { status: filters.status as never } : {}
-      : { status: 'published' as never }),
+      ? filters.status ? { status: filters.status } : {}
+      : { status: 'published' as const }),
     deletedAt: null,
     ...(filters.category && { category: filters.category }),
     ...(filters.tag      && { tags: { has: filters.tag } }),
@@ -117,8 +117,8 @@ export async function getPostById(id: string): Promise<PostWithAuthor | null> {
   return post
 }
 
-export async function getByAuthor(authorId: string) {
-  return db.blogPost.findMany({ where: { authorId, status: 'published', deletedAt: null }, include: WITH_AUTHOR, orderBy: { publishedAt: 'desc' } })
+export async function getByAuthor(authorId: string, limit = 50) {
+  return db.blogPost.findMany({ where: { authorId, status: 'published', deletedAt: null }, include: WITH_AUTHOR, orderBy: { publishedAt: 'desc' }, take: limit })
 }
 
 export async function createPost(input: CreatePostInput) {

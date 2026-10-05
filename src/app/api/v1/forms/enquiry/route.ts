@@ -5,40 +5,45 @@ import { formRateLimit, getIP } from '@/lib/rate-limit'
 export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
-  // Rate limit
-  const ip     = getIP(req)
-  const { success } = await formRateLimit.limit(ip)
-  if (!success) {
-    return NextResponse.json({ error: { code: 'RATE_LIMITED', message: 'Too many submissions. Try again later.' } }, { status: 429 })
+  try {
+    // Rate limit
+    const ip     = getIP(req)
+    const { success } = await formRateLimit.limit(ip)
+    if (!success) {
+      return NextResponse.json({ error: { code: 'RATE_LIMITED', message: 'Too many submissions. Try again later.' } }, { status: 429 })
+    }
+
+    const body   = await req.json()
+
+    // Honeypot — bots fill website_url, humans leave it blank
+    if (body.website_url) {
+      return NextResponse.json({ data: { ok: true } }) // silently accept to not reveal detection
+    }
+
+    // Validate Turnstile
+    const turnstileOk = await verifyTurnstile(body.turnstileToken, ip)
+    if (!turnstileOk) {
+      return NextResponse.json({ error: { code: 'TURNSTILE_FAILED', message: 'CAPTCHA verification failed.' } }, { status: 422 })
+    }
+
+    const parsed = enquirySchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.', details: parsed.error.flatten() } }, { status: 422 })
+    }
+
+    // Capture UTM + referrer from meta
+    const { consent: _consent, website_url: _hp, turnstileToken: _tk, ...leadData } = parsed.data
+    const lead = await leadsService.createLead({
+      ...leadData,
+      source: 'enquiry-form',
+      meta:   { utm: body.utm ?? {}, referrer: body.referrer ?? '' },
+    })
+
+    return NextResponse.json({ data: { id: lead.id } }, { status: 201 })
+  } catch (err) {
+    console.error('[forms/enquiry/POST] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
   }
-
-  const body   = await req.json()
-
-  // Honeypot — bots fill website_url, humans leave it blank
-  if (body.website_url) {
-    return NextResponse.json({ data: { ok: true } }) // silently accept to not reveal detection
-  }
-
-  // Validate Turnstile
-  const turnstileOk = await verifyTurnstile(body.turnstileToken, ip)
-  if (!turnstileOk) {
-    return NextResponse.json({ error: { code: 'TURNSTILE_FAILED', message: 'CAPTCHA verification failed.' } }, { status: 422 })
-  }
-
-  const parsed = enquirySchema.safeParse(body)
-  if (!parsed.success) {
-    return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.', details: parsed.error.flatten() } }, { status: 422 })
-  }
-
-  // Capture UTM + referrer from meta
-  const { consent: _consent, website_url: _hp, turnstileToken: _tk, ...leadData } = parsed.data
-  const lead = await leadsService.createLead({
-    ...leadData,
-    source: 'enquiry-form',
-    meta:   { utm: body.utm ?? {}, referrer: body.referrer ?? '' },
-  })
-
-  return NextResponse.json({ data: { id: lead.id } }, { status: 201 })
 }
 
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {

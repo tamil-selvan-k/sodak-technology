@@ -152,6 +152,9 @@ model Trainer {
   blogPosts BlogPost[]
   webinars  Webinar[]
 
+  @@index([isPublished, deletedAt])
+  @@index([isMentor, isPublished, deletedAt])
+  @@index([displayOrder])
   @@map("trainers")
 }
 
@@ -220,6 +223,9 @@ model Institution {
   engagements InstitutionEngagement[]
   photos      Photo[]
 
+  @@index([isPublished, deletedAt])
+  @@index([showOnHome, isPublished])
+  @@index([displayOrder])
   @@map("institutions")
 }
 
@@ -268,6 +274,8 @@ model Program {
 
   stacks ProgramStack[]
 
+  @@index([isPublished, deletedAt])
+  @@index([trackCode, isPublished])
   @@map("programs")
 }
 
@@ -306,6 +314,8 @@ model Photo {
   institution  Institution? @relation(fields: [institutionId], references: [id])
   uploadedBy   User?        @relation(fields: [uploadedById], references: [id])
 
+  @@index([isPublished, deletedAt])
+  @@index([institutionId, isPublished])
   @@map("photos")
 }
 
@@ -324,6 +334,7 @@ model MediaFile {
 
   uploadedBy User? @relation(fields: [uploadedById], references: [id])
 
+  @@index([deletedAt, createdAt])
   @@map("media_files")
 }
 
@@ -354,6 +365,9 @@ model BlogPost {
   relatedFrom  PostRelated[] @relation("relatedFrom")
   relatedTo    PostRelated[] @relation("relatedTo")
 
+  @@index([status, deletedAt])
+  @@index([publishedAt])
+  @@index([authorId, status])
   @@map("blog_posts")
 }
 
@@ -390,6 +404,9 @@ model Lead {
 
   notes LeadNote[]
 
+  @@index([status])
+  @@index([createdAt])
+  @@index([source])
   @@map("leads")
 }
 
@@ -431,6 +448,8 @@ model JobPost {
 
   applications JobApplication[]
 
+  @@index([isPublished, deletedAt])
+  @@index([department, isPublished])
   @@map("job_posts")
 }
 
@@ -473,6 +492,8 @@ model Webinar {
   presenter     Trainer?              @relation(fields: [presenterId], references: [id])
   registrations WebinarRegistration[]
 
+  @@index([isPublished, deletedAt])
+  @@index([scheduledAt, isPublished])
   @@map("webinars")
 }
 
@@ -512,6 +533,8 @@ model Internship {
 
   applications InternshipApplication[]
 
+  @@index([isPublished, deletedAt])
+  @@index([createdAt])
   @@map("internships")
 }
 
@@ -546,6 +569,9 @@ model AuditLog {
 
   actor User @relation(fields: [actorId], references: [id])
 
+  @@index([createdAt])
+  @@index([entityType, entityId])
+  @@index([actorId, createdAt])
   @@map("audit_log")
 }
 

@@ -75,7 +75,7 @@ export default function EditUserPage() {
   }
 
   return (
-    <main style={{ flex: 1, minWidth: 0, padding: '32px 40px', background: '#f8fafc', minHeight: '100vh' }}>
+    <main className="admin-main">
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
         <Link href="/admin/users" style={{ fontSize: 13, color: '#4865ad', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>

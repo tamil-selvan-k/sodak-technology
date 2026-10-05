@@ -5,22 +5,32 @@ import { createJobSchema } from '@/modules/careers/careers.schema'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url)
-  const { data, pagination } = await listJobs({
-    department: searchParams.get('department') ?? undefined,
-    isOpen: searchParams.get('open') !== 'false',
-  })
-  return NextResponse.json({ data, meta: pagination })
+  try {
+    const { searchParams } = new URL(req.url)
+    const { data, pagination } = await listJobs({
+      department: searchParams.get('department') ?? undefined,
+      isOpen: searchParams.get('open') !== 'false',
+    })
+    return NextResponse.json({ data, meta: pagination })
+  } catch (err) {
+    console.error('[careers/GET] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
+  }
 }
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session || !hasRole(session, 'editor')) {
-    return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+  try {
+    const session = await auth()
+    if (!session || !hasRole(session, 'editor')) {
+      return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
+    }
+    const body = await req.json()
+    const parsed = createJobSchema.safeParse(body)
+    if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
+    const job = await createJob(parsed.data)
+    return NextResponse.json({ data: job }, { status: 201 })
+  } catch (err) {
+    console.error('[careers/POST] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
   }
-  const body = await req.json()
-  const parsed = createJobSchema.safeParse(body)
-  if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
-  const job = await createJob(parsed.data)
-  return NextResponse.json({ data: job }, { status: 201 })
 }

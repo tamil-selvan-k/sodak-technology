@@ -62,7 +62,7 @@ export async function listInstitutions(filters: InstitutionFilters = {}): Promis
     ...(filters.includeUnpublished ? {} : { isPublished: true }),
     deletedAt:   null,
     ...(filters.showOnHome !== undefined && { showOnHome: filters.showOnHome }),
-    ...(filters.type   && { type:  filters.type as never }),
+    ...(filters.type   && { type:  filters.type as import('@prisma/client').InstitutionType }),
     ...(filters.search && { name: { contains: filters.search, mode: 'insensitive' as const } }),
   }
   const [institutions, total] = await Promise.all([
@@ -80,7 +80,7 @@ export async function listInstitutionNames(filters: Pick<InstitutionFilters, 'sh
   const { skip, take, page, perPage } = parsePagination(filters)
 
   const version = await cacheGet<number>(VERSION_KEY).then(v => v ?? 0)
-  const key = buildListKey(version, { ...filters, page, perPage }) + ':slim'
+  const key = `institutions:names:v${version}:page${page}:per${perPage}:home${filters.showOnHome ?? ''}`
   const cached = await cacheGet<InstitutionSlimResult>(key)
   if (cached !== null) return cached
 
@@ -119,8 +119,9 @@ export async function getInstitutionById(id: string): Promise<InstitutionRecord 
 }
 
 export async function getByTrainerId(_trainerId: string) {
-  // Join via institution_engagements — expand when trainer↔institution join table is added
-  return db.institution.findMany({ where: { isPublished: true, deletedAt: null } })
+  // Join via institution_engagements — expand when trainer↔institution join table is added.
+  // Cap at 500 to prevent unbounded scans.
+  return db.institution.findMany({ where: { isPublished: true, deletedAt: null }, take: 500, orderBy: { displayOrder: 'asc' } })
 }
 
 export async function createInstitution(input: CreateInstitutionInput) {

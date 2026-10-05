@@ -81,13 +81,7 @@ export default async function AdminDashboardPage() {
   ]
 
   return (
-    <main style={{
-      flex: 1, minWidth: 0,
-      padding: '40px 44px',
-      maxWidth: 'calc(100vw - 220px)',
-      background: '#f8fafc',
-      minHeight: '100vh',
-    }}>
+    <main className="admin-main">
 
       {/* Top bar */}
       <div style={{ marginBottom: 36 }}>
@@ -103,7 +97,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20, marginBottom: 28 }}>
+      <div className="admin-stat-grid-4">
         {STATS.map(s => (
           <div key={s.label} style={{ ...CARD, padding: '24px 28px' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18 }}>
@@ -126,7 +120,8 @@ export default async function AdminDashboardPage() {
             View all →
           </Link>
         </div>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table style={{ width: '100%', minWidth: 600, borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#f8fafc' }}>
               {['Name', 'Institution', 'Program Interest', 'Date', 'Status'].map(h => (
@@ -166,10 +161,11 @@ export default async function AdminDashboardPage() {
             })}
           </tbody>
         </table>
+        </div>{/* /scroll-wrapper */}
       </div>
 
       {/* Activity + Quick Actions */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="admin-two-col">
 
         {/* Activity log */}
         <div style={{ ...CARD, padding: 24 }}>

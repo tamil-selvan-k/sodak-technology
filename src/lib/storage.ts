@@ -18,23 +18,42 @@ const client = new S3Client({
 const BUCKET          = process.env.AWS_S3_BUCKET!
 const CLOUDFRONT_DOMAIN = process.env.AWS_CLOUDFRONT_DOMAIN   // optional CDN domain
 
+export class StorageError extends Error {
+  constructor(message: string, public readonly cause?: unknown) {
+    super(message)
+    this.name = 'StorageError'
+  }
+}
+
 export async function uploadFile(
   key: string,
   body: Buffer,
   contentType: string,
 ): Promise<string> {
-  await client.send(
-    new PutObjectCommand({ Bucket: BUCKET, Key: key, Body: body, ContentType: contentType }),
-  )
-  return publicUrl(key)
+  try {
+    await client.send(
+      new PutObjectCommand({ Bucket: BUCKET, Key: key, Body: body, ContentType: contentType }),
+    )
+    return publicUrl(key)
+  } catch (err) {
+    throw new StorageError(`Failed to upload file to key "${key}"`, err)
+  }
 }
 
 export async function deleteFile(key: string): Promise<void> {
-  await client.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: key }))
+  try {
+    await client.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: key }))
+  } catch (err) {
+    throw new StorageError(`Failed to delete file at key "${key}"`, err)
+  }
 }
 
 export async function signedDownloadUrl(key: string, expiresIn = 3600): Promise<string> {
-  return getSignedUrl(client, new GetObjectCommand({ Bucket: BUCKET, Key: key }), { expiresIn })
+  try {
+    return await getSignedUrl(client, new GetObjectCommand({ Bucket: BUCKET, Key: key }), { expiresIn })
+  } catch (err) {
+    throw new StorageError(`Failed to generate signed URL for key "${key}"`, err)
+  }
 }
 
 export function publicUrl(key: string): string {

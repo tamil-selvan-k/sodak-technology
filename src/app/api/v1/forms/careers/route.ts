@@ -15,22 +15,27 @@ const schema = z.object({
 })
 
 export async function POST(req: Request) {
-  const ip = getIP(req)
-  const { success } = await formRateLimit.limit(ip)
-  if (!success) return NextResponse.json({ error: { code: 'RATE_LIMITED' } }, { status: 429 })
+  try {
+    const ip = getIP(req)
+    const { success } = await formRateLimit.limit(ip)
+    if (!success) return NextResponse.json({ error: { code: 'RATE_LIMITED' } }, { status: 429 })
 
-  const body = await req.json()
-  if (body.website_url) return NextResponse.json({ data: { ok: true } })
+    const body = await req.json()
+    if (body.website_url) return NextResponse.json({ data: { ok: true } })
 
-  const parsed = schema.safeParse(body)
-  if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
+    const parsed = schema.safeParse(body)
+    if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
 
-  const application = await createApplication(parsed.data.jobId, {
-    applicantName: parsed.data.name,
-    email: parsed.data.email,
-    phone: parsed.data.phone,
-    resumeUrl: parsed.data.resumeFileKey,
-    coverNote: parsed.data.coverLetterUrl,
-  })
-  return NextResponse.json({ data: application }, { status: 201 })
+    const application = await createApplication(parsed.data.jobId, {
+      applicantName: parsed.data.name,
+      email: parsed.data.email,
+      phone: parsed.data.phone,
+      resumeUrl: parsed.data.resumeFileKey,
+      coverNote: parsed.data.coverLetterUrl,
+    })
+    return NextResponse.json({ data: application }, { status: 201 })
+  } catch (err) {
+    console.error('[forms/careers/POST] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
+  }
 }

@@ -82,7 +82,8 @@ export default function ProgramsTable({ programs, pagination }: Props) {
 
       {/* Table — wireframe-exact */}
       <div className={`rounded-[12px] overflow-hidden transition-opacity ${isPending ? 'opacity-60' : ''}`} style={{ background: '#ffffff', border: '1px solid #e2e8f0' }}>
-        <table className="w-full border-collapse">
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table className="w-full border-collapse" style={{ minWidth: 760 }}>
           <thead>
             <tr style={{ background: '#f8fafc' }}>
               {['Title', 'Track', 'Stacks', 'Duration', 'Delivery', 'Brochure', 'Status', 'Actions'].map(h => (
@@ -139,6 +140,7 @@ export default function ProgramsTable({ programs, pagination }: Props) {
             ))}
           </tbody>
         </table>
+        </div>{/* /scroll-wrapper */}
       </div>
 
       <Pagination {...pagination} />

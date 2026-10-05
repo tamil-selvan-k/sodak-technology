@@ -26,7 +26,7 @@ export interface BlogFilters {
   tag?: string
   authorId?: string
   search?: string
-  status?: string
+  status?: BlogStatus
   includeUnpublished?: boolean
   page?: number
   perPage?: number

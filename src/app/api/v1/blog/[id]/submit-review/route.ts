@@ -5,23 +5,28 @@ import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
-  const session = await auth()
-  if (!session || !hasRole(session, 'contributor')) {
-    return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
-  }
-
-  // Contributors may only submit their own drafts.  Editors and above can submit any post.
-  if (!hasRole(session, 'editor')) {
-    const existing = await getPostById(params.id)
-    if (!existing) {
-      return NextResponse.json({ error: { code: 'NOT_FOUND', message: 'Post not found.' } }, { status: 404 })
+  try {
+    const session = await auth()
+    if (!session || !hasRole(session, 'contributor')) {
+      return NextResponse.json({ error: { code: 'FORBIDDEN' } }, { status: 403 })
     }
-    if (existing.authorId !== session.user.id) {
-      return NextResponse.json({ error: { code: 'FORBIDDEN', message: 'You can only submit your own posts for review.' } }, { status: 403 })
-    }
-  }
 
-  const post = await submitForReview(params.id)
-  await writeAuditLog({ actorId: session.user.id, action: 'SUBMIT_REVIEW', entityType: 'blog_post', entityId: params.id })
-  return NextResponse.json({ data: post })
+    // Contributors may only submit their own drafts.  Editors and above can submit any post.
+    if (!hasRole(session, 'editor')) {
+      const existing = await getPostById(params.id)
+      if (!existing) {
+        return NextResponse.json({ error: { code: 'NOT_FOUND', message: 'Post not found.' } }, { status: 404 })
+      }
+      if (existing.authorId !== session.user.id) {
+        return NextResponse.json({ error: { code: 'FORBIDDEN', message: 'You can only submit your own posts for review.' } }, { status: 403 })
+      }
+    }
+
+    const post = await submitForReview(params.id)
+    await writeAuditLog({ actorId: session.user.id, action: 'SUBMIT_REVIEW', entityType: 'blog_post', entityId: params.id })
+    return NextResponse.json({ data: post })
+  } catch (err) {
+    console.error('[blog/[id]/submit-review/POST] error:', err)
+    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
+  }
 }
