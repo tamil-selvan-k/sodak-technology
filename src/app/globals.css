@@ -455,6 +455,8 @@ section.s-lg { padding: 88px 0; }
 .admin-nav-item:hover { background: rgba(72,101,173,0.05); color: #4865ad; }
 .admin-nav-item.active { background: rgba(72,101,173,0.08); color: #4865ad; border-left-color: #4865ad; font-weight: 600; }
 .admin-nav-section { padding: 20px 20px 6px; font-size: 10px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; }
+.admin-back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: #64748b; text-decoration: none; transition: color 0.15s; }
+.admin-back-link:hover { color: #4865ad; }
 
 /* ── Two-col ── */
 .two-col { display: grid; grid-template-columns: 3fr 2fr; gap: 48px; }

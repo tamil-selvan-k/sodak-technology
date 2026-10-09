@@ -121,7 +121,7 @@ export default function Footer() {
           alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
         }}>
           <span style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.28)' }}>
-            © 2026 SODAK Technology Pvt. Ltd. All rights reserved.
+            &copy; 2026 SODAK Technology Pvt. Ltd. All rights reserved.
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
             <Link href="/privacy" style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.32)', textDecoration: 'none', transition: 'color 0.15s' }}>Privacy Policy</Link>

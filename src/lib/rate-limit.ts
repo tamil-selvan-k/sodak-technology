@@ -22,9 +22,16 @@ function createProdLimiter(): Limiter {
   })
 }
 
+function hasRealUpstashCreds(): boolean {
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  if (!url || !process.env.UPSTASH_REDIS_REST_TOKEN) return false
+  if (url.includes('your-url') || url.includes('your_url')) return false
+  try { return new URL(url).hostname.endsWith('.upstash.io') } catch { return false }
+}
+
 // 5 form submissions per IP per hour
 export const formRateLimit: Limiter =
-  process.env.NODE_ENV === 'production' ? createProdLimiter() : devLimiter
+  hasRealUpstashCreds() ? createProdLimiter() : devLimiter
 
 export function getIP(req: Request): string {
   return (
