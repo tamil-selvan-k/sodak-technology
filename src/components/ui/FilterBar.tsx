@@ -39,7 +39,7 @@ export default function FilterBar({ filters, searchKey = 'search', searchPlaceho
             key={f.key}
             value={searchParams.get(f.key) ?? ''}
             onChange={e => updateParam(f.key, e.target.value)}
-            className="px-3.5 py-2 rounded-md border border-[var(--dm-border)] bg-white text-[13px] font-medium text-slate-600 cursor-pointer transition-[border-color] outline-none focus:border-[var(--gold-500)] min-w-[140px] appearance-none"
+            className="px-3.5 py-2 rounded-xl border border-[#dbeafe] bg-white text-[13px] font-medium text-slate-700 cursor-pointer transition-all outline-none focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.12)] min-w-[140px] appearance-none"
           >
             <option value="">{f.placeholder}</option>
             {f.options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -50,10 +50,10 @@ export default function FilterBar({ filters, searchKey = 'search', searchPlaceho
           placeholder={searchPlaceholder}
           defaultValue={searchParams.get(searchKey) ?? ''}
           onChange={e => updateParam(searchKey, e.target.value)}
-          className="flex-1 min-w-[160px] px-3.5 py-2 rounded-md border border-[var(--dm-border)] bg-white text-[13px] text-[var(--dm-text)] transition-[border-color] outline-none focus:border-[var(--gold-500)] placeholder:text-slate-400"
+          className="flex-1 min-w-[160px] px-3.5 py-2 rounded-xl border border-[#dbeafe] bg-white text-[13px] text-[#172554] transition-all outline-none focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.12)] placeholder:text-slate-400"
         />
         {resultCount !== undefined && (
-          <span className="ml-auto text-[11px] font-semibold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
+          <span className="ml-auto text-[11px] font-semibold text-[#1e40af] bg-[#eff6ff] border border-[#dbeafe] px-2.5 py-1 rounded-full">
             {resultCount} results
           </span>
         )}

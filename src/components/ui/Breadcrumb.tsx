@@ -10,15 +10,15 @@ export default function Breadcrumb({ crumbs }: { crumbs: Crumb[] }) {
         return (
           <span key={idx} className="flex items-center gap-1.5 text-sm">
             {crumb.href && !isLast ? (
-              <Link href={crumb.href} className="text-slate-400 hover:text-[var(--gold-400)] transition-colors">
+              <Link href={crumb.href} className="text-slate-400 hover:text-[#2563eb] transition-colors">
                 {crumb.label}
               </Link>
             ) : (
-              <span className={isLast ? 'text-[var(--gold-500)] font-semibold' : 'text-slate-400'}>
+              <span className={isLast ? 'text-[#2563eb] font-semibold' : 'text-slate-400'}>
                 {crumb.label}
               </span>
             )}
-            {!isLast && <span className="text-slate-600 text-xs">›</span>}
+            {!isLast && <span className="text-slate-400 text-xs">›</span>}
           </span>
         )
       })}

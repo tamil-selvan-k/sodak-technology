@@ -7,14 +7,14 @@ interface Props {
 }
 
 const CLASSES: Record<Variant, string> = {
-  gold:  'bg-[var(--gold-500)]/12 text-[var(--gold-500)] border border-[var(--gold-500)]/25',
-  dark:  'bg-white/7 text-[#94a3b8] border border-white/8',
-  light: 'bg-slate-100 text-slate-600',
-  green: 'bg-green-500/12 text-green-500 border border-green-500/25',
-  amber: 'bg-yellow-500/12 text-yellow-500 border border-yellow-500/25',
-  red:   'bg-red-500/12 text-red-500 border border-red-500/25',
-  blue:  'bg-blue-500/12 text-blue-500 border border-blue-500/25',
-  plum:  'bg-violet-600/12 text-violet-600 border border-violet-600/25',
+  gold:  'bg-blue-500/12 text-blue-600 border border-blue-500/25',
+  dark:  'bg-white/10 text-blue-100 border border-white/15',
+  light: 'bg-[#eff6ff] text-[#1e40af] border border-[#dbeafe]',
+  green: 'bg-green-500/12 text-green-600 border border-green-500/25',
+  amber: 'bg-yellow-500/12 text-yellow-600 border border-yellow-500/25',
+  red:   'bg-red-500/12 text-red-600 border border-red-500/25',
+  blue:  'bg-blue-500/12 text-blue-600 border border-blue-500/25',
+  plum:  'bg-indigo-500/12 text-indigo-600 border border-indigo-500/25',
 }
 
 export default function Badge({ variant = 'light', children, className = '' }: Props) {

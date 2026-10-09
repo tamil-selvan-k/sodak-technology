@@ -8,9 +8,9 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '10px 14px',
   background: '#ffffff',
-  border: '1px solid #e2e8f0',
+  border: '1px solid #DBEAFE',
   borderRadius: 10,
-  color: '#0f172a',
+  color: '#172554',
   fontSize: 13,
   outline: 'none',
   boxSizing: 'border-box',
@@ -48,7 +48,7 @@ export default function LoginForm() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#f8fafc',
+      background: '#EFF6FF',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -58,16 +58,16 @@ export default function LoginForm() {
         width: '100%',
         maxWidth: 400,
         background: '#ffffff',
-        border: '1px solid #e2e8f0',
+        border: '1px solid #DBEAFE',
         borderRadius: 24,
         padding: '48px 40px',
         boxShadow: '0 4px 24px rgba(15,23,42,0.06)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 8 }}>
-          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 18, color: '#0f172a' }}>SODAK</span>
-          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 18, color: '#4865ad' }}>Technology</span>
+          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 18, color: '#172554' }}>SODAK</span>
+          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 18, color: '#2563EB' }}>Technology</span>
         </div>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif', marginBottom: 6 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#172554', fontFamily: 'var(--font-plus-jakarta), sans-serif', marginBottom: 6 }}>
           Admin Login
         </h1>
         <p style={{ fontSize: 13, color: '#64748b', marginBottom: 32 }}>
@@ -142,7 +142,7 @@ export default function LoginForm() {
               padding: '11px 0',
               fontSize: 14,
               fontWeight: 700,
-              background: loading ? 'rgba(72,101,173,0.6)' : '#4865ad',
+              background: loading ? 'rgba(37,99,235,0.6)' : '#2563EB',
               color: '#ffffff',
               borderRadius: '2rem',
               border: 'none',

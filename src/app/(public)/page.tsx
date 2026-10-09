@@ -149,12 +149,12 @@ export default async function HomePage() {
               {trainers.map(t => (
                 <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-dark" style={{ textAlign: 'center', padding: '28px 20px' }}>
-                    <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', fontSize: 28, background: 'rgba(72,101,173,0.15)' }}>
+                    <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', fontSize: 28, background: '#eff6ff', color: '#2563eb' }}>
                       {t.name.charAt(0)}
                     </div>
                     <p className="t-card c-white" style={{ marginBottom: 4 }}>{t.name}</p>
                     <p className="t-sm c-muted">{t.designation}</p>
-                    {t.currentCompany && <p className="t-micro c-gold" style={{ marginTop: 6 }}>{t.currentCompany}</p>}
+                    {t.currentCompany && <p className="t-micro" style={{ marginTop: 6, color: '#93c5fd', fontWeight: 600 }}>{t.currentCompany}</p>}
                     {t.expertiseTags?.slice(0, 2).map((tag: string) => (
                       <span key={tag} className="badge badge-dark" style={{ marginTop: 8, marginRight: 4 }}>{tag}</span>
                     ))}
@@ -267,7 +267,7 @@ export default async function HomePage() {
             &ldquo;SODAK Technology&apos;s placement training changed my life. Three months after the bootcamp I got placed at Infosys — the mock interviews here were harder than the real thing!&rdquo;
           </blockquote>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
-            <div className="avatar avatar-md" style={{ background: 'rgba(72,101,173,0.2)', fontSize: 18 }}>S</div>
+            <div className="avatar avatar-md" style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff', fontSize: 18 }}>S</div>
             <div style={{ textAlign: 'left' }}>
               <p className="t-sm c-white fw-600">Sivapriya N.</p>
               <p className="t-micro c-muted">Placed at Infosys · SRM Institute of Technology</p>
@@ -288,16 +288,16 @@ export default async function HomePage() {
           </div>
           <div className="platform-grid">
             {[
-              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>, title:'SODAK LMS', desc:'Structured learning paths with video lessons, quizzes, and progress tracking.', href:'/platform/lms' },
-              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>, title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },
-              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>, title:'Assessment Engine', desc:'AI-proctored aptitude and coding tests mirroring company formats.', href:'/platform/assessments' },
+              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="#2563eb"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>, title:'SODAK LMS', desc:'Structured learning paths with video lessons, quizzes, and progress tracking.', href:'/platform/lms' },
+              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="#2563eb"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>, title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },
+              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="#2563eb"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>, title:'Assessment Engine', desc:'AI-proctored aptitude and coding tests mirroring company formats.', href:'/platform/assessments' },
             ].map(p => (
               <Link key={p.title} href={p.href} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
                 <div className="card card-light" style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                   <div style={{ display: 'flex', marginBottom: 14 }}>{p.icon}</div>
                   <p className="t-h3 c-heading" style={{ marginBottom: 8 }}>{p.title}</p>
                   <div style={{ flex: 1 }}><p className="t-sm c-body">{p.desc}</p></div>
-                  <p className="t-sm" style={{ color: '#4865ad', marginTop: 14 }}>Learn more →</p>
+                  <p className="t-sm" style={{ color: '#2563eb', fontWeight: 600, marginTop: 14 }}>Learn more →</p>
                 </div>
               </Link>
             ))}

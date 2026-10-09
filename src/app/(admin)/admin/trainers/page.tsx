@@ -30,15 +30,15 @@ export default async function AdminTrainersPage({ searchParams }: Props) {
   return (
     <main className="admin-main">
       <div style={{ marginBottom: 32 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4865ad', marginBottom: 6 }}>SODAK Technology</p>
+        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#2563EB', marginBottom: 6 }}>SODAK Technology</p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <div>
-            <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Trainer Management</h1>
+            <h1 style={{ fontSize: 28, fontWeight: 800, color: '#172554', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Trainer Management</h1>
             <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Manage trainer profiles, domains and programs</p>
           </div>
           <Link
             href="/admin/trainers/new"
-            style={{ padding: '9px 22px', fontSize: 13, fontWeight: 700, background: '#4865ad', color: '#ffffff', borderRadius: '2rem', textDecoration: 'none', whiteSpace: 'nowrap' }}
+            style={{ padding: '9px 22px', fontSize: 13, fontWeight: 700, background: '#2563EB', color: '#ffffff', borderRadius: '2rem', textDecoration: 'none', whiteSpace: 'nowrap' }}
           >
             + Add Trainer
           </Link>
@@ -53,9 +53,9 @@ export default async function AdminTrainersPage({ searchParams }: Props) {
           { label: 'Mentors',         value: mentors },
           { label: 'Missing Consent', value: noConsent },
         ].map(c => (
-          <div key={c.label} style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '1.5rem', padding: '20px 24px' }}>
+          <div key={c.label} style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: '1.5rem', padding: '20px 24px' }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{c.label}</p>
-            <p style={{ fontSize: 32, fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>{c.value}</p>
+            <p style={{ fontSize: 32, fontWeight: 800, color: '#172554', lineHeight: 1 }}>{c.value}</p>
           </div>
         ))}
       </div>

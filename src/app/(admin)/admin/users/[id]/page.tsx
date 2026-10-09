@@ -69,8 +69,8 @@ export default function EditUserPage() {
 
   const INPUT: React.CSSProperties = {
     width: '100%', padding: '10px 14px',
-    background: '#f8fafc', border: '1px solid #e2e8f0',
-    borderRadius: '1.5rem', color: '#0f172a', fontSize: 13,
+    background: '#EFF6FF', border: '1px solid #DBEAFE',
+    borderRadius: '1.5rem', color: '#172554', fontSize: 13,
     outline: 'none', boxSizing: 'border-box',
   }
 
@@ -78,11 +78,11 @@ export default function EditUserPage() {
     <main className="admin-main">
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
-        <Link href="/admin/users" style={{ fontSize: 13, color: '#4865ad', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+        <Link href="/admin/users" style={{ fontSize: 13, color: '#2563EB', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
           Back to Users
         </Link>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Edit User</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: '#172554', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Edit User</h1>
         {user && <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>{user.email}</p>}
       </div>
 
@@ -90,11 +90,11 @@ export default function EditUserPage() {
 
       {!loading && user && (
         <div style={{ maxWidth: 520 }}>
-          <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '1.5rem', padding: '28px 32px' }}>
+          <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: '1.5rem', padding: '28px 32px' }}>
 
             {/* Name */}
             <div style={{ marginBottom: 20 }}>
-              <label style={{ fontSize: 12, fontWeight: 600, color: '#334155', marginBottom: 6, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Display Name</label>
+              <label style={{ fontSize: 12, fontWeight: 600, color: '#172554', marginBottom: 6, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Display Name</label>
               <input
                 type="text"
                 value={name}
@@ -106,31 +106,31 @@ export default function EditUserPage() {
 
             {/* Email (read-only) */}
             <div style={{ marginBottom: 20 }}>
-              <label style={{ fontSize: 12, fontWeight: 600, color: '#334155', marginBottom: 6, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</label>
-              <input type="email" value={user.email} readOnly style={{ ...INPUT, background: '#f1f5f9', color: '#64748b', cursor: 'not-allowed' }} />
+              <label style={{ fontSize: 12, fontWeight: 600, color: '#172554', marginBottom: 6, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</label>
+              <input type="email" value={user.email} readOnly style={{ ...INPUT, background: '#EFF6FF', color: '#64748b', cursor: 'not-allowed' }} />
             </div>
 
             {/* Role */}
             <div style={{ marginBottom: 28 }}>
-              <label style={{ fontSize: 12, fontWeight: 600, color: '#334155', marginBottom: 10, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Role</label>
+              <label style={{ fontSize: 12, fontWeight: 600, color: '#172554', marginBottom: 10, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Role</label>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {ROLES.map(r => (
                   <label key={r.value} style={{ cursor: 'pointer' }}>
                     <div style={{
                       display: 'flex', alignItems: 'flex-start', gap: 12,
                       padding: '12px 14px', borderRadius: '1rem',
-                      border: `1.5px solid ${role === r.value ? '#4865ad' : '#e2e8f0'}`,
-                      background: role === r.value ? 'rgba(72,101,173,0.05)' : '#ffffff',
+                      border: `1.5px solid ${role === r.value ? '#2563EB' : '#DBEAFE'}`,
+                      background: role === r.value ? '#EFF6FF' : '#ffffff',
                       transition: 'border-color 0.15s, background 0.15s',
                     }}>
                       <input
                         type="radio" name="role" value={r.value}
                         checked={role === r.value}
                         onChange={() => setRole(r.value)}
-                        style={{ marginTop: 2, accentColor: '#4865ad', flexShrink: 0 }}
+                        style={{ marginTop: 2, accentColor: '#2563EB', flexShrink: 0 }}
                       />
                       <div>
-                        <p style={{ fontSize: 13, fontWeight: 600, color: '#0f172a' }}>{r.label}</p>
+                        <p style={{ fontSize: 13, fontWeight: 600, color: '#172554' }}>{r.label}</p>
                         <p style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>{r.desc}</p>
                       </div>
                     </div>
@@ -146,11 +146,11 @@ export default function EditUserPage() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                style={{ padding: '10px 24px', fontSize: 13, fontWeight: 600, background: '#4865ad', color: '#fff', borderRadius: '2rem', border: 'none', cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}
+                style={{ padding: '10px 24px', fontSize: 13, fontWeight: 600, background: '#2563EB', color: '#fff', borderRadius: '2rem', border: 'none', cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}
               >
                 {saving ? 'Saving…' : 'Save Changes'}
               </button>
-              <Link href="/admin/users" style={{ padding: '10px 24px', fontSize: 13, fontWeight: 600, background: 'transparent', color: '#64748b', borderRadius: '2rem', border: '1px solid #e2e8f0', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
+              <Link href="/admin/users" style={{ padding: '10px 24px', fontSize: 13, fontWeight: 600, background: 'transparent', color: '#64748b', borderRadius: '2rem', border: '1px solid #DBEAFE', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
                 Cancel
               </Link>
             </div>

@@ -53,12 +53,12 @@ function baseLayout(content: string, title: string): string {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
-        <!-- Gold top bar -->
-        <tr><td style="background:#c8a035;height:4px;border-radius:6px 6px 0 0;font-size:0;">&nbsp;</td></tr>
+        <!-- Blue top bar -->
+        <tr><td style="background:#2563EB;height:4px;border-radius:6px 6px 0 0;font-size:0;">&nbsp;</td></tr>
 
         <!-- Logo area -->
-        <tr><td style="background:#ffffff;padding:24px 32px 20px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
-          <span style="font-size:20px;font-weight:800;color:#0a0f1e;letter-spacing:-0.02em;">SODAK Technology</span>
+        <tr><td style="background:#ffffff;padding:24px 32px 20px;border-left:1px solid #DBEAFE;border-right:1px solid #DBEAFE;">
+          <span style="font-size:20px;font-weight:800;color:#1E40AF;letter-spacing:-0.02em;">SODAK Technology</span>
           <span style="display:block;font-size:12px;color:#64748b;margin-top:2px;">Campus Placement Training</span>
         </td></tr>
 
@@ -86,8 +86,8 @@ function h(text: string): string {
 
 function ctaButton(label: string, url: string): string {
   return `<table cellpadding="0" cellspacing="0" style="margin:24px 0;">
-    <tr><td style="background:#c8a035;border-radius:6px;">
-      <a href="${h(url)}" style="display:inline-block;padding:12px 28px;color:#0a0f1e;font-size:14px;font-weight:700;text-decoration:none;">${h(label)}</a>
+    <tr><td style="background:#2563EB;border-radius:6px;">
+      <a href="${h(url)}" style="display:inline-block;padding:12px 28px;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;">${h(label)}</a>
     </td></tr>
   </table>`
 }
@@ -114,7 +114,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
         <h1 style="margin:0 0 8px;font-size:20px;font-weight:700;color:#ffffff;">🔔 New Enquiry Received</h1>
         <p style="margin:0 0 24px;font-size:13px;color:#94a3b8;">A new contact form submission is waiting in your inbox.</p>
 
-        <table cellpadding="0" cellspacing="0" width="100%" style="background:rgba(200,160,53,0.08);border:1px solid rgba(200,160,53,0.25);border-radius:8px;margin-bottom:24px;">
+        <table cellpadding="0" cellspacing="0" width="100%" style="background:rgba(37,99,235,0.12);border:1px solid rgba(37,99,235,0.3);border-radius:8px;margin-bottom:24px;">
           <tbody>
             ${infoRow('Name', name)}
             ${infoRow('Email', email)}
@@ -124,7 +124,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
         </table>
 
         ${message ? `<p style="margin:0 0 8px;font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Message</p>
-        <div style="background:rgba(255,255,255,0.04);border-left:3px solid #c8a035;padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:24px;">
+        <div style="background:rgba(255,255,255,0.04);border-left:3px solid #2563EB;padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:24px;">
           <p style="margin:0;font-size:14px;color:#cbd5e1;line-height:1.7;">${h(message)}</p>
         </div>` : ''}
 
@@ -144,7 +144,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
           ${['We review your enquiry and understand your requirements', 'A 30-minute call to align on program, batch size and timeline', 'Custom proposal sent to you within 2 business days'].map((step, i) => `
           <tr>
             <td style="padding:8px 0;vertical-align:top;width:28px;">
-              <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:#c8a035;color:#0a0f1e;font-size:11px;font-weight:700;border-radius:50%;">${i + 1}</span>
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:#2563EB;color:#ffffff;font-size:11px;font-weight:700;border-radius:50%;">${i + 1}</span>
             </td>
             <td style="padding:8px 0 8px 10px;font-size:13px;color:#94a3b8;line-height:1.6;">${h(step)}</td>
           </tr>`).join('')}
@@ -152,7 +152,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
 
         <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:16px 20px;">
           <p style="margin:0 0 8px;font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Need to reach us faster?</p>
-          <p style="margin:0;font-size:13px;color:#94a3b8;">📞 <a href="tel:+918939366259" style="color:#c8a035;text-decoration:none;">+91 89393 66259</a> &nbsp;|&nbsp; ✉ <a href="mailto:hello@sodakedutech.in" style="color:#c8a035;text-decoration:none;">hello@sodakedutech.in</a></p>
+          <p style="margin:0;font-size:13px;color:#94a3b8;">📞 <a href="tel:+918939366259" style="color:#3B82F6;text-decoration:none;">+91 89393 66259</a> &nbsp;|&nbsp; ✉ <a href="mailto:hello@sodakedutech.in" style="color:#3B82F6;text-decoration:none;">hello@sodakedutech.in</a></p>
         </div>
       `
       return baseLayout(content, 'Thanks for reaching out — SODAK Technology')
@@ -176,8 +176,8 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
         <h1 style="margin:0 0 8px;font-size:20px;font-weight:700;color:#ffffff;">Reset your password</h1>
         <p style="margin:0 0 24px;font-size:14px;color:#94a3b8;line-height:1.7;">We received a request to reset your SODAK Technology admin password. Click the button below to set a new one.</p>
         ${ctaButton('Reset Password →', url)}
-        <div style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.3);border-radius:6px;padding:12px 16px;margin-top:8px;">
-          <p style="margin:0;font-size:13px;color:#eab308;">⏱ This link expires in <strong>15 minutes</strong>.</p>
+        <div style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.3);border-radius:6px;padding:12px 16px;margin-top:8px;">
+          <p style="margin:0;font-size:13px;color:#3B82F6;">⏱ This link expires in <strong>15 minutes</strong>.</p>
         </div>
         <p style="margin:20px 0 0;font-size:12px;color:#475569;">If you didn't request a password reset, you can safely ignore this email. Your password will not change.</p>
       `
@@ -193,7 +193,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
         <h1 style="margin:0 0 8px;font-size:20px;font-weight:700;color:#ffffff;">✅ You're registered!</h1>
         <p style="margin:0 0 24px;font-size:14px;color:#94a3b8;line-height:1.7;">Hi ${h(name)}, your spot is confirmed for the webinar below.</p>
 
-        <table cellpadding="0" cellspacing="0" width="100%" style="background:rgba(200,160,53,0.08);border:1px solid rgba(200,160,53,0.25);border-radius:8px;margin-bottom:24px;">
+        <table cellpadding="0" cellspacing="0" width="100%" style="background:rgba(37,99,235,0.12);border:1px solid rgba(37,99,235,0.3);border-radius:8px;margin-bottom:24px;">
           <tbody>
             ${infoRow('Webinar', title)}
             ${infoRow('Date & Time', scheduledAt)}
@@ -218,7 +218,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
           <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.7;">Our team reviews applications within <strong style="color:#ffffff;">5 business days</strong>. Shortlisted candidates will be contacted for a brief screening call.</p>
         </div>
 
-        <p style="margin:0;font-size:13px;color:#64748b;">Questions? Email us at <a href="mailto:hello@sodakedutech.in" style="color:#c8a035;text-decoration:none;">hello@sodakedutech.in</a>.</p>
+        <p style="margin:0;font-size:13px;color:#64748b;">Questions? Email us at <a href="mailto:hello@sodakedutech.in" style="color:#3B82F6;text-decoration:none;">hello@sodakedutech.in</a>.</p>
       `
       return baseLayout(content, 'Application received — SODAK Technology')
     }
@@ -231,10 +231,10 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
         <h1 style="margin:0 0 8px;font-size:20px;font-weight:700;color:#ffffff;">Your brochure is ready 📄</h1>
         <p style="margin:0 0 24px;font-size:14px;color:#94a3b8;line-height:1.7;">Hi ${h(name)}, here's the program brochure you requested for <strong style="color:#ffffff;">${h(programTitle)}</strong>.</p>
         ${ctaButton('Download Brochure →', downloadUrl)}
-        <div style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.3);border-radius:6px;padding:12px 16px;margin-top:8px;">
-          <p style="margin:0;font-size:13px;color:#eab308;">⏱ This download link expires in <strong>1 hour</strong>.</p>
+        <div style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.3);border-radius:6px;padding:12px 16px;margin-top:8px;">
+          <p style="margin:0;font-size:13px;color:#3B82F6;">⏱ This download link expires in <strong>1 hour</strong>.</p>
         </div>
-        <p style="margin:20px 0 0;font-size:13px;color:#64748b;">Want to discuss the program? Call us at <a href="tel:+918939366259" style="color:#c8a035;text-decoration:none;">+91 89393 66259</a> or reply to this email.</p>
+        <p style="margin:20px 0 0;font-size:13px;color:#64748b;">Want to discuss the program? Call us at <a href="tel:+918939366259" style="color:#3B82F6;text-decoration:none;">+91 89393 66259</a> or reply to this email.</p>
       `
       return baseLayout(content, 'Your program brochure — SODAK Technology')
     }

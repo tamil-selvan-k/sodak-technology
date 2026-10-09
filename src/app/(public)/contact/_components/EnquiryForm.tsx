@@ -101,11 +101,11 @@ export default function EnquiryForm() {
               <span className="radio-box" style={{
                 display: 'flex', alignItems: 'center', gap: 10,
                 padding: '10px 14px', borderRadius: 8,
-                border: `1px solid ${role === r.value ? '#4865ad' : '#e2e8f0'}`,
-                background: role === r.value ? 'rgba(72,101,173,0.06)' : '#fff',
+                border: `1px solid ${role === r.value ? '#2563EB' : '#DBEAFE'}`,
+                background: role === r.value ? '#EFF6FF' : '#fff',
                 fontSize: 13,
-                color: role === r.value ? '#1e293b' : '#334155',
-                fontWeight: role === r.value ? 500 : 400,
+                color: role === r.value ? '#172554' : '#334155',
+                fontWeight: role === r.value ? 600 : 400,
                 transition: 'border-color 0.15s, background 0.15s',
               }}>
                 <span>{r.label}</span>

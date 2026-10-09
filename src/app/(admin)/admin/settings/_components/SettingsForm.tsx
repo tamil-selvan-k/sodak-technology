@@ -21,11 +21,11 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '8px 12px',
   fontSize: 13,
-  border: '1px solid #e2e8f0',
+  border: '1px solid #DBEAFE',
   borderRadius: 6,
   outline: 'none',
   color: '#334155',
-  background: '#f8fafc',
+  background: '#EFF6FF',
   boxSizing: 'border-box',
 }
 
@@ -40,21 +40,21 @@ const labelStyle: React.CSSProperties = {
 const sectionHeadStyle: React.CSSProperties = {
   fontSize: 13,
   fontWeight: 700,
-  color: '#0f172a',
+  color: '#172554',
   marginBottom: 16,
   paddingBottom: 12,
-  borderBottom: '1px solid #f1f5f9',
+  borderBottom: '1px solid #DBEAFE',
 }
 
 const cardStyle: React.CSSProperties = {
-  background: '#f8fafc',
+  background: '#EFF6FF',
   borderRadius: 12,
-  border: '1px solid #e2e8f0',
+  border: '1px solid #DBEAFE',
   padding: 28,
   marginBottom: 20,
 }
 
-const btnGold = 'px-4 py-2 text-[13px] font-bold bg-[#4865ad] text-[#0a0f1e] rounded-[6px] hover:bg-[#b8902f] transition-colors cursor-pointer border-0 disabled:opacity-60 disabled:cursor-not-allowed'
+const btnGold = 'px-4 py-2 text-[13px] font-bold bg-[#2563EB] text-[#172554] rounded-[6px] hover:bg-[#b8902f] transition-colors cursor-pointer border-0 disabled:opacity-60 disabled:cursor-not-allowed'
 
 export default function SettingsForm({ settings }: { settings: SiteSetting }) {
   const stats = (settings.stats ?? {}) as StatsData

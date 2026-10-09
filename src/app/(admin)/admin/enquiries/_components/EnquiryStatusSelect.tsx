@@ -7,7 +7,7 @@ const STATUS_MAP = {
   new:           { label: 'New',           color: '#2563eb', bg: 'rgba(59,130,246,0.1)' },
   contacted:     { label: 'Contacted',     color: '#92400e', bg: 'rgba(251,191,36,0.1)' },
   proposal_sent: { label: 'Proposal Sent', color: '#166534', bg: 'rgba(34,197,94,0.1)' },
-  won:           { label: 'Won',           color: '#4865ad', bg: 'rgba(72,101,173,0.1)' },
+  won:           { label: 'Won',           color: '#2563EB', bg: 'rgba(37,99,235,0.12)' },
   lost:          { label: 'Lost',          color: '#64748b', bg: 'rgba(100,116,139,0.1)' },
 } as const
 
@@ -68,7 +68,7 @@ export default function EnquiryStatusSelect({ leadId, status: initialStatus }: P
           />
           <div style={{
             position: 'absolute', top: '100%', left: 0, zIndex: 20, marginTop: 4,
-            background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8,
+            background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 8,
             boxShadow: '0 4px 16px rgba(15,23,42,0.1)', minWidth: 140, overflow: 'hidden',
           }}>
             {(Object.entries(STATUS_MAP) as [Status, typeof STATUS_MAP[Status]][]).map(([key, s]) => (

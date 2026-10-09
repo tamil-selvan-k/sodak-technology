@@ -71,25 +71,25 @@ export default function InternshipsTable({ internships, pagination, search = '',
           defaultValue={search}
           onChange={e => updateParam('search', e.target.value)}
           className="flex-1 min-w-[200px] px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: '#f8fafc', border: '1px solid #e2e8f0', color: '#334155' }}
+          style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }}
         />
         <select
           defaultValue={status}
           onChange={e => updateParam('status', e.target.value)}
           className="px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: '#f8fafc', border: '1px solid #e2e8f0', color: '#334155' }}
+          style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }}
         >
-          <option value="" style={{ background: '#f1f5f9' }}>All Status</option>
-          <option value="published" style={{ background: '#f1f5f9' }}>Published</option>
-          <option value="draft" style={{ background: '#f1f5f9' }}>Draft</option>
+          <option value="" style={{ background: '#ffffff' }}>All Status</option>
+          <option value="published" style={{ background: '#ffffff' }}>Published</option>
+          <option value="draft" style={{ background: '#ffffff' }}>Draft</option>
         </select>
       </div>
 
-      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ width: '100%', minWidth: 760, borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: '#f8fafc' }}>
+            <tr style={{ background: '#EFF6FF' }}>
               {['Company / Role', 'Location', 'Duration', 'Stipend', 'Stack', 'Deadline', 'Status', 'Actions'].map(h => (
                 <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b', textAlign: 'left' }}>{h}</th>
               ))}
@@ -104,9 +104,9 @@ export default function InternshipsTable({ internships, pagination, search = '',
             {internships.map(i => {
               const expired = i.applicationDeadline && new Date(i.applicationDeadline) < now
               return (
-                <tr key={i.id} className="hover:bg-[#f8fafc]" style={{ borderTop: '1px solid #f1f5f9' }}>
+                <tr key={i.id} className="hover:bg-[#EFF6FF]" style={{ borderTop: '1px solid #DBEAFE' }}>
                   <td style={{ padding: '11px 14px', maxWidth: 220 }}>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: '#0f172a' }}>{i.companyName}</p>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: '#172554' }}>{i.companyName}</p>
                     <p style={{ fontSize: 11, color: '#64748b', marginTop: 1 }}>{i.roleTitle}</p>
                   </td>
                   <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{i.location ?? '—'}</td>

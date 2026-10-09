@@ -33,7 +33,7 @@ interface Props {
 const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#dbeafe] bg-[#eff6ff] text-[#2563eb] hover:bg-[#dbeafe] transition-colors'
 const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#bbf7d0] bg-[#f0fdf4] text-[#16a34a] hover:bg-[#bbf7d0] transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
 const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#fecaca] bg-[#fef2f2] text-[#dc2626] hover:bg-[#fecaca] transition-colors'
-const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#f1f5f9] bg-[#f8fafc] text-[#64748b] hover:bg-[#f8fafc] transition-colors'
+const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#DBEAFE] bg-[#EFF6FF] text-[#64748b] hover:bg-[#DBEAFE] transition-colors'
 
 function canPublish(p: Photo) {
   if (!p.altText) return false
@@ -172,8 +172,8 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
       {/* Upload + Filter bar */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 16, marginBottom: 24, alignItems: 'start' }}>
         {/* Upload area */}
-        <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: 20 }}>
-          <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 12 }}>Bulk Upload Photos (max 20)</p>
+        <div style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: 20 }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: '#172554', marginBottom: 12 }}>Bulk Upload Photos (max 20)</p>
           {uploadProgress && (
             <div style={{ marginBottom: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#64748b', marginBottom: 4 }}>
@@ -183,7 +183,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
               <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
                 <div
                   style={{
-                    height: '100%', background: '#4865ad', borderRadius: 3,
+                    height: '100%', background: '#2563EB', borderRadius: 3,
                     width: `${Math.round((uploadProgress.done / uploadProgress.total) * 100)}%`,
                     transition: 'width 0.2s',
                   }}
@@ -201,7 +201,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
             onClick={() => inputRef.current?.click()}
             onDragOver={e => e.preventDefault()}
             onDrop={e => { e.preventDefault(); void handleUpload(e.dataTransfer.files) }}
-            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#4865ad' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#2563EB' }}
             onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.2)' }}
           >
             <input
@@ -223,7 +223,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
           <select
             value={institutionFilter ?? ''}
             onChange={e => changeInstitution(e.target.value)}
-            style={{ padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: 6, fontSize: 13, color: '#334155', background: '#f8fafc' }}
+            style={{ padding: '8px 12px', border: '1px solid #DBEAFE', borderRadius: 6, fontSize: 13, color: '#334155', background: '#EFF6FF' }}
           >
             <option value="">All Institutions</option>
             {institutions.map(i => (
@@ -235,7 +235,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
               onClick={() => void bulkPublish()}
               style={{
                 padding: '8px 12px', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: 'pointer',
-                background: '#4865ad', color: '#ffffff', border: 'none',
+                background: '#2563EB', color: '#ffffff', border: 'none',
               }}
             >
               Publish {selected.size} selected
@@ -246,9 +246,9 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
 
       {/* Photo grid */}
       <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-        <table style={{ width: '100%', minWidth: 700, borderCollapse: 'collapse', background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+        <table style={{ width: '100%', minWidth: 700, borderCollapse: 'collapse', background: '#ffffff', borderRadius: 12, overflow: 'hidden', border: '1px solid #DBEAFE' }}>
           <thead>
-            <tr style={{ background: '#f8fafc' }}>
+            <tr style={{ background: '#EFF6FF' }}>
               <th style={{ padding: '10px 14px', textAlign: 'center', width: 40 }}>
                 <input
                   type="checkbox"
@@ -270,8 +270,8 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
               </tr>
             )}
             {photos.map(p => (
-              <tr key={p.id} style={{ borderTop: '1px solid #f1f5f9' }}
-                onMouseEnter={e => (e.currentTarget as HTMLTableRowElement).style.background = '#f8fafc'}
+              <tr key={p.id} style={{ borderTop: '1px solid #DBEAFE' }}
+                onMouseEnter={e => (e.currentTarget as HTMLTableRowElement).style.background = '#EFF6FF'}
                 onMouseLeave={e => (e.currentTarget as HTMLTableRowElement).style.background = ''}
               >
                 <td style={{ padding: '11px 14px', textAlign: 'center' }}>
@@ -279,7 +279,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
                 </td>
                 <td style={{ padding: '11px 14px' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.url} alt={p.altText ?? ''} style={{ width: 64, height: 48, objectFit: 'cover', borderRadius: 5, display: 'block', background: '#e2e8f0' }} />
+                  <img src={p.url} alt={p.altText ?? ''} style={{ width: 64, height: 48, objectFit: 'cover', borderRadius: 5, display: 'block', background: '#DBEAFE' }} />
                 </td>
                 <td style={{ padding: '11px 14px', minWidth: 200 }}>
                   {editAlt[p.id] !== undefined ? (
@@ -288,15 +288,15 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
                         type="text"
                         value={editAlt[p.id]}
                         onChange={e => setEditAlt(prev => ({ ...prev, [p.id]: e.target.value }))}
-                        style={{ flex: 1, padding: '5px 8px', border: '1px solid #e2e8f0', borderRadius: 5, fontSize: 12, color: '#334155', background: '#f8fafc' }}
-                        onFocus={e => (e.target.style.borderColor = '#4865ad')}
-                        onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.12)')}
+                        style={{ flex: 1, padding: '5px 8px', border: '1px solid #DBEAFE', borderRadius: 5, fontSize: 12, color: '#334155', background: '#EFF6FF' }}
+                        onFocus={e => (e.target.style.borderColor = '#2563EB')}
+                        onBlur={e => (e.target.style.borderColor = '#DBEAFE')}
                       />
                       <button onClick={() => void handleSaveAlt(p.id)} className={btnPublish}>Save</button>
                     </div>
                   ) : (
                     <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                      <span style={{ fontSize: 12, color: p.altText ? '#e2e8f0' : '#64748b' }}>
+                      <span style={{ fontSize: 12, color: p.altText ? '#172554' : '#64748b' }}>
                         {p.altText ?? '⚠ No alt text'}
                       </span>
                       <button

@@ -53,13 +53,13 @@ export default function UsersTable({ users }: { users: SerializedUser[] }) {
   }
 
   return (
-    <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
+    <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, overflow: 'hidden' }}>
       <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
       <table style={{ width: '100%', minWidth: 640, borderCollapse: 'collapse' }}>
         <thead>
-          <tr style={{ background: '#f8fafc' }}>
+          <tr style={{ background: '#EFF6FF' }}>
             {['User', 'Email', 'Role', 'Status', 'Joined', 'Actions'].map(h => (
-              <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b', textAlign: 'left' }}>{h}</th>
+              <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#172554', textAlign: 'left' }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -74,18 +74,18 @@ export default function UsersTable({ users }: { users: SerializedUser[] }) {
           {users.map(u => {
             const rb = ROLE_BADGE[u.role] ?? { label: u.role, variant: 'dark' as const }
             return (
-              <tr key={u.id} className="hover:bg-[#f8fafc]" style={{ borderTop: '1px solid #f1f5f9' }}>
+              <tr key={u.id} className="hover:bg-[#EFF6FF]" style={{ borderTop: '1px solid #DBEAFE' }}>
                 <td style={{ padding: '11px 14px', fontSize: 13, color: '#334155' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div style={{
                       width: 34, height: 34, borderRadius: '50%',
-                      background: '#f1f5f9', color: '#4865ad',
+                      background: '#EFF6FF', color: '#2563EB',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: 12, fontWeight: 700, flexShrink: 0,
                     }}>
                       {initials(u.name, u.email)}
                     </div>
-                    <span style={{ fontWeight: 600, color: '#0f172a' }}>{u.name ?? '—'}</span>
+                    <span style={{ fontWeight: 600, color: '#172554' }}>{u.name ?? '—'}</span>
                   </div>
                 </td>
                 <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{u.email}</td>

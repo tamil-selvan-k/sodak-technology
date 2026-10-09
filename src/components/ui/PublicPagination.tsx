@@ -11,11 +11,11 @@ interface Props {
 function linkStyle(active: boolean): React.CSSProperties {
   return {
     padding: '8px 16px', fontSize: 13, fontWeight: 600, borderRadius: '1.5rem',
-    border: `1px solid ${active ? '#4865ad' : 'rgba(255,255,255,0.15)'}`,
-    background: active ? '#4865ad' : 'rgba(255,255,255,0.07)',
-    color: active ? '#ffffff' : 'rgba(255,255,255,0.7)',
+    border: `1px solid ${active ? '#2563eb' : '#dbeafe'}`,
+    background: active ? '#2563eb' : '#ffffff',
+    color: active ? '#ffffff' : '#1e40af',
     textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
-    transition: 'background 0.15s',
+    transition: 'all 0.15s',
   }
 }
 

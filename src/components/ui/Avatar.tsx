@@ -28,7 +28,7 @@ export default function Avatar({ src, alt, initials, size = 'md', className = ''
   const letter = initials ?? alt.charAt(0).toUpperCase()
   return (
     <div
-      className={`rounded-full flex-shrink-0 flex items-center justify-center font-bold bg-[var(--navy-700)] text-[var(--gold-500)] ${TEXT_SIZE[size]} ${className}`}
+      className={`rounded-full flex-shrink-0 flex items-center justify-center font-bold bg-[#eff6ff] text-[#2563eb] border border-[#dbeafe] ${TEXT_SIZE[size]} ${className}`}
       style={style}
       aria-label={alt}
     >

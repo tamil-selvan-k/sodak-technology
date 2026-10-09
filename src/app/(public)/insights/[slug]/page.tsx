@@ -36,7 +36,7 @@ export default async function InsightPostPage({ params }: Props) {
           <div style={{ display: 'flex', gap: 20, marginTop: 16, flexWrap: 'wrap', alignItems: 'center' }}>
             {post.author && (
               <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                <div className="avatar avatar-sm" style={{ background: 'rgba(72,101,173,0.2)', fontSize: 14 }}>
+                <div className="avatar avatar-sm" style={{ background: 'rgba(37,99,235,0.2)', color: '#ffffff', fontSize: 14 }}>
                   {post.author.name.charAt(0)}
                 </div>
                 <span className="t-sm c-white">{post.author.name}</span>
@@ -64,7 +64,7 @@ export default async function InsightPostPage({ params }: Props) {
 
           {/* Tags */}
           {(post.tags ?? []).length > 0 && (
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 32, paddingTop: 24, borderTop: '1px solid rgba(7,88,146,0.1)' }}>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 32, paddingTop: 24, borderTop: '1px solid #DBEAFE' }}>
               <span className="t-sm c-body" style={{ marginRight: 4 }}>Tagged:</span>
               {(post.tags as string[]).map(tag => (
                 <span key={tag} className="badge badge-light">{tag}</span>

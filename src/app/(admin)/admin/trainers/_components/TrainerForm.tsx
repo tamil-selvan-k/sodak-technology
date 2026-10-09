@@ -73,11 +73,11 @@ export default function TrainerForm({ trainer, stacks }: Props) {
   }
 
   const field = 'w-full px-3 py-2 text-sm rounded-lg focus:outline-none'
-  const fieldStyle: React.CSSProperties = { background: '#f8fafc', border: '1px solid #e2e8f0', color: '#334155' }
+  const fieldStyle: React.CSSProperties = { background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }
   const label = 'block text-xs font-semibold uppercase tracking-wide mb-1.5'
   const labelStyle: React.CSSProperties = { color: '#64748b' }
-  const cardStyle: React.CSSProperties = { background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '24px', marginBottom: 0 }
-  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid #f1f5f9' }
+  const cardStyle: React.CSSProperties = { background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: '24px', marginBottom: 0 }
+  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#172554', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid #DBEAFE' }
 
   return (
     <form onSubmit={handleSubmit} className="max-w-3xl space-y-5">

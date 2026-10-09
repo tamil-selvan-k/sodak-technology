@@ -71,7 +71,7 @@ export default async function MentorsPage() {
         style={{
           fontSize: 36,
           fontWeight: 800,
-          color: '#4865ad',
+          color: '#93c5fd',
           marginBottom: 14,
           fontFamily: 'var(--font-instrument-sans)',
         }}
@@ -102,7 +102,7 @@ export default async function MentorsPage() {
 
           {mentors.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg></div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg></div>
               <h2 className="t-h2 c-heading" style={{ marginBottom: 10 }}>Mentor profiles coming soon</h2>
               <p className="t-body c-body">Our mentor roster is being finalised. Reach out to express interest in early access.</p>
               <Link href="/contact" className="btn btn-ghost" style={{ marginTop: 20 }}>Get Early Access →</Link>
@@ -113,13 +113,13 @@ export default async function MentorsPage() {
                 <Link key={m.id} href={`/mentors/${m.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-light" style={{ height: '100%' }}>
                     <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 14 }}>
-                      <div className="avatar avatar-lg" style={{ background: 'rgba(72,101,173,0.12)', fontSize: 24 }}>
+                      <div className="avatar avatar-lg" style={{ background: '#eff6ff', color: '#2563eb', fontSize: 24 }}>
                         {m.name.charAt(0)}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <p className="t-card c-heading">{m.name}</p>
                         <p className="t-sm c-body">{m.designation}</p>
-                        {m.currentCompany && <p className="t-micro" style={{ color: '#4865ad', marginTop: 3 }}>{m.currentCompany}</p>}
+                        {m.currentCompany && <p className="t-micro" style={{ color: '#2563eb', fontWeight: 600, marginTop: 3 }}>{m.currentCompany}</p>}
                       </div>
                       {m.availabilityStatus === 'available' && (
                         <span className="badge badge-green">Open</span>

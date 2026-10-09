@@ -20,7 +20,7 @@ const ACTION_BADGE: Record<string, { bg: string; color: string }> = {
   create:    { bg: 'rgba(34,197,94,0.15)',  color: '#16a34a' },
   update:    { bg: 'rgba(59,130,246,0.15)', color: '#2563eb' },
   delete:    { bg: 'rgba(239,68,68,0.15)',  color: '#f87171' },
-  publish:   { bg: 'rgba(72,101,173,0.15)', color: '#d97706' },
+  publish:   { bg: 'rgba(37,99,235,0.15)', color: '#2563eb' },
   unpublish: { bg: 'rgba(148,163,184,0.12)', color: '#64748b' },
 }
 
@@ -81,8 +81,8 @@ export default function AuditTable({
           onChange={e => setEntityFilter(e.target.value)}
           style={{
             flex: 1, padding: '8px 12px', fontSize: 13,
-            border: '1px solid #e2e8f0', borderRadius: 6, outline: 'none',
-            color: '#334155', background: '#f8fafc',
+            border: '1px solid #DBEAFE', borderRadius: 6, outline: 'none',
+            color: '#334155', background: '#EFF6FF',
           }}
         />
         <select
@@ -90,8 +90,8 @@ export default function AuditTable({
           onChange={e => setActionFilter(e.target.value)}
           style={{
             padding: '8px 12px', fontSize: 13,
-            border: '1px solid #e2e8f0', borderRadius: 6, outline: 'none',
-            color: '#334155', background: '#f8fafc',
+            border: '1px solid #DBEAFE', borderRadius: 6, outline: 'none',
+            color: '#334155', background: '#EFF6FF',
           }}
         >
           {ACTION_OPTIONS.map(a => (
@@ -100,11 +100,11 @@ export default function AuditTable({
         </select>
       </div>
 
-      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ width: '100%', minWidth: 680, borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: '#f8fafc' }}>
+            <tr style={{ background: '#EFF6FF' }}>
               {['Timestamp', 'Action', 'Entity', 'Entity ID', 'Actor', 'Details'].map(h => (
                 <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b', textAlign: 'left' }}>{h}</th>
               ))}
@@ -120,7 +120,7 @@ export default function AuditTable({
             )}
             {filtered.map(l => (
               <>
-                <tr key={l.id} className="hover:bg-[#f8fafc]" style={{ borderTop: '1px solid #f1f5f9' }}>
+                <tr key={l.id} className="hover:bg-[#EFF6FF]" style={{ borderTop: '1px solid #DBEAFE' }}>
                   <td style={{ padding: '11px 14px', fontSize: 12, color: '#64748b', whiteSpace: 'nowrap' }}>
                     {formatDate(l.createdAt)}
                   </td>
@@ -142,8 +142,8 @@ export default function AuditTable({
                         onClick={() => setExpandedId(expandedId === l.id ? null : l.id)}
                         style={{
                           padding: '3px 10px', fontSize: 11, fontWeight: 600,
-                          border: '1px solid #e2e8f0', borderRadius: 5,
-                          background: '#f8fafc', color: '#64748b',
+                          border: '1px solid #DBEAFE', borderRadius: 5,
+                          background: '#EFF6FF', color: '#64748b',
                           cursor: 'pointer',
                         }}
                       >
@@ -153,13 +153,13 @@ export default function AuditTable({
                   </td>
                 </tr>
                 {expandedId === l.id && (
-                  <tr key={`${l.id}-diff`} style={{ background: '#fafafa', borderTop: '1px solid #f1f5f9' }}>
+                  <tr key={`${l.id}-diff`} style={{ background: '#fafafa', borderTop: '1px solid #DBEAFE' }}>
                     <td colSpan={6} style={{ padding: '12px 14px' }}>
                       <div className="admin-two-col" style={{ gap: 12 }}>
                         {l.oldValue !== null && (
                           <div>
                             <p style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', marginBottom: 4 }}>OLD</p>
-                            <pre style={{ fontSize: 11, color: '#64748b', background: '#f8fafc', padding: 10, borderRadius: 6, overflow: 'auto', maxHeight: 200 }}>
+                            <pre style={{ fontSize: 11, color: '#64748b', background: '#EFF6FF', padding: 10, borderRadius: 6, overflow: 'auto', maxHeight: 200 }}>
                               {JSON.stringify(l.oldValue, null, 2)}
                             </pre>
                           </div>
@@ -167,7 +167,7 @@ export default function AuditTable({
                         {l.newValue !== null && (
                           <div>
                             <p style={{ fontSize: 11, fontWeight: 700, color: '#16a34a', marginBottom: 4 }}>NEW</p>
-                            <pre style={{ fontSize: 11, color: '#64748b', background: '#f8fafc', padding: 10, borderRadius: 6, overflow: 'auto', maxHeight: 200 }}>
+                            <pre style={{ fontSize: 11, color: '#64748b', background: '#EFF6FF', padding: 10, borderRadius: 6, overflow: 'auto', maxHeight: 200 }}>
                               {JSON.stringify(l.newValue, null, 2)}
                             </pre>
                           </div>
@@ -192,7 +192,7 @@ export default function AuditTable({
           {pagination.page > 1 && (
             <a
               href={buildPageUrl(pagination.page - 1)}
-              style={{ padding: '6px 14px', fontSize: 13, border: '1px solid #e2e8f0', borderRadius: 6, textDecoration: 'none', color: '#334155', background: '#f8fafc' }}
+              style={{ padding: '6px 14px', fontSize: 13, border: '1px solid #DBEAFE', borderRadius: 6, textDecoration: 'none', color: '#334155', background: '#EFF6FF' }}
             >
               ← Previous
             </a>
@@ -200,7 +200,7 @@ export default function AuditTable({
           {pagination.page < pagination.pages && (
             <a
               href={buildPageUrl(pagination.page + 1)}
-              style={{ padding: '6px 14px', fontSize: 13, border: '1px solid #e2e8f0', borderRadius: 6, textDecoration: 'none', color: '#334155', background: '#f8fafc' }}
+              style={{ padding: '6px 14px', fontSize: 13, border: '1px solid #DBEAFE', borderRadius: 6, textDecoration: 'none', color: '#334155', background: '#EFF6FF' }}
             >
               Next →
             </a>

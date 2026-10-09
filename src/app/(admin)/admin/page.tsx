@@ -5,14 +5,14 @@ export const metadata = { title: 'Dashboard — SODAK Admin' }
 
 const CARD: React.CSSProperties = {
   background: '#ffffff',
-  border: '1px solid #e2e8f0',
+  border: '1px solid #DBEAFE',
   borderRadius: '1.5rem',
 }
 
 const STATUS_MAP: Record<string, { bg: string; color: string; label: string }> = {
   new:       { bg: 'rgba(34,197,94,0.1)',   color: '#16a34a',  label: 'New' },
   contacted: { bg: 'rgba(59,130,246,0.1)',  color: '#2563eb',  label: 'Contacted' },
-  converted: { bg: 'rgba(72,101,173,0.1)',  color: '#4865ad',  label: 'Converted' },
+  converted: { bg: 'rgba(37,99,235,0.12)',  color: '#2563EB',  label: 'Converted' },
   closed:    { bg: 'rgba(100,116,139,0.1)', color: '#64748b',  label: 'Closed' },
 }
 
@@ -20,7 +20,7 @@ const ACTION_DOT: Record<string, string> = {
   create:    '#22c55e',
   update:    '#3b82f6',
   delete:    '#ef4444',
-  publish:   '#4865ad',
+  publish:   '#2563EB',
   unpublish: '#eab308',
 }
 
@@ -51,7 +51,7 @@ export default async function AdminDashboardPage() {
       icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>,
       label: 'Total Leads', value: totalLeads,
       trend: `+${leadsThisMonth} this month`, trendPositive: true,
-      iconColor: '#4865ad', iconBg: 'rgba(72,101,173,0.1)',
+      iconColor: '#2563EB', iconBg: '#EFF6FF',
     },
     {
       icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2v6l2 2-2 2v6h12v-6l-2-2 2-2V2H6zm10 14.5V20H8v-3.5l4-4 4 4zm-4-5l-4-4V4h8v3.5l-4 4z"/></svg>,
@@ -85,10 +85,10 @@ export default async function AdminDashboardPage() {
 
       {/* Top bar */}
       <div style={{ marginBottom: 36 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4865ad', marginBottom: 6 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#2563EB', marginBottom: 6 }}>
           SODAK Technology
         </p>
-        <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif', lineHeight: 1.2 }}>
+        <h1 style={{ fontSize: 28, fontWeight: 800, color: '#172554', fontFamily: 'var(--font-plus-jakarta), sans-serif', lineHeight: 1.2 }}>
           Admin Dashboard
         </h1>
         <p style={{ fontSize: 13, color: '#64748b', marginTop: 6 }}>
@@ -106,7 +106,7 @@ export default async function AdminDashboardPage() {
               </div>
               <span style={{ fontSize: 11, fontWeight: 700, color: s.trendPositive ? '#16a34a' : '#eab308', textAlign: 'right', maxWidth: 100 }}>{s.trend}</span>
             </div>
-            <div style={{ fontSize: 36, fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>{s.value}</div>
+            <div style={{ fontSize: 36, fontWeight: 800, color: '#172554', lineHeight: 1 }}>{s.value}</div>
             <div style={{ fontSize: 11, color: '#64748b', marginTop: 8, textTransform: 'uppercase', letterSpacing: '0.07em', fontWeight: 700 }}>{s.label}</div>
           </div>
         ))}
@@ -114,18 +114,18 @@ export default async function AdminDashboardPage() {
 
       {/* Recent Leads table */}
       <div style={{ ...CARD, overflow: 'hidden', marginBottom: 24 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', borderBottom: '1px solid #f1f5f9' }}>
-          <p style={{ fontSize: 15, fontWeight: 700, color: '#0f172a' }}>Recent Leads</p>
-          <Link href="/admin/leads" style={{ fontSize: 12, color: '#4865ad', fontWeight: 600, textDecoration: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', borderBottom: '1px solid #DBEAFE' }}>
+          <p style={{ fontSize: 15, fontWeight: 700, color: '#172554' }}>Recent Leads</p>
+          <Link href="/admin/leads" style={{ fontSize: 12, color: '#2563EB', fontWeight: 600, textDecoration: 'none' }}>
             View all →
           </Link>
         </div>
         <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ width: '100%', minWidth: 600, borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: '#f8fafc' }}>
+            <tr style={{ background: '#EFF6FF' }}>
               {['Name', 'Institution', 'Program Interest', 'Date', 'Status'].map(h => (
-                <th key={h} style={{ padding: '10px 24px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b', textAlign: 'left' }}>
+                <th key={h} style={{ padding: '10px 24px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#172554', textAlign: 'left' }}>
                   {h}
                 </th>
               ))}
@@ -141,9 +141,9 @@ export default async function AdminDashboardPage() {
             ) : recentLeads.map(lead => {
               const s = STATUS_MAP[lead.status] ?? STATUS_MAP.new!
               return (
-                <tr key={lead.id} style={{ borderTop: '1px solid #f1f5f9' }}>
+                <tr key={lead.id} style={{ borderTop: '1px solid #DBEAFE' }}>
                   <td style={{ padding: '13px 24px', fontSize: 13 }}>
-                    <span style={{ fontWeight: 600, color: '#0f172a' }}>{lead.name}</span>
+                    <span style={{ fontWeight: 600, color: '#172554' }}>{lead.name}</span>
                     {lead.role && <><br /><span style={{ fontSize: 11, color: '#64748b' }}>{lead.role}</span></>}
                   </td>
                   <td style={{ padding: '13px 24px', fontSize: 13, color: '#64748b' }}>{lead.institutionOrCompany ?? '—'}</td>
@@ -169,17 +169,17 @@ export default async function AdminDashboardPage() {
 
         {/* Activity log */}
         <div style={{ ...CARD, padding: 24 }}>
-          <p style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 18 }}>Recent Activity</p>
+          <p style={{ fontSize: 15, fontWeight: 700, color: '#172554', marginBottom: 18 }}>Recent Activity</p>
           {recentActivity.length === 0 ? (
             <p style={{ fontSize: 13, color: '#64748b' }}>No activity recorded yet.</p>
           ) : recentActivity.map((log, i) => (
-            <div key={log.id} style={{ display: 'flex', gap: 14, paddingBottom: 14, marginBottom: i < recentActivity.length - 1 ? 14 : 0, borderBottom: i < recentActivity.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
+            <div key={log.id} style={{ display: 'flex', gap: 14, paddingBottom: 14, marginBottom: i < recentActivity.length - 1 ? 14 : 0, borderBottom: i < recentActivity.length - 1 ? '1px solid #DBEAFE' : 'none' }}>
               <div style={{ flexShrink: 0, marginTop: 6 }}>
-                <div style={{ width: 8, height: 8, borderRadius: '50%', background: ACTION_DOT[log.action] ?? '#4865ad' }} />
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: ACTION_DOT[log.action] ?? '#2563EB' }} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: 13, color: '#334155', lineHeight: 1.5 }}>
-                  <span style={{ fontWeight: 600, color: '#0f172a' }}>{log.actor?.name ?? 'System'}</span>
+                  <span style={{ fontWeight: 600, color: '#172554' }}>{log.actor?.name ?? 'System'}</span>
                   {' '}<span style={{ color: '#64748b' }}>{log.action}</span>{' '}
                   <span style={{ color: '#64748b' }}>{log.entityType}</span>
                 </p>
@@ -194,32 +194,32 @@ export default async function AdminDashboardPage() {
 
         {/* Quick actions */}
         <div style={{ ...CARD, padding: 24 }}>
-          <p style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 18 }}>Quick Actions</p>
+          <p style={{ fontSize: 15, fontWeight: 700, color: '#172554', marginBottom: 18 }}>Quick Actions</p>
           {QUICK_ACTIONS.map(a => (
             <Link key={a.label} href={a.href} style={{
               display: 'flex', alignItems: 'center', gap: 14,
               padding: '14px 18px',
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
+              background: '#EFF6FF',
+              border: '1px solid #DBEAFE',
               borderRadius: 12,
-              color: '#334155', fontSize: 13, fontWeight: 600,
+              color: '#172554', fontSize: 13, fontWeight: 600,
               textDecoration: 'none', marginBottom: 10,
               transition: 'border-color 0.15s',
             }}>
-              <span style={{ color: '#4865ad', width: 20, display: 'flex', alignItems: 'center' }}>{a.icon}</span>
+              <span style={{ color: '#2563EB', width: 20, display: 'flex', alignItems: 'center' }}>{a.icon}</span>
               {a.label}
             </Link>
           ))}
 
           {pendingLeads > 0 && (
-            <div style={{ padding: 16, background: 'rgba(72,101,173,0.06)', border: '1px solid rgba(72,101,173,0.15)', borderRadius: 12, marginTop: 4 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, color: '#4865ad', marginBottom: 4 }}>
+            <div style={{ padding: 16, background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, marginTop: 4 }}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: '#2563EB', marginBottom: 4 }}>
                 {pendingLeads} Pending {pendingLeads === 1 ? 'Enquiry' : 'Enquiries'}
               </p>
               <p style={{ fontSize: 12, color: '#64748b', lineHeight: 1.6 }}>
                 Review and follow up with colleges awaiting a response.
               </p>
-              <Link href="/admin/leads" style={{ fontSize: 12, color: '#4865ad', fontWeight: 600, display: 'inline-block', marginTop: 10, textDecoration: 'none' }}>
+              <Link href="/admin/leads" style={{ fontSize: 12, color: '#2563EB', fontWeight: 600, display: 'inline-block', marginTop: 10, textDecoration: 'none' }}>
                 View pending →
               </Link>
             </div>

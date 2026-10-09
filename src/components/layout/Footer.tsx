@@ -55,36 +55,43 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer style={{ background: '#0f172b', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+    <footer style={{ background: '#1e40af', borderTop: '1px solid rgba(255,255,255,0.12)', color: '#ffffff' }}>
       <div className="container" style={{ paddingTop: 56 }}>
         {/* Top strip */}
         <div style={{
           display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
-          gap: 32, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.07)',
+          gap: 32, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.12)',
           flexWrap: 'wrap',
         }}>
-          <div style={{ maxWidth: 300 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 16 }}>
-              <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 22, color: '#ffffff' }}>SODAK</span>
-              <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 22, color: 'rgba(255,255,255,0.4)' }}>Technology</span>
+          <div style={{ maxWidth: 320 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 16 }}>
+              <svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2L24.3923 8V20L14 26L3.6077 20V8L14 2Z" stroke="#ffffff" strokeWidth="2.5" fill="none"/>
+                <path d="M18 10C17 8.5 15.5 8 13.5 8C11.5 8 10 9 10 11C10 13 12 13.5 14 14C16 14.5 18 15 18 17.5C18 19.5 16.5 21 13.5 21C11 21 9.5 19.5 9 18" stroke="#93c5fd" strokeWidth="2.5" strokeLinecap="round"/>
+              </svg>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 22, color: '#ffffff' }}>SODAK</span>
+                <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 700, fontSize: 20, color: '#bfdbfe' }}>Technology</span>
+              </div>
             </div>
-            <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 14, color: '#bfdbfe', lineHeight: 1.75, margin: 0 }}>
               Campus training by engineers who cleared the interviews your students are preparing for.
               Placement-first. Practice-led. Industry-backed.
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
             <div style={{ textAlign: 'right' }}>
-              <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.35)', marginBottom: 4 }}>Ready to upskill your campus?</p>
-              <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>+91 89393 66259 · hello@sodakedutech.in</p>
+              <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: '#bfdbfe', marginBottom: 4 }}>Ready to upskill your campus?</p>
+              <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: '#ffffff', fontWeight: 600 }}>+91 89393 66259 · hello@sodakedutech.in</p>
             </div>
             <Link href="/contact" style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
               padding: '10px 22px', borderRadius: '2.5rem',
-              background: '#4865ad', color: '#ffffff',
+              background: '#2563eb', color: '#ffffff',
               fontFamily: 'var(--font-inter), sans-serif',
               fontSize: 13, fontWeight: 600, textDecoration: 'none',
-              whiteSpace: 'nowrap', transition: 'opacity 0.15s',
+              whiteSpace: 'nowrap', transition: 'all 0.15s',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
             }}>
               Book a Program →
             </Link>
@@ -97,8 +104,8 @@ export default function Footer() {
             <div key={col.title}>
               <p style={{
                 fontFamily: 'var(--font-inter), sans-serif',
-                fontSize: 10, fontWeight: 700,
-                color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase',
+                fontSize: 11, fontWeight: 700,
+                color: '#bfdbfe', textTransform: 'uppercase',
                 letterSpacing: '0.1em', marginBottom: 16,
               }}>{col.title}</p>
               <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -116,17 +123,17 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.07)',
+          borderTop: '1px solid rgba(255,255,255,0.12)',
           padding: '20px 0', display: 'flex',
           alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
         }}>
-          <span style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.28)' }}>
+          <span style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.75)' }}>
             &copy; 2026 SODAK Technology Pvt. Ltd. All rights reserved.
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-            <Link href="/privacy" style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.32)', textDecoration: 'none', transition: 'color 0.15s' }}>Privacy Policy</Link>
-            <Link href="/terms"   style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.32)', textDecoration: 'none', transition: 'color 0.15s' }}>Terms of Service</Link>
-            <Link href="/admin"   style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(72,101,173,0.6)', textDecoration: 'none', transition: 'color 0.15s' }}>Admin ↗</Link>
+            <Link href="/privacy" style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.75)', textDecoration: 'none', transition: 'color 0.15s' }}>Privacy Policy</Link>
+            <Link href="/terms"   style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.75)', textDecoration: 'none', transition: 'color 0.15s' }}>Terms of Service</Link>
+            <Link href="/admin"   style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: '#93c5fd', fontWeight: 600, textDecoration: 'none', transition: 'color 0.15s' }}>Admin ↗</Link>
           </div>
         </div>
       </div>

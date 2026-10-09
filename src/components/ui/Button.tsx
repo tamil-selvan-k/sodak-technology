@@ -11,12 +11,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const VARIANT_CLASSES: Record<Variant, string> = {
-  gold:    'bg-[var(--gold-500)] text-[var(--navy-950)] hover:bg-[var(--gold-400)]',
-  dark:    'bg-[var(--navy-800)] text-white border border-white/10 hover:bg-[var(--navy-700)]',
-  ghost:   'bg-transparent text-[var(--gold-500)] border border-[var(--gold-500)]/35 hover:bg-[var(--gold-500)]/8',
-  outline: 'bg-white/7 text-white border border-white/20 hover:bg-white/12',
+  gold:    'bg-[#2563eb] text-white hover:bg-[#1d4ed8] shadow-sm',
+  dark:    'bg-[#172554] text-white border border-white/15 hover:bg-[#1e3a8a]',
+  ghost:   'bg-transparent text-[#2563eb] border border-[#2563eb]/40 hover:bg-[#eff6ff]',
+  outline: 'bg-white/10 text-white border border-white/25 hover:bg-white/15',
   danger:  'bg-red-500/10 text-red-500 border border-red-500/25 hover:bg-red-500/15',
-  dm:      'bg-[var(--dm-accent)] text-white hover:bg-[#0669ab]',
+  dm:      'bg-[#2563eb] text-white hover:bg-[#1d4ed8]',
 }
 
 const SIZE_CLASSES: Record<Size, string> = {

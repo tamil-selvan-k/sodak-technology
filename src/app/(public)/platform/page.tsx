@@ -28,21 +28,21 @@ export default function PlatformPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }}>
             {[
               {
-                icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>,
+                icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="#93c5fd"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>,
                 title: 'SODAK LMS',
                 desc: 'A structured learning management system with video lessons, module quizzes, and progress tracking for every student in the program.',
                 href: '/platform/lms',
                 features: ['Video + text lessons', 'Progress tracking', 'Completion certificates'],
               },
               {
-                icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>,
+                icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="#93c5fd"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>,
                 title: 'SODAK CTF',
                 desc: 'Capture-the-Flag competitions to build practical cybersecurity skills. Designed for students preparing for security-focused MNC roles.',
                 href: '/platform/ctf',
                 features: ['20+ challenge categories', 'Weekly live competitions', 'Leaderboard & certificates'],
               },
               {
-                icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>,
+                icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="#93c5fd"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>,
                 title: 'Assessment Engine',
                 desc: 'AI-proctored aptitude and coding tests that mirror the actual format of campus placement drives at top MNCs.',
                 href: '/platform/assessments',

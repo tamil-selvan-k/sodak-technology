@@ -11,7 +11,7 @@ import Pagination from '@/components/ui/Pagination'
 const btnEdit    = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#dbeafe] bg-[#eff6ff] text-[#2563eb] hover:bg-[#dbeafe] transition-colors'
 const btnPublish = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#bbf7d0] bg-[#f0fdf4] text-[#16a34a] hover:bg-[#bbf7d0] transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
 const btnDelete  = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#fecaca] bg-[#fef2f2] text-[#dc2626] hover:bg-[#fecaca] transition-colors'
-const btnDefault = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#e2e8f0] bg-[#f8fafc] text-[#64748b] hover:bg-[#e2e8f0] transition-colors'
+const btnDefault = 'px-3 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer border border-[#DBEAFE] bg-[#EFF6FF] text-[#64748b] hover:bg-[#DBEAFE] transition-colors'
 
 interface Props {
   trainers: TrainerWithStacks[]
@@ -71,13 +71,13 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
           defaultValue={search}
           onChange={e => updateParam('search', e.target.value)}
           className="flex-1 min-w-[200px] px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: '#ffffff', border: '1px solid #e2e8f0', color: '#0f172a' }}
+          style={{ background: '#ffffff', border: '1px solid #DBEAFE', color: '#172554' }}
         />
         <select
           defaultValue={status}
           onChange={e => updateParam('status', e.target.value)}
           className="px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: '#ffffff', border: '1px solid #e2e8f0', color: '#334155' }}
+          style={{ background: '#ffffff', border: '1px solid #DBEAFE', color: '#334155' }}
         >
           <option value="">All Status</option>
           <option value="published">Published</option>
@@ -87,7 +87,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
           defaultValue={mentor}
           onChange={e => updateParam('mentor', e.target.value)}
           className="px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: '#ffffff', border: '1px solid #e2e8f0', color: '#334155' }}
+          style={{ background: '#ffffff', border: '1px solid #DBEAFE', color: '#334155' }}
         >
           <option value="">All Roles</option>
           <option value="1">Mentors only</option>
@@ -96,11 +96,11 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
       </div>
 
       {/* Table */}
-      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '1rem', overflow: 'hidden' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: '1rem', overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table className="w-full border-collapse" style={{ minWidth: 680 }}>
           <thead>
-            <tr style={{ background: '#f8fafc' }}>
+            <tr style={{ background: '#EFF6FF' }}>
               {['Photo','Name','Company','Stacks','Status','Actions'].map(h => (
                 <th key={h} className="px-3.5 py-2.5 text-left text-[11px] font-bold uppercase text-[#64748b]" style={{ letterSpacing: '0.06em' }}>{h}</th>
               ))}
@@ -113,7 +113,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
               </tr>
             )}
             {trainers.map(t => (
-              <tr key={t.id} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc] transition-colors">
+              <tr key={t.id} className="border-t border-[#DBEAFE] hover:bg-[#EFF6FF] transition-colors">
                 <td className="px-3.5 py-[11px] text-[13px]">
                   {t.photoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -121,7 +121,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
                   ) : (
                     <div
                       className="w-11 h-11 rounded-full flex items-center justify-center text-[15px] font-bold flex-shrink-0"
-                      style={{ background: 'rgba(72,101,173,0.1)', color: '#4865ad' }}
+                      style={{ background: 'rgba(37,99,235,0.12)', color: '#2563EB' }}
                     >
                       {initials(t.name)}
                     </div>
@@ -129,7 +129,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
                 </td>
                 <td className="px-3.5 py-[11px] text-[13px]">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <strong className="text-[13px] text-[#0f172a]">{t.name}</strong>
+                    <strong className="text-[13px] text-[#172554]">{t.name}</strong>
                     {!t.consentOnFile && <Badge variant="amber">No Consent</Badge>}
                     {t.isFeatured && <Badge variant="gold">Featured</Badge>}
                   </div>

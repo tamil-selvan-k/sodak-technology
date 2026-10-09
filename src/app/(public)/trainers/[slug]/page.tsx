@@ -37,14 +37,14 @@ export default async function TrainerProfilePage({ params }: Props) {
             <span className="active">{trainer.name}</span>
           </div>
           <div style={{ display: 'flex', gap: 28, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-            <div className="avatar avatar-xxl" style={{ background: 'rgba(72,101,173,0.18)', fontSize: 40, flexShrink: 0 }}>
+            <div className="avatar avatar-xxl" style={{ background: '#eff6ff', color: '#2563eb', fontSize: 40, flexShrink: 0 }}>
               {trainer.name.charAt(0)}
             </div>
             <div>
               <h1 className="t-h1 c-white" style={{ marginBottom: 8 }}>{trainer.name}</h1>
               <p className="t-lg c-muted">{trainer.designation}</p>
               {trainer.currentCompany && (
-                <p className="t-body" style={{ color: '#4865ad', marginTop: 6 }}>{trainer.currentCompany}</p>
+                <p className="t-body" style={{ color: '#93c5fd', fontWeight: 600, marginTop: 6 }}>{trainer.currentCompany}</p>
               )}
               {trainer.yearsExperience && (
                 <p className="t-sm c-muted" style={{ marginTop: 4 }}>{trainer.yearsExperience}+ years experience</p>

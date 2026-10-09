@@ -31,21 +31,21 @@ export default function Accordion({ items, dark, allowMultiple }: Props) {
       {items.map((item, idx) => {
         const isOpen = open.has(idx)
         return (
-          <div key={idx} className={`rounded-md overflow-hidden border ${dark ? 'border-white/8' : 'border-[var(--dm-border)]'}`}>
+          <div key={idx} className={`rounded-xl overflow-hidden border ${dark ? 'border-white/15' : 'border-[#dbeafe]'}`}>
             <button
               onClick={() => toggle(idx)}
               aria-expanded={isOpen}
               aria-controls={`accordion-body-${idx}`}
               className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors
-                ${dark ? 'bg-[var(--navy-800)] text-white hover:bg-[var(--navy-700)]' : 'bg-white text-[var(--dm-text)] hover:bg-slate-50'}`}
+                ${dark ? 'bg-[#1e3a8a] text-white hover:bg-[#1e40af]' : 'bg-white text-[#172554] hover:bg-[#eff6ff]'}`}
             >
               <span className="text-sm font-semibold">{item.title}</span>
-              <span className={`text-[var(--gold-500)] text-xs transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
+              <span className={`text-[#2563eb] text-xs transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
             </button>
             {isOpen && (
               <div
                 id={`accordion-body-${idx}`}
-                className={`px-5 pb-5 pt-3 border-t ${dark ? 'bg-[var(--navy-800)] border-white/8 text-slate-300' : 'bg-white border-[var(--dm-border)] text-slate-600'} text-sm leading-relaxed`}
+                className={`px-5 pb-5 pt-3 border-t ${dark ? 'bg-[#1e3a8a] border-white/12 text-blue-100' : 'bg-white border-[#dbeafe] text-slate-600'} text-sm leading-relaxed`}
               >
                 {item.body}
               </div>

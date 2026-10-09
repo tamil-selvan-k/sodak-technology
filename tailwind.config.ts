@@ -5,27 +5,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        blue: {
+          main:    '#1E40AF',
+          primary: '#2563EB',
+          light:   '#3B82F6',
+          bg:      '#EFF6FF',
+          dark:    '#172554',
+        },
         navy: {
-          950: '#0a0f1e',
-          900: '#0f1729',
-          800: '#1a2342',
-          700: '#253054',
-          600: '#354470',
+          950: '#172554',
+          900: '#1e3a8a',
+          800: '#1e40af',
+          700: '#2563eb',
+          600: '#3b82f6',
         },
         gold: {
-          600: '#a88520',
-          500: '#c8a035',
-          400: '#d4b04a',
-          300: '#e0c470',
+          600: '#1d4ed8',
+          500: '#2563eb',
+          400: '#3b82f6',
+          300: '#60a5fa',
         },
         dm: {
-          accent:   '#075892',
-          'accent-lt': '#29b6f6',
-          surface:  '#f3f4f6',
-          text:     '#0d1726',
-          muted:    '#9ca3af',
-          border:   '#e5e7eb',
-          foreground: '#1d3658',
+          accent:      '#2563EB',
+          'accent-lt': '#3B82F6',
+          surface:     '#EFF6FF',
+          text:        '#172554',
+          muted:       '#64748B',
+          border:      '#DBEAFE',
+          foreground:  '#1E40AF',
         },
       },
       fontFamily: {
@@ -39,7 +46,8 @@ const config: Config = {
         xl: '16px',
       },
       boxShadow: {
-        dark: '0 4px 20px rgba(0,0,0,0.35)',
+        dark: '0 4px 20px rgba(30,64,175,0.25)',
+        card: '0 2px 12px rgba(37,99,235,0.06)',
       },
       backdropBlur: {
         glass: '20px',

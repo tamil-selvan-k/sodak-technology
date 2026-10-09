@@ -50,9 +50,9 @@ export default function AdminSidebar({ email, role }: Props) {
   return (
     <>
       {/* Mobile header bar — visible only on ≤768px via CSS */}
-      <div className="admin-mobile-header">
-        <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#0f172a' }}>SODAK</span>
-        <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#4865ad', marginLeft: 3 }}>Admin</span>
+      <div className="admin-mobile-header" style={{ borderBottom: '1px solid #DBEAFE' }}>
+        <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#1E40AF' }}>SODAK</span>
+        <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#2563EB', marginLeft: 3 }}>Admin</span>
         <button
           onClick={() => setOpen(o => !o)}
           aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
@@ -82,11 +82,11 @@ export default function AdminSidebar({ email, role }: Props) {
       <aside className={`admin-sidebar${open ? ' open' : ''}`}>
         <div style={{
           position: 'sticky', top: 0, zIndex: 10,
-          background: '#ffffff', borderBottom: '1px solid #e2e8f0',
+          background: '#ffffff', borderBottom: '1px solid #DBEAFE',
           padding: '0 20px', height: 56, display: 'flex', alignItems: 'center', flexShrink: 0,
         }}>
-          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#0f172a' }}>SODAK</span>
-          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#4865ad', marginLeft: 3 }}>Admin</span>
+          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#1E40AF' }}>SODAK</span>
+          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 15, color: '#2563EB', marginLeft: 3 }}>Admin</span>
         </div>
         <nav className="py-4">
           {NAV.map(item => (
@@ -104,8 +104,8 @@ export default function AdminSidebar({ email, role }: Props) {
             </span>
           ))}
         </nav>
-        <div className="mt-auto px-4 py-3" style={{ borderTop: '1px solid #e2e8f0' }}>
-          <p style={{ fontSize: 12, color: '#334155', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>
+        <div className="mt-auto px-4 py-3" style={{ borderTop: '1px solid #DBEAFE' }}>
+          <p style={{ fontSize: 12, color: '#172554', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>
           <p style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{role}</p>
         </div>
       </aside>

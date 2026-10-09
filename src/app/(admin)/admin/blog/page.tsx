@@ -26,15 +26,15 @@ export default async function AdminBlogPage({ searchParams }: Props) {
   return (
     <main className="admin-main">
       <div style={{ marginBottom: 32 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4865ad', marginBottom: 6 }}>SODAK Technology</p>
+        <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#2563EB', marginBottom: 6 }}>SODAK Technology</p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <div>
-            <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Blog Management</h1>
+            <h1 style={{ fontSize: 28, fontWeight: 800, color: '#172554', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Blog Management</h1>
             <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Manage insights posts, author assignments and publication workflow</p>
           </div>
           <Link
             href="/admin/blog/new"
-            style={{ padding: '9px 20px', fontSize: 13, fontWeight: 700, background: '#4865ad', color: '#ffffff', borderRadius: 8, textDecoration: 'none', whiteSpace: 'nowrap' }}
+            style={{ padding: '9px 20px', fontSize: 13, fontWeight: 700, background: '#2563EB', color: '#ffffff', borderRadius: 8, textDecoration: 'none', whiteSpace: 'nowrap' }}
           >
             + New Post
           </Link>
@@ -48,7 +48,7 @@ export default async function AdminBlogPage({ searchParams }: Props) {
           { label: 'In Review',    value: inReview },
           { label: 'Drafts',       value: drafts },
         ].map(c => (
-          <div key={c.label} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '20px 24px' }}>
+          <div key={c.label} style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: '20px 24px' }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{c.label}</p>
             <p style={{ fontSize: 32, fontWeight: 800, color: '#334155', lineHeight: 1 }}>{c.value}</p>
           </div>

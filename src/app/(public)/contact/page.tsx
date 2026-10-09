@@ -142,7 +142,7 @@ export default function ContactPage() {
                   ].map((step, i) => (
                     <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#94a3b8' }}>
                       <span style={{
-                        background: 'var(--gold-500)', color: 'var(--navy-950)',
+                        background: '#2563EB', color: '#ffffff',
                         width: 20, height: 20, borderRadius: '50%',
                         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: 11, fontWeight: 700, flexShrink: 0,

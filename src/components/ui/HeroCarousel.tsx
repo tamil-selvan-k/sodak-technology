@@ -70,7 +70,7 @@ export default function HeroCarousel() {
         <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 12 }}>
           {SLIDES.map((_, i) => (
             <button key={i} onClick={() => setIndex(i)} aria-label={`Slide ${i + 1}`}
-              style={{ width: i === index ? 20 : 8, height: 8, borderRadius: 4, border: 'none', cursor: 'pointer', padding: 0, transition: 'width 0.3s', background: i === index ? '#c8a035' : 'rgba(255,255,255,0.35)' }} />
+              style={{ width: i === index ? 20 : 8, height: 8, borderRadius: 4, border: 'none', cursor: 'pointer', padding: 0, transition: 'width 0.3s', background: i === index ? '#2563eb' : 'rgba(255,255,255,0.35)' }} />
           ))}
         </div>
       </div>

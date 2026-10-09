@@ -10,12 +10,12 @@ export default function Textarea({ label, error, hint, className = '', id, ...pr
   const areaId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
   return (
     <div className="flex flex-col gap-1.5">
-      {label && <label htmlFor={areaId} className="text-[13px] font-medium text-slate-600">{label}</label>}
+      {label && <label htmlFor={areaId} className="text-[13px] font-medium text-[#172554]">{label}</label>}
       <textarea
         id={areaId}
         rows={4}
-        className={`w-full px-3.5 py-2.5 rounded-md border border-[var(--dm-border)] bg-white text-sm text-[var(--dm-text)] placeholder:text-slate-400 transition-[border-color] outline-none resize-y
-          focus:border-[#4865ad] focus:shadow-[0_0_0_3px_rgba(72,101,173,0.12)]
+        className={`w-full px-4 py-3 rounded-2xl border border-[#dbeafe] bg-white text-sm text-[#172554] placeholder:text-slate-400 transition-all outline-none resize-y
+          focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.12)]
           ${error ? 'border-red-500' : ''} ${className}`}
         {...props}
       />

@@ -28,9 +28,9 @@ const TIMELINE = [
 ]
 
 const VALUES = [
-  { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3H3v18h18V3H5zm8 14H7v-2h6v2zm0-4H7v-2h6v2zm0-4H7V7h6v2zm4 8h-2V7h2v10z"/></svg>, title:'Practice-led Training', desc:'Every module includes hands-on labs and real-world projects — theory alone does not place students.' },
-  { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>, title:'Placement-first Focus', desc:'We measure our success by your placement rate, not by course completion certificates.' },
-  { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>, title:'Industry Integrity',    desc:'All trainers sign NDAs and follow strict content accuracy standards before entering classrooms.' },
+  { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="#2563eb"><path d="M5 3H3v18h18V3H5zm8 14H7v-2h6v2zm0-4H7v-2h6v2zm0-4H7V7h6v2zm4 8h-2V7h2v10z"/></svg>, title:'Practice-led Training', desc:'Every module includes hands-on labs and real-world projects — theory alone does not place students.' },
+  { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="#2563eb"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>, title:'Placement-first Focus', desc:'We measure our success by your placement rate, not by course completion certificates.' },
+  { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="#2563eb"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>, title:'Industry Integrity',    desc:'All trainers sign NDAs and follow strict content accuracy standards before entering classrooms.' },
 ]
 
 export default async function AboutPage() {
@@ -129,12 +129,12 @@ export default async function AboutPage() {
               {trainers.slice(0, 8).map((t: { id: string; name: string; slug: string; designation: string | null; currentCompany: string | null }) => (
                 <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-dark" style={{ textAlign: 'center', padding: '24px 16px' }}>
-                    <div className="avatar avatar-lg" style={{ margin: '0 auto 12px', background: 'rgba(72,101,173,0.15)', fontSize: 24 }}>
+                    <div className="avatar avatar-lg" style={{ margin: '0 auto 12px', background: '#eff6ff', color: '#2563eb', fontSize: 24 }}>
                       {t.name.charAt(0)}
                     </div>
                     <p className="t-sm c-white fw-600">{t.name}</p>
                     <p className="t-micro c-muted" style={{ marginTop: 4 }}>{t.designation}</p>
-                    {t.currentCompany && <p className="t-micro" style={{ color: '#4865ad', marginTop: 4 }}>{t.currentCompany}</p>}
+                    {t.currentCompany && <p className="t-micro" style={{ color: '#93c5fd', marginTop: 4, fontWeight: 600 }}>{t.currentCompany}</p>}
                   </div>
                 </Link>
               ))}

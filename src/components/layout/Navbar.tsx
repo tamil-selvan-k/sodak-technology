@@ -52,22 +52,28 @@ export default function Navbar() {
     <nav style={{
       position: 'sticky', top: 0, zIndex: 100,
       background: '#ffffff',
-      borderBottom: '1px solid #e2e8f0',
+      borderBottom: '1px solid #dbeafe',
       height: 64,
       display: 'flex',
       alignItems: 'center',
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
         {/* Logo */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 2, textDecoration: 'none' }}>
-          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 20, color: '#0f172a' }}>SODAK</span>
-          <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 20, color: '#4865ad' }}>Technology</span>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2L24.3923 8V20L14 26L3.6077 20V8L14 2Z" stroke="#1e40af" strokeWidth="2.5" fill="none"/>
+            <path d="M18 10C17 8.5 15.5 8 13.5 8C11.5 8 10 9 10 11C10 13 12 13.5 14 14C16 14.5 18 15 18 17.5C18 19.5 16.5 21 13.5 21C11 21 9.5 19.5 9 18" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+            <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 20, color: '#172554', letterSpacing: '-0.01em' }}>SODAK</span>
+            <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 700, fontSize: 18, color: '#2563eb' }}>Technology</span>
+          </div>
         </Link>
 
         {/* Desktop nav */}
         <ul style={{ alignItems: 'center', gap: 4, listStyle: 'none', margin: 0, padding: 0 }} className="nav-desktop-links">
           {NAV_ITEMS.map(item => {
-            const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
             return (
               <li key={item.href} style={{ position: 'relative' }} className="group">
                 <Link
@@ -77,21 +83,23 @@ export default function Navbar() {
                     padding: '6px 12px', borderRadius: '2rem',
                     fontFamily: 'var(--font-inter), sans-serif',
                     fontSize: 14, fontWeight: isActive ? 600 : 500,
-                    color: isActive ? '#4865ad' : '#334155',
+                    color: isActive ? '#2563eb' : '#334155',
+                    background: isActive ? '#eff6ff' : 'transparent',
                     textDecoration: 'none',
-                    transition: 'color 0.15s',
+                    transition: 'all 0.15s',
                   }}
                 >
                   {item.label}
-                  {'dropdown' in item && <span style={{ fontSize: 10, opacity: 0.5 }}>▾</span>}
+                  {'dropdown' in item && <span style={{ fontSize: 10, opacity: 0.6 }}>▾</span>}
                 </Link>
                 {'dropdown' in item && (
                   <div className="hidden group-hover:flex flex-col" style={{
                     position: 'absolute', top: '100%', left: 0,
-                    background: '#ffffff', border: '1px solid #e2e8f0',
-                    borderRadius: '1.5rem', minWidth: 200,
+                    background: '#ffffff', border: '1px solid #dbeafe',
+                    borderRadius: '1.25rem', minWidth: 200,
                     padding: '8px 0', zIndex: 200,
                     marginTop: 4,
+                    boxShadow: '0 10px 25px rgba(37,99,235,0.08)',
                   }}>
                     {item.dropdown.map(d => (
                       <Link key={d.href} href={d.href} style={{
@@ -100,7 +108,7 @@ export default function Navbar() {
                         fontSize: 13, color: '#334155', textDecoration: 'none',
                         transition: 'color 0.15s, background 0.15s',
                       }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#4865ad'; (e.currentTarget as HTMLElement).style.background = 'rgba(72,101,173,0.05)'; }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#2563eb'; (e.currentTarget as HTMLElement).style.background = '#eff6ff'; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#334155'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
                         {d.label}
                       </Link>
@@ -116,13 +124,14 @@ export default function Navbar() {
           <Link href="/contact" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '8px 20px', borderRadius: '2.5rem',
-            background: '#4865ad', color: '#ffffff',
+            background: '#2563eb', color: '#ffffff',
             fontFamily: 'var(--font-inter), sans-serif',
             fontSize: 13, fontWeight: 600, textDecoration: 'none',
-            transition: 'opacity 0.15s',
+            transition: 'all 0.15s',
+            boxShadow: '0 2px 8px rgba(37,99,235,0.25)',
           }}
-          onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.88'}
-          onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '1'}>
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#1d4ed8'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#2563eb'; }}>
             Book a Program →
           </Link>
         </div>
@@ -137,14 +146,14 @@ export default function Navbar() {
         >
           {open ? (
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <line x1="4" y1="4" x2="18" y2="18" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="18" y1="4" x2="4" y2="18" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="4" y1="4" x2="18" y2="18" stroke="#172554" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="18" y1="4" x2="4" y2="18" stroke="#172554" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           ) : (
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <line x1="2" y1="5.5" x2="20" y2="5.5" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="2" y1="11" x2="20" y2="11" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="2" y1="16.5" x2="20" y2="16.5" stroke="#0f172a" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="2" y1="5.5" x2="20" y2="5.5" stroke="#172554" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="2" y1="11" x2="20" y2="11" stroke="#172554" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="2" y1="16.5" x2="20" y2="16.5" stroke="#172554" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           )}
         </button>
@@ -154,21 +163,22 @@ export default function Navbar() {
       {open && (
         <div className="nav-mobile-menu" style={{
           position: 'absolute', top: 64, left: 0, right: 0,
-          background: '#ffffff', borderBottom: '1px solid #e2e8f0',
+          background: '#ffffff', borderBottom: '1px solid #dbeafe',
           padding: '16px 24px', flexDirection: 'column', gap: 4, zIndex: 200,
+          boxShadow: '0 10px 25px rgba(37,99,235,0.08)',
         }}>
           {NAV_ITEMS.map(item => (
             <Link key={item.href} href={item.href} style={{
               padding: '10px 0', fontFamily: 'var(--font-inter), sans-serif',
-              fontSize: 14, fontWeight: 500, color: '#334155', textDecoration: 'none',
-              borderBottom: '1px solid #f1f5f9',
+              fontSize: 14, fontWeight: 500, color: '#172554', textDecoration: 'none',
+              borderBottom: '1px solid #eff6ff',
             }} onClick={() => setOpen(false)}>
               {item.label}
             </Link>
           ))}
           <Link href="/contact" style={{
             marginTop: 8, textAlign: 'center', padding: '10px 20px',
-            borderRadius: '2.5rem', background: '#4865ad', color: '#ffffff',
+            borderRadius: '2.5rem', background: '#2563eb', color: '#ffffff',
             fontFamily: 'var(--font-inter), sans-serif',
             fontSize: 13, fontWeight: 600, textDecoration: 'none',
           }} onClick={() => setOpen(false)}>

@@ -105,14 +105,14 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
   return (
     <>
       {/* Upload section */}
-      <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: 20, marginBottom: 24 }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 14 }}>Upload New File</p>
+      <div style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: 20, marginBottom: 24 }}>
+        <p style={{ fontSize: 14, fontWeight: 600, color: '#172554', marginBottom: 14 }}>Upload New File</p>
         {uploadError && (
           <p style={{ fontSize: 12, color: '#f87171', marginBottom: 8 }}>{uploadError}</p>
         )}
         <div
           style={{
-            border: '2px dashed rgba(72,101,173,0.2)', borderRadius: 10, padding: 48,
+            border: '2px dashed #DBEAFE', borderRadius: 10, padding: 48,
             textAlign: 'center', background: '#ffffff', cursor: 'pointer',
             transition: 'border-color 0.15s, background 0.15s',
           }}
@@ -120,12 +120,12 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
           onDragOver={e => e.preventDefault()}
           onDrop={e => { e.preventDefault(); void handleUpload(e.dataTransfer.files) }}
           onMouseEnter={e => {
-            ;(e.currentTarget as HTMLDivElement).style.borderColor = '#4865ad'
-            ;(e.currentTarget as HTMLDivElement).style.background = 'rgba(72,101,173,0.05)'
+            ;(e.currentTarget as HTMLDivElement).style.borderColor = '#2563EB'
+            ;(e.currentTarget as HTMLDivElement).style.background = '#EFF6FF'
           }}
           onMouseLeave={e => {
-            ;(e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(72,101,173,0.2)'
-            ;(e.currentTarget as HTMLDivElement).style.background = 'rgba(72,101,173,0.03)'
+            ;(e.currentTarget as HTMLDivElement).style.borderColor = '#DBEAFE'
+            ;(e.currentTarget as HTMLDivElement).style.background = '#ffffff'
           }}
         >
           <input
@@ -147,7 +147,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: 0, borderBottom: '2px solid rgba(72,101,173,0.08)', marginBottom: 24 }}>
+      <div style={{ display: 'flex', gap: 0, borderBottom: '2px solid #DBEAFE', marginBottom: 24 }}>
         {TABS.map(tab => (
           <button
             key={tab}
@@ -155,11 +155,11 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
             style={{
               padding: '10px 18px', fontSize: 13,
               fontWeight: activeTab === tab ? 600 : 500,
-              color: activeTab === tab ? '#4865ad' : '#94a3b8',
+              color: activeTab === tab ? '#2563EB' : '#94a3b8',
               cursor: 'pointer',
               marginBottom: -2, background: 'none', border: 'none',
               borderBottomWidth: 2, borderBottomStyle: 'solid',
-              borderBottomColor: activeTab === tab ? '#4865ad' : 'transparent',
+              borderBottomColor: activeTab === tab ? '#2563EB' : 'transparent',
               transition: 'color 0.15s',
             }}
           >
@@ -176,7 +176,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
           </p>
         )}
         {visible.map(f => (
-          <div key={f.id} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden' }}>
+          <div key={f.id} style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, overflow: 'hidden' }}>
             {/* Thumbnail */}
             {f.mimeType.startsWith('image/') ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -189,7 +189,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
             ) : (
               <div
                 style={{
-                  height: 160, background: '#f8fafc', display: 'flex', flexDirection: 'column',
+                  height: 160, background: '#EFF6FF', display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center', gap: 8, color: '#64748b',
                   fontSize: 36, cursor: 'pointer',
                 }}
@@ -204,7 +204,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
 
             {/* Card body */}
             <div style={{ padding: 14 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', marginBottom: 3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#172554', marginBottom: 3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {f.originalName}
               </div>
               <div style={{ fontSize: 11, color: '#64748b', marginBottom: 10 }}>
@@ -224,7 +224,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
                   onClick={() => copyUrl(f.id, f.url)}
                   style={{
                     padding: '5px 11px', borderRadius: 5, fontSize: 11, fontWeight: 600, cursor: 'pointer',
-                    border: '1px solid #e2e8f0', background: '#f8fafc', color: '#64748b',
+                    border: '1px solid #DBEAFE', background: '#EFF6FF', color: '#64748b',
                     marginLeft: 'auto',
                   }}
                 >
@@ -241,13 +241,13 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
         <div style={{ marginTop: 20, padding: '10px 14px', fontSize: 12, color: '#64748b' }}>
           Showing {files.length} of {total} files —{' '}
           {page > 1 && (
-            <button onClick={() => goTo(page - 1)} style={{ color: '#4865ad', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
+            <button onClick={() => goTo(page - 1)} style={{ color: '#2563EB', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
               ← Prev
             </button>
           )}
           {' '}Page {page} of {pages}{' '}
           {page < pages && (
-            <button onClick={() => goTo(page + 1)} style={{ color: '#4865ad', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
+            <button onClick={() => goTo(page + 1)} style={{ color: '#2563EB', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
               Next →
             </button>
           )}

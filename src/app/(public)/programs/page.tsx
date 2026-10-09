@@ -104,10 +104,10 @@ export default async function ProgramsPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20, marginTop: 40 }}>
             {[
-              { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3H3v18h18V3H5zm8 14H7v-2h6v2zm0-4H7v-2h6v2zm0-4H7V7h6v2zm4 8h-2V7h2v10z"/></svg>, title:'On-Campus Delivery', desc:'We come to your college — no student travel, no logistics.' },
-              { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>, title:'Industry Trainers',  desc:'All trainers are currently employed at top MNCs.' },
-              { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>, title:'Hands-on Labs',      desc:'Practice on real tools — not just slides and theory.' },
-              { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>, title:'Placement-First',    desc:'Every session is mapped to what interviewers actually ask.' },
+              { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="#2563eb"><path d="M5 3H3v18h18V3H5zm8 14H7v-2h6v2zm0-4H7v-2h6v2zm0-4H7V7h6v2zm4 8h-2V7h2v10z"/></svg>, title:'On-Campus Delivery', desc:'We come to your college — no student travel, no logistics.' },
+              { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>, title:'Industry Trainers',  desc:'All trainers are currently employed at top MNCs.' },
+              { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="#2563eb"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>, title:'Hands-on Labs',      desc:'Practice on real tools — not just slides and theory.' },
+              { icon: <svg width="40" height="40" viewBox="0 0 24 24" fill="#2563eb"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>, title:'Placement-First',    desc:'Every session is mapped to what interviewers actually ask.' },
             ].map(f => (
               <div key={f.title} className="card card-light" style={{ textAlign: 'center', padding: '28px 20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>{f.icon}</div>
