@@ -94,6 +94,48 @@ h1, h2, h3, h4 { font-family: var(--font-plus-jakarta), system-ui, sans-serif; }
 .c-red     { color: var(--red) !important; }
 .c-blue    { color: #2563eb !important; }
 
+/* ── Dark-section overrides: promote muted/body text to readable light-blue ── */
+/* c-muted (#64748b) and c-body (#334155) have low contrast on dark blue backgrounds.
+   These overrides win because they have higher specificity AND !important.            */
+.s-dark .c-muted,
+.s-darker .c-muted,
+.page-hero .c-muted { color: #bfdbfe !important; }
+
+.s-dark .c-body,
+.s-darker .c-body,
+.page-hero .c-body  { color: #bfdbfe !important; }
+
+.s-dark .c-heading,
+.s-darker .c-heading,
+.page-hero .c-heading { color: #ffffff !important; }
+
+.s-dark .c-dark,
+.s-darker .c-dark,
+.page-hero .c-dark  { color: #ffffff !important; }
+
+/* ── White-card resets inside dark sections ── */
+/* review-card, card-light, and form-card have white backgrounds even when
+   nested inside dark sections — restore normal colours for text inside them. */
+.review-card .c-muted,
+.card-light .c-muted,
+.card-ghost .c-muted,
+.form-card .c-muted  { color: #64748b !important; }
+
+.review-card .c-heading,
+.card-light .c-heading,
+.card-ghost .c-heading,
+.form-card .c-heading  { color: #172554 !important; }
+
+.review-card .c-body,
+.card-light .c-body,
+.card-ghost .c-body,
+.form-card .c-body   { color: #334155 !important; }
+
+.review-card .c-dark,
+.card-light .c-dark,
+.card-ghost .c-dark,
+.form-card .c-dark   { color: #172554 !important; }
+
 /* ── Text alignment ── */
 .text-center { text-align: center; }
 .text-left   { text-align: left; }
@@ -106,7 +148,7 @@ section.s-lg { padding: 88px 0; }
 
 .s-dark    { background: #1e40af; color: #ffffff; }
 .s-darker  { background: #172554; color: #ffffff; }
-.s-light   { background: #eff6ff; }
+.s-light   { background: #ffffff; }
 .s-white   { background: #ffffff; }
 
 /* ── Container ── */
@@ -494,6 +536,8 @@ section.s-lg { padding: 88px 0; }
   gap: 12px;
   margin-top: 40px;
   max-width: 700px;
+  place-items: center;
+  justify-content: center;
   margin: 40px auto 0;
 }
 
@@ -527,11 +571,52 @@ section.s-lg { padding: 88px 0; }
   .form-card { padding: 24px; }
 }
 
+/* ── Admin table ── */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.admin-table th {
+  background: #f1f5f9;
+  color: #172554;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #dbeafe;
+}
+.admin-table td {
+  padding: 12px 16px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+.admin-table tr:hover td {
+  background: #f8fafc;
+}
+
+/* ── Admin stat card ── */
+.stat-card-admin {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
 /* ── Admin responsive ── */
 .admin-main {
   flex: 1;
   min-width: 0;
-  padding: 40px 44px;
+  padding: 32px;
   background: #eff6ff;
   min-height: 100vh;
 }
@@ -542,7 +627,7 @@ section.s-lg { padding: 88px 0; }
 .admin-sidebar-overlay { display: none; }
 
 @media (max-width: 1024px) {
-  .admin-main { padding: 32px 28px; }
+  .admin-main { padding: 28px 24px; }
   .admin-stat-grid-4 { grid-template-columns: repeat(2, 1fr); }
   .admin-stat-grid-5 { grid-template-columns: repeat(3, 1fr); }
 }

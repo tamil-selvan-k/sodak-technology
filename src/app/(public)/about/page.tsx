@@ -59,12 +59,12 @@ export default async function AboutPage() {
       </div>
 
       {/* Story + stats */}
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div className="two-col" style={{ alignItems: 'start' }}>
             <div>
               <p className="section-eyebrow">Our Story</p>
-              <h2 className="t-h1 c-white" style={{ marginBottom: 20 }}>
+              <h2 className="t-h1 c-heading" style={{ marginBottom: 20 }}>
                 Building Careers Since 2016
               </h2>
               <p className="t-lg c-muted" style={{ marginBottom: 16 }}>
@@ -119,11 +119,11 @@ export default async function AboutPage() {
 
       {/* Team */}
       {trainers.length > 0 && (
-        <section className="s-dark">
+        <section className="s-light">
           <div className="container">
             <div className="section-header text-center">
               <p className="section-eyebrow">Our Team</p>
-              <h2 className="t-h1 c-white">The Engineers Behind SODAK</h2>
+              <h2 className="t-h1 c-heading">The Engineers Behind SODAK</h2>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, marginTop: 40 }}>
               {trainers.slice(0, 8).map((t: { id: string; name: string; slug: string; designation: string | null; currentCompany: string | null }) => (

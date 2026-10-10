@@ -41,7 +41,7 @@ export default async function InstitutionDetailPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div className="two-col" style={{ alignItems: 'start' }}>
             <div>
@@ -85,10 +85,10 @@ export default async function InstitutionDetailPage({ params }: Props) {
       </section>
 
       {photos.length > 0 && (
-        <section className="s-darker">
+        <section className="s-light">
           <div className="container">
             <p className="section-eyebrow">Photos</p>
-            <h2 className="t-h2 c-white" style={{ marginBottom: 24 }}>Training at {institution.name}</h2>
+            <h2 className="t-h2 c-heading" style={{ marginBottom: 24 }}>Training at {institution.name}</h2>
             <div style={{ columns: '3 200px', gap: 12 }}>
               {photos.map((photo) => (
                 <div key={photo.id} style={{ breakInside: 'avoid', marginBottom: 12 }}>

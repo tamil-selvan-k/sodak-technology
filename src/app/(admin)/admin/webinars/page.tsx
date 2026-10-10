@@ -32,7 +32,7 @@ export default async function AdminWebinarsPage({ searchParams }: Props) {
           </div>
           <Link
             href="/admin/webinars/new"
-            style={{ padding: '9px 20px', fontSize: 13, fontWeight: 700, background: '#2563EB', color: '#ffffff', borderRadius: 8, textDecoration: 'none', whiteSpace: 'nowrap' }}
+            style={{ padding: '9px 20px', fontSize: 13, fontWeight: 700, background: '#2563EB', color: '#ffffff', borderRadius: '2rem', textDecoration: 'none', whiteSpace: 'nowrap' }}
           >
             + Add Webinar
           </Link>
@@ -46,8 +46,8 @@ export default async function AdminWebinarsPage({ searchParams }: Props) {
           { label: 'Upcoming',    value: upcoming },
           { label: 'Past',        value: data.filter(w => w.scheduledAt && new Date(w.scheduledAt) < now).length },
         ].map(c => (
-          <div key={c.label} style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: '20px 24px' }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#2563EB', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{c.label}</p>
+          <div key={c.label} style={{ background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 12, padding: '20px 24px' }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{c.label}</p>
             <p style={{ fontSize: 32, fontWeight: 800, color: '#172554', lineHeight: 1 }}>{c.value}</p>
           </div>
         ))}

@@ -50,7 +50,7 @@ export default async function MentorProfilePage({ params }: Props) {
         </div>
       </div>
 
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div className="two-col" style={{ alignItems: 'start' }}>
             <div>

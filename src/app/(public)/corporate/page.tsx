@@ -23,7 +23,7 @@ export default function CorporatePage() {
         </div>
       </div>
 
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
             {[

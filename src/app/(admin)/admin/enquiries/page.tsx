@@ -41,7 +41,7 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
           { label: 'Proposal Sent',   value: proposalSentCount },
           { label: 'Won',             value: wonCount },
         ].map(c => (
-          <div key={c.label} style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: '20px 24px' }}>
+          <div key={c.label} style={{ background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 12, padding: '20px 24px' }}>
             <div style={{ fontSize: 11, color: '#64748b', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.07em', fontWeight: 700 }}>{c.label}</div>
             <div style={{ fontSize: 32, fontWeight: 800, color: '#334155' }}>{c.value}</div>
           </div>
@@ -68,13 +68,13 @@ export default async function AdminEnquiriesPage({ searchParams }: Props) {
       </div>
 
       {/* Table */}
-      <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, overflow: 'hidden' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 4px rgba(37,99,235,0.06)' }}>
         <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ width: '100%', minWidth: 700, borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: '#EFF6FF' }}>
+            <tr style={{ background: '#f1f5f9' }}>
               {['Name', 'Email', 'Role', 'Institution', 'Program', 'Status', 'Date'].map(h => (
-                <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b', textAlign: 'left' }}>{h}</th>
+                <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#172554', textAlign: 'left', borderBottom: '1px solid #dbeafe' }}>{h}</th>
               ))}
             </tr>
           </thead>

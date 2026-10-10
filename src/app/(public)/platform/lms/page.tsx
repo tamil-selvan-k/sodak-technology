@@ -29,7 +29,7 @@ export default function LMSPage() {
         </div>
       </div>
 
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20 }}>
             {[

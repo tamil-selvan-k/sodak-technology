@@ -34,24 +34,6 @@ const REVIEWS = [
   { name: 'Rahul G.', college: 'KCG College', text: 'Excellent trainers. The hands-on labs made all the difference during the placement drive.', stars: 5 },
 ]
 
-// Fallback list: confirmed SODAK partners first, then well-known TN engineering colleges.
-// Replaced once the DB has published institutions with showOnHome = true.
-const FALLBACK_INSTITUTIONS = [
-  'St. Joseph\'s College of Engineering',
-  'Sathyabama Institute of Science and Technology',
-  'Anna University',
-  'SRM Institute of Science and Technology',
-  'VIT Chennai',
-  'Saveetha Engineering College',
-  'Rajalakshmi Engineering College',
-  'Panimalar Engineering College',
-  'Easwari Engineering College',
-  'Sri Venkateswara College of Engineering',
-  'Hindustan Institute of Technology',
-  'KCG College of Technology',
-  'Jeppiaar Engineering College',
-  'Vel Tech University',
-]
 
 export const revalidate = 60
 
@@ -67,20 +49,16 @@ export default async function HomePage() {
   const stacks   = Array.isArray(stacksResult) ? stacksResult : []
   const stats    = (settings?.stats ?? { placements: 5000, colleges: 500, trainers: 50, years: 8 }) as Record<string, number>
 
-  // Use DB institution names when available; fall back to static list.
-  const institutionNames: string[] =
-    institutionsResult.data.length > 0
-      ? institutionsResult.data.map((i) => i.name)
-      : FALLBACK_INSTITUTIONS
+  const institutionNames: string[] = institutionsResult.data.map((i) => i.name)
 
   return (
     <>
       {/* ── Hero ── */}
-      <section className="s-dark" style={{ padding: '80px 0 0' }}>
+      <section className="s-light" style={{ padding: '80px 0 0' }}>
         <div className="container">
           <div className="hero-grid">
             <div>
-              <h1 className="t-hero c-white" style={{ marginBottom: 20 }}>
+              <h1 className="t-hero c-heading" style={{ marginBottom: 20 }}>
                 {settings?.heroHeadline ?? 'Launch Your Tech Career'}
               </h1>
               <p className="t-lg c-muted" style={{ marginBottom: 32, maxWidth: 520 }}>
@@ -102,7 +80,7 @@ export default async function HomePage() {
           </div>
 
           {/* Stats bar */}
-          <div style={{ display: 'flex', gap: 0, marginTop: 56, borderTop: '1px solid rgba(255,255,255,0.08)', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 0, marginTop: 56, borderTop: '1px solid #dbeafe', flexWrap: 'wrap' }}>
             {[
               { value: stats.placements ?? 5000, suffix: '+', label: 'Students Placed' },
               { value: stats.colleges   ?? 500,  suffix: '+', label: 'Partner Colleges' },
@@ -110,10 +88,10 @@ export default async function HomePage() {
               { value: stats.years      ?? 8,    suffix: '+', label: 'Years of Excellence' },
             ].map(s => (
               <div key={s.label} className="hero-stat-glass">
-                <div className="stat-value">
+                <div className="stat-value" style={{ color: '#1e40af' }}>
                   <StatCounter value={s.value} suffix={s.suffix} />
                 </div>
-                <div className="stat-label">{s.label}</div>
+                <div className="stat-label" style={{ color: '#64748b' }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -121,28 +99,30 @@ export default async function HomePage() {
       </section>
 
       {/* ── Institution Marquee ── */}
-      <section className="s-dark s-sm">
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '20px 0' }}>
-          <div className="marquee-wrap">
-            <div className="marquee-track">
-              {institutionNames.map((name) => (
-                <div key={`a-${name}`} className="marquee-item">{name}</div>
-              ))}
-              {institutionNames.map((name) => (
-                <div key={`b-${name}`} className="marquee-item">{name}</div>
-              ))}
+      {institutionNames.length > 0 && (
+        <section className="s-light s-sm">
+          <div style={{ borderTop: '1px solid #dbeafe', borderBottom: '1px solid #dbeafe', padding: '20px 0' }}>
+            <div className="marquee-wrap">
+              <div className="marquee-track">
+                {institutionNames.map((name) => (
+                  <div key={`a-${name}`} className="marquee-item">{name}</div>
+                ))}
+                {institutionNames.map((name) => (
+                  <div key={`b-${name}`} className="marquee-item">{name}</div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── Featured Trainers ── */}
       {trainers.length > 0 && (
-        <section className="s-dark">
+        <section className="s-light">
           <div className="container">
             <div className="section-header text-center">
               <p className="section-eyebrow">Our Faculty</p>
-              <h2 className="t-h1 c-white">Industry-Trained Experts</h2>
+              <h2 className="t-h1 c-heading">Industry-Trained Experts</h2>
               <p>Our trainers are working engineers and architects from top MNCs — they teach what they practice every day.</p>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, marginTop: 40 }}>
@@ -208,23 +188,25 @@ export default async function HomePage() {
       )}
 
       {/* ── Partner Institutions ── */}
-      <section className="s-darker">
-        <div className="container">
-          <div className="section-header text-center">
-            <p className="section-eyebrow">Our Network</p>
-            <h2 className="t-h1 c-white">Trusted by Leading Institutions</h2>
-            <p style={{ color: '#94a3b8' }}>We deliver on-campus training directly inside your institution — no student travel required.</p>
+      {institutionNames.length > 0 && (
+        <section className="s-light">
+          <div className="container">
+            <div className="section-header text-center">
+              <p className="section-eyebrow">Our Network</p>
+              <h2 className="t-h1 c-heading">Trusted by Leading Institutions</h2>
+              <p style={{ color: '#94a3b8' }}>We deliver on-campus training directly inside your institution — no student travel required.</p>
+            </div>
+            <div className="trust-grid">
+              {institutionNames.map((name, i) => (
+                <div key={`trust-${i}-${name}`} className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
+              ))}
+            </div>
+            <div className="text-center" style={{ marginTop: 36 }}>
+              <Link href="/institutions" className="btn btn-outline">See All Partners →</Link>
+            </div>
           </div>
-          <div className="trust-grid">
-            {institutionNames.map((name, i) => (
-              <div key={`trust-${i}-${name}`} className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
-            ))}
-          </div>
-          <div className="text-center" style={{ marginTop: 36 }}>
-            <Link href="/institutions" className="btn btn-outline">See All Partners →</Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── Programs ── */}
       <section className="s-light">
@@ -260,16 +242,16 @@ export default async function HomePage() {
       </section>
 
       {/* ── Testimonial ── */}
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container text-center" style={{ maxWidth: 780, margin: '0 auto' }}>
           <p className="section-eyebrow text-center">Student Success</p>
-          <blockquote className="t-lg c-white" style={{ fontSize: 22, fontWeight: 600, lineHeight: 1.5, margin: '20px 0 28px', fontStyle: 'italic' }}>
+          <blockquote className="t-lg c-heading" style={{ fontSize: 22, fontWeight: 600, lineHeight: 1.5, margin: '20px 0 28px', fontStyle: 'italic' }}>
             &ldquo;SODAK Technology&apos;s placement training changed my life. Three months after the bootcamp I got placed at Infosys — the mock interviews here were harder than the real thing!&rdquo;
           </blockquote>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
-            <div className="avatar avatar-md" style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff', fontSize: 18 }}>S</div>
+            <div className="avatar avatar-md" style={{ background: '#eff6ff', color: '#2563eb', fontSize: 18 }}>S</div>
             <div style={{ textAlign: 'left' }}>
-              <p className="t-sm c-white fw-600">Sivapriya N.</p>
+              <p className="t-sm c-heading fw-600">Sivapriya N.</p>
               <p className="t-micro c-muted">Placed at Infosys · SRM Institute of Technology</p>
             </div>
           </div>
@@ -306,10 +288,10 @@ export default async function HomePage() {
       </section>
 
       {/* ── Reviews Marquee ── */}
-      <section className="s-darker" style={{ overflow: 'hidden', padding: '48px 0' }}>
+      <section className="s-light" style={{ overflow: 'hidden', padding: '48px 0' }}>
         <div className="container" style={{ paddingBottom: 0 }}>
           <p className="section-eyebrow text-center">Student Reviews</p>
-          <h2 className="t-h2 c-white text-center" style={{ marginBottom: 32 }}>What Students Say</h2>
+          <h2 className="t-h2 c-heading text-center" style={{ marginBottom: 32 }}>What Students Say</h2>
         </div>
         <div className="marquee-wrap" style={{ marginBottom: 12 }}>
           <div className="marquee-track">

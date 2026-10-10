@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 const COLUMNS = [
   {
@@ -64,11 +65,16 @@ export default function Footer() {
           flexWrap: 'wrap',
         }}>
           <div style={{ maxWidth: 320 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 16 }}>
-              <svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2L24.3923 8V20L14 26L3.6077 20V8L14 2Z" stroke="#ffffff" strokeWidth="2.5" fill="none"/>
-                <path d="M18 10C17 8.5 15.5 8 13.5 8C11.5 8 10 9 10 11C10 13 12 13.5 14 14C16 14.5 18 15 18 17.5C18 19.5 16.5 21 13.5 21C11 21 9.5 19.5 9 18" stroke="#93c5fd" strokeWidth="2.5" strokeLinecap="round"/>
-              </svg>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+              <div style={{ width: 38, height: 38, background: '#fff', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                <Image
+                  src="/images/logo.png"
+                  alt="SODAK Technology logo"
+                  width={34}
+                  height={34}
+                  style={{ objectFit: 'contain' }}
+                />
+              </div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
                 <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 22, color: '#ffffff' }}>SODAK</span>
                 <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 700, fontSize: 20, color: '#bfdbfe' }}>Technology</span>

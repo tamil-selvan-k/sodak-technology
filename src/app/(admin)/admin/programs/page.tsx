@@ -32,7 +32,7 @@ export default async function AdminProgramsPage({ searchParams }: Props) {
             <h1 style={{ fontSize: 28, fontWeight: 800, color: '#172554', fontFamily: 'var(--font-plus-jakarta), sans-serif' }}>Programs</h1>
             <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Manage training programs and tracks</p>
           </div>
-          <a href="/admin/programs/new" style={{ padding: '9px 20px', fontSize: 13, fontWeight: 700, background: '#2563EB', color: '#ffffff', borderRadius: 8, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+          <a href="/admin/programs/new" style={{ padding: '9px 20px', fontSize: 13, fontWeight: 700, background: '#2563EB', color: '#ffffff', borderRadius: '2rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>
             + Add Program
           </a>
         </div>
@@ -46,7 +46,7 @@ export default async function AdminProgramsPage({ searchParams }: Props) {
           { label: 'With Brochure', value: withBrochure },
           { label: 'Delivery Modes', value: deliveryModes },
         ].map(({ label, value }) => (
-          <div key={label} style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: '20px 24px' }}>
+          <div key={label} style={{ background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 12, padding: '20px 24px' }}>
             <div style={{ fontSize: 11, color: '#64748b', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.07em', fontWeight: 700 }}>{label}</div>
             <div style={{ fontSize: 32, fontWeight: 800, color: '#334155' }}>{value}</div>
           </div>

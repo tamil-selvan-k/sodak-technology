@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
@@ -50,7 +51,7 @@ export default function Navbar() {
 
   return (
     <nav style={{
-      position: 'sticky', top: 0, zIndex: 100,
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
       background: '#ffffff',
       borderBottom: '1px solid #dbeafe',
       height: 64,
@@ -59,11 +60,15 @@ export default function Navbar() {
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
         {/* Logo */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
-          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14 2L24.3923 8V20L14 26L3.6077 20V8L14 2Z" stroke="#1e40af" strokeWidth="2.5" fill="none"/>
-            <path d="M18 10C17 8.5 15.5 8 13.5 8C11.5 8 10 9 10 11C10 13 12 13.5 14 14C16 14.5 18 15 18 17.5C18 19.5 16.5 21 13.5 21C11 21 9.5 19.5 9 18" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round"/>
-          </svg>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+          <Image
+            src="/images/logo.png"
+            alt="SODAK Technology logo"
+            width={36}
+            height={36}
+            priority
+            style={{ objectFit: 'contain' }}
+          />
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
             <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 800, fontSize: 20, color: '#172554', letterSpacing: '-0.01em' }}>SODAK</span>
             <span style={{ fontFamily: 'var(--font-plus-jakarta), sans-serif', fontWeight: 700, fontSize: 18, color: '#2563eb' }}>Technology</span>

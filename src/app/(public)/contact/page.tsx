@@ -39,10 +39,10 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="s-darker" style={{ padding: '72px 0 60px' }}>
+      <section className="s-light" style={{ padding: '72px 0 60px' }}>
         <div className="container">
           <p className="section-eyebrow">Get in Touch</p>
-          <h1 className="t-h1 c-white" style={{ maxWidth: 600, marginTop: 10 }}>
+          <h1 className="t-h1 c-heading" style={{ maxWidth: 600, marginTop: 10 }}>
             Book a campus program or ask a question
           </h1>
           <p className="t-lg" style={{ color: '#94a3b8', marginTop: 14, maxWidth: 560, lineHeight: 1.75 }}>
@@ -131,7 +131,7 @@ export default function ContactPage() {
               </div>
 
               {/* Next steps */}
-              <div className="card card-dark" style={{ padding: 28, background: 'var(--navy-900)' }}>
+              <div className="card card-dark" style={{ padding: 28, background: '#1e3a8a' }}>
                 <p className="t-sm c-white fw-600" style={{ marginBottom: 8 }}>Typical next steps</p>
                 <ol style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 0, listStyle: 'none' }}>
                   {[
@@ -159,11 +159,11 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ */}
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container" style={{ maxWidth: 760 }}>
           <div className="section-header text-center">
             <p className="section-eyebrow">FAQs</p>
-            <h2 className="t-h2 c-white">Common questions</h2>
+            <h2 className="t-h2 c-heading">Common questions</h2>
           </div>
           <FaqAccordion items={CONTACT_FAQS} />
         </div>

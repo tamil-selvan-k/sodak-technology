@@ -40,11 +40,11 @@ export default async function MentorsPage() {
       </div>
 
       {/* How it works */}
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div className="section-header text-center">
             <p className="section-eyebrow">The Process</p>
-            <h2 className="t-h1 c-white">How Mentoring Works</h2>
+            <h2 className="t-h1 c-heading">How Mentoring Works</h2>
           </div>
          <div
   style={{
@@ -140,11 +140,11 @@ export default async function MentorsPage() {
       </section>
 
       {/* FAQ */}
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container" style={{ maxWidth: 720, margin: '0 auto' }}>
           <div className="section-header text-center">
             <p className="section-eyebrow">FAQ</p>
-            <h2 className="t-h2 c-white">Questions About Mentoring</h2>
+            <h2 className="t-h2 c-heading">Questions About Mentoring</h2>
           </div>
           <FaqAccordion items={FAQ_ITEMS} />
         </div>

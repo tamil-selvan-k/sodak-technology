@@ -59,7 +59,7 @@ export default async function ProgramDetailPage({ params }: Props) {
       </div>
 
       {/* Content */}
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div className="two-col" style={{ alignItems: 'start' }}>
             <div>
@@ -67,7 +67,7 @@ export default async function ProgramDetailPage({ params }: Props) {
               {program.outcomes && (program.outcomes as string[]).length > 0 && (
                 <div style={{ marginBottom: 36 }}>
                   <p className="section-eyebrow">What You&apos;ll Learn</p>
-                  <h2 className="t-h2 c-white" style={{ marginBottom: 20 }}>Program Outcomes</h2>
+                  <h2 className="t-h2 c-heading" style={{ marginBottom: 20 }}>Program Outcomes</h2>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {(program.outcomes as string[]).map((outcome, i) => (
                       <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
@@ -90,7 +90,7 @@ export default async function ProgramDetailPage({ params }: Props) {
               {/* FAQ */}
               <div>
                 <p className="section-eyebrow">FAQ</p>
-                <h2 className="t-h2 c-white" style={{ marginBottom: 20 }}>Frequently Asked Questions</h2>
+                <h2 className="t-h2 c-heading" style={{ marginBottom: 20 }}>Frequently Asked Questions</h2>
                 <FaqAccordion items={faqs} />
               </div>
             </div>

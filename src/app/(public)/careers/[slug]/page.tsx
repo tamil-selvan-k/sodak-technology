@@ -37,12 +37,12 @@ export default async function CareerDetailPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div className="two-col" style={{ alignItems: 'start' }}>
             <div>
               {job.descriptionHtml ? (
-                <div className="prose" style={{ color: '#94a3b8' }} dangerouslySetInnerHTML={{ __html: job.descriptionHtml }} />
+                <div className="prose" style={{ color: '#334155' }} dangerouslySetInnerHTML={{ __html: job.descriptionHtml }} />
               ) : (
                 <p className="t-body c-muted">Full job description coming soon. Contact us for details.</p>
               )}

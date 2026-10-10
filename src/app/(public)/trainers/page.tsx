@@ -44,7 +44,7 @@ export default async function TrainersPage({ searchParams }: Props) {
       </div>
 
       {/* Trust bar */}
-      <section className="s-darker" style={{ padding: '20px 0' }}>
+      <section className="s-light" style={{ padding: '20px 0' }}>
         <div className="marquee-wrap">
           <div className="marquee-track">
             {[...TRUST, ...TRUST].map((name, i) => (
@@ -55,12 +55,12 @@ export default async function TrainersPage({ searchParams }: Props) {
       </section>
 
       {/* Trainer grid */}
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           {trainers.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg></div>
-              <h2 className="t-h2 c-white" style={{ marginBottom: 10 }}>Trainers coming soon</h2>
+              <h2 className="t-h2 c-heading" style={{ marginBottom: 10 }}>Trainers coming soon</h2>
               <p className="t-body c-muted">Our roster is being finalised. Check back shortly.</p>
             </div>
           ) : (

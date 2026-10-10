@@ -149,7 +149,7 @@ export default function TrainerForm({ trainer, stacks }: Props) {
                 type="checkbox"
                 checked={checkedStacks.includes(s.id)}
                 onChange={() => toggleStack(s.id)}
-                className="w-4 h-4 accent-[var(--gold-500)]"
+                className="w-4 h-4 accent-[#2563eb]"
               />
               <span className="text-sm" style={{ color: '#334155' }}>{s.name}</span>
             </label>
@@ -171,7 +171,7 @@ export default function TrainerForm({ trainer, stacks }: Props) {
                 type="checkbox"
                 name={f.name}
                 defaultChecked={f.defaultChecked}
-                className="w-4 h-4 accent-[var(--gold-500)]"
+                className="w-4 h-4 accent-[#2563eb]"
               />
               <span className="text-sm" style={{ color: '#334155' }}>{f.label}</span>
             </label>

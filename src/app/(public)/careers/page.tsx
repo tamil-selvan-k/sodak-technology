@@ -32,11 +32,11 @@ export default async function CareersPage({ searchParams }: Props) {
       </div>
 
       {/* Why join */}
-      <section className="s-dark">
+      <section className="s-light">
         <div className="container">
           <div className="section-header text-center">
             <p className="section-eyebrow">Why SODAK</p>
-            <h2 className="t-h1 c-white">Why Engineers Choose Us</h2>
+            <h2 className="t-h1 c-heading">Why Engineers Choose Us</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20, marginTop: 40 }}>
             {[

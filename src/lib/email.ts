@@ -48,8 +48,8 @@ function baseLayout(content: string, title: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>
-<body style="margin:0;padding:0;background:#0a0f1e;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0f1e;padding:32px 16px;">
+<body style="margin:0;padding:0;background:#eff6ff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#eff6ff;padding:32px 16px;">
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
@@ -63,14 +63,14 @@ function baseLayout(content: string, title: string): string {
         </td></tr>
 
         <!-- Body card -->
-        <tr><td style="background:#0f1729;padding:32px;border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);">
+        <tr><td style="background:#1e40af;padding:32px;border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);">
           ${content}
         </td></tr>
 
         <!-- Footer -->
-        <tr><td style="background:#080c17;padding:20px 32px;border:1px solid rgba(255,255,255,0.06);border-top:none;border-radius:0 0 6px 6px;text-align:center;">
-          <p style="margin:0 0 6px;font-size:12px;color:#475569;">© SODAK Technology, Chennai, Tamil Nadu</p>
-          <p style="margin:0;font-size:11px;color:#334155;">You received this email because of your interaction with SODAK Technology.</p>
+        <tr><td style="background:#1e3a8a;padding:20px 32px;border:1px solid rgba(255,255,255,0.06);border-top:none;border-radius:0 0 6px 6px;text-align:center;">
+          <p style="margin:0 0 6px;font-size:12px;color:#bfdbfe;">© SODAK Technology, Chennai, Tamil Nadu</p>
+          <p style="margin:0;font-size:11px;color:#93c5fd;">You received this email because of your interaction with SODAK Technology.</p>
         </td></tr>
 
       </table>

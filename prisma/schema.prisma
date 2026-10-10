@@ -290,6 +290,38 @@ model ProgramStack {
   @@map("program_stacks")
 }
 
+// ── Courses ───────────────────────────────────────────────────────────────────
+
+enum CourseLevel {
+  Beginner
+  Intermediate
+  Advanced
+}
+
+model Course {
+  id              String      @id @default(cuid())
+  title           String
+  slug            String      @unique
+  category        String?
+  level           CourseLevel?
+  duration        String?
+  coverImageUrl   String?
+  descriptionHtml String?     @db.Text
+  outcomes        String[]
+  isFeatured      Boolean     @default(false)
+  isPublished     Boolean     @default(false)
+  displayOrder    Int         @default(0)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([isPublished, deletedAt])
+  @@index([category, isPublished])
+  @@index([displayOrder])
+  @@map("courses")
+}
+
 // ── Gallery ───────────────────────────────────────────────────────────────────
 
 model Photo {
