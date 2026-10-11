@@ -9,17 +9,21 @@ interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
   error?: string
 }
 
-export default function Select({ label, options, placeholder, error, className = '', id, ...props }: Props) {
+export default function Select({ label, options, placeholder, error, className = '', id, disabled, ...props }: Props) {
   const selectId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
   return (
     <div className="flex flex-col gap-1.5">
       {label && <label htmlFor={selectId} className="text-[13px] font-medium text-[#172554]">{label}</label>}
       <select
         id={selectId}
-        className={`w-full px-3.5 py-2.5 rounded-xl border border-[#dbeafe] bg-white text-sm text-[#172554] transition-all outline-none cursor-pointer
-          focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.12)]
+        disabled={disabled}
+        className={`w-full px-3.5 py-2.5 rounded-xl border bg-white text-sm text-[#172554] outline-none
+          transition-all duration-200 ease-out
           appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%233b82f6' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")] bg-no-repeat bg-[right_12px_center]
-          ${error ? 'border-red-500' : ''} ${className}`}
+          ${error ? 'border-red-500' : 'border-[#dbeafe]'}
+          ${disabled ? 'opacity-50 cursor-not-allowed bg-[#f8fafc]' : 'cursor-pointer hover:border-[#93c5fd]'}
+          focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.12)]
+          ${className}`}
         {...props}
       >
         {placeholder && <option value="">{placeholder}</option>}

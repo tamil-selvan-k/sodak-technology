@@ -25,11 +25,15 @@ const SIZE_CLASSES: Record<Size, string> = {
   lg: 'px-7 py-3.5 text-[15px]',
 }
 
-export default function Button({ variant = 'gold', size = 'md', full, className = '', children, ...props }: Props) {
+export default function Button({ variant = 'gold', size = 'md', full, className = '', disabled, children, ...props }: Props) {
   return (
     <button
-      className={`inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all cursor-pointer whitespace-nowrap
-        ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${full ? 'w-full' : ''} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all whitespace-nowrap
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:ring-offset-2
+        disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+        ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${full ? 'w-full' : ''}
+        ${disabled ? 'pointer-events-none' : 'cursor-pointer'} ${className}`}
+      disabled={disabled}
       {...props}
     >
       {children}
