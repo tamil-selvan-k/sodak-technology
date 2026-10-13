@@ -1,13 +1,10 @@
 'use client'
 
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import { useTransition } from 'react'
+import { useTransition, useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
-
-const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#dbeafe] bg-[#eff6ff] text-[#2563eb] hover:bg-[#dbeafe] transition-colors'
-const btnDefault = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#DBEAFE] bg-[#EFF6FF] text-[#64748b] hover:bg-[#DBEAFE] transition-colors disabled:opacity-40'
-const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#fecaca] bg-[#fef2f2] text-[#dc2626] hover:bg-[#fecaca] transition-colors disabled:opacity-40'
 
 interface Institution {
   id: string
@@ -39,6 +36,18 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
+  const [openMenu, setOpenMenu] = useState<string | null>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenu(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   function updateFilter(key: string, value: string) {
     const params = new URLSearchParams(searchParams.toString())
@@ -79,21 +88,19 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
         <select
           defaultValue={searchParams.get('type') ?? ''}
           onChange={e => updateFilter('type', e.target.value)}
-          className="text-[13px] rounded-lg px-3 py-2 focus:outline-none"
-          style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }}
+          style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 130 }}
         >
-          <option value="" style={{ background: '#ffffff' }}>All Types</option>
-          {INST_TYPES.map(t => <option key={t} value={t} style={{ background: '#ffffff' }}>{t}</option>)}
+          <option value="">All Types</option>
+          {INST_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
         </select>
       </div>
 
-      {/* Table — wireframe-exact */}
-      <div className={`rounded-[12px] overflow-hidden transition-opacity ${isPending ? 'opacity-60' : ''}`} style={{ background: '#ffffff', border: '1px solid #DBEAFE' }}>
-        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+      <div className={`rounded-[12px] transition-opacity ${isPending ? 'opacity-60' : ''}`} style={{ background: '#ffffff', border: '1px solid #DBEAFE', overflow: openMenu ? 'visible' : 'hidden' }}>
+        <div style={{ overflowX: openMenu ? 'visible' : 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table className="w-full border-collapse" style={{ minWidth: 760 }}>
           <thead>
             <tr style={{ background: '#EFF6FF' }}>
-              {['Name', 'City / State', 'Type', 'Affiliation', 'Logo Perm.', 'On Home', 'Status', 'Actions'].map(h => (
+              {['Name', 'City / State', 'Type', 'Affiliation', 'Logo Perm.', 'On Home', 'Status', ''].map(h => (
                 <th key={h} className="px-3.5 py-2.5 text-[11px] font-bold text-left whitespace-nowrap text-[#64748b]" style={{ textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   {h}
                 </th>
@@ -132,13 +139,59 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
                     {inst.isPublished ? 'Published' : 'Draft'}
                   </Badge>
                 </td>
-                <td className="px-3.5 py-[11px]">
-                  <div className="flex items-center gap-1.5">
-                    <a href={`/admin/institutions/${inst.id}`} className={btnEdit}>Edit</a>
-                    <button className={btnDefault} disabled={isPending} onClick={() => handlePublish(inst.id, !inst.isPublished)}>
-                      {inst.isPublished ? 'Unpublish' : 'Publish'}
+                <td className="px-3.5 py-[11px]" style={{ position: 'relative' }}>
+                  <div ref={openMenu === inst.id ? menuRef : undefined} style={{ display: 'inline-block', position: 'relative' }}>
+                    <button
+                      onClick={() => setOpenMenu(openMenu === inst.id ? null : inst.id)}
+                      style={{ width: 32, height: 32, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, background: 'none', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', padding: 0 }}
+                      title="Actions"
+                    >
+                      {[0,1,2].map(i => <span key={i} style={{ width: 4, height: 4, borderRadius: '50%', background: '#64748b', display: 'block' }} />)}
                     </button>
-                    <button className={btnDelete} disabled={isPending} onClick={() => handleDelete(inst.id, inst.name)}>Delete</button>
+                    {openMenu === inst.id && (
+                      <div style={{ position: 'absolute', right: 0, top: '110%', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: 148, zIndex: 50, overflow: 'hidden' }}>
+                        <Link
+                          href={`/admin/institutions/${inst.id}`}
+                          onClick={() => setOpenMenu(null)}
+                          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 14px', fontSize: 13, color: '#172554', textDecoration: 'none', fontWeight: 500 }}
+                          onMouseEnter={e => (e.currentTarget.style.background = '#eff6ff')}
+                          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                        >
+                          Edit
+                        </Link>
+                        {inst.isPublished ? (
+                          <button
+                            onClick={() => { handlePublish(inst.id, false); setOpenMenu(null) }}
+                            disabled={isPending}
+                            style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#64748b', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
+                            onMouseEnter={e => (e.currentTarget.style.background = '#eff6ff')}
+                            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                          >
+                            Unpublish
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => { handlePublish(inst.id, true); setOpenMenu(null) }}
+                            disabled={isPending}
+                            style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
+                            onMouseEnter={e => (e.currentTarget.style.background = '#f0fdf4')}
+                            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                          >
+                            Publish
+                          </button>
+                        )}
+                        <div style={{ height: 1, background: '#f1f5f9', margin: '2px 0' }} />
+                        <button
+                          onClick={() => { handleDelete(inst.id, inst.name); setOpenMenu(null) }}
+                          disabled={isPending}
+                          style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
+                          onMouseEnter={e => (e.currentTarget.style.background = '#fef2f2')}
+                          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </td>
               </tr>

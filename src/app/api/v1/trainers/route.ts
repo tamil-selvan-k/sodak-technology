@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import * as trainersService from '@/modules/trainers/trainers.service'
 import { createTrainerSchema } from '@/modules/trainers/trainers.schema'
 import { writeAuditLog } from '@/lib/audit'
+import { Prisma } from '@prisma/client'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
@@ -42,6 +43,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ data: trainer }, { status: 201 })
   } catch (err) {
     console.error('[trainers/POST] error:', err)
-    return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+      return NextResponse.json(
+        { error: { code: 'CONFLICT', message: 'A trainer with this slug already exists. Try a slightly different name.' } },
+        { status: 409 },
+      )
+    }
+    const detail = process.env.NODE_ENV === 'development'
+      ? (err instanceof Error ? `${err.name}: ${err.message}` : String(err))
+      : undefined
+    return NextResponse.json(
+      { error: { code: 'INTERNAL', message: 'An unexpected error occurred.', detail } },
+      { status: 500 },
+    )
   }
 }

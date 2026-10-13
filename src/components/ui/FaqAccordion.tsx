@@ -38,9 +38,12 @@ function FaqItemRow({ item, index, light }: { item: FaqItem; index: number; ligh
           maxHeight: open ? (bodyRef.current?.scrollHeight ?? 600) : 0,
           overflow: 'hidden',
           transition: 'max-height 0.35s ease',
+          padding: 0,
         }}
       >
-        <p className={`t-body ${light ? 'c-body' : 'c-muted'}`} style={{ marginTop: 12 }}>{item.answer}</p>
+        <div className="faq-body-inner">
+          <p className={`t-body ${light ? 'c-body' : 'c-muted'}`}>{item.answer}</p>
+        </div>
       </div>
     </div>
   )

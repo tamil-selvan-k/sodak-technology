@@ -16,7 +16,17 @@ export interface CreateCourseInput {
   displayOrder?: number
 }
 
-export type UpdateCourseInput = Partial<CreateCourseInput>
+export interface UpdateCourseInput {
+  title?: string
+  category?: string | null
+  level?: 'Beginner' | 'Intermediate' | 'Advanced' | null
+  duration?: string | null
+  coverImageUrl?: string | null
+  descriptionHtml?: string | null
+  outcomes?: string[]
+  isFeatured?: boolean
+  displayOrder?: number
+}
 
 export interface CourseFilters {
   isPublished?: boolean

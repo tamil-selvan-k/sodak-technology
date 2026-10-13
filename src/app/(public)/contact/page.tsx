@@ -39,13 +39,13 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="s-light" style={{ padding: '72px 0 60px' }}>
+      <section className="page-hero" style={{ padding: '72px 0 60px' }}>
         <div className="container">
           <p className="section-eyebrow">Get in Touch</p>
           <h1 className="t-h1 c-heading" style={{ maxWidth: 600, marginTop: 10 }}>
             Book a campus program or ask a question
           </h1>
-          <p className="t-lg" style={{ color: '#94a3b8', marginTop: 14, maxWidth: 560, lineHeight: 1.75 }}>
+          <p className="t-lg c-muted" style={{ marginTop: 14, maxWidth: 560, lineHeight: 1.75 }}>
             Share your placement calendar, batch size, and target companies — we&apos;ll design the right program and get back to you within 24 hours.
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function ContactPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {[
                     { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>, title: '+91 89393 66259', sub: 'Mon–Sat, 9 AM – 7 PM IST', href: 'tel:+918939366259' },
-                    { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>,  title: 'hello@sodakedutech.in', sub: 'General enquiries', href: 'mailto:hello@sodakedutech.in' },
+                    { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>, title: 'hello@sodakedutech.in', sub: 'General enquiries', href: 'mailto:hello@sodakedutech.in' },
                     { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>, title: 'WhatsApp us', sub: 'Fastest response channel', href: 'https://wa.me/918939366259' },
                   ].map((c, ci) => (
                     <a key={ci} href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
@@ -118,7 +118,7 @@ export default function ContactPage() {
                     },
                     {
                       label: 'YouTube', href: 'https://youtube.com/@sodakedutech', bg: '#ff0000',
-                      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>,
+                      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>,
                     },
                   ].map(s => (
                     <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
@@ -159,7 +159,7 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ */}
-      <section className="s-light">
+      <section className="s-alt">
         <div className="container" style={{ maxWidth: 760 }}>
           <div className="section-header text-center">
             <p className="section-eyebrow">FAQs</p>

@@ -1,6 +1,6 @@
 // Rule: only imports from own types/schema, src/lib/*, npm packages.
 import { db } from '@/lib/db'
-import { slugify } from '@/lib/slugify'
+import { slugify, makeUniqueSlug } from '@/lib/slugify'
 import { parsePagination, buildMeta } from '@/lib/paginate'
 import {
   cacheGet,
@@ -125,7 +125,10 @@ export async function getByTrainerId(_trainerId: string) {
 }
 
 export async function createInstitution(input: CreateInstitutionInput) {
-  const institution = await db.institution.create({ data: { ...input, slug: slugify(input.name) }, include: WITH_ENGAGEMENTS })
+  const slug = await makeUniqueSlug(input.name, (c) =>
+    db.institution.findFirst({ where: { slug: c, deletedAt: null }, select: { id: true } }).then(Boolean),
+  )
+  const institution = await db.institution.create({ data: { ...input, slug }, include: WITH_ENGAGEMENTS })
   await cacheInvalidateLists(VERSION_KEY)
   return institution
 }
@@ -133,7 +136,9 @@ export async function createInstitution(input: CreateInstitutionInput) {
 export async function updateInstitution(id: string, input: UpdateInstitutionInput) {
   const institution = await db.institution.update({
     where: { id },
-    data: { ...input, ...(input.name && { slug: slugify(input.name) }) },
+    data: { ...input, ...(input.name && { slug: await makeUniqueSlug(input.name, (c) =>
+      db.institution.findFirst({ where: { slug: c, id: { not: id }, deletedAt: null }, select: { id: true } }).then(Boolean),
+    ) }) },
     include: WITH_ENGAGEMENTS,
   })
   await invalidate(id, institution.slug)

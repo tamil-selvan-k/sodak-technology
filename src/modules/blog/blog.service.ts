@@ -1,6 +1,6 @@
 // Rule: only imports from own types/schema, src/lib/*, npm packages.
 import { db } from '@/lib/db'
-import { slugify } from '@/lib/slugify'
+import { slugify, makeUniqueSlug } from '@/lib/slugify'
 import { parsePagination, buildMeta } from '@/lib/paginate'
 import {
   cacheGet,
@@ -124,7 +124,9 @@ export async function getByAuthor(authorId: string, limit = 50) {
 export async function createPost(input: CreatePostInput) {
   const wordCount = (input.bodyHtml?.replace(/<[^>]+>/g, '') ?? '').split(/\s+/).length
   const post = await db.blogPost.create({
-    data: { ...input, slug: slugify(input.title), readingTimeMinutes: Math.max(1, Math.round(wordCount / 200)) },
+    data: { ...input, slug: await makeUniqueSlug(input.title, (c) =>
+      db.blogPost.findFirst({ where: { slug: c, deletedAt: null }, select: { id: true } }).then(Boolean),
+    ), readingTimeMinutes: Math.max(1, Math.round(wordCount / 200)) },
     include: WITH_AUTHOR,
   })
   await cacheInvalidateLists(VERSION_KEY)
@@ -134,7 +136,9 @@ export async function createPost(input: CreatePostInput) {
 export async function updatePost(id: string, input: UpdatePostInput) {
   const post = await db.blogPost.update({
     where: { id, deletedAt: null },
-    data: { ...input, ...(input.title && { slug: slugify(input.title) }) },
+    data: { ...input, ...(input.title && { slug: await makeUniqueSlug(input.title, (c) =>
+      db.blogPost.findFirst({ where: { slug: c, id: { not: id }, deletedAt: null }, select: { id: true } }).then(Boolean),
+    ) }) },
     include: WITH_AUTHOR,
   })
   await invalidate(id, post.slug)

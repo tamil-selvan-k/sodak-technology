@@ -1,6 +1,6 @@
 // Rule: only imports from own types/schema, src/lib/*, npm packages.
 import { db } from '@/lib/db'
-import { slugify } from '@/lib/slugify'
+import { slugify, makeUniqueSlug } from '@/lib/slugify'
 import { parsePagination, buildMeta } from '@/lib/paginate'
 import {
   cacheGet,
@@ -87,13 +87,18 @@ export async function getJobById(id: string): Promise<JobPost | null> {
 }
 
 export async function createJob(input: CreateJobInput) {
-  const job = await db.jobPost.create({ data: { ...input, slug: slugify(input.title) } })
+  const slug = await makeUniqueSlug(input.title, (c) =>
+    db.jobPost.findFirst({ where: { slug: c, deletedAt: null }, select: { id: true } }).then(Boolean),
+  )
+  const job = await db.jobPost.create({ data: { ...input, slug } })
   await cacheInvalidateLists(VERSION_KEY)
   return job
 }
 
 export async function updateJob(id: string, input: UpdateJobInput) {
-  const job = await db.jobPost.update({ where: { id }, data: { ...input, ...(input.title && { slug: slugify(input.title) }) } })
+  const job = await db.jobPost.update({ where: { id }, data: { ...input, ...(input.title && { slug: await makeUniqueSlug(input.title, (c) =>
+    db.jobPost.findFirst({ where: { slug: c, id: { not: id }, deletedAt: null }, select: { id: true } }).then(Boolean),
+  ) }) } })
   await invalidate(id)
   return job
 }

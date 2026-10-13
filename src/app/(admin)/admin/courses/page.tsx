@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { auth } from '@/lib/auth'
 import { listCourses } from '@/modules/courses/courses.service'
+import CoursesTable from './_components/CoursesTable'
 
 export const metadata = { title: 'Courses — SODAK Admin' }
 
@@ -17,6 +18,15 @@ export default async function AdminCoursesPage({ searchParams }: Props) {
     page:               searchParams.page ? Number(searchParams.page) : 1,
     includeUnpublished: true,
   })
+
+  const courses = data.map(c => ({
+    id:          c.id,
+    title:       c.title,
+    category:    c.category,
+    level:       c.level,
+    isPublished: c.isPublished,
+    createdAt:   c.createdAt.toISOString(),
+  }))
 
   return (
     <main className="admin-main">
@@ -40,9 +50,9 @@ export default async function AdminCoursesPage({ searchParams }: Props) {
       <div className="admin-stat-grid-4">
         {[
           { label: 'Total Courses', value: pagination.total },
-          { label: 'Published',     value: data.filter(c => c.isPublished).length },
-          { label: 'Drafts',        value: data.filter(c => !c.isPublished).length },
-          { label: 'This Page',     value: data.length },
+          { label: 'Published',     value: courses.filter(c => c.isPublished).length },
+          { label: 'Drafts',        value: courses.filter(c => !c.isPublished).length },
+          { label: 'This Page',     value: courses.length },
         ].map(c => (
           <div key={c.label} style={{ background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 12, padding: '20px 24px' }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{c.label}</p>
@@ -51,58 +61,7 @@ export default async function AdminCoursesPage({ searchParams }: Props) {
         ))}
       </div>
 
-      {/* Table */}
-      <div style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #dbeafe', overflow: 'hidden', marginTop: 24, boxShadow: '0 1px 4px rgba(37,99,235,0.06)' }}>
-        <table className="admin-table" style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Level</th>
-              <th>Status</th>
-              <th>Created At</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.length === 0 ? (
-              <tr>
-                <td colSpan={6} style={{ textAlign: 'center', padding: '48px 24px', color: '#94a3b8' }}>
-                  No courses yet. <Link href="/admin/courses/new" style={{ color: '#2563EB' }}>Add the first course →</Link>
-                </td>
-              </tr>
-            ) : (
-              data.map(course => (
-                <tr key={course.id}>
-                  <td style={{ fontWeight: 600 }}>{course.title}</td>
-                  <td style={{ color: '#64748b', fontSize: 13 }}>{course.category ?? '—'}</td>
-                  <td style={{ color: '#64748b', fontSize: 13 }}>{course.level ?? '—'}</td>
-                  <td>
-                    <span style={{
-                      display: 'inline-block',
-                      padding: '2px 10px',
-                      borderRadius: 20,
-                      fontSize: 11,
-                      fontWeight: 700,
-                      background: course.isPublished ? '#dcfce7' : '#fef9c3',
-                      color:      course.isPublished ? '#16a34a' : '#b45309',
-                      border:     course.isPublished ? '1px solid #bbf7d0' : '1px solid #fde68a',
-                    }}>
-                      {course.isPublished ? 'Published' : 'Draft'}
-                    </span>
-                  </td>
-                  <td style={{ color: '#64748b', fontSize: 13 }}>{course.createdAt.toLocaleDateString()}</td>
-                  <td>
-                    <Link href={`/admin/courses/${course.id}`} style={{ color: '#2563EB', fontSize: 13, fontWeight: 600 }}>
-                      Edit
-                    </Link>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      <CoursesTable courses={courses} />
     </main>
   )
 }

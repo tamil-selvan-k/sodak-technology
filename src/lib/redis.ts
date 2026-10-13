@@ -35,18 +35,20 @@ function createIoRedisKV(): KV {
 
   return {
     async get<T>(key: string): Promise<T | null> {
-      const raw = await client.get(key)
-      if (raw === null) return null
-      try { return JSON.parse(raw) as T } catch { return raw as unknown as T }
+      try {
+        const raw = await client.get(key)
+        if (raw === null) return null
+        try { return JSON.parse(raw) as T } catch { return raw as unknown as T }
+      } catch { return null }
     },
     async set(key: string, value: unknown, exSeconds: number) {
-      await client.setex(key, exSeconds, JSON.stringify(value))
+      try { await client.setex(key, exSeconds, JSON.stringify(value)) } catch { /* cache miss */ }
     },
     async del(key: string) {
-      await client.del(key)
+      try { await client.del(key) } catch { /* cache miss */ }
     },
     async incr(key: string) {
-      return client.incr(key)
+      try { return await client.incr(key) } catch { return 0 }
     },
   }
 }

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { auth } from '@/lib/auth'
 import { listMentors } from '@/modules/mentors/mentors.service'
+import MentorsTable from './_components/MentorsTable'
 
 export const metadata = { title: 'Mentors — SODAK Admin' }
 
@@ -24,6 +25,14 @@ export default async function AdminMentorsPage({ searchParams }: Props) {
 
   const published  = data.filter(m => m.isPublished).length
   const noConsent  = data.filter(m => !m.consentOnFile).length
+
+  const mentors = data.map(m => ({
+    id:            m.id,
+    name:          m.name,
+    designation:   m.designation,
+    isPublished:   m.isPublished,
+    consentOnFile: m.consentOnFile,
+  }))
 
   return (
     <main className="admin-main">
@@ -58,54 +67,7 @@ export default async function AdminMentorsPage({ searchParams }: Props) {
         ))}
       </div>
 
-      {/* Table */}
-      <div style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #dbeafe', overflow: 'hidden', marginTop: 24, boxShadow: '0 1px 4px rgba(37,99,235,0.06)' }}>
-        <table className="admin-table" style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Designation</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.length === 0 ? (
-              <tr>
-                <td colSpan={4} style={{ textAlign: 'center', padding: '48px 24px', color: '#94a3b8' }}>
-                  No mentors yet. Add a trainer and mark them as a mentor.
-                </td>
-              </tr>
-            ) : (
-              data.map(mentor => (
-                <tr key={mentor.id}>
-                  <td style={{ fontWeight: 600 }}>{mentor.name}</td>
-                  <td style={{ color: '#64748b', fontSize: 13 }}>{mentor.designation ?? '—'}</td>
-                  <td>
-                    <span style={{
-                      display: 'inline-block',
-                      padding: '2px 10px',
-                      borderRadius: 20,
-                      fontSize: 11,
-                      fontWeight: 700,
-                      background: mentor.isPublished ? '#dcfce7' : '#fef9c3',
-                      color:      mentor.isPublished ? '#16a34a' : '#b45309',
-                      border:     mentor.isPublished ? '1px solid #bbf7d0' : '1px solid #fde68a',
-                    }}>
-                      {mentor.isPublished ? 'Published' : 'Draft'}
-                    </span>
-                  </td>
-                  <td>
-                    <Link href={`/admin/trainers/${mentor.id}`} style={{ color: '#2563EB', fontSize: 13, fontWeight: 600 }}>
-                      Edit
-                    </Link>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      <MentorsTable mentors={mentors} />
 
       <p style={{ marginTop: 16, fontSize: 12, color: '#1e40af', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 8, padding: '10px 16px' }}>
         <strong>Note:</strong> Mentors are trainers with the &quot;Is Mentor&quot; flag enabled.

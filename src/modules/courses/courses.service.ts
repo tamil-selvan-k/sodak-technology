@@ -1,6 +1,6 @@
 // Rule: only imports from own types/schema, src/lib/*, npm packages.
 import { db } from '@/lib/db'
-import { slugify } from '@/lib/slugify'
+import { slugify, makeUniqueSlug } from '@/lib/slugify'
 import { parsePagination, buildMeta } from '@/lib/paginate'
 import {
   cacheGet,
@@ -100,7 +100,9 @@ export async function createCourse(input: CreateCourseInput) {
   const course = await db.course.create({
     data: {
       ...input,
-      slug:     input.slug ?? slugify(input.title),
+      slug: input.slug ?? await makeUniqueSlug(input.title, (c) =>
+        db.course.findFirst({ where: { slug: c, deletedAt: null }, select: { id: true } }).then(Boolean),
+      ),
       outcomes: input.outcomes ?? [],
     },
   })

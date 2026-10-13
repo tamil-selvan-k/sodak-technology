@@ -12,6 +12,8 @@ export const createTrainerSchema = z.object({
   displayOrder:    z.number().int().default(0),
   isFeatured:      z.boolean().default(false),
   isMentor:        z.boolean().default(false),
+  consentOnFile:   z.boolean().default(false),
+  photoUrl:        z.string().url().optional().or(z.literal('')),
   stackIds:        z.array(z.string()).default([]),
   // mentor extras
   mentorBio:          z.string().optional(),

@@ -24,7 +24,7 @@ interface Props { searchParams: { page?: string } }
 
 export default async function TrainersPage({ searchParams }: Props) {
   const page = Math.max(1, Number(searchParams.page ?? 1))
-  const { data: trainers, pagination } = await listTrainers({ isMentor: false, page, perPage: 20 }).catch(() => ({ data: [], pagination: { total: 0, page: 1, perPage: 20, pages: 0 } }))
+  const { data: trainers, pagination } = await listTrainers({ page, perPage: 20 }).catch(() => ({ data: [], pagination: { total: 0, page: 1, perPage: 20, pages: 0 } }))
 
   return (
     <>
@@ -55,7 +55,7 @@ export default async function TrainersPage({ searchParams }: Props) {
       </section>
 
       {/* Trainer grid */}
-      <section className="s-light">
+      <section className="s-alt">
         <div className="container">
           {trainers.length === 0 ? (
             <div className="text-center" style={{ padding: '60px 0' }}>

@@ -79,52 +79,55 @@ export default function HeroCarousel() {
 
   return (
     <div
-      style={{ width: 420, height: 380, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', perspective: 1200, marginLeft: -20 }}
+      style={{ width: 420, display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: -20 }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {SLIDES.map((slide, i) => {
-        const slot = getSlot(i, index, n)
-        return (
-          <div
-            key={slide.label}
-            style={{
-              position: 'absolute',
-              width: 280,
-              height: 340,
-              borderRadius: 24,
-              overflow: 'hidden',
-              transition: 'transform 0.75s cubic-bezier(0.2,0.8,0.2,1), opacity 0.75s, filter 0.75s',
-              ...TRANSFORMS[slot],
-            }}
-          >
-            <Image
-              src={slide.src}
-              alt={slide.label}
-              fill
-              sizes="280px"
-              unoptimized
-              style={{ objectFit: 'cover' }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.7))' }} />
-            <p style={{ position: 'absolute', bottom: 20, left: 20, color: 'white', fontWeight: 700, fontSize: 15, zIndex: 2, margin: 0 }}>
-              {slide.label}
-            </p>
-          </div>
-        )
-      })}
+      {/* Slide stage */}
+      <div style={{ width: 420, height: 360, position: 'relative', perspective: 1200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {SLIDES.map((slide, i) => {
+          const slot = getSlot(i, index, n)
+          return (
+            <div
+              key={slide.label}
+              style={{
+                position: 'absolute',
+                width: 280,
+                height: 320,
+                borderRadius: 24,
+                overflow: 'hidden',
+                transition: 'transform 0.75s cubic-bezier(0.2,0.8,0.2,1), opacity 0.75s, filter 0.75s',
+                ...TRANSFORMS[slot],
+              }}
+            >
+              <Image
+                src={slide.src}
+                alt={slide.label}
+                fill
+                sizes="280px"
+                unoptimized
+                style={{ objectFit: 'cover' }}
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.7))' }} />
+              <p style={{ position: 'absolute', bottom: 20, left: 20, color: 'white', fontWeight: 700, fontSize: 15, zIndex: 2, margin: 0 }}>
+                {slide.label}
+              </p>
+            </div>
+          )
+        })}
+      </div>
 
-      {/* Prev / Next */}
-      <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 10, zIndex: 10 }}>
+      {/* Prev / Next — below the slide stage, no overlap */}
+      <div style={{ display: 'flex', gap: 10, marginTop: -16 }}>
         <button
           aria-label="Previous"
           onClick={() => setIndex(i => (i - 1 + n) % n)}
-          style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', width: 40, height: 40, borderRadius: '50%', color: 'white', fontSize: 18, cursor: 'pointer' }}
+          style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.3)', width: 40, height: 40, borderRadius: '50%', color: 'white', fontSize: 18, cursor: 'pointer' }}
         >‹</button>
         <button
           aria-label="Next"
           onClick={() => setIndex(i => (i + 1) % n)}
-          style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', width: 40, height: 40, borderRadius: '50%', color: 'white', fontSize: 18, cursor: 'pointer' }}
+          style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.3)', width: 40, height: 40, borderRadius: '50%', color: 'white', fontSize: 18, cursor: 'pointer' }}
         >›</button>
       </div>
     </div>

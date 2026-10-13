@@ -5,7 +5,7 @@ import ProgramsTable from './_components/ProgramsTable'
 export const metadata = { title: 'Programs — SODAK Admin' }
 
 interface Props {
-  searchParams: { search?: string; track?: string; page?: string }
+  searchParams: { search?: string; page?: string }
 }
 
 export default async function AdminProgramsPage({ searchParams }: Props) {
@@ -14,7 +14,6 @@ export default async function AdminProgramsPage({ searchParams }: Props) {
   const page = searchParams.page ? Number(searchParams.page) : 1
   const { data: programs, pagination } = await listPrograms({
     search: searchParams.search,
-    trackCode: searchParams.track,
     includeUnpublished: true,
     page,
   })

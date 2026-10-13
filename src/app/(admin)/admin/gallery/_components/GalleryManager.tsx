@@ -223,7 +223,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
           <select
             value={institutionFilter ?? ''}
             onChange={e => changeInstitution(e.target.value)}
-            style={{ padding: '8px 12px', border: '1px solid #DBEAFE', borderRadius: 6, fontSize: 13, color: '#334155', background: '#EFF6FF' }}
+            style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 160 }}
           >
             <option value="">All Institutions</option>
             {institutions.map(i => (

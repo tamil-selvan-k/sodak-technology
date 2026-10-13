@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState, useRef, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import type { TrainerWithStacks } from '@/modules/trainers/trainers.types'
 import type { Stack } from '@prisma/client'
@@ -15,8 +15,11 @@ export default function TrainerForm({ trainer, stacks }: Props) {
   const router = useRouter()
   const isEdit = !!trainer
 
+  const formRef = useRef<HTMLFormElement>(null)
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
+  const [publishing, setPublishing] = useState(false)
+  const [consent, setConsent] = useState(trainer?.consentOnFile ?? false)
 
   const selectedStackIds = trainer?.stacks.map(s => s.stack.id) ?? []
   const [checkedStacks, setCheckedStacks] = useState<string[]>(selectedStackIds)
@@ -72,6 +75,56 @@ export default function TrainerForm({ trainer, stacks }: Props) {
     router.refresh()
   }
 
+  function buildBody() {
+    const fd = new FormData(formRef.current!)
+    return {
+      name:            (fd.get('name') as string).trim(),
+      designation:     (fd.get('designation') as string).trim() || undefined,
+      currentCompany:  (fd.get('currentCompany') as string).trim() || undefined,
+      yearsExperience: fd.get('yearsExperience') ? Number(fd.get('yearsExperience')) : undefined,
+      linkedinUrl:     (fd.get('linkedinUrl') as string).trim() || undefined,
+      githubUrl:       (fd.get('githubUrl') as string).trim() || undefined,
+      photoUrl:        (fd.get('photoUrl') as string).trim() || undefined,
+      expertiseTags:   (fd.get('expertiseTags') as string).split(',').map(t => t.trim()).filter(Boolean),
+      bioHtml:         (fd.get('bioHtml') as string).trim() || undefined,
+      isMentor:        fd.get('isMentor') === 'on',
+      isFeatured:      fd.get('isFeatured') === 'on',
+      consentOnFile:   consent,   // use React state — checkbox is controlled
+      displayOrder:    fd.get('displayOrder') ? Number(fd.get('displayOrder')) : undefined,
+      stackIds:        checkedStacks,
+    }
+  }
+
+  async function handlePublish() {
+    if (!trainer?.id) return
+    setPublishing(true)
+    setError(null)
+
+    // Step 1: save the form including consentOnFile: true
+    const saveRes = await fetch(`/api/v1/trainers/${trainer.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(buildBody()),
+    })
+    if (!saveRes.ok) {
+      const data = await saveRes.json().catch(() => ({}))
+      setError((data as { error?: { message?: string } }).error?.message ?? 'Save failed')
+      setPublishing(false)
+      return
+    }
+
+    // Step 2: now publish (DB has consentOnFile: true)
+    const pubRes = await fetch(`/api/v1/trainers/${trainer.id}/publish`, { method: 'POST' })
+    setPublishing(false)
+    if (!pubRes.ok) {
+      const data = await pubRes.json().catch(() => ({}))
+      setError((data as { error?: { message?: string } }).error?.message ?? 'Publish failed')
+      return
+    }
+    router.push('/admin/trainers')
+    router.refresh()
+  }
+
   const field = 'w-full px-3 py-2 text-sm rounded-lg focus:outline-none'
   const fieldStyle: React.CSSProperties = { background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }
   const label = 'block text-xs font-semibold uppercase tracking-wide mb-1.5'
@@ -80,7 +133,7 @@ export default function TrainerForm({ trainer, stacks }: Props) {
   const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#172554', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid #DBEAFE' }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl space-y-5">
+    <form ref={formRef} onSubmit={handleSubmit} className="max-w-3xl space-y-5">
       {error && (
         <div style={{ padding: '12px 16px', borderRadius: 8, fontSize: 13, background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171' }}>{error}</div>
       )}
@@ -162,9 +215,8 @@ export default function TrainerForm({ trainer, stacks }: Props) {
         <p style={sectionHead}>Flags</p>
         <div className="space-y-3">
           {[
-            { name: 'isMentor',      label: 'Is Mentor',       defaultChecked: trainer?.isMentor ?? false },
-            { name: 'isFeatured',    label: 'Featured',        defaultChecked: trainer?.isFeatured ?? false },
-            { name: 'consentOnFile', label: 'Consent on file (required to publish)', defaultChecked: trainer?.consentOnFile ?? false },
+            { name: 'isMentor',   label: 'Is Mentor',   defaultChecked: trainer?.isMentor ?? false },
+            { name: 'isFeatured', label: 'Featured',    defaultChecked: trainer?.isFeatured ?? false },
           ].map(f => (
             <label key={f.name} className="flex items-center gap-2.5 cursor-pointer select-none">
               <input
@@ -176,16 +228,45 @@ export default function TrainerForm({ trainer, stacks }: Props) {
               <span className="text-sm" style={{ color: '#334155' }}>{f.label}</span>
             </label>
           ))}
+          {/* Controlled consent checkbox — drives the Publish button */}
+          <label className="flex items-center gap-2.5 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              name="consentOnFile"
+              checked={consent}
+              onChange={e => setConsent(e.target.checked)}
+              className="w-4 h-4 accent-[#2563eb]"
+            />
+            <span className="text-sm" style={{ color: '#334155' }}>Consent on file (required to publish)</span>
+          </label>
         </div>
         <p style={{ marginTop: 16, fontSize: 12, color: '#d97706', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 8, padding: '10px 14px' }}>
           A trainer cannot be published until <strong>Consent on file</strong> is checked.
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-wrap">
         <Button type="submit" variant="gold" disabled={saving}>
           {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Create Trainer'}
         </Button>
+        {isEdit && !trainer?.isPublished && (
+          <button
+            type="button"
+            onClick={handlePublish}
+            disabled={!consent || publishing || saving}
+            style={{
+              padding: '8px 20px', borderRadius: '2.5rem', fontSize: 13, fontWeight: 700,
+              background: consent ? '#16a34a' : '#e2e8f0',
+              color: consent ? '#ffffff' : '#94a3b8',
+              border: 'none', cursor: consent ? 'pointer' : 'not-allowed',
+              transition: 'all 0.15s',
+              opacity: publishing ? 0.7 : 1,
+            }}
+            title={!consent ? 'Check "Consent on file" above to enable publishing' : undefined}
+          >
+            {publishing ? 'Publishing…' : 'Save & Publish'}
+          </button>
+        )}
         <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
       </div>
     </form>

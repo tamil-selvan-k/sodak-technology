@@ -85,7 +85,7 @@ export default async function ProgramsPage() {
                     {program ? (
                       <Link href={`/programs/${program.slug}`} className="btn btn-gold">Details →</Link>
                     ) : (
-                      <Link href="/contact" className="btn btn-outline">Enquire →</Link>
+                      <Link href="/contact" className="btn btn-outline-white">Enquire →</Link>
                     )}
                   </div>
                 </div>
@@ -96,7 +96,7 @@ export default async function ProgramsPage() {
       </section>
 
       {/* Why us */}
-      <section className="s-light">
+      <section className="s-alt">
         <div className="container">
           <div className="section-header text-center">
             <p className="section-eyebrow">Why SODAK</p>

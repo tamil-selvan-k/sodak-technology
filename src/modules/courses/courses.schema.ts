@@ -14,7 +14,17 @@ export const createCourseSchema = z.object({
   displayOrder:    z.number().int().optional(),
 })
 
-export const updateCourseSchema = createCourseSchema.partial()
+export const updateCourseSchema = z.object({
+  title:           z.string().min(1).optional(),
+  category:        z.string().nullable().optional(),
+  level:           z.enum(['Beginner', 'Intermediate', 'Advanced']).nullable().optional(),
+  duration:        z.string().nullable().optional(),
+  coverImageUrl:   z.string().url().nullable().optional().or(z.literal('')).or(z.null()),
+  descriptionHtml: z.string().nullable().optional(),
+  outcomes:        z.array(z.string()).optional(),
+  isFeatured:      z.boolean().optional(),
+  displayOrder:    z.number().int().optional(),
+})
 
 export type CreateCourseInput = z.infer<typeof createCourseSchema>
 export type UpdateCourseInput = z.infer<typeof updateCourseSchema>

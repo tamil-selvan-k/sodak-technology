@@ -2,14 +2,9 @@
 
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { useCallback, useTransition } from 'react'
+import { useCallback, useTransition, useState, useEffect, useRef } from 'react'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
-
-const btnEdit    = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#dbeafe] bg-[#eff6ff] text-[#2563eb] hover:bg-[#dbeafe] transition-colors'
-const btnPublish = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#bbf7d0] bg-[#f0fdf4] text-[#16a34a] hover:bg-[#bbf7d0] transition-colors'
-const btnUnpub   = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#fef3c7] bg-[#fffbeb] text-[#d97706] hover:bg-[#fef3c7] transition-colors'
-const btnDelete  = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#fecaca] bg-[#fef2f2] text-[#dc2626] hover:bg-[#fecaca] transition-colors'
 
 interface SerializedWebinar {
   id:              string
@@ -37,6 +32,18 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
   const pathname     = usePathname()
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
+  const [openMenu, setOpenMenu] = useState<string | null>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenu(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   function updateParam(key: string, value: string) {
     const params = new URLSearchParams(searchParams.toString())
@@ -64,21 +71,20 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
         <select
           defaultValue={status}
           onChange={e => updateParam('status', e.target.value)}
-          className="px-3 py-2 text-sm rounded-lg focus:outline-none"
-          style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }}
+          style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 130 }}
         >
-          <option value="" style={{ background: '#ffffff' }}>All Status</option>
-          <option value="published" style={{ background: '#ffffff' }}>Published</option>
-          <option value="draft" style={{ background: '#ffffff' }}>Draft</option>
+          <option value="">All Status</option>
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
         </select>
       </div>
 
-      <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, overflow: 'hidden' }}>
-        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, overflow: openMenu ? 'visible' : 'hidden' }}>
+        <div style={{ overflowX: openMenu ? 'visible' : 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ width: '100%', minWidth: 700, borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#EFF6FF' }}>
-              {['Title', 'Presenter', 'Platform', 'Scheduled', 'Duration', 'Status', 'Actions'].map(h => (
+              {['Title', 'Presenter', 'Platform', 'Scheduled', 'Duration', 'Status', ''].map(h => (
                 <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b', textAlign: 'left' }}>{h}</th>
               ))}
             </tr>
@@ -110,17 +116,60 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
                   <td style={{ padding: '11px 14px' }}>
                     <Badge variant={w.isPublished ? 'green' : 'dark'}>{w.isPublished ? 'Published' : 'Draft'}</Badge>
                   </td>
-                  <td style={{ padding: '11px 14px' }}>
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      <Link href={`/admin/webinars/${w.id}`} className={btnEdit}>Edit</Link>
-                      {!w.isPublished
-                        ? <button className={btnPublish} onClick={() => callApi(`/api/v1/webinars/${w.id}/publish`, 'POST')}>Publish</button>
-                        : <button className={btnUnpub}   onClick={() => callApi(`/api/v1/webinars/${w.id}/unpublish`, 'POST')}>Unpublish</button>
-                      }
-                      <button className={btnDelete} onClick={async () => {
-                        if (!window.confirm(`Delete "${w.title}"?`)) return
-                        await callApi(`/api/v1/webinars/${w.id}`, 'DELETE')
-                      }}>Delete</button>
+                  <td style={{ padding: '11px 14px', position: 'relative' }}>
+                    <div ref={openMenu === w.id ? menuRef : undefined} style={{ display: 'inline-block', position: 'relative' }}>
+                      <button
+                        onClick={() => setOpenMenu(openMenu === w.id ? null : w.id)}
+                        style={{ width: 32, height: 32, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, background: 'none', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', padding: 0 }}
+                        title="Actions"
+                      >
+                        {[0,1,2].map(i => <span key={i} style={{ width: 4, height: 4, borderRadius: '50%', background: '#64748b', display: 'block' }} />)}
+                      </button>
+                      {openMenu === w.id && (
+                        <div style={{ position: 'absolute', right: 0, top: '110%', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: 148, zIndex: 50, overflow: 'hidden' }}>
+                          <Link
+                            href={`/admin/webinars/${w.id}`}
+                            onClick={() => setOpenMenu(null)}
+                            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 14px', fontSize: 13, color: '#172554', textDecoration: 'none', fontWeight: 500 }}
+                            onMouseEnter={e => (e.currentTarget.style.background = '#eff6ff')}
+                            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                          >
+                            Edit
+                          </Link>
+                          {!w.isPublished ? (
+                            <button
+                              onClick={() => { callApi(`/api/v1/webinars/${w.id}/publish`, 'POST'); setOpenMenu(null) }}
+                              style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
+                              onMouseEnter={e => (e.currentTarget.style.background = '#f0fdf4')}
+                              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                            >
+                              Publish
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => { callApi(`/api/v1/webinars/${w.id}/unpublish`, 'POST'); setOpenMenu(null) }}
+                              style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#64748b', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
+                              onMouseEnter={e => (e.currentTarget.style.background = '#eff6ff')}
+                              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                            >
+                              Unpublish
+                            </button>
+                          )}
+                          <div style={{ height: 1, background: '#f1f5f9', margin: '2px 0' }} />
+                          <button
+                            onClick={async () => {
+                              if (!window.confirm(`Delete "${w.title}"?`)) return
+                              await callApi(`/api/v1/webinars/${w.id}`, 'DELETE')
+                              setOpenMenu(null)
+                            }}
+                            style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
+                            onMouseEnter={e => (e.currentTarget.style.background = '#fef2f2')}
+                            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </td>
                 </tr>

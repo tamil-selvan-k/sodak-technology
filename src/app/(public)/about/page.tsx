@@ -99,7 +99,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Mission & values */}
-      <section className="s-light">
+      <section className="s-alt">
         <div className="container">
           <div className="section-header text-center">
             <p className="section-eyebrow">Our Values</p>

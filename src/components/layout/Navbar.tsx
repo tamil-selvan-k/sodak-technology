@@ -208,18 +208,18 @@ export default function Navbar() {
                     style={{
                       position: 'absolute', top: '100%', left: 0,
                       background: '#ffffff', border: '1px solid #dbeafe',
-                      borderRadius: '1.25rem', minWidth: 200,
+                      borderRadius: 12, minWidth: 200,
                       padding: '8px 0', zIndex: 200,
                       marginTop: 2,
-                      boxShadow: '0 10px 25px rgba(37,99,235,0.08)',
+                      boxShadow: '0 8px 24px rgba(37,99,235,0.10)',
                       display: 'flex',
                       flexDirection: 'column',
                     }}>
                     {item.dropdown.map(d => (
                       <Link key={d.href} href={d.href} style={{
-                        display: 'block', padding: '8px 16px',
+                        display: 'block', padding: '10px 16px',
                         fontFamily: 'var(--font-inter), sans-serif',
-                        fontSize: 13, color: '#334155', textDecoration: 'none',
+                        fontSize: 14, color: '#334155', textDecoration: 'none',
                         transition: 'color 0.15s, background 0.15s',
                       }}
                       onClick={() => {

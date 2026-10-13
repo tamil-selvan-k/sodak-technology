@@ -39,7 +39,7 @@ export default function FilterBar({ filters, searchKey = 'search', searchPlaceho
             key={f.key}
             value={searchParams.get(f.key) ?? ''}
             onChange={e => updateParam(f.key, e.target.value)}
-            className="px-3.5 py-2 rounded-xl border border-[#dbeafe] bg-white text-[13px] font-medium text-slate-700 cursor-pointer transition-all outline-none focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.12)] min-w-[140px] appearance-none"
+            className="px-3.5 py-2 pr-9 rounded-xl border border-[#dbeafe] bg-white text-[13px] font-medium text-slate-700 cursor-pointer transition-all outline-none focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.12)] min-w-[140px] appearance-none bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2364748b%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[right_12px_center] bg-[length:16px]"
           >
             <option value="">{f.placeholder}</option>
             {f.options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}

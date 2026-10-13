@@ -88,11 +88,7 @@ export default function AuditTable({
         <select
           value={actionFilter}
           onChange={e => setActionFilter(e.target.value)}
-          style={{
-            padding: '8px 12px', fontSize: 13,
-            border: '1px solid #DBEAFE', borderRadius: 6, outline: 'none',
-            color: '#334155', background: '#EFF6FF',
-          }}
+          style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 130 }}
         >
           {ACTION_OPTIONS.map(a => (
             <option key={a} value={a}>{a === '' ? 'All Actions' : a.charAt(0).toUpperCase() + a.slice(1)}</option>

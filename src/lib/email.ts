@@ -1,8 +1,16 @@
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
-const FROM = process.env.RESEND_FROM ?? 'SODAK Technology <hello@sodakedutech.in>'
+// Singleton transporter — created once at module load.
+// If SMTP_HOST is undefined the error surfaces at send time, not at startup.
+const transporter = nodemailer.createTransport({
+  host:   process.env.SMTP_HOST,
+  port:   Number(process.env.SMTP_PORT ?? 587),
+  secure: process.env.SMTP_SECURE === 'true',   // true for port 465, false for 587
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+})
 
 export type EmailTemplate =
   | 'lead-notification'
@@ -32,9 +40,10 @@ const subjects: Record<EmailTemplate, string> = {
 export async function sendEmail({ to, template, data }: SendOptions): Promise<void> {
   try {
     const html = renderTemplate(template, data)
-    await resend.emails.send({
-      from: FROM,
-      to,
+    const from = `"SODAK Technology" <${process.env.SMTP_FROM ?? process.env.SMTP_USER}>`
+    await transporter.sendMail({
+      from,
+      to: Array.isArray(to) ? to.join(', ') : to,
       subject: subjects[template],
       html,
     })

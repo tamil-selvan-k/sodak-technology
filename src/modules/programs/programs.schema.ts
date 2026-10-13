@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const createProgramSchema = z.object({
   title:          z.string().min(2).max(200),
-  trackCode:      z.string().length(1).optional(),
+  trackCode:      z.string().min(1).max(100).optional(),
   summary:        z.string().max(500).optional(),
   descriptionHtml:z.string().optional(),
   duration:       z.string().optional(),

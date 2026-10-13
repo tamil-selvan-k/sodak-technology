@@ -6,7 +6,7 @@ export const createWebinarSchema = z.object({
   presenterId:     z.string().optional(),
   scheduledAt:     z.string().datetime().optional(),
   durationMinutes: z.number().int().min(1).optional(),
-  platform:        z.enum(['Zoom', 'Meet', 'Teams']).optional(),
+  platform:        z.enum(['Zoom', 'Google Meet', 'YouTube Live', 'Teams']).optional(),
   registrationUrl: z.string().url().optional().or(z.literal('')),
 })
 

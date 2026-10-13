@@ -1,6 +1,6 @@
 // Rule: only imports from own types/schema, src/lib/*, npm packages.
 import { db } from '@/lib/db'
-import { slugify } from '@/lib/slugify'
+import { slugify, makeUniqueSlug } from '@/lib/slugify'
 import { parsePagination, buildMeta } from '@/lib/paginate'
 import {
   cacheGet,
@@ -83,7 +83,9 @@ export async function getWebinarById(id: string): Promise<WebinarRecord | null> 
 
 export async function createWebinar(input: CreateWebinarInput) {
   const webinar = await db.webinar.create({
-    data: { ...input, slug: slugify(input.title), ...(input.scheduledAt && { scheduledAt: new Date(input.scheduledAt) }) },
+    data: { ...input, slug: await makeUniqueSlug(input.title, (c) =>
+      db.webinar.findFirst({ where: { slug: c, deletedAt: null }, select: { id: true } }).then(Boolean),
+    ), ...(input.scheduledAt && { scheduledAt: new Date(input.scheduledAt) }) },
     include: { presenter: true },
   })
   await cacheInvalidateLists(VERSION_KEY)

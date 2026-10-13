@@ -1,6 +1,6 @@
 // Rule: only imports from own types/schema, src/lib/*, npm packages.
 import { db } from '@/lib/db'
-import { slugify } from '@/lib/slugify'
+import { slugify, makeUniqueSlug } from '@/lib/slugify'
 import { parsePagination, buildMeta } from '@/lib/paginate'
 import {
   cacheGet,
@@ -98,7 +98,9 @@ export async function createProgram(input: CreateProgramInput) {
   const program = await db.program.create({
     data: {
       ...data,
-      slug: slugify(data.title),
+      slug: await makeUniqueSlug(data.title, (c) =>
+        db.program.findFirst({ where: { slug: c, deletedAt: null }, select: { id: true } }).then(Boolean),
+      ),
       ...(syllabusJson !== undefined && { syllabusJson: syllabusJson as Prisma.InputJsonValue }),
       stacks: stackIds.length ? { create: stackIds.map(stackId => ({ stackId })) } : undefined,
     },
@@ -115,7 +117,9 @@ export async function updateProgram(id: string, input: UpdateProgramInput) {
     where: { id },
     data: {
       ...data,
-      ...(data.title    && { slug: slugify(data.title) }),
+      ...(data.title && { slug: await makeUniqueSlug(data.title, (c) =>
+        db.program.findFirst({ where: { slug: c, id: { not: id }, deletedAt: null }, select: { id: true } }).then(Boolean),
+      ) }),
       ...(syllabusJson !== undefined && { syllabusJson: syllabusJson as Prisma.InputJsonValue }),
       ...(stackIds !== undefined && { stacks: { deleteMany: {}, create: stackIds.map(stackId => ({ stackId })) } }),
     },

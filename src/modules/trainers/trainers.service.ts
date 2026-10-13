@@ -2,7 +2,7 @@
 // Never import from another module's service.
 
 import { db } from '@/lib/db'
-import { slugify } from '@/lib/slugify'
+import { slugify, makeUniqueSlug } from '@/lib/slugify'
 import { parsePagination, buildMeta } from '@/lib/paginate'
 import { emit } from '@/lib/events'
 import {
@@ -113,7 +113,9 @@ export async function getTrainerById(id: string): Promise<TrainerRecord | null> 
 
 export async function createTrainer(input: CreateTrainerInput) {
   const { stackIds, ...data } = input
-  const slug = slugify(data.name)
+  const slug = await makeUniqueSlug(data.name, (c) =>
+    db.trainer.findFirst({ where: { slug: c, deletedAt: null }, select: { id: true } }).then(Boolean),
+  )
 
   const trainer = await db.trainer.create({
     data: {
@@ -138,7 +140,9 @@ export async function updateTrainer(id: string, input: UpdateTrainerInput) {
     where: { id, deletedAt: null },
     data: {
       ...data,
-      ...(data.name && { slug: slugify(data.name) }),
+      ...(data.name && { slug: await makeUniqueSlug(data.name, (c) =>
+        db.trainer.findFirst({ where: { slug: c, id: { not: id }, deletedAt: null }, select: { id: true } }).then(Boolean),
+      ) }),
       ...(stackIds !== undefined && {
         stacks: {
           deleteMany: {},
