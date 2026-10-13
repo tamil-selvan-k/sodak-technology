@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
 const STATUS_MAP = {
@@ -22,7 +22,9 @@ export default function EnquiryStatusSelect({ leadId, status: initialStatus }: P
   const router = useRouter()
   const [status, setStatus] = useState<Status>(initialStatus)
   const [open, setOpen] = useState(false)
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 })
   const [isPending, startTransition] = useTransition()
+  const btnRef = useRef<HTMLButtonElement>(null)
 
   async function handleChange(next: Status) {
     setOpen(false)
@@ -45,8 +47,15 @@ export default function EnquiryStatusSelect({ leadId, status: initialStatus }: P
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <button
+        ref={btnRef}
         type="button"
-        onClick={() => setOpen(v => !v)}
+        onClick={() => {
+          if (btnRef.current) {
+            const rect = btnRef.current.getBoundingClientRect()
+            setDropdownPos({ top: rect.bottom + 4, left: rect.left })
+          }
+          setOpen(v => !v)
+        }}
         disabled={isPending}
         style={{
           padding: '2px 9px 2px 9px', borderRadius: 999, fontSize: 11, fontWeight: 700,
@@ -67,7 +76,7 @@ export default function EnquiryStatusSelect({ leadId, status: initialStatus }: P
             onClick={() => setOpen(false)}
           />
           <div style={{
-            position: 'absolute', top: '100%', left: 0, zIndex: 20, marginTop: 4,
+            position: 'fixed', top: dropdownPos.top, left: dropdownPos.left, zIndex: 9999,
             background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 8,
             boxShadow: '0 4px 16px rgba(15,23,42,0.1)', minWidth: 140, overflow: 'hidden',
           }}>
@@ -81,8 +90,10 @@ export default function EnquiryStatusSelect({ leadId, status: initialStatus }: P
                   fontSize: 12, fontWeight: key === status ? 700 : 500,
                   color: key === status ? s.color : '#334155',
                   background: key === status ? s.bg : 'transparent',
-                  border: 'none', cursor: 'pointer', display: 'block',
+                  border: 'none', cursor: 'pointer', display: 'block', transition: 'background 0.12s',
                 }}
+                onMouseEnter={e => { if (key !== status) (e.currentTarget.style.background = '#eff6ff') }}
+                onMouseLeave={e => { if (key !== status) (e.currentTarget.style.background = 'transparent') }}
               >
                 {s.label}
               </button>
