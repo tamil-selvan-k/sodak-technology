@@ -9,12 +9,12 @@ export const revalidate = 60
 interface Props { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const inst = await getInstitutionBySlug(params.slug)
+  const inst = await getInstitutionBySlug(params.slug).catch(() => null)
   return { title: inst?.name ?? 'Institution', description: inst?.shortDescription ?? '' }
 }
 
 export default async function InstitutionDetailPage({ params }: Props) {
-  const institution = await getInstitutionBySlug(params.slug)
+  const institution = await getInstitutionBySlug(params.slug).catch(() => null)
   if (!institution) notFound()
 
   const { data: photos } = await listPhotos({ institutionId: institution.id, perPage: 12 }).catch(() => ({ data: [] }))

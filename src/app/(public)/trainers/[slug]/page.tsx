@@ -10,18 +10,18 @@ export const revalidate = 60
 interface Props { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const trainer = await getTrainerBySlug(params.slug)
+  const trainer = await getTrainerBySlug(params.slug).catch(() => null)
   if (!trainer) return {}
   return { title: trainer.name, description: trainer.bioHtml?.replace(/<[^>]+>/g, '').slice(0, 160) }
 }
 
 export default async function TrainerProfilePage({ params }: Props) {
-  const trainer = await getTrainerBySlug(params.slug)
+  const trainer = await getTrainerBySlug(params.slug).catch(() => null)
   if (!trainer) notFound()
 
   const [posts, institutions] = await Promise.all([
-    getByAuthor(trainer.id),
-    getByTrainerId(trainer.id),
+    getByAuthor(trainer.id).catch(() => []),
+    getByTrainerId(trainer.id).catch(() => []),
   ])
 
   return (

@@ -8,7 +8,7 @@ export const revalidate = 60
 interface Props { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await getPostBySlug(params.slug)
+  const post = await getPostBySlug(params.slug).catch(() => null)
   return {
     title: post?.metaTitle ?? post?.title ?? 'Insight',
     description: post?.metaDescription ?? post?.excerpt ?? '',
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function InsightPostPage({ params }: Props) {
-  const post = await getPostBySlug(params.slug)
+  const post = await getPostBySlug(params.slug).catch(() => null)
   if (!post) notFound()
 
   return (

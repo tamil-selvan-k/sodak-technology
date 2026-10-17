@@ -5,6 +5,7 @@ import { useTransition, useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
+import { useToast } from '@/components/ui/Toast'
 
 interface Institution {
   id: string
@@ -36,13 +37,19 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
+  const { toast } = useToast()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
+  const [openFilter, setOpenFilter] = useState<string | null>(null)
+  const filterRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setOpenMenu(null)
+      }
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+        setOpenFilter(null)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -59,18 +66,27 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
 
   async function handlePublish(id: string, publish: boolean) {
     const action = publish ? 'publish' : 'unpublish'
-    startTransition(async () => {
-      await fetch(`/api/v1/institutions/${id}/${action}`, { method: 'POST' })
-      router.refresh()
-    })
+    const res = await fetch(`/api/v1/institutions/${id}/${action}`, { method: 'POST' })
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      toast.error((body as { error?: { message?: string } }).error?.message ?? 'Request failed')
+      return
+    }
+    if (publish) toast.success('Institution published!')
+    else toast.info('Institution unpublished.')
+    startTransition(() => router.refresh())
   }
 
   async function handleDelete(id: string, name: string) {
     if (!window.confirm(`Delete "${name}"? This cannot be undone.`)) return
-    startTransition(async () => {
-      await fetch(`/api/v1/institutions/${id}`, { method: 'DELETE' })
-      router.refresh()
-    })
+    const res = await fetch(`/api/v1/institutions/${id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      toast.error((body as { error?: { message?: string } }).error?.message ?? 'Delete failed')
+      return
+    }
+    toast.success('Institution deleted.')
+    startTransition(() => router.refresh())
   }
 
   return (
@@ -85,14 +101,30 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
           className="text-[13px] rounded-lg px-3 py-2 focus:outline-none min-w-[200px]"
           style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }}
         />
-        <select
-          defaultValue={searchParams.get('type') ?? ''}
-          onChange={e => updateFilter('type', e.target.value)}
-          style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 130 }}
-        >
-          <option value="">All Types</option>
-          {INST_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-        </select>
+        <div ref={openFilter === 'type' ? filterRef : undefined} style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setOpenFilter(openFilter === 'type' ? null : 'type')}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', fontSize: 13, fontWeight: 500, color: searchParams.get('type') ? '#172554' : '#64748b', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', outline: 'none', minWidth: 130, justifyContent: 'space-between', transition: 'border-color 0.15s' }}
+          >
+            <span>{searchParams.get('type') || 'All Types'}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'type' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><path d="M7 10l5 5 5-5z"/></svg>
+          </button>
+          {openFilter === 'type' && (
+            <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 100, background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: '100%', overflow: 'hidden' }}>
+              {[{ value: '', label: 'All Types' }, ...INST_TYPES.map(t => ({ value: t, label: t }))].map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => { updateFilter('type', opt.value); setOpenFilter(null) }}
+                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 14px', fontSize: 13, fontWeight: opt.value === (searchParams.get('type') ?? '') ? 600 : 400, color: opt.value === (searchParams.get('type') ?? '') ? '#2563eb' : '#334155', background: opt.value === (searchParams.get('type') ?? '') ? '#eff6ff' : 'transparent', border: 'none', cursor: 'pointer' }}
+                  onMouseEnter={e => { if (opt.value !== (searchParams.get('type') ?? '')) e.currentTarget.style.background = '#f8fafc' }}
+                  onMouseLeave={e => { if (opt.value !== (searchParams.get('type') ?? '')) e.currentTarget.style.background = 'transparent' }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className={`rounded-[12px] transition-opacity ${isPending ? 'opacity-60' : ''}`} style={{ background: '#ffffff', border: '1px solid #DBEAFE', overflow: openMenu ? 'visible' : 'hidden' }}>

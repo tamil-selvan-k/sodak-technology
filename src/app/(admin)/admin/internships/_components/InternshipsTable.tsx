@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useCallback, useTransition, useState, useEffect, useRef } from 'react'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
+import { useToast } from '@/components/ui/Toast'
 
 interface SerializedInternship {
   id:                  string
@@ -36,13 +37,19 @@ export default function InternshipsTable({ internships, pagination, search = '',
   const pathname     = usePathname()
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
+  const { toast } = useToast()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
+  const [openFilter, setOpenFilter] = useState<string | null>(null)
+  const filterRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setOpenMenu(null)
+      }
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+        setOpenFilter(null)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -60,12 +67,26 @@ export default function InternshipsTable({ internships, pagination, search = '',
     const res = await fetch(url, { method })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      alert((body as { error?: { message?: string } }).error?.message ?? 'Request failed')
+      toast.error((body as { error?: { message?: string } }).error?.message ?? 'Request failed')
       return false
     }
     startTransition(() => router.refresh())
     return true
-  }, [router])
+  }, [router, toast])
+
+  async function handlePublish(id: string) {
+    const ok = await callApi(`/api/v1/internships/${id}/publish`, 'POST')
+    if (ok) toast.success('Internship published!')
+  }
+  async function handleUnpublish(id: string) {
+    const ok = await callApi(`/api/v1/internships/${id}/unpublish`, 'POST')
+    if (ok) toast.info('Internship unpublished.')
+  }
+  async function handleDelete(id: string, company: string, role: string) {
+    if (!window.confirm(`Delete "${company} — ${role}"?`)) return
+    const ok = await callApi(`/api/v1/internships/${id}`, 'DELETE')
+    if (ok) toast.success('Internship deleted.')
+  }
 
   const now = new Date()
 
@@ -80,15 +101,30 @@ export default function InternshipsTable({ internships, pagination, search = '',
           className="flex-1 min-w-[200px] px-3 py-2 text-sm rounded-lg focus:outline-none"
           style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }}
         />
-        <select
-          defaultValue={status}
-          onChange={e => updateParam('status', e.target.value)}
-          style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 130 }}
-        >
-          <option value="">All Status</option>
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
-        </select>
+        <div ref={openFilter === 'status' ? filterRef : undefined} style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setOpenFilter(openFilter === 'status' ? null : 'status')}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', fontSize: 13, fontWeight: 500, color: status ? '#172554' : '#64748b', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', outline: 'none', minWidth: 130, justifyContent: 'space-between', transition: 'border-color 0.15s' }}
+          >
+            <span>{status === 'published' ? 'Published' : status === 'draft' ? 'Draft' : 'All Status'}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'status' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><path d="M7 10l5 5 5-5z"/></svg>
+          </button>
+          {openFilter === 'status' && (
+            <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 100, background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: '100%', overflow: 'hidden' }}>
+              {[{ value: '', label: 'All Status' }, { value: 'published', label: 'Published' }, { value: 'draft', label: 'Draft' }].map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => { updateParam('status', opt.value); setOpenFilter(null) }}
+                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 14px', fontSize: 13, fontWeight: opt.value === status ? 600 : 400, color: opt.value === status ? '#2563eb' : '#334155', background: opt.value === status ? '#eff6ff' : 'transparent', border: 'none', cursor: 'pointer' }}
+                  onMouseEnter={e => { if (opt.value !== status) e.currentTarget.style.background = '#f8fafc' }}
+                  onMouseLeave={e => { if (opt.value !== status) e.currentTarget.style.background = 'transparent' }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, overflow: openMenu ? 'visible' : 'hidden' }}>
@@ -154,7 +190,7 @@ export default function InternshipsTable({ internships, pagination, search = '',
                           </Link>
                           {!i.isPublished ? (
                             <button
-                              onClick={() => { callApi(`/api/v1/internships/${i.id}/publish`, 'POST'); setOpenMenu(null) }}
+                              onClick={() => { void handlePublish(i.id); setOpenMenu(null) }}
                               style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
                               onMouseEnter={e => (e.currentTarget.style.background = '#f0fdf4')}
                               onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
@@ -163,7 +199,7 @@ export default function InternshipsTable({ internships, pagination, search = '',
                             </button>
                           ) : (
                             <button
-                              onClick={() => { callApi(`/api/v1/internships/${i.id}/unpublish`, 'POST'); setOpenMenu(null) }}
+                              onClick={() => { void handleUnpublish(i.id); setOpenMenu(null) }}
                               style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#64748b', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
                               onMouseEnter={e => (e.currentTarget.style.background = '#eff6ff')}
                               onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
@@ -173,11 +209,7 @@ export default function InternshipsTable({ internships, pagination, search = '',
                           )}
                           <div style={{ height: 1, background: '#f1f5f9', margin: '2px 0' }} />
                           <button
-                            onClick={async () => {
-                              if (!window.confirm(`Delete "${i.companyName} — ${i.roleTitle}"?`)) return
-                              await callApi(`/api/v1/internships/${i.id}`, 'DELETE')
-                              setOpenMenu(null)
-                            }}
+                            onClick={() => { void handleDelete(i.id, i.companyName, i.roleTitle); setOpenMenu(null) }}
                             style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, textAlign: 'left' }}
                             onMouseEnter={e => (e.currentTarget.style.background = '#fef2f2')}
                             onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}

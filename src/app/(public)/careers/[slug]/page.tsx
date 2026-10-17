@@ -8,12 +8,12 @@ export const revalidate = 60
 interface Props { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const job = await getJobBySlug(params.slug)
+  const job = await getJobBySlug(params.slug).catch(() => null)
   return { title: job?.title ?? 'Job Opening', description: job?.title ?? '' }
 }
 
 export default async function CareerDetailPage({ params }: Props) {
-  const job = await getJobBySlug(params.slug)
+  const job = await getJobBySlug(params.slug).catch(() => null)
   if (!job) notFound()
 
   return (

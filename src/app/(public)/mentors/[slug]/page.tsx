@@ -8,13 +8,13 @@ export const revalidate = 60
 interface Props { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const mentor = await getTrainerBySlug(params.slug)
+  const mentor = await getTrainerBySlug(params.slug).catch(() => null)
   if (!mentor) return {}
   return { title: `${mentor.name} — Mentor`, description: mentor.mentorBio ?? mentor.bioHtml?.replace(/<[^>]+>/g, '').slice(0, 160) ?? '' }
 }
 
 export default async function MentorProfilePage({ params }: Props) {
-  const mentor = await getTrainerBySlug(params.slug)
+  const mentor = await getTrainerBySlug(params.slug).catch(() => null)
   if (!mentor || !mentor.isMentor) notFound()
 
   return (

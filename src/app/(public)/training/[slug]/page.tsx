@@ -8,12 +8,12 @@ export const revalidate = 60
 interface Props { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const stack = await getStackBySlug(params.slug)
+  const stack = await getStackBySlug(params.slug).catch(() => null)
   return { title: stack?.name ?? 'Training Stack', description: stack?.summary ?? '' }
 }
 
 export default async function TrainingStackPage({ params }: Props) {
-  const stack = await getStackBySlug(params.slug)
+  const stack = await getStackBySlug(params.slug).catch(() => null)
   if (!stack) notFound()
 
   return (

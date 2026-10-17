@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { Prisma } from '@prisma/client'
 import type { PaginationMeta } from '@/lib/paginate'
 
@@ -57,6 +57,18 @@ export default function AuditTable({
   const [entityFilter, setEntityFilter] = useState('')
   const [actionFilter, setActionFilter] = useState('')
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [openFilter, setOpenFilter] = useState<string | null>(null)
+  const filterRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+        setOpenFilter(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const filtered = logs.filter(l => {
     const matchEntity = !entityFilter || l.entityType.toLowerCase().includes(entityFilter.toLowerCase())
@@ -85,15 +97,33 @@ export default function AuditTable({
             color: '#334155', background: '#EFF6FF',
           }}
         />
-        <select
-          value={actionFilter}
-          onChange={e => setActionFilter(e.target.value)}
-          style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 130 }}
-        >
-          {ACTION_OPTIONS.map(a => (
-            <option key={a} value={a}>{a === '' ? 'All Actions' : a.charAt(0).toUpperCase() + a.slice(1)}</option>
-          ))}
-        </select>
+        <div ref={openFilter === 'action' ? filterRef : undefined} style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setOpenFilter(openFilter === 'action' ? null : 'action')}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', fontSize: 13, fontWeight: 500, color: actionFilter ? '#172554' : '#64748b', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', outline: 'none', minWidth: 130, justifyContent: 'space-between', transition: 'border-color 0.15s' }}
+          >
+            <span>{actionFilter ? actionFilter.charAt(0).toUpperCase() + actionFilter.slice(1) : 'All Actions'}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'action' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><path d="M7 10l5 5 5-5z"/></svg>
+          </button>
+          {openFilter === 'action' && (
+            <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 100, background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: '100%', overflow: 'hidden' }}>
+              {ACTION_OPTIONS.map(a => {
+                const label = a === '' ? 'All Actions' : a.charAt(0).toUpperCase() + a.slice(1)
+                return (
+                  <button
+                    key={a}
+                    onClick={() => { setActionFilter(a); setOpenFilter(null) }}
+                    style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 14px', fontSize: 13, fontWeight: a === actionFilter ? 600 : 400, color: a === actionFilter ? '#2563eb' : '#334155', background: a === actionFilter ? '#eff6ff' : 'transparent', border: 'none', cursor: 'pointer' }}
+                    onMouseEnter={e => { if (a !== actionFilter) e.currentTarget.style.background = '#f8fafc' }}
+                    onMouseLeave={e => { if (a !== actionFilter) e.currentTarget.style.background = 'transparent' }}
+                  >
+                    {label}
+                  </button>
+                )
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       <div style={{ background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, overflow: 'hidden' }}>

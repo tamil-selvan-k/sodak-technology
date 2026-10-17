@@ -6,6 +6,7 @@ import { useCallback, useTransition, useState, useEffect, useRef } from 'react'
 import type { TrainerWithStacks } from '@/modules/trainers/trainers.types'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
+import { useToast } from '@/components/ui/Toast'
 
 interface Props {
   trainers: TrainerWithStacks[]
@@ -24,13 +25,19 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
+  const { toast } = useToast()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
+  const [openFilter, setOpenFilter] = useState<string | null>(null)
+  const filterRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setOpenMenu(null)
+      }
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+        setOpenFilter(null)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -49,22 +56,25 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
     const res = await fetch(url, { method })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      alert((body as { error?: { message?: string } }).error?.message ?? 'Request failed')
+      toast.error((body as { error?: { message?: string } }).error?.message ?? 'Request failed')
       return false
     }
     startTransition(() => router.refresh())
     return true
-  }, [router])
+  }, [router, toast])
 
   async function handlePublish(id: string) {
-    await callApi(`/api/v1/trainers/${id}/publish`, 'POST')
+    const ok = await callApi(`/api/v1/trainers/${id}/publish`, 'POST')
+    if (ok) toast.success('Trainer published!')
   }
   async function handleUnpublish(id: string) {
-    await callApi(`/api/v1/trainers/${id}/unpublish`, 'POST')
+    const ok = await callApi(`/api/v1/trainers/${id}/unpublish`, 'POST')
+    if (ok) toast.info('Trainer unpublished.')
   }
   async function handleDelete(id: string, name: string) {
     if (!window.confirm(`Delete trainer "${name}"? This cannot be undone.`)) return
-    await callApi(`/api/v1/trainers/${id}`, 'DELETE')
+    const ok = await callApi(`/api/v1/trainers/${id}`, 'DELETE')
+    if (ok) toast.success('Trainer deleted.')
   }
 
   return (
@@ -79,24 +89,54 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
           className="flex-1 min-w-[200px] px-3 py-2 text-sm rounded-lg focus:outline-none"
           style={{ background: '#ffffff', border: '1px solid #DBEAFE', color: '#172554' }}
         />
-        <select
-          defaultValue={status}
-          onChange={e => updateParam('status', e.target.value)}
-          style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 130 }}
-        >
-          <option value="">All Status</option>
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
-        </select>
-        <select
-          defaultValue={mentor}
-          onChange={e => updateParam('mentor', e.target.value)}
-          style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 130 }}
-        >
-          <option value="">All Roles</option>
-          <option value="1">Mentors only</option>
-          <option value="0">Trainers only</option>
-        </select>
+        <div ref={openFilter === 'status' ? filterRef : undefined} style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setOpenFilter(openFilter === 'status' ? null : 'status')}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', fontSize: 13, fontWeight: 500, color: status ? '#172554' : '#64748b', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', outline: 'none', minWidth: 130, justifyContent: 'space-between', transition: 'border-color 0.15s' }}
+          >
+            <span>{status === 'published' ? 'Published' : status === 'draft' ? 'Draft' : 'All Status'}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'status' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><path d="M7 10l5 5 5-5z"/></svg>
+          </button>
+          {openFilter === 'status' && (
+            <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 100, background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: '100%', overflow: 'hidden' }}>
+              {[{ value: '', label: 'All Status' }, { value: 'published', label: 'Published' }, { value: 'draft', label: 'Draft' }].map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => { updateParam('status', opt.value); setOpenFilter(null) }}
+                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 14px', fontSize: 13, fontWeight: opt.value === status ? 600 : 400, color: opt.value === status ? '#2563eb' : '#334155', background: opt.value === status ? '#eff6ff' : 'transparent', border: 'none', cursor: 'pointer' }}
+                  onMouseEnter={e => { if (opt.value !== status) e.currentTarget.style.background = '#f8fafc' }}
+                  onMouseLeave={e => { if (opt.value !== status) e.currentTarget.style.background = 'transparent' }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div ref={openFilter === 'role' ? filterRef : undefined} style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setOpenFilter(openFilter === 'role' ? null : 'role')}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', fontSize: 13, fontWeight: 500, color: mentor ? '#172554' : '#64748b', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', outline: 'none', minWidth: 130, justifyContent: 'space-between', transition: 'border-color 0.15s' }}
+          >
+            <span>{mentor === '1' ? 'Mentors only' : mentor === '0' ? 'Trainers only' : 'All Roles'}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'role' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><path d="M7 10l5 5 5-5z"/></svg>
+          </button>
+          {openFilter === 'role' && (
+            <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 100, background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: '100%', overflow: 'hidden' }}>
+              {[{ value: '', label: 'All Roles' }, { value: '1', label: 'Mentors only' }, { value: '0', label: 'Trainers only' }].map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => { updateParam('mentor', opt.value); setOpenFilter(null) }}
+                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 14px', fontSize: 13, fontWeight: opt.value === mentor ? 600 : 400, color: opt.value === mentor ? '#2563eb' : '#334155', background: opt.value === mentor ? '#eff6ff' : 'transparent', border: 'none', cursor: 'pointer' }}
+                  onMouseEnter={e => { if (opt.value !== mentor) e.currentTarget.style.background = '#f8fafc' }}
+                  onMouseLeave={e => { if (opt.value !== mentor) e.currentTarget.style.background = 'transparent' }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Table */}

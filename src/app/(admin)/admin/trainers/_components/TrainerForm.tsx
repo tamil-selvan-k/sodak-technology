@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import type { TrainerWithStacks } from '@/modules/trainers/trainers.types'
 import type { Stack } from '@prisma/client'
 import Button from '@/components/ui/Button'
+import TagInput from '@/components/ui/TagInput'
+import { useToast } from '@/components/ui/Toast'
 
 interface Props {
   trainer?: TrainerWithStacks
@@ -13,6 +15,7 @@ interface Props {
 
 export default function TrainerForm({ trainer, stacks }: Props) {
   const router = useRouter()
+  const { toast } = useToast()
   const isEdit = !!trainer
 
   const formRef = useRef<HTMLFormElement>(null)
@@ -71,6 +74,7 @@ export default function TrainerForm({ trainer, stacks }: Props) {
       return
     }
 
+    toast.success(isEdit ? 'Trainer saved!' : 'Trainer created!')
     router.push('/admin/trainers')
     router.refresh()
   }
@@ -121,153 +125,175 @@ export default function TrainerForm({ trainer, stacks }: Props) {
       setError((data as { error?: { message?: string } }).error?.message ?? 'Publish failed')
       return
     }
+    toast.success('Trainer published!')
     router.push('/admin/trainers')
     router.refresh()
   }
 
-  const field = 'w-full px-3 py-2 text-sm rounded-lg focus:outline-none'
-  const fieldStyle: React.CSSProperties = { background: '#EFF6FF', border: '1px solid #DBEAFE', color: '#334155' }
-  const label = 'block text-xs font-semibold uppercase tracking-wide mb-1.5'
-  const labelStyle: React.CSSProperties = { color: '#64748b' }
-  const cardStyle: React.CSSProperties = { background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: '24px', marginBottom: 0 }
-  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#172554', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid #DBEAFE' }
+  const cardStyle: React.CSSProperties = { background: '#ffffff', border: '1px solid #DBEAFE', borderRadius: 12, padding: 24 }
+  const fieldStyle: React.CSSProperties = { width: '100%', padding: '10px 14px', border: '1px solid #dbeafe', borderRadius: 8, fontSize: 14, color: '#172554', background: '#fff', outline: 'none', boxSizing: 'border-box' }
+  const labelStyle: React.CSSProperties = { display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }
+  const sectionHeadStyle: React.CSSProperties = { fontSize: 13, fontWeight: 700, color: '#172554', marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid #EFF6FF' }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="max-w-3xl space-y-5">
+    <form ref={formRef} onSubmit={handleSubmit}>
       {error && (
-        <div style={{ padding: '12px 16px', borderRadius: 8, fontSize: 13, background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171' }}>{error}</div>
+        <div style={{ marginBottom: 20, padding: '12px 16px', borderRadius: 8, fontSize: 13, background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171' }}>{error}</div>
       )}
 
-      <div style={cardStyle}>
-        <p style={sectionHead}>Basic Info</p>
+      <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="col-span-2">
-            <label className={label} style={labelStyle} htmlFor="name">Name *</label>
-            <input id="name" name="name" required defaultValue={trainer?.name} className={field} style={fieldStyle} placeholder="Full name" />
+        {/* Left column — primary content */}
+        <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
+
+          {/* Basic Info card */}
+          <div style={cardStyle}>
+            <p style={sectionHeadStyle}>Basic Info</p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={labelStyle} htmlFor="name">Name *</label>
+                <input id="name" name="name" required defaultValue={trainer?.name} style={fieldStyle} placeholder="Full name" />
+              </div>
+              <div>
+                <label style={labelStyle} htmlFor="designation">Designation</label>
+                <input id="designation" name="designation" defaultValue={trainer?.designation ?? ''} style={fieldStyle} placeholder="e.g. Senior Engineer" />
+              </div>
+              <div>
+                <label style={labelStyle} htmlFor="currentCompany">Current Company</label>
+                <input id="currentCompany" name="currentCompany" defaultValue={trainer?.currentCompany ?? ''} style={fieldStyle} placeholder="e.g. Zoho" />
+              </div>
+              <div>
+                <label style={labelStyle} htmlFor="yearsExperience">Years Experience</label>
+                <input id="yearsExperience" name="yearsExperience" type="number" min={0} max={50} defaultValue={trainer?.yearsExperience ?? ''} style={fieldStyle} />
+              </div>
+              <div>
+                <label style={labelStyle} htmlFor="displayOrder">Display Order</label>
+                <input id="displayOrder" name="displayOrder" type="number" min={0} defaultValue={trainer?.displayOrder ?? 0} style={fieldStyle} />
+              </div>
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={labelStyle} htmlFor="photoUrl">Photo URL</label>
+                <input id="photoUrl" name="photoUrl" type="url" defaultValue={trainer?.photoUrl ?? ''} style={fieldStyle} placeholder="https://... (S3 upload in Phase 3)" />
+              </div>
+              <div style={{ gridColumn: '1 / -1' }}>
+                <TagInput
+                  name="expertiseTags"
+                  defaultValue={trainer?.expertiseTags ?? []}
+                  placeholder="React, Node.js, PostgreSQL…"
+                  label="Expertise Tags"
+                  labelStyle={{ ...labelStyle, marginBottom: 6 }}
+                />
+              </div>
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={labelStyle} htmlFor="bioHtml">Bio (HTML allowed)</label>
+                <textarea id="bioHtml" name="bioHtml" rows={6} defaultValue={trainer?.bioHtml ?? ''} style={{ ...fieldStyle, resize: 'vertical' }} placeholder="<p>...</p>" />
+              </div>
+            </div>
           </div>
-          <div>
-            <label className={label} style={labelStyle} htmlFor="designation">Designation</label>
-            <input id="designation" name="designation" defaultValue={trainer?.designation ?? ''} className={field} style={fieldStyle} placeholder="e.g. Senior Engineer" />
+
+          {/* Tech Stacks card */}
+          <div style={cardStyle}>
+            <p style={sectionHeadStyle}>Tech Stacks</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+              {stacks.map(s => (
+                <label key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none', fontSize: 14, color: '#334155' }}>
+                  <input
+                    type="checkbox"
+                    checked={checkedStacks.includes(s.id)}
+                    onChange={() => toggleStack(s.id)}
+                    style={{ width: 16, height: 16, accentColor: '#2563eb' }}
+                  />
+                  {s.name}
+                </label>
+              ))}
+            </div>
           </div>
-          <div>
-            <label className={label} style={labelStyle} htmlFor="currentCompany">Current Company</label>
-            <input id="currentCompany" name="currentCompany" defaultValue={trainer?.currentCompany ?? ''} className={field} style={fieldStyle} placeholder="e.g. Zoho" />
-          </div>
-          <div>
-            <label className={label} style={labelStyle} htmlFor="yearsExperience">Years Experience</label>
-            <input id="yearsExperience" name="yearsExperience" type="number" min={0} max={50} defaultValue={trainer?.yearsExperience ?? ''} className={field} style={fieldStyle} />
-          </div>
-          <div>
-            <label className={label} style={labelStyle} htmlFor="displayOrder">Display Order</label>
-            <input id="displayOrder" name="displayOrder" type="number" min={0} defaultValue={trainer?.displayOrder ?? 0} className={field} style={fieldStyle} />
-          </div>
-          <div>
-            <label className={label} style={labelStyle} htmlFor="linkedinUrl">LinkedIn URL</label>
-            <input id="linkedinUrl" name="linkedinUrl" type="url" defaultValue={trainer?.linkedinUrl ?? ''} className={field} style={fieldStyle} placeholder="https://linkedin.com/in/..." />
-          </div>
-          <div>
-            <label className={label} style={labelStyle} htmlFor="githubUrl">GitHub URL</label>
-            <input id="githubUrl" name="githubUrl" type="url" defaultValue={trainer?.githubUrl ?? ''} className={field} style={fieldStyle} placeholder="https://github.com/..." />
-          </div>
-          <div className="col-span-2">
-            <label className={label} style={labelStyle} htmlFor="photoUrl">Photo URL</label>
-            <input id="photoUrl" name="photoUrl" type="url" defaultValue={trainer?.photoUrl ?? ''} className={field} style={fieldStyle} placeholder="https://... (S3 upload in Phase 3)" />
-          </div>
-          <div className="col-span-2">
-            <label className={label} style={labelStyle} htmlFor="expertiseTags">Expertise Tags</label>
-            <input
-              id="expertiseTags"
-              name="expertiseTags"
-              defaultValue={trainer?.expertiseTags.join(', ') ?? ''}
-              className={field}
-              style={fieldStyle}
-              placeholder="React, Node.js, PostgreSQL (comma-separated)"
-            />
-          </div>
-          <div className="col-span-2">
-            <label className={label} style={labelStyle} htmlFor="bioHtml">Bio (HTML allowed)</label>
-            <textarea id="bioHtml" name="bioHtml" rows={5} defaultValue={trainer?.bioHtml ?? ''} className={`${field} resize-y`} style={fieldStyle} placeholder="<p>...</p>" />
-          </div>
+
         </div>
-      </div>
 
-      {/* Stacks */}
-      <div style={cardStyle}>
-        <p style={sectionHead}>Tech Stacks</p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {stacks.map(s => (
-            <label key={s.id} className="flex items-center gap-2.5 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={checkedStacks.includes(s.id)}
-                onChange={() => toggleStack(s.id)}
-                className="w-4 h-4 accent-[#2563eb]"
-              />
-              <span className="text-sm" style={{ color: '#334155' }}>{s.name}</span>
-            </label>
-          ))}
+        {/* Right sidebar — actions + links + flags */}
+        <div style={{ width: 288, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
+
+          {/* Actions card */}
+          <div style={cardStyle}>
+            <p style={sectionHeadStyle}>Actions</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <Button type="submit" variant="gold" disabled={saving}>
+                {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Create Trainer'}
+              </Button>
+              {isEdit && !trainer?.isPublished && (
+                <button
+                  type="button"
+                  onClick={handlePublish}
+                  disabled={!consent || publishing || saving}
+                  style={{
+                    padding: '10px 20px', borderRadius: 8, fontSize: 14, fontWeight: 600,
+                    background: consent ? '#16a34a' : '#e2e8f0',
+                    color: consent ? '#ffffff' : '#94a3b8',
+                    border: 'none', cursor: consent ? 'pointer' : 'not-allowed',
+                    transition: 'all 0.15s',
+                    opacity: publishing ? 0.7 : 1,
+                    width: '100%',
+                  }}
+                  title={!consent ? 'Check "Consent on file" below to enable publishing' : undefined}
+                >
+                  {publishing ? 'Publishing…' : 'Save & Publish'}
+                </button>
+              )}
+              <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+            </div>
+          </div>
+
+          {/* Links card */}
+          <div style={cardStyle}>
+            <p style={sectionHeadStyle}>Links</p>
+            <div style={{ display: 'grid', gap: 16 }}>
+              <div>
+                <label style={labelStyle} htmlFor="linkedinUrl">LinkedIn URL</label>
+                <input id="linkedinUrl" name="linkedinUrl" type="url" defaultValue={trainer?.linkedinUrl ?? ''} style={fieldStyle} placeholder="https://linkedin.com/in/..." />
+              </div>
+              <div>
+                <label style={labelStyle} htmlFor="githubUrl">GitHub URL</label>
+                <input id="githubUrl" name="githubUrl" type="url" defaultValue={trainer?.githubUrl ?? ''} style={fieldStyle} placeholder="https://github.com/..." />
+              </div>
+            </div>
+          </div>
+
+          {/* Flags card */}
+          <div style={cardStyle}>
+            <p style={sectionHeadStyle}>Flags</p>
+            <div style={{ display: 'grid', gap: 12 }}>
+              {[
+                { name: 'isMentor',   label: 'Is Mentor',   defaultChecked: trainer?.isMentor ?? false },
+                { name: 'isFeatured', label: 'Featured',    defaultChecked: trainer?.isFeatured ?? false },
+              ].map(f => (
+                <label key={f.name} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none', fontSize: 14, color: '#334155' }}>
+                  <input
+                    type="checkbox"
+                    name={f.name}
+                    defaultChecked={f.defaultChecked}
+                    style={{ width: 16, height: 16, accentColor: '#2563eb' }}
+                  />
+                  {f.label}
+                </label>
+              ))}
+              {/* Controlled consent checkbox — drives the Publish button */}
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none', fontSize: 14, color: '#334155' }}>
+                <input
+                  type="checkbox"
+                  name="consentOnFile"
+                  checked={consent}
+                  onChange={e => setConsent(e.target.checked)}
+                  style={{ width: 16, height: 16, accentColor: '#2563eb' }}
+                />
+                Consent on file (required to publish)
+              </label>
+            </div>
+            <p style={{ marginTop: 16, fontSize: 12, color: '#d97706', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 8, padding: '10px 14px' }}>
+              A trainer cannot be published until <strong>Consent on file</strong> is checked.
+            </p>
+          </div>
+
         </div>
-      </div>
-
-      {/* Flags */}
-      <div style={cardStyle}>
-        <p style={sectionHead}>Flags</p>
-        <div className="space-y-3">
-          {[
-            { name: 'isMentor',   label: 'Is Mentor',   defaultChecked: trainer?.isMentor ?? false },
-            { name: 'isFeatured', label: 'Featured',    defaultChecked: trainer?.isFeatured ?? false },
-          ].map(f => (
-            <label key={f.name} className="flex items-center gap-2.5 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                name={f.name}
-                defaultChecked={f.defaultChecked}
-                className="w-4 h-4 accent-[#2563eb]"
-              />
-              <span className="text-sm" style={{ color: '#334155' }}>{f.label}</span>
-            </label>
-          ))}
-          {/* Controlled consent checkbox — drives the Publish button */}
-          <label className="flex items-center gap-2.5 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              name="consentOnFile"
-              checked={consent}
-              onChange={e => setConsent(e.target.checked)}
-              className="w-4 h-4 accent-[#2563eb]"
-            />
-            <span className="text-sm" style={{ color: '#334155' }}>Consent on file (required to publish)</span>
-          </label>
-        </div>
-        <p style={{ marginTop: 16, fontSize: 12, color: '#d97706', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 8, padding: '10px 14px' }}>
-          A trainer cannot be published until <strong>Consent on file</strong> is checked.
-        </p>
-      </div>
-
-      <div className="flex items-center gap-3 flex-wrap">
-        <Button type="submit" variant="gold" disabled={saving}>
-          {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Create Trainer'}
-        </Button>
-        {isEdit && !trainer?.isPublished && (
-          <button
-            type="button"
-            onClick={handlePublish}
-            disabled={!consent || publishing || saving}
-            style={{
-              padding: '8px 20px', borderRadius: '2.5rem', fontSize: 13, fontWeight: 700,
-              background: consent ? '#16a34a' : '#e2e8f0',
-              color: consent ? '#ffffff' : '#94a3b8',
-              border: 'none', cursor: consent ? 'pointer' : 'not-allowed',
-              transition: 'all 0.15s',
-              opacity: publishing ? 0.7 : 1,
-            }}
-            title={!consent ? 'Check "Consent on file" above to enable publishing' : undefined}
-          >
-            {publishing ? 'Publishing…' : 'Save & Publish'}
-          </button>
-        )}
-        <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
       </div>
     </form>
   )

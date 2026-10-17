@@ -9,12 +9,12 @@ export const revalidate = 60
 interface Props { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const p = await getProgramBySlug(params.slug)
+  const p = await getProgramBySlug(params.slug).catch(() => null)
   return { title: p?.title ?? 'Program', description: p?.summary ?? '' }
 }
 
 export default async function ProgramDetailPage({ params }: Props) {
-  const program = await getProgramBySlug(params.slug)
+  const program = await getProgramBySlug(params.slug).catch(() => null)
   if (!program) notFound()
 
   const faqs = [
@@ -97,7 +97,7 @@ export default async function ProgramDetailPage({ params }: Props) {
 
             <div style={{ position: 'sticky', top: 80 }}>
               <div className="card card-dark">
-                <p className="section-eyebrow" style={{ marginBottom: 14 }}>Enrol Your Campus</p>
+                <p className="section-eyebrow" style={{ marginBottom: 24 }}>Enroll Your Campus</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
                   {[
                     { label: 'Duration',   value: program.duration ?? '—' },

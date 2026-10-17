@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useRef, useTransition } from 'react'
+import { useState, useRef, useEffect, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { useToast } from '@/components/ui/Toast'
 
 interface Photo {
   id: string
@@ -43,6 +44,7 @@ function canPublish(p: Photo) {
 
 export default function GalleryManager({ photos: initialPhotos, institutions, total, page, pages, institutionFilter }: Props) {
   const router = useRouter()
+  const { toast } = useToast()
   const [, startTransition] = useTransition()
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [editAlt, setEditAlt] = useState<Record<string, string>>({})
@@ -50,6 +52,18 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
   const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null)
   const [uploadErrors, setUploadErrors] = useState<string[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
+  const [openFilter, setOpenFilter] = useState<string | null>(null)
+  const filterRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+        setOpenFilter(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const photos = initialPhotos
 
@@ -74,7 +88,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
     })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      alert((body as { error?: { message?: string } }).error?.message ?? 'Update failed')
+      toast.error((body as { error?: { message?: string } }).error?.message ?? 'Update failed')
       return false
     }
     startTransition(() => router.refresh())
@@ -84,28 +98,37 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
   async function handleSaveAlt(id: string) {
     const alt = editAlt[id]
     if (alt === undefined) return
-    await patchPhoto(id, { altText: alt })
-    setEditAlt(prev => { const n = { ...prev }; delete n[id]; return n })
+    const ok = await patchPhoto(id, { altText: alt })
+    if (ok) {
+      toast.success('Alt text saved.')
+      setEditAlt(prev => { const n = { ...prev }; delete n[id]; return n })
+    }
   }
 
   async function handlePublish(id: string) {
     const res = await fetch(`/api/v1/photos/${id}/publish`, { method: 'POST' })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      alert((body as { error?: { message?: string } }).error?.message ?? 'Publish failed')
+      toast.error((body as { error?: { message?: string } }).error?.message ?? 'Publish failed')
       return
     }
+    toast.success('Photo published!')
     startTransition(() => router.refresh())
   }
 
   async function handleUnpublish(id: string) {
-    await patchPhoto(id, { isPublished: false })
+    const ok = await patchPhoto(id, { isPublished: false })
+    if (ok) toast.info('Photo unpublished.')
   }
 
   async function handleDelete(id: string) {
     if (!window.confirm('Delete this photo? It will be soft-deleted.')) return
     const res = await fetch(`/api/v1/photos/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert('Delete failed'); return }
+    if (!res.ok) {
+      toast.error('Delete failed.')
+      return
+    }
+    toast.success('Photo deleted.')
     startTransition(() => router.refresh())
   }
 
@@ -119,7 +142,9 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
     const body = await res.json().catch(() => ({}))
     const failed = (body as { data?: { failed?: { id: string; error: string }[] } }).data?.failed ?? []
     if (failed.length > 0) {
-      alert(`${failed.length} photo(s) could not be published:\n${failed.map((f: { id: string; error: string }) => f.error).join('\n')}`)
+      toast.warning(`${failed.length} photo(s) could not be published.`)
+    } else {
+      toast.success(`${selected.size} photo(s) published!`)
     }
     setSelected(new Set())
     startTransition(() => router.refresh())
@@ -220,16 +245,32 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
 
         {/* Filters + bulk actions */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 220 }}>
-          <select
-            value={institutionFilter ?? ''}
-            onChange={e => changeInstitution(e.target.value)}
-            style={{ appearance: 'none', WebkitAppearance: 'none', background: "#ffffff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E\") no-repeat right 10px center", backgroundSize: '16px', border: '1px solid #dbeafe', borderRadius: 8, padding: '8px 32px 8px 12px', fontSize: 13, color: '#334155', cursor: 'pointer', outline: 'none', minWidth: 160 }}
-          >
-            <option value="">All Institutions</option>
-            {institutions.map(i => (
-              <option key={i.id} value={i.id}>{i.name}</option>
-            ))}
-          </select>
+          <div ref={openFilter === 'institution' ? filterRef : undefined} style={{ position: 'relative', display: 'inline-block' }}>
+            <button
+              onClick={() => setOpenFilter(openFilter === 'institution' ? null : 'institution')}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', fontSize: 13, fontWeight: 500, color: institutionFilter ? '#172554' : '#64748b', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', outline: 'none', minWidth: 160, justifyContent: 'space-between', transition: 'border-color 0.15s' }}
+            >
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {institutionFilter ? (institutions.find(i => i.id === institutionFilter)?.name ?? 'All Institutions') : 'All Institutions'}
+              </span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'institution' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><path d="M7 10l5 5 5-5z"/></svg>
+            </button>
+            {openFilter === 'institution' && (
+              <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 100, background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: '100%', maxHeight: 240, overflowY: 'auto' }}>
+                {[{ id: '', name: 'All Institutions' }, ...institutions].map(inst => (
+                  <button
+                    key={inst.id}
+                    onClick={() => { changeInstitution(inst.id); setOpenFilter(null) }}
+                    style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 14px', fontSize: 13, fontWeight: inst.id === (institutionFilter ?? '') ? 600 : 400, color: inst.id === (institutionFilter ?? '') ? '#2563eb' : '#334155', background: inst.id === (institutionFilter ?? '') ? '#eff6ff' : 'transparent', border: 'none', cursor: 'pointer' }}
+                    onMouseEnter={e => { if (inst.id !== (institutionFilter ?? '')) e.currentTarget.style.background = '#f8fafc' }}
+                    onMouseLeave={e => { if (inst.id !== (institutionFilter ?? '')) e.currentTarget.style.background = 'transparent' }}
+                  >
+                    {inst.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           {selected.size > 0 && (
             <button
               onClick={() => void bulkPublish()}
