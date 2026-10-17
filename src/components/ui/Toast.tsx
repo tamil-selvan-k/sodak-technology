@@ -94,7 +94,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         style={{
           position:      'fixed',
           bottom:        24,
-          right:         24,
+          right:         90,
           display:       'flex',
           flexDirection: 'column',
           gap:           8,

@@ -112,7 +112,7 @@ export default async function ProgramDetailPage({ params }: Props) {
                   ))}
                 </div>
                 <Link href="/contact" className="btn btn-gold btn-full btn-lg">Enquire Now →</Link>
-                <Link href="/contact" className="btn btn-outline btn-full" style={{ marginTop: 10 }}>Download Brochure</Link>
+                <Link href="/contact" className="btn btn-outline btn-full" style={{ marginTop: 10 }}>Request Brochure</Link>
               </div>
             </div>
           </div>

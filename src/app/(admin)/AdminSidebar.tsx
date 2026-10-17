@@ -195,6 +195,7 @@ export default function AdminSidebar({ email, role }: Props) {
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   title={collapsed ? item.label : undefined}
+                  aria-current={active ? 'page' : undefined}
                   style={{
                     display: 'flex', alignItems: 'center',
                     padding: collapsed ? '0' : '0 20px',
@@ -222,7 +223,7 @@ export default function AdminSidebar({ email, role }: Props) {
         {/* Footer — hidden when collapsed */}
         {!collapsed && (
           <div style={{ padding: '12px 20px', borderTop: `1px solid ${DIVIDER}`, flexShrink: 0 }}>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>
+            <p title={email} style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>
             <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.42)', marginTop: 2 }}>{role}</p>
           </div>
         )}

@@ -42,14 +42,21 @@ export default function Accordion({ items, dark, allowMultiple }: Props) {
               <span className="text-sm font-semibold">{item.title}</span>
               <span className={`text-[#2563eb] text-xs transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
             </button>
-            {isOpen && (
-              <div
-                id={`accordion-body-${idx}`}
-                className={`px-5 pb-5 pt-3 border-t ${dark ? 'bg-[#1e3a8a] border-white/12 text-blue-100' : 'bg-white border-[#dbeafe] text-slate-600'} text-sm leading-relaxed`}
-              >
+            <div
+              id={`accordion-body-${idx}`}
+              aria-hidden={!isOpen}
+              style={{
+                maxHeight: isOpen ? '1000px' : '0',
+                overflow: 'hidden',
+                transition: 'max-height 0.3s ease',
+                visibility: isOpen ? 'visible' : 'hidden',
+              }}
+            >
+              {/* border-t lives on the inner div so it only renders when the panel has height */}
+              <div className={`border-t px-5 pb-5 pt-3 ${dark ? 'bg-[#1e3a8a] border-white/12 text-blue-100' : 'bg-white border-[#dbeafe] text-slate-600'} text-sm leading-relaxed`}>
                 {item.body}
               </div>
-            )}
+            </div>
           </div>
         )
       })}

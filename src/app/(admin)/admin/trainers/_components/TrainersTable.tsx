@@ -2,11 +2,13 @@
 
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useCallback, useTransition, useState, useEffect, useRef } from 'react'
 import type { TrainerWithStacks } from '@/modules/trainers/trainers.types'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 import { useToast } from '@/components/ui/Toast'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 interface Props {
   trainers: TrainerWithStacks[]
@@ -26,6 +28,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
   const { toast } = useToast()
+  const confirm = useConfirm()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const [openFilter, setOpenFilter] = useState<string | null>(null)
@@ -72,7 +75,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
     if (ok) toast.info('Trainer unpublished.')
   }
   async function handleDelete(id: string, name: string) {
-    if (!window.confirm(`Delete trainer "${name}"? This cannot be undone.`)) return
+    if (!await confirm(`Delete trainer "${name}"? This cannot be undone.`, { title: 'Delete Trainer', confirmLabel: 'Delete', variant: 'danger' })) return
     const ok = await callApi(`/api/v1/trainers/${id}`, 'DELETE')
     if (ok) toast.success('Trainer deleted.')
   }
@@ -95,7 +98,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
             style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', fontSize: 13, fontWeight: 500, color: status ? '#172554' : '#64748b', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', outline: 'none', minWidth: 130, justifyContent: 'space-between', transition: 'border-color 0.15s' }}
           >
             <span>{status === 'published' ? 'Published' : status === 'draft' ? 'Draft' : 'All Status'}</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'status' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><path d="M7 10l5 5 5-5z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'status' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s ease' }}><path d="M7 10l5 5 5-5z"/></svg>
           </button>
           {openFilter === 'status' && (
             <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 100, background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: '100%', overflow: 'hidden' }}>
@@ -119,7 +122,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
             style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', fontSize: 13, fontWeight: 500, color: mentor ? '#172554' : '#64748b', background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', outline: 'none', minWidth: 130, justifyContent: 'space-between', transition: 'border-color 0.15s' }}
           >
             <span>{mentor === '1' ? 'Mentors only' : mentor === '0' ? 'Trainers only' : 'All Roles'}</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'role' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><path d="M7 10l5 5 5-5z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#94a3b8', flexShrink: 0, transform: openFilter === 'role' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s ease' }}><path d="M7 10l5 5 5-5z"/></svg>
           </button>
           {openFilter === 'role' && (
             <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, zIndex: 100, background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 10, boxShadow: '0 8px 24px rgba(37,99,235,0.12)', minWidth: '100%', overflow: 'hidden' }}>
@@ -153,15 +156,19 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
           <tbody>
             {trainers.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-10 text-center text-sm text-[#64748b]">No trainers found.</td>
+                <td colSpan={6} style={{ padding: '48px 20px', textAlign: 'center' }}>
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="#dbeafe" style={{ margin: '0 auto 12px' }}><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: '#172554', marginBottom: 4 }}>No trainers found</p>
+                  <p style={{ fontSize: 13, color: '#64748b', marginBottom: 16 }}>{search || status || mentor ? 'Try adjusting your filters' : 'Get started by adding your first trainer'}</p>
+                  {!search && !status && !mentor && <a href="/admin/trainers/new" style={{ display: 'inline-block', background: '#2563eb', color: '#fff', borderRadius: 8, padding: '8px 16px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>Add Trainer</a>}
+                </td>
               </tr>
             )}
             {trainers.map(t => (
               <tr key={t.id} className="border-t border-[#DBEAFE] hover:bg-[#EFF6FF] transition-colors">
                 <td className="px-3.5 py-[11px] text-[13px]">
                   {t.photoUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={t.photoUrl} alt={t.name} className="w-11 h-11 rounded-full object-cover" />
+                    <Image src={t.photoUrl} alt={t.name} width={44} height={44} unoptimized className="w-11 h-11 rounded-full object-cover" />
                   ) : (
                     <div
                       className="w-11 h-11 rounded-full flex items-center justify-center text-[15px] font-bold flex-shrink-0"
@@ -203,7 +210,7 @@ export default function TrainersTable({ trainers, pagination, search = '', statu
                     <button
                       onClick={() => setOpenMenu(openMenu === t.id ? null : t.id)}
                       style={{ width: 32, height: 32, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, background: 'none', border: '1px solid #dbeafe', borderRadius: 8, cursor: 'pointer', padding: 0 }}
-                      title="Actions"
+                      aria-label={`Actions for ${t.name}`}
                     >
                       {[0,1,2].map(i => <span key={i} style={{ width: 4, height: 4, borderRadius: '50%', background: '#64748b', display: 'block' }} />)}
                     </button>

@@ -41,8 +41,9 @@ export default function StatCounter({ value, suffix = '', prefix = '', duration 
   }, [value, duration])
 
   return (
-    <span ref={ref} className={className}>
-      {prefix}{count.toLocaleString()}{suffix}
+    <span ref={ref} className={className} style={{ position: 'relative' }}>
+      <span aria-hidden="true">{prefix}{count.toLocaleString()}{suffix}</span>
+      <span className="sr-only">{prefix}{value.toLocaleString('en-IN')}{suffix}</span>
     </span>
   )
 }

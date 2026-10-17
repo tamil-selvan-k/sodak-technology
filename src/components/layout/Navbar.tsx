@@ -168,6 +168,8 @@ export default function Navbar() {
                     }}
                     onMouseEnter={() => handleDropdownEnter(item.href)}
                     onMouseLeave={handleDropdownLeave}
+                    aria-haspopup="true"
+                    aria-expanded={isDropdownOpen}
                     style={{
                       display: 'inline-flex', alignItems: 'center', gap: 4,
                       padding: '6px 12px', borderRadius: '2rem',
@@ -214,6 +216,7 @@ export default function Navbar() {
                       boxShadow: '0 8px 24px rgba(37,99,235,0.10)',
                       display: 'flex',
                       flexDirection: 'column',
+                      animation: 'dropdownIn 0.15s ease forwards',
                     }}>
                     {item.dropdown.map(d => (
                       <Link key={d.href} href={d.href} style={{
@@ -284,16 +287,21 @@ export default function Navbar() {
           background: '#ffffff', borderBottom: '1px solid #dbeafe',
           padding: '16px 24px', flexDirection: 'column', gap: 4, zIndex: 200,
           boxShadow: '0 10px 25px rgba(37,99,235,0.08)',
+          animation: 'mobileMenuIn 0.2s ease',
         }}>
-          {NAV_ITEMS.map(item => (
-            <Link key={item.href} href={item.href} style={{
-              padding: '10px 0', fontFamily: 'var(--font-inter), sans-serif',
-              fontSize: 14, fontWeight: 500, color: '#172554', textDecoration: 'none',
-              borderBottom: '1px solid #eff6ff',
-            }} onClick={() => setOpen(false)}>
-              {item.label}
-            </Link>
-          ))}
+          {NAV_ITEMS.map(item => {
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`)
+            return (
+              <Link key={item.href} href={item.href} style={{
+                padding: '10px 0', fontFamily: 'var(--font-inter), sans-serif',
+                fontSize: 14, fontWeight: active ? 700 : 500,
+                color: active ? '#2563eb' : '#172554', textDecoration: 'none',
+                borderBottom: '1px solid #eff6ff',
+              }} onClick={() => setOpen(false)}>
+                {item.label}
+              </Link>
+            )
+          })}
           <Link href="/contact" style={{
             marginTop: 8, textAlign: 'center', padding: '10px 20px',
             borderRadius: '2.5rem', background: '#2563eb', color: '#ffffff',

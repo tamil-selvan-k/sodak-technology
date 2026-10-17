@@ -66,8 +66,11 @@ export async function POST(req: Request) {
       fileUrl = await uploadFile(key, buffer, file.type)
     }
 
+    // Verify the user still exists in DB — JWT can outlive a DB reset in dev
+    const userRow = await db.user.findUnique({ where: { id: session.user.id }, select: { id: true } })
+
     const record = await db.mediaFile.create({
-      data: { key, url: fileUrl, mimeType: file.type, sizeBytes: file.size, originalName: file.name, variants, uploadedById: session.user.id },
+      data: { key, url: fileUrl, mimeType: file.type, sizeBytes: file.size, originalName: file.name, variants, uploadedById: userRow?.id ?? null },
     })
 
     return NextResponse.json({ data: record }, { status: 201 })

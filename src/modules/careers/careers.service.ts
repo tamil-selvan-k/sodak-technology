@@ -109,6 +109,12 @@ export async function publishJob(id: string) {
   return job
 }
 
+export async function unpublishJob(id: string) {
+  const job = await db.jobPost.update({ where: { id }, data: { isPublished: false } })
+  await invalidate(id)
+  return job
+}
+
 export async function softDeleteJob(id: string) {
   const job = await db.jobPost.update({ where: { id }, data: { deletedAt: new Date() } })
   await invalidate(id)

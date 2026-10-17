@@ -28,6 +28,8 @@ function getSlot(i: number, index: number, n: number): string {
 
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0)
+  // Default to true (mobile-first) so the SSR output matches the majority of initial renders.
+  // The useEffect below immediately syncs the real value after mount.
   const [isMobile, setIsMobile] = useState(true)
   const [paused, setPaused] = useState(false)
   const n = SLIDES.length

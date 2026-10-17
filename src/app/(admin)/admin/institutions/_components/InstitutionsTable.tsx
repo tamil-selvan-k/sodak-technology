@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 import { useToast } from '@/components/ui/Toast'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 interface Institution {
   id: string
@@ -38,6 +39,7 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
+  const confirm = useConfirm()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const [openFilter, setOpenFilter] = useState<string | null>(null)
@@ -78,7 +80,7 @@ export default function InstitutionsTable({ institutions, pagination }: Props) {
   }
 
   async function handleDelete(id: string, name: string) {
-    if (!window.confirm(`Delete "${name}"? This cannot be undone.`)) return
+    if (!await confirm(`Delete "${name}"? This cannot be undone.`, { title: 'Delete Institution', confirmLabel: 'Delete', variant: 'danger' })) return
     const res = await fetch(`/api/v1/institutions/${id}`, { method: 'DELETE' })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))

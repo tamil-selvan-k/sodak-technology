@@ -2,6 +2,8 @@
 
 import { useState, useRef, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useToast } from '@/components/ui/Toast'
 
 interface MediaFile {
   id: string
@@ -48,6 +50,8 @@ function fileIcon(mimeType: string) {
 
 export default function MediaLibrary({ files, total, page, pages }: Props) {
   const router = useRouter()
+  const confirm = useConfirm()
+  const { toast } = useToast()
   const [activeTab, setActiveTab] = useState<Tab>('All')
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState('')
@@ -86,9 +90,9 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
   }
 
   async function handleDelete(id: string, name: string) {
-    if (!window.confirm(`Delete "${name}"? This cannot be undone.`)) return
+    if (!await confirm(`Delete "${name}"? This cannot be undone.`, { title: 'Delete File', confirmLabel: 'Delete', variant: 'danger' })) return
     const res = await fetch(`/api/v1/media/${id}`, { method: 'DELETE' })
-    if (!res.ok) { alert('Delete failed'); return }
+    if (!res.ok) { toast.error('Delete failed'); return }
     startTransition(() => router.refresh())
   }
 

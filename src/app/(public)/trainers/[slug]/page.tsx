@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import DOMPurify from 'isomorphic-dompurify'
 import { getTrainerBySlug } from '@/modules/trainers/trainers.service'
 import { getByAuthor } from '@/modules/blog/blog.service'
 import { getByTrainerId } from '@/modules/institutions/institutions.service'
@@ -73,7 +74,7 @@ export default async function TrainerProfilePage({ params }: Props) {
               {trainer.bioHtml && (
                 <>
                   <p className="section-eyebrow">About</p>
-                  <div className="t-body c-muted" dangerouslySetInnerHTML={{ __html: trainer.bioHtml }} style={{ lineHeight: 1.8 }} />
+                  <div className="t-body c-muted" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(trainer.bioHtml) }} style={{ lineHeight: 1.8 }} />
                 </>
               )}
 

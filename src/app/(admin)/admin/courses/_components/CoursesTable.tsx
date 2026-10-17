@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTransition, useState, useEffect, useRef } from 'react'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 interface CourseRow {
   id: string
@@ -19,6 +20,7 @@ interface Props {
 
 export default function CoursesTable({ courses }: Props) {
   const router = useRouter()
+  const confirm = useConfirm()
   const [isPending, startTransition] = useTransition()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -42,7 +44,7 @@ export default function CoursesTable({ courses }: Props) {
   }
 
   async function handleDelete(id: string, title: string) {
-    if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return
+    if (!await confirm(`Delete "${title}"? This cannot be undone.`, { title: 'Delete Course', confirmLabel: 'Delete', variant: 'danger' })) return
     startTransition(async () => {
       await fetch(`/api/v1/courses/${id}`, { method: 'DELETE' })
       router.refresh()

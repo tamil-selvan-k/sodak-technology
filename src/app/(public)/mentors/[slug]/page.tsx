@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import DOMPurify from 'isomorphic-dompurify'
 import { getTrainerBySlug } from '@/modules/trainers/trainers.service'
 
 export const revalidate = 60
@@ -61,7 +62,7 @@ export default async function MentorProfilePage({ params }: Props) {
                 </div>
               )}
               {mentor.bioHtml && (
-                <div className="t-body c-muted" dangerouslySetInnerHTML={{ __html: mentor.bioHtml }} style={{ lineHeight: 1.8 }} />
+                <div className="t-body c-muted" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(mentor.bioHtml) }} style={{ lineHeight: 1.8 }} />
               )}
             </div>
 

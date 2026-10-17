@@ -6,6 +6,7 @@ import { useCallback, useTransition, useState, useEffect, useRef } from 'react'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 import { useToast } from '@/components/ui/Toast'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 interface SerializedWebinar {
   id:              string
@@ -34,6 +35,7 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
   const { toast } = useToast()
+  const confirm = useConfirm()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const [openFilter, setOpenFilter] = useState<string | null>(null)
@@ -79,7 +81,7 @@ export default function WebinarsTable({ webinars, pagination, status = '' }: Pro
     if (ok) toast.info('Webinar unpublished.')
   }
   async function handleDelete(id: string, title: string) {
-    if (!window.confirm(`Delete "${title}"?`)) return
+    if (!await confirm(`Delete "${title}"? This cannot be undone.`, { title: 'Delete Webinar', confirmLabel: 'Delete', variant: 'danger' })) return
     const ok = await callApi(`/api/v1/webinars/${id}`, 'DELETE')
     if (ok) toast.success('Webinar deleted.')
   }

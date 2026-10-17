@@ -125,7 +125,7 @@ export default async function AboutPage() {
               <p className="section-eyebrow">Our Team</p>
               <h2 className="t-h1 c-heading">The Engineers Behind SODAK</h2>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, marginTop: 40 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 220px))', gap: 20, marginTop: 40, justifyContent: 'center' }}>
               {trainers.slice(0, 8).map((t: { id: string; name: string; slug: string; designation: string | null; currentCompany: string | null }) => (
                 <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-dark" style={{ textAlign: 'center', padding: '24px 16px' }}>

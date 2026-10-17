@@ -6,6 +6,7 @@ import { useCallback, useTransition, useState, useEffect, useRef } from 'react'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 import { useToast } from '@/components/ui/Toast'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 interface SerializedInternship {
   id:                  string
@@ -38,6 +39,7 @@ export default function InternshipsTable({ internships, pagination, search = '',
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
   const { toast } = useToast()
+  const confirm = useConfirm()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const [openFilter, setOpenFilter] = useState<string | null>(null)
@@ -83,7 +85,7 @@ export default function InternshipsTable({ internships, pagination, search = '',
     if (ok) toast.info('Internship unpublished.')
   }
   async function handleDelete(id: string, company: string, role: string) {
-    if (!window.confirm(`Delete "${company} — ${role}"?`)) return
+    if (!await confirm(`Delete "${company} — ${role}"? This cannot be undone.`, { title: 'Delete Internship', confirmLabel: 'Delete', variant: 'danger' })) return
     const ok = await callApi(`/api/v1/internships/${id}`, 'DELETE')
     if (ok) toast.success('Internship deleted.')
   }

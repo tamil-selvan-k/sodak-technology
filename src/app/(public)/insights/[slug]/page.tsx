@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import DOMPurify from 'isomorphic-dompurify'
 import { getPostBySlug } from '@/modules/blog/blog.service'
 
 export const revalidate = 60
@@ -57,7 +58,7 @@ export default async function InsightPostPage({ params }: Props) {
       <section className="s-light">
         <div className="container-sm">
           {post.bodyHtml ? (
-            <div className="prose" dangerouslySetInnerHTML={{ __html: post.bodyHtml }} />
+            <div className="prose" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.bodyHtml) }} />
           ) : (
             <p className="t-body c-body">Content coming soon.</p>
           )}

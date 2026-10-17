@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 interface Photo {
   id: string
@@ -45,6 +46,7 @@ function canPublish(p: Photo) {
 export default function GalleryManager({ photos: initialPhotos, institutions, total, page, pages, institutionFilter }: Props) {
   const router = useRouter()
   const { toast } = useToast()
+  const confirm = useConfirm()
   const [, startTransition] = useTransition()
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [editAlt, setEditAlt] = useState<Record<string, string>>({})
@@ -122,7 +124,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
   }
 
   async function handleDelete(id: string) {
-    if (!window.confirm('Delete this photo? It will be soft-deleted.')) return
+    if (!await confirm('Delete this photo? It will be soft-deleted.', { title: 'Delete Photo', confirmLabel: 'Delete', variant: 'danger' })) return
     const res = await fetch(`/api/v1/photos/${id}`, { method: 'DELETE' })
     if (!res.ok) {
       toast.error('Delete failed.')
@@ -166,13 +168,13 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
         fd.append('file', file)
         const mediaRes = await fetch('/api/v1/media', { method: 'POST', body: fd })
         if (!mediaRes.ok) throw new Error(`Media upload failed: ${file.name}`)
-        const { data: mediaFile } = await mediaRes.json() as { data: { url: string } }
+        const { data: mediaFile } = await mediaRes.json() as { data: { key: string; url: string } }
 
-        // 2. Create photo record
+        // 2. Create photo record — r2Key is required by createPhotoSchema
         const photoRes = await fetch('/api/v1/photos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: mediaFile.url, altText: null }),
+          body: JSON.stringify({ r2Key: mediaFile.key, url: mediaFile.url, altText: '' }),
         })
         if (!photoRes.ok) throw new Error(`Photo record failed: ${file.name}`)
       } catch (e) {

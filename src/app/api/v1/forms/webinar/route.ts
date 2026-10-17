@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { formRateLimit, getIP } from '@/lib/rate-limit'
+import { verifyTurnstile } from '@/lib/turnstile'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { sendEmail } from '@/lib/email'
@@ -23,6 +24,12 @@ export async function POST(req: Request) {
 
     const body = await req.json()
     if (body.website_url) return NextResponse.json({ data: { ok: true } })
+
+    // Server-side Turnstile verification
+    const turnstileOk = await verifyTurnstile(body.cfTurnstileToken, ip)
+    if (!turnstileOk) {
+      return NextResponse.json({ error: { code: 'TURNSTILE_FAILED', message: 'CAPTCHA verification failed.' } }, { status: 422 })
+    }
 
     const parsed = schema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })

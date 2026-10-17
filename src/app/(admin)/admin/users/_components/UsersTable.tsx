@@ -3,6 +3,8 @@
 import { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Badge from '@/components/ui/Badge'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useToast } from '@/components/ui/Toast'
 
 const btnEdit   = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#dbeafe] bg-[#eff6ff] text-[#2563eb] hover:bg-[#dbeafe] transition-colors'
 const btnDelete = 'px-3 py-1.5 rounded-[5px] text-[11px] font-semibold cursor-pointer border border-[#fecaca] bg-[#fef2f2] text-[#dc2626] hover:bg-[#fecaca] transition-colors'
@@ -34,11 +36,13 @@ function initials(name: string | null, email: string) {
 
 export default function UsersTable({ users }: { users: SerializedUser[] }) {
   const router = useRouter()
+  const confirm = useConfirm()
+  const { toast } = useToast()
   const [, startTransition] = useTransition()
 
   async function toggleActive(user: SerializedUser) {
     const action = user.isActive ? 'Deactivate' : 'Activate'
-    if (!window.confirm(`${action} user "${user.email}"?`)) return
+    if (!await confirm(`${action} user "${user.email}"?`, { title: `${action} User`, confirmLabel: action, variant: user.isActive ? 'danger' : undefined })) return
     const res = await fetch(`/api/v1/users/${user.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -46,7 +50,7 @@ export default function UsersTable({ users }: { users: SerializedUser[] }) {
     })
     if (!res.ok) {
       const body = await res.json().catch(() => ({}))
-      alert((body as { error?: { message?: string } }).error?.message ?? 'Request failed')
+      toast.error((body as { error?: { message?: string } }).error?.message ?? 'Request failed')
       return
     }
     startTransition(() => router.refresh())

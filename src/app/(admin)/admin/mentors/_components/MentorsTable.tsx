@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTransition, useState, useEffect, useRef } from 'react'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 interface MentorRow {
   id: string
@@ -18,6 +19,7 @@ interface Props {
 
 export default function MentorsTable({ mentors }: Props) {
   const router = useRouter()
+  const confirm = useConfirm()
   const [isPending, startTransition] = useTransition()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -41,7 +43,7 @@ export default function MentorsTable({ mentors }: Props) {
   }
 
   async function handleDelete(id: string, name: string) {
-    if (!window.confirm(`Delete mentor "${name}"? This cannot be undone.`)) return
+    if (!await confirm(`Delete mentor "${name}"? This cannot be undone.`, { title: 'Delete Mentor', confirmLabel: 'Delete', variant: 'danger' })) return
     startTransition(async () => {
       await fetch(`/api/v1/trainers/${id}`, { method: 'DELETE' })
       router.refresh()

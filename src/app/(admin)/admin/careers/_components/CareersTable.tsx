@@ -6,6 +6,7 @@ import { useCallback, useTransition, useState, useEffect, useRef } from 'react'
 import Badge from '@/components/ui/Badge'
 import Pagination from '@/components/ui/Pagination'
 import { useToast } from '@/components/ui/Toast'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 
 interface SerializedJob {
   id:             string
@@ -37,6 +38,7 @@ export default function CareersTable({ jobs, pagination, search = '', status = '
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
   const { toast } = useToast()
+  const confirm = useConfirm()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const [openFilter, setOpenFilter] = useState<string | null>(null)
@@ -82,7 +84,7 @@ export default function CareersTable({ jobs, pagination, search = '', status = '
     if (ok) toast.info('Job opening unpublished.')
   }
   async function handleDelete(id: string, title: string) {
-    if (!window.confirm(`Delete "${title}"?`)) return
+    if (!await confirm(`Delete "${title}"? This cannot be undone.`, { title: 'Delete Job Opening', confirmLabel: 'Delete', variant: 'danger' })) return
     const ok = await callApi(`/api/v1/careers/${id}`, 'DELETE')
     if (ok) toast.success('Job opening deleted.')
   }

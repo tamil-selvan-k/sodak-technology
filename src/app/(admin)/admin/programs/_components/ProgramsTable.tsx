@@ -4,6 +4,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useTransition, useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Badge from '@/components/ui/Badge'
+import { useConfirm } from '@/components/ui/ConfirmDialog'
 import Pagination from '@/components/ui/Pagination'
 import type { Program, Stack } from '@prisma/client'
 
@@ -24,6 +25,7 @@ const DELIVERY_LABELS: Record<string, string> = {
 
 export default function ProgramsTable({ programs, pagination }: Props) {
   const router = useRouter()
+  const confirm = useConfirm()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
@@ -57,7 +59,7 @@ export default function ProgramsTable({ programs, pagination }: Props) {
   }
 
   async function handleDelete(id: string, title: string) {
-    if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return
+    if (!await confirm(`Delete "${title}"? This cannot be undone.`, { title: 'Delete Program', confirmLabel: 'Delete', variant: 'danger' })) return
     startTransition(async () => {
       await fetch(`/api/v1/programs/${id}`, { method: 'DELETE' })
       router.refresh()

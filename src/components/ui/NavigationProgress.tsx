@@ -73,6 +73,7 @@ export default function NavigationProgress() {
         borderRadius: '0 2px 2px 0',
         transition: width === 100 ? 'width 0.2s ease' : 'width 0.5s ease-out',
         pointerEvents: 'none',
+        boxShadow: '0 0 8px rgba(37,99,235,0.6), 0 0 3px rgba(37,99,235,0.4)',
       }}
     />
   )

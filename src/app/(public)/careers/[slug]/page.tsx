@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import DOMPurify from 'isomorphic-dompurify'
 import { getJobBySlug } from '@/modules/careers/careers.service'
 
 export const revalidate = 60
@@ -42,7 +43,7 @@ export default async function CareerDetailPage({ params }: Props) {
           <div className="two-col" style={{ alignItems: 'start' }}>
             <div>
               {job.descriptionHtml ? (
-                <div className="prose" style={{ color: '#334155' }} dangerouslySetInnerHTML={{ __html: job.descriptionHtml }} />
+                <div className="prose" style={{ color: '#334155' }} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(job.descriptionHtml) }} />
               ) : (
                 <p className="t-body c-muted">Full job description coming soon. Contact us for details.</p>
               )}

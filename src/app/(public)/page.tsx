@@ -55,6 +55,7 @@ export default async function HomePage() {
     <>
       {/* ── Hero ── */}
       <section className="home-hero">
+        <span className="bubble-sparkle bubble-sparkle-white sparkle-tr" aria-hidden="true" />
         <div className="container" style={{ paddingBottom: 60 }}>
           <div className="hero-grid">
             <div>
@@ -129,6 +130,7 @@ export default async function HomePage() {
       {/* ── Featured Trainers ── */}
       {trainers.length > 0 && (
         <section className="s-dark">
+          <span className="bubble-sparkle bubble-sparkle-white sparkle-bl" aria-hidden="true" />
           <div className="container">
             <div className="section-header text-center">
               <p className="section-eyebrow">Our Faculty</p>
@@ -164,6 +166,7 @@ export default async function HomePage() {
       {/* ── Technology Stacks ── */}
       {stacks.length > 0 && (
         <section className="s-alt">
+          <span className="bubble-sparkle bubble-sparkle-blue sparkle-tl" aria-hidden="true" />
           <div className="container">
             <div className="section-header text-center">
               <p className="section-eyebrow">What We Teach</p>
@@ -257,6 +260,7 @@ export default async function HomePage() {
 
       {/* ── Testimonial ── */}
       <section className="s-dark">
+        <span className="bubble-sparkle bubble-sparkle-white sparkle-bl" aria-hidden="true" />
         <div className="container text-center" style={{ maxWidth: 780, margin: '0 auto' }}>
           <p className="section-eyebrow text-center">Student Success</p>
           <blockquote className="t-lg c-heading" style={{ fontSize: 22, fontWeight: 600, lineHeight: 1.5, margin: '20px 0 28px', fontStyle: 'italic' }}>
@@ -274,6 +278,7 @@ export default async function HomePage() {
 
       {/* ── Platform ── */}
       <section className="s-alt">
+        <span className="bubble-sparkle bubble-sparkle-blue sparkle-tl" aria-hidden="true" />
         <div className="container">
           <div className="section-header text-center">
             <p className="section-eyebrow">The Platform</p>

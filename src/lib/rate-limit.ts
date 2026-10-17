@@ -33,6 +33,22 @@ function hasRealUpstashCreds(): boolean {
 export const formRateLimit: Limiter =
   hasRealUpstashCreds() ? createProdLimiter() : devLimiter
 
+function createLoginLimiter(): Limiter {
+  const redis = new Redis({
+    url:   process.env.UPSTASH_REDIS_REST_URL!,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  })
+  return new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(10, '15 m'),
+    prefix: 'sodak:login',
+  })
+}
+
+// 10 login attempts per IP per 15 minutes — brute-force protection
+export const loginRateLimit: Limiter =
+  hasRealUpstashCreds() ? createLoginLimiter() : devLimiter
+
 export function getIP(req: Request): string {
   return (
     req.headers.get('cf-connecting-ip') ??

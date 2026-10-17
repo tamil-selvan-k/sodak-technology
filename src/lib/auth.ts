@@ -3,6 +3,7 @@ import Credentials from 'next-auth/providers/credentials'
 import { verify } from '@node-rs/argon2'
 import { db } from './db'
 import { authConfig } from '../auth.config'
+import { loginRateLimit } from './rate-limit'
 import type { UserRole } from '@prisma/client'
 
 declare module 'next-auth' {
@@ -24,8 +25,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email:    { label: 'Email',    type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null
+
+        // Brute-force protection: rate-limit by IP
+        const ip =
+          (req as Request | undefined)?.headers?.get?.('cf-connecting-ip') ??
+          (req as Request | undefined)?.headers?.get?.('x-forwarded-for')?.split(',')[0]?.trim() ??
+          '127.0.0.1'
+        // If Redis is unavailable, fail open (allow login) rather than locking all admins out.
+        const rateLimitResult = await loginRateLimit.limit(ip).catch(() => ({ success: true }))
+        if (!rateLimitResult.success) return null // NextAuth will surface as CredentialsSignin error
 
         const user = await db.user.findUnique({
           where: { email: credentials.email as string },
