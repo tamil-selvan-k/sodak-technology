@@ -983,12 +983,78 @@ section.s-lg { padding: 88px 0; }
 @media (min-width: 1024px) { .footer-grid { grid-template-columns: repeat(5, 1fr); } }
 
 /* ── Footer links ── */
+
+/* ── Footer links with animated arrow hover ── */
 .footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
   font-family: var(--font-inter), sans-serif;
-  font-size: 13px; color: rgba(255,255,255,0.75);
-  text-decoration: none; transition: color 0.15s;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
-.footer-link:hover { color: #ffffff; }
+
+/* Hidden arrow before each link */
+.footer-link::before {
+  content: "›";
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  color: #3b82f6;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateX(-4px);
+  transition:
+    width 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Reveal arrow and brighten the text */
+.footer-link:hover {
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+.footer-link:hover::before {
+  width: 16px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Keyboard accessibility */
+.footer-link:focus-visible {
+  color: #ffffff;
+  outline: 2px solid #93c5fd;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.footer-link:focus-visible::before {
+  width: 16px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Disable movement for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .footer-link,
+  .footer-link::before {
+    transition: none;
+  }
+
+  .footer-link:hover {
+    transform: none;
+  }
+}
+
 
 /* ── Footer social ── */
 .footer-social {

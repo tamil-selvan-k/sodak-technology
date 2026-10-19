@@ -117,7 +117,7 @@ export default function AdminSidebar({ email, role }: Props) {
           width: collapsed ? COLLAPSED_W : EXPANDED_W,
           minWidth: collapsed ? COLLAPSED_W : EXPANDED_W,
           transition: 'width 0.25s ease, min-width 0.25s ease',
-          overflow: 'hidden',
+          // overflow: 'hidden',
         }}
       >
         {/* Header */}
