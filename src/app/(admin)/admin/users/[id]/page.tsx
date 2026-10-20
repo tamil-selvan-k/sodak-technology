@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
+import { useToast } from '@/components/ui/Toast'
 
 const ROLES = [
   { value: 'super_admin', label: 'Super Admin',  desc: 'Full access — all CRUD, users, settings, audit log' },
@@ -22,6 +23,7 @@ interface User {
 export default function EditUserPage() {
   const params  = useParams<{ id: string }>()
   const router  = useRouter()
+  const { toast } = useToast()
   const [, startTransition] = useTransition()
 
   const [user,    setUser]    = useState<User | null>(null)
@@ -59,9 +61,12 @@ export default function EditUserPage() {
     })
     const json = await res.json().catch(() => ({})) as { error?: { message: string } }
     if (!res.ok) {
-      setError(json.error?.message ?? 'Save failed.')
+      const msg = json.error?.message ?? 'Save failed.'
+      setError(msg)
+      toast.error(msg)
     } else {
       setSuccess(true)
+      toast.success('User updated successfully.')
       setTimeout(() => startTransition(() => router.push('/admin/users')), 800)
     }
     setSaving(false)

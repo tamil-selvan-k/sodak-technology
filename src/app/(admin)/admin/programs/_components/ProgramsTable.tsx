@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Badge from '@/components/ui/Badge'
 import { useConfirm } from '@/components/ui/ConfirmDialog'
 import Pagination from '@/components/ui/Pagination'
+import { useToast } from '@/components/ui/Toast'
 import type { Program, Stack } from '@prisma/client'
 
 type ProgramRow = Program & { stacks: { stack: Stack }[] }
@@ -26,6 +27,7 @@ const DELIVERY_LABELS: Record<string, string> = {
 export default function ProgramsTable({ programs, pagination }: Props) {
   const router = useRouter()
   const confirm = useConfirm()
+  const { toast } = useToast()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
@@ -53,7 +55,12 @@ export default function ProgramsTable({ programs, pagination }: Props) {
   async function handlePublish(id: string, publish: boolean) {
     const action = publish ? 'publish' : 'unpublish'
     startTransition(async () => {
-      await fetch(`/api/v1/programs/${id}/${action}`, { method: 'POST' })
+      const res = await fetch(`/api/v1/programs/${id}/${action}`, { method: 'POST' })
+      if (res.ok) {
+        toast.success(publish ? 'Program published.' : 'Program unpublished.')
+      } else {
+        toast.error(`Failed to ${action} program.`)
+      }
       router.refresh()
     })
   }
@@ -61,7 +68,12 @@ export default function ProgramsTable({ programs, pagination }: Props) {
   async function handleDelete(id: string, title: string) {
     if (!await confirm(`Delete "${title}"? This cannot be undone.`, { title: 'Delete Program', confirmLabel: 'Delete', variant: 'danger' })) return
     startTransition(async () => {
-      await fetch(`/api/v1/programs/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/v1/programs/${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        toast.success('Program deleted.')
+      } else {
+        toast.error('Failed to delete program.')
+      }
       router.refresh()
     })
   }

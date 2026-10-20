@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTransition, useState, useEffect, useRef } from 'react'
 import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useToast } from '@/components/ui/Toast'
 
 interface MentorRow {
   id: string
@@ -20,6 +21,7 @@ interface Props {
 export default function MentorsTable({ mentors }: Props) {
   const router = useRouter()
   const confirm = useConfirm()
+  const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -37,7 +39,14 @@ export default function MentorsTable({ mentors }: Props) {
   async function handlePublish(id: string, publish: boolean) {
     const action = publish ? 'publish' : 'unpublish'
     startTransition(async () => {
-      await fetch(`/api/v1/trainers/${id}/${action}`, { method: 'POST' })
+      const res = await fetch(`/api/v1/trainers/${id}/${action}`, { method: 'POST' })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        toast.error((body as { error?: { message?: string } }).error?.message ?? `Failed to ${action}.`)
+        return
+      }
+      if (publish) toast.success('Mentor published!')
+      else toast.info('Mentor deactivated.')
       router.refresh()
     })
   }
@@ -45,7 +54,13 @@ export default function MentorsTable({ mentors }: Props) {
   async function handleDelete(id: string, name: string) {
     if (!await confirm(`Delete mentor "${name}"? This cannot be undone.`, { title: 'Delete Mentor', confirmLabel: 'Delete', variant: 'danger' })) return
     startTransition(async () => {
-      await fetch(`/api/v1/trainers/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/v1/trainers/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        toast.error((body as { error?: { message?: string } }).error?.message ?? 'Failed to delete mentor.')
+        return
+      }
+      toast.success('Mentor deleted.')
       router.refresh()
     })
   }
@@ -119,7 +134,7 @@ export default function MentorsTable({ mentors }: Props) {
                         </button>
                       ) : (
                         <button
-                          onClick={() => { if (mentor.consentOnFile) { handlePublish(mentor.id, true); setOpenMenu(null) } }}
+                          onClick={() => { if (mentor.consentOnFile) { handlePublish(mentor.id, true); setOpenMenu(null) } else { toast.warning('Consent required before publishing.'); setOpenMenu(null) } }}
                           disabled={!mentor.consentOnFile || isPending}
                           title={!mentor.consentOnFile ? 'Consent required' : undefined}
                           style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '9px 14px', fontSize: 13, color: mentor.consentOnFile ? '#16a34a' : '#94a3b8', background: 'none', border: 'none', cursor: mentor.consentOnFile ? 'pointer' : 'not-allowed', fontWeight: 500, textAlign: 'left' }}

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTransition, useState, useEffect, useRef } from 'react'
 import { useConfirm } from '@/components/ui/ConfirmDialog'
+import { useToast } from '@/components/ui/Toast'
 
 interface CourseRow {
   id: string
@@ -21,6 +22,7 @@ interface Props {
 export default function CoursesTable({ courses }: Props) {
   const router = useRouter()
   const confirm = useConfirm()
+  const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -38,7 +40,14 @@ export default function CoursesTable({ courses }: Props) {
   async function handlePublish(id: string, publish: boolean) {
     const action = publish ? 'publish' : 'unpublish'
     startTransition(async () => {
-      await fetch(`/api/v1/courses/${id}/${action}`, { method: 'POST' })
+      const res = await fetch(`/api/v1/courses/${id}/${action}`, { method: 'POST' })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        toast.error((body as { error?: { message?: string } }).error?.message ?? `Failed to ${action}.`)
+        return
+      }
+      if (publish) toast.success('Course published!')
+      else toast.info('Course unpublished.')
       router.refresh()
     })
   }
@@ -46,7 +55,13 @@ export default function CoursesTable({ courses }: Props) {
   async function handleDelete(id: string, title: string) {
     if (!await confirm(`Delete "${title}"? This cannot be undone.`, { title: 'Delete Course', confirmLabel: 'Delete', variant: 'danger' })) return
     startTransition(async () => {
-      await fetch(`/api/v1/courses/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/v1/courses/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        toast.error((body as { error?: { message?: string } }).error?.message ?? 'Failed to delete course.')
+        return
+      }
+      toast.success('Course deleted.')
       router.refresh()
     })
   }

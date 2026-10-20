@@ -197,7 +197,7 @@ export default function GalleryManager({ photos: initialPhotos, institutions, to
   return (
     <>
       {/* Upload + Filter bar */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 16, marginBottom: 24, alignItems: 'start' }}>
+      <div className="admin-gallery-toolbar">
         {/* Upload area */}
         <div style={{ background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 12, padding: 20 }}>
           <p style={{ fontSize: 14, fontWeight: 600, color: '#172554', marginBottom: 12 }}>Bulk Upload Photos (max 20)</p>

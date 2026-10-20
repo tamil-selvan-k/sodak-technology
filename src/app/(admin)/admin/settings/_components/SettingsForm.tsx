@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { SiteSetting } from '@prisma/client'
+import { useToast } from '@/components/ui/Toast'
 
 interface SocialLinksData {
   linkedin?: string
@@ -75,12 +76,11 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
   const [whatsapp, setWhatsapp] = useState(socialLinks.whatsapp ?? '')
 
   const [saving, setSaving] = useState(false)
-  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const { toast } = useToast()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
-    setToast(null)
     try {
       const payload = {
         heroHeadline: heroHeadline || undefined,
@@ -108,9 +108,9 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
         const body = await res.json().catch(() => ({}))
         throw new Error((body as { error?: { message?: string } }).error?.message ?? 'Failed to save')
       }
-      setToast({ type: 'success', message: 'Settings saved successfully.' })
+      toast.success('Settings saved!')
     } catch (err) {
-      setToast({ type: 'error', message: err instanceof Error ? err.message : 'Failed to save settings.' })
+      toast.error(err instanceof Error ? err.message : 'Failed to save settings.')
     } finally {
       setSaving(false)
     }
@@ -118,20 +118,6 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      {toast && (
-        <div style={{
-          marginBottom: 20,
-          padding: '12px 16px',
-          borderRadius: 8,
-          fontSize: 13,
-          ...(toast.type === 'success'
-            ? { background: 'rgba(74,222,128,0.1)', border: '1px solid rgba(74,222,128,0.25)', color: '#16a34a' }
-            : { background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171' }),
-        }}>
-          {toast.message}
-        </div>
-      )}
-
       {/* Hero Section */}
       <div style={cardStyle}>
         <p style={sectionHeadStyle}>Hero Section</p>

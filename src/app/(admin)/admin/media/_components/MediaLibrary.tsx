@@ -173,7 +173,7 @@ export default function MediaLibrary({ files, total, page, pages }: Props) {
       </div>
 
       {/* Media grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+      <div className="admin-media-grid">
         {visible.length === 0 && (
           <p style={{ gridColumn: '1/-1', textAlign: 'center', color: '#64748b', fontSize: 13, padding: '40px 0' }}>
             No files found.

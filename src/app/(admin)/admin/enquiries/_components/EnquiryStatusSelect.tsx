@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { useToast } from '@/components/ui/Toast'
 
 const STATUS_MAP = {
   new:           { label: 'New',           color: '#2563eb', bg: 'rgba(59,130,246,0.1)' },
@@ -20,6 +21,7 @@ interface Props {
 
 export default function EnquiryStatusSelect({ leadId, status: initialStatus }: Props) {
   const router = useRouter()
+  const { toast } = useToast()
   const [status, setStatus] = useState<Status>(initialStatus)
   const [open, setOpen] = useState(false)
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 })
@@ -36,9 +38,12 @@ export default function EnquiryStatusSelect({ leadId, status: initialStatus }: P
       body: JSON.stringify({ status: next }),
     })
     if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      toast.error((body as { error?: { message?: string } }).error?.message ?? 'Failed to update status.')
       setStatus(initialStatus)
       return
     }
+    toast.info(`Status changed to ${STATUS_MAP[next].label}.`)
     startTransition(() => router.refresh())
   }
 

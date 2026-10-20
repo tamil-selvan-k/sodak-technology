@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useToast } from '@/components/ui/Toast'
 
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced']
 
@@ -24,6 +25,7 @@ interface Course {
 export default function EditCoursePage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
+  const { toast } = useToast()
 
   const [course, setCourse] = useState<Course | null>(null)
   const [loading, setLoading] = useState(true)
@@ -84,8 +86,8 @@ export default function EditCoursePage() {
       }),
     })
     const data = await res.json()
-    if (!res.ok) setError(data?.error?.message ?? 'Save failed.')
-    else { setSuccess('Saved.'); setIsPublished(data.data.isPublished) }
+    if (!res.ok) { setError(data?.error?.message ?? 'Save failed.'); toast.error(data?.error?.message ?? 'Save failed.') }
+    else { setSuccess('Saved.'); setIsPublished(data.data.isPublished); toast.success('Course saved!') }
     setSaving(false)
   }
 
@@ -95,8 +97,8 @@ export default function EditCoursePage() {
     const action = isPublished ? 'unpublish' : 'publish'
     const res = await fetch(`/api/v1/courses/${id}/${action}`, { method: 'POST' })
     const data = await res.json()
-    if (!res.ok) setError(data?.error?.message ?? `${action} failed.`)
-    else setIsPublished(!isPublished)
+    if (!res.ok) { setError(data?.error?.message ?? `${action} failed.`); toast.error(data?.error?.message ?? `Failed to ${action}.`) }
+    else { setIsPublished(!isPublished); isPublished ? toast.info('Course unpublished.') : toast.success('Course published!') }
     setPublishing(false)
   }
 
