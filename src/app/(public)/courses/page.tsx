@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { listCourses } from '@/modules/courses/courses.service'
 import { listStacks } from '@/modules/stacks/stacks.service'
+import StackIcon from '@/components/ui/StackIcon'
 
 export const revalidate = 60
 export const metadata: Metadata = {
@@ -74,7 +75,7 @@ export default async function CoursesPage() {
                         <ul style={{ paddingLeft: 0, listStyle: 'none', marginTop: 'auto', marginBottom: 0 }}>
                           {(course.outcomes as string[]).slice(0, 3).map((o: string) => (
                             <li key={o} className="t-sm c-body" style={{ display: 'flex', gap: 6, marginBottom: 4 }}>
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="#16a34a" style={{ flexShrink: 0, marginTop: 2 }}><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0, marginTop: 2 }}><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                               {o}
                             </li>
                           ))}
@@ -102,7 +103,7 @@ export default async function CoursesPage() {
                 <Link key={stack.id} href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
                   <div className="card card-dark" style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 14 }}>
-                      <span style={{ lineHeight: 1 }}>{stack.icon ?? <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>}</span>
+                      <span style={{ lineHeight: 1, color: stack.colorToken ?? '#93c5fd' }}><StackIcon slug={stack.slug} size={32} /></span>
                       <p className="t-card c-white">{stack.name}</p>
                     </div>
                     <p className="t-sm c-muted" style={{ marginBottom: 14 }}>{stack.summary}</p>

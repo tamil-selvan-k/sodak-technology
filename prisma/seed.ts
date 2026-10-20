@@ -28,7 +28,7 @@ async function main() {
     {
       name:         'Full Stack Web',
       slug:         'full-stack-web',
-      icon:         '🌐',
+      icon:         null,
       summary:      'React, Node.js, TypeScript and modern web development',
       colorToken:   '#3b82f6',
       displayOrder: 1,
@@ -44,7 +44,7 @@ async function main() {
     {
       name:         'Java & Spring Boot',
       slug:         'java-spring-boot',
-      icon:         '☕',
+      icon:         null,
       summary:      'Core Java, OOP, Spring Boot microservices',
       colorToken:   '#f97316',
       displayOrder: 2,
@@ -59,7 +59,7 @@ async function main() {
     {
       name:         'Python & Data Science',
       slug:         'python-data-science',
-      icon:         '🐍',
+      icon:         null,
       summary:      'Python, ML fundamentals, pandas, scikit-learn',
       colorToken:   '#eab308',
       displayOrder: 3,
@@ -74,7 +74,7 @@ async function main() {
     {
       name:         'DevOps & Cloud',
       slug:         'devops-cloud',
-      icon:         '☁️',
+      icon:         null,
       summary:      'Linux, Docker, Kubernetes, AWS fundamentals',
       colorToken:   '#6366f1',
       displayOrder: 4,
@@ -89,7 +89,7 @@ async function main() {
     {
       name:         'Cybersecurity',
       slug:         'cybersecurity',
-      icon:         '🔐',
+      icon:         null,
       summary:      'Ethical hacking, network security, VAPT, CEH prep',
       colorToken:   '#ef4444',
       displayOrder: 5,
@@ -104,7 +104,7 @@ async function main() {
     {
       name:         'Mobile Development',
       slug:         'mobile-development',
-      icon:         '📱',
+      icon:         null,
       summary:      'React Native and Flutter cross-platform apps',
       colorToken:   '#22c55e',
       displayOrder: 6,

@@ -65,7 +65,7 @@ export default function AdminNewInstitutionPage() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+        <div className="admin-form-grid">
 
           {/* Left column — primary content */}
           <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -85,7 +85,7 @@ export default function AdminNewInstitutionPage() {
           </div>
 
           {/* Right sidebar — metadata + actions */}
-          <div style={{ width: 288, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
+          <div className="admin-form-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
             {/* Actions card */}
             <div style={cardStyle}>
               <p style={sectionHeadStyle}>Actions</p>

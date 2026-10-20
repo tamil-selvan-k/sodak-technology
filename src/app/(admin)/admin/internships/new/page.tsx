@@ -68,14 +68,14 @@ export default function AdminNewInternshipPage() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+        <div className="admin-form-grid">
 
           {/* Left column — primary content */}
           <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div style={cardStyle}>
               <p style={sectionHeadStyle}>Internship Details</p>
               <div style={{ display: 'grid', gap: 20 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
                   <div>
                     <label style={labelStyle}>Company Name <span style={{ color: '#ef4444' }}>*</span></label>
                     <input name="companyName" type="text" required placeholder="e.g. Zoho Corporation" style={inputStyle} />
@@ -94,7 +94,7 @@ export default function AdminNewInternshipPage() {
           </div>
 
           {/* Right sidebar — metadata + actions */}
-          <div style={{ width: 288, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
+          <div className="admin-form-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
             {/* Actions card */}
             <div style={cardStyle}>
               <p style={sectionHeadStyle}>Actions</p>

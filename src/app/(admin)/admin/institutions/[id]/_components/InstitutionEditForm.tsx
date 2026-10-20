@@ -116,10 +116,10 @@ export default function InstitutionEditForm({ institution }: Props) {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div className="admin-form-grid">
 
           {/* Left column — primary content */}
-          <div style={{ flex: '1 1 400px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div style={cardStyle}>
               <p style={sectionHeadStyle}>Institution Info</p>
               <div style={{ display: 'grid', gap: 20 }}>
@@ -129,7 +129,7 @@ export default function InstitutionEditForm({ institution }: Props) {
                     onFocus={e => (e.currentTarget.style.borderColor = '#2563eb')}
                     onBlur={e  => (e.currentTarget.style.borderColor = '#dbeafe')} />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
                   <div>
                     <label style={labelStyle}>City</label>
                     <input name="city" type="text" placeholder="e.g. Chennai" defaultValue={institution.city ?? ''} style={inputStyle}
@@ -167,7 +167,7 @@ export default function InstitutionEditForm({ institution }: Props) {
           </div>
 
           {/* Right sidebar — metadata + actions */}
-          <div style={{ width: 288, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
+          <div className="admin-form-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
 
             {/* Status badge */}
             <div style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: 10 }}>

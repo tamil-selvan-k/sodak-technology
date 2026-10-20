@@ -109,14 +109,14 @@ export default function InternshipEditForm({ internship }: Props) {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div className="admin-form-grid">
 
           {/* Left column */}
-          <div style={{ flex: '1 1 400px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div style={cardStyle}>
               <p style={sectionHeadStyle}>Internship Details</p>
               <div style={{ display: 'grid', gap: 20 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
                   <div>
                     <label style={labelStyle}>Company Name <span style={{ color: '#ef4444' }}>*</span></label>
                     <input name="companyName" type="text" required defaultValue={internship.companyName} style={inputStyle}
@@ -142,7 +142,7 @@ export default function InternshipEditForm({ internship }: Props) {
           </div>
 
           {/* Right sidebar */}
-          <div style={{ width: 288, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
+          <div className="admin-form-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
 
             {/* Status badge */}
             <div style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: 10 }}>

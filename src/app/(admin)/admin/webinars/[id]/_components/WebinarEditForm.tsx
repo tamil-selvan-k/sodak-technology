@@ -110,10 +110,10 @@ export default function WebinarEditForm({ webinar }: Props) {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div className="admin-form-grid">
 
           {/* Left column */}
-          <div style={{ flex: '1 1 400px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div style={cardStyle}>
               <p style={sectionHeadStyle}>Webinar Content</p>
               <div style={{ display: 'grid', gap: 20 }}>
@@ -135,7 +135,7 @@ export default function WebinarEditForm({ webinar }: Props) {
           </div>
 
           {/* Right sidebar */}
-          <div style={{ width: 288, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
+          <div className="admin-form-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
 
             {/* Status badge */}
             <div style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: 10 }}>

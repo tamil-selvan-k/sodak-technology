@@ -57,10 +57,6 @@ const COLUMNS = [
 export default function Footer() {
   return (
     <footer style={{ background: '#1e40af', borderTop: '1px solid rgba(255,255,255,0.12)', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
-      {/* Decorative bubble — bottom-right, always visible */}
-      <div className="footer-bubble" aria-hidden="true" />
-      {/* Rotating sparkle cross — sits in front of the bubble */}
-      <div className="footer-sparkle-spin" aria-hidden="true" />
       <div className="container" style={{ paddingTop: 56, position: 'relative', zIndex: 1 }}>
         {/* Top strip */}
         <div style={{

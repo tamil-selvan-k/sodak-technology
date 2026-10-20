@@ -6,6 +6,7 @@ import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
 import { listInstitutionNames } from '@/modules/institutions/institutions.service'
 import StatCounter from '@/components/ui/StatCounter'
+import StackIcon from '@/components/ui/StackIcon'
 
 export const metadata: Metadata = {
   title: 'Campus Placement Training in Chennai | SODAK Technology',
@@ -55,7 +56,6 @@ export default async function HomePage() {
     <>
       {/* ── Hero ── */}
       <section className="home-hero">
-        <span className="bubble-sparkle bubble-sparkle-white sparkle-tr" aria-hidden="true" />
         <div className="container" style={{ paddingBottom: 60 }}>
           <div className="hero-grid">
             <div>
@@ -130,7 +130,6 @@ export default async function HomePage() {
       {/* ── Featured Trainers ── */}
       {trainers.length > 0 && (
         <section className="s-dark">
-          <span className="bubble-sparkle bubble-sparkle-white sparkle-bl" aria-hidden="true" />
           <div className="container">
             <div className="section-header text-center">
               <p className="section-eyebrow">Our Faculty</p>
@@ -166,7 +165,6 @@ export default async function HomePage() {
       {/* ── Technology Stacks ── */}
       {stacks.length > 0 && (
         <section className="s-alt">
-          <span className="bubble-sparkle bubble-sparkle-blue sparkle-tl" aria-hidden="true" />
           <div className="container">
             <div className="section-header text-center">
               <p className="section-eyebrow">What We Teach</p>
@@ -180,7 +178,7 @@ export default async function HomePage() {
                 <Link key={stack.id} href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
                   <div className="card card-light" style={{ padding: '28px 24px', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
-                      <div style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>{stack.icon ?? <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>}</div>
+                      <div style={{ lineHeight: 1, flexShrink: 0, color: stack.colorToken ?? '#2563eb' }}><StackIcon slug={stack.slug} size={32} /></div>
                       <div>
                         <p className="t-card c-heading">{stack.name}</p>
                         <p className="t-sm c-body" style={{ marginTop: 4 }}>{stack.summary}</p>
@@ -260,7 +258,6 @@ export default async function HomePage() {
 
       {/* ── Testimonial ── */}
       <section className="s-dark">
-        <span className="bubble-sparkle bubble-sparkle-white sparkle-bl" aria-hidden="true" />
         <div className="container text-center" style={{ maxWidth: 780, margin: '0 auto' }}>
           <p className="section-eyebrow text-center">Student Success</p>
           <blockquote className="t-lg c-heading" style={{ fontSize: 22, fontWeight: 600, lineHeight: 1.5, margin: '20px 0 28px', fontStyle: 'italic' }}>
@@ -278,7 +275,6 @@ export default async function HomePage() {
 
       {/* ── Platform ── */}
       <section className="s-alt">
-        <span className="bubble-sparkle bubble-sparkle-blue sparkle-tl" aria-hidden="true" />
         <div className="container">
           <div className="section-header text-center">
             <p className="section-eyebrow">The Platform</p>
@@ -289,9 +285,9 @@ export default async function HomePage() {
           </div>
           <div className="platform-grid">
             {[
-              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="#2563eb"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>, title:'SODAK LMS', desc:'Structured learning paths with video lessons, quizzes, and progress tracking.', href:'/platform/lms' },
-              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="#2563eb"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>, title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },
-              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="#2563eb"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>, title:'Assessment Engine', desc:'AI-proctored aptitude and coding tests mirroring company formats.', href:'/platform/assessments' },
+              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>, title:'SODAK LMS', desc:'Structured learning paths with video lessons, quizzes, and progress tracking.', href:'/platform/lms' },
+              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>, title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },
+              { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>, title:'Assessment Engine', desc:'AI-proctored aptitude and coding tests mirroring company formats.', href:'/platform/assessments' },
             ].map(p => (
               <Link key={p.title} href={p.href} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
                 <div className="card card-light" style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>

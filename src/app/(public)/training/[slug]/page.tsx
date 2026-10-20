@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getStackBySlug } from '@/modules/stacks/stacks.service'
+import StackIcon from '@/components/ui/StackIcon'
 
 export const revalidate = 60
 
@@ -28,7 +29,7 @@ export default async function TrainingStackPage({ params }: Props) {
             <span className="active">{stack.name}</span>
           </div>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 14, flexWrap: 'wrap' }}>
-            {stack.icon && <span style={{ fontSize: 48, lineHeight: 1 }}>{stack.icon}</span>}
+            <span style={{ lineHeight: 1, color: stack.colorToken ?? '#93c5fd' }}><StackIcon slug={stack.slug} size={48} /></span>
             {stack.colorToken && (
               <span className="badge badge-lg" style={{ background: stack.colorToken + '22', color: stack.colorToken, border: `1px solid ${stack.colorToken}44` }}>
                 Training Stack
