@@ -4,12 +4,14 @@ import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast'
+import ImageUpload from '@/components/ui/ImageUpload'
 
 export default function AdminNewMentorPage() {
   const router = useRouter()
   const { toast } = useToast()
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [photoUrl, setPhotoUrl] = useState('')
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -20,6 +22,7 @@ export default function AdminNewMentorPage() {
       name:        (fd.get('name') as string).trim(),
       designation: (fd.get('designation') as string).trim() || undefined,
       linkedinUrl: (fd.get('linkedinUrl') as string).trim() || undefined,
+      photoUrl:    photoUrl || undefined,
       bioHtml:     (fd.get('bioHtml') as string).trim() || undefined,
       isMentor:    true,
       expertiseTags: [],
@@ -113,6 +116,13 @@ export default function AdminNewMentorPage() {
                 <div>
                   <label style={labelStyle}>LinkedIn URL</label>
                   <input name="linkedinUrl" type="url" placeholder="https://linkedin.com/in/username" style={inputStyle} />
+                </div>
+                <div>
+                  <ImageUpload
+                    value={photoUrl || undefined}
+                    onChange={(url) => setPhotoUrl(url ?? '')}
+                    label="Photo"
+                  />
                 </div>
               </div>
             </div>

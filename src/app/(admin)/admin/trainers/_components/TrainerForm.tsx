@@ -6,6 +6,7 @@ import type { TrainerWithStacks } from '@/modules/trainers/trainers.types'
 import type { Stack } from '@prisma/client'
 import Button from '@/components/ui/Button'
 import TagInput from '@/components/ui/TagInput'
+import ImageUpload from '@/components/ui/ImageUpload'
 import { useToast } from '@/components/ui/Toast'
 
 interface Props {
@@ -23,6 +24,8 @@ export default function TrainerForm({ trainer, stacks }: Props) {
   const [saving, setSaving] = useState(false)
   const [publishing, setPublishing] = useState(false)
   const [consent, setConsent] = useState(trainer?.consentOnFile ?? false)
+
+  const [photoUrl, setPhotoUrl] = useState(trainer?.photoUrl ?? '')
 
   const selectedStackIds = trainer?.stacks.map(s => s.stack.id) ?? []
   const [checkedStacks, setCheckedStacks] = useState<string[]>(selectedStackIds)
@@ -47,7 +50,7 @@ export default function TrainerForm({ trainer, stacks }: Props) {
       yearsExperience:  fd.get('yearsExperience') ? Number(fd.get('yearsExperience')) : undefined,
       linkedinUrl:      (fd.get('linkedinUrl') as string).trim() || undefined,
       githubUrl:        (fd.get('githubUrl') as string).trim() || undefined,
-      photoUrl:         (fd.get('photoUrl') as string).trim() || undefined,
+      photoUrl:         photoUrl || undefined,
       expertiseTags:    (fd.get('expertiseTags') as string).split(',').map(t => t.trim()).filter(Boolean),
       bioHtml:          (fd.get('bioHtml') as string).trim() || undefined,
       isMentor:         fd.get('isMentor') === 'on',
@@ -88,7 +91,7 @@ export default function TrainerForm({ trainer, stacks }: Props) {
       yearsExperience: fd.get('yearsExperience') ? Number(fd.get('yearsExperience')) : undefined,
       linkedinUrl:     (fd.get('linkedinUrl') as string).trim() || undefined,
       githubUrl:       (fd.get('githubUrl') as string).trim() || undefined,
-      photoUrl:        (fd.get('photoUrl') as string).trim() || undefined,
+      photoUrl:        photoUrl || undefined,
       expertiseTags:   (fd.get('expertiseTags') as string).split(',').map(t => t.trim()).filter(Boolean),
       bioHtml:         (fd.get('bioHtml') as string).trim() || undefined,
       isMentor:        fd.get('isMentor') === 'on',
@@ -171,8 +174,11 @@ export default function TrainerForm({ trainer, stacks }: Props) {
                 <input id="displayOrder" name="displayOrder" type="number" min={0} defaultValue={trainer?.displayOrder ?? 0} style={fieldStyle} />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={labelStyle} htmlFor="photoUrl">Photo URL</label>
-                <input id="photoUrl" name="photoUrl" type="url" defaultValue={trainer?.photoUrl ?? ''} style={fieldStyle} placeholder="https://... (S3 upload in Phase 3)" />
+                <ImageUpload
+                  value={photoUrl || undefined}
+                  onChange={(url) => setPhotoUrl(url ?? '')}
+                  label="Photo"
+                />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
                 <TagInput

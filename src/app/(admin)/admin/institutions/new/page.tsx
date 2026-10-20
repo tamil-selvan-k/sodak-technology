@@ -4,12 +4,14 @@ import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast'
+import ImageUpload from '@/components/ui/ImageUpload'
 
 export default function AdminNewInstitutionPage() {
   const router = useRouter()
   const { toast } = useToast()
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [logoUrl, setLogoUrl] = useState('')
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -21,6 +23,7 @@ export default function AdminNewInstitutionPage() {
       city:           (fd.get('city') as string).trim() || undefined,
       type:           (fd.get('type') as string) || undefined,
       website:        (fd.get('website') as string).trim() || undefined,
+      logoUrl:        logoUrl || undefined,
       logoPermission: fd.get('logoPermission') === 'on',
       showOnHome:     fd.get('showOnHome') === 'on',
     }
@@ -79,6 +82,13 @@ export default function AdminNewInstitutionPage() {
                 <div>
                   <label style={labelStyle}>Website URL</label>
                   <input name="website" type="url" placeholder="https://..." style={inputStyle} />
+                </div>
+                <div>
+                  <ImageUpload
+                    value={logoUrl || undefined}
+                    onChange={(url) => setLogoUrl(url ?? '')}
+                    label="Logo"
+                  />
                 </div>
               </div>
             </div>

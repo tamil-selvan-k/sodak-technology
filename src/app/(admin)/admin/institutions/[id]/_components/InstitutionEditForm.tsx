@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast'
+import ImageUpload from '@/components/ui/ImageUpload'
 import type { Institution } from '@prisma/client'
 
 interface Props { institution: Institution }
@@ -15,6 +16,7 @@ export default function InstitutionEditForm({ institution }: Props) {
   const [publishing, setPublishing] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [logoUrl, setLogoUrl] = useState(institution.logoUrl ?? '')
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -30,6 +32,7 @@ export default function InstitutionEditForm({ institution }: Props) {
       website:        (fd.get('website') as string).trim() || undefined,
       shortDescription: (fd.get('shortDescription') as string).trim() || undefined,
       displayOrder:   fd.get('displayOrder') ? Number(fd.get('displayOrder')) : undefined,
+      logoUrl:        logoUrl || undefined,
       logoPermission: fd.get('logoPermission') === 'on',
       showOnHome:     fd.get('showOnHome') === 'on',
     }
@@ -154,6 +157,13 @@ export default function InstitutionEditForm({ institution }: Props) {
                   <input name="website" type="url" placeholder="https://..." defaultValue={institution.website ?? ''} style={inputStyle}
                     onFocus={e => (e.currentTarget.style.borderColor = '#2563eb')}
                     onBlur={e  => (e.currentTarget.style.borderColor = '#dbeafe')} />
+                </div>
+                <div>
+                  <ImageUpload
+                    value={logoUrl || undefined}
+                    onChange={(url) => setLogoUrl(url ?? '')}
+                    label="Logo"
+                  />
                 </div>
                 <div>
                   <label style={labelStyle}>Short Description</label>
