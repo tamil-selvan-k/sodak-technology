@@ -41,6 +41,10 @@ const nextConfig = {
             hostname: `${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION ?? 'ap-south-1'}.amazonaws.com`,
           }]
         : []),
+      {
+        protocol: 'https',
+        hostname: 'sodaktech-media-588738574145-ap-south-1-an.s3.ap-south-1.amazonaws.com',
+      },
     ],
   },
   async headers() {

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import HeroCarousel from '@/components/ui/HeroCarousel'
-import { listTrainers } from '@/modules/trainers/trainers.service'
+import { listMentors } from '@/modules/mentors/mentors.service'
 import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
 import { listInstitutionNames } from '@/modules/institutions/institutions.service'
 import StatCounter from '@/components/ui/StatCounter'
 import StackIcon from '@/components/ui/StackIcon'
+import MentorCard from '@/components/ui/MentorCard'
 
 export const metadata: Metadata = {
   title: 'Campus Placement Training in Chennai | SODAK Technology',
@@ -26,6 +27,15 @@ const COMPANIES = [
   'Tech Mahindra','Mphasis','L&T Infotech','Hexaware','Zoho','Freshworks','Zomato',
 ]
 
+const HIRING_COMPANIES_ROW1 = [
+  'Amazon', 'Microsoft', 'PhonePe', 'PayPal', 'Juspay',
+  'Accenture', 'Cognizant', 'Infosys', 'Capgemini',
+]
+const HIRING_COMPANIES_ROW2 = [
+  'Capgemini', 'Juspay', 'Amazon', 'Infosys', 'PayPal',
+  'Microsoft', 'Cognizant', 'Accenture', 'PhonePe',
+]
+
 const REVIEWS = [
   { name: 'Harini S.', college: 'Anna University', text: 'Placed at TCS within 2 months of the training. The mock interviews were incredibly realistic.', stars: 5 },
   { name: 'Karthik R.', college: 'SRM Institute', text: 'The Java bootcamp was intense — exactly what you need to crack product company interviews.', stars: 5 },
@@ -39,18 +49,21 @@ const REVIEWS = [
 export const revalidate = 60
 
 export default async function HomePage() {
-  const [trainersResult, stacksResult, settings, institutionsResult] = await Promise.all([
-    listTrainers({ isPublished: true, perPage: 8 }).catch(() => ({ data: [] })),
+  const [mentorsResult, stacksResult, settings, institutionsResult] = await Promise.all([
+    listMentors({ isPublished: true, perPage: 12 }).catch(() => ({ data: [], pagination: { total: 0, page: 1, perPage: 12, pages: 0 } })),
     listStacks().catch(() => []),
     getSettings().catch(() => null),
     listInstitutionNames({ showOnHome: true, perPage: 20 }).catch(() => ({ data: [] as Array<{ id: string; name: string; slug: string; logoUrl: string | null; logoPermission: boolean }>, pagination: { total: 0, page: 1, perPage: 20, pages: 0 } })),
   ])
 
-  const trainers = trainersResult.data ?? []
+  const mentors = mentorsResult.data ?? []
   const stacks   = Array.isArray(stacksResult) ? stacksResult : []
   const stats    = (settings?.stats ?? { placements: 5000, colleges: 500, trainers: 50, years: 8 }) as Record<string, number>
 
-  const institutionNames: string[] = institutionsResult.data.map((i) => i.name)
+  const dbInstitutionNames: string[] = institutionsResult.data.map((i) => i.name)
+  const institutionNames = dbInstitutionNames.length > 0
+    ? dbInstitutionNames
+    : ['St. Joseph\'s Institute of Technology', 'Sathyabama University']
 
   return (
     <>
@@ -103,15 +116,54 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Companies Marquee ── */}
+      {(() => {
+        const minItems = 12
+        const row1Repeats = Math.ceil(minItems / HIRING_COMPANIES_ROW1.length)
+        const row1 = Array.from({ length: row1Repeats }, () => HIRING_COMPANIES_ROW1).flat()
+        const row2Repeats = Math.ceil(minItems / HIRING_COMPANIES_ROW2.length)
+        const row2 = Array.from({ length: row2Repeats }, () => HIRING_COMPANIES_ROW2).flat()
+        return (
+          <section className="companies-section" style={{ padding: '40px 0 20px' }}>
+            <div className="container text-center" style={{ marginBottom: 24 }}>
+              <p className="section-eyebrow">Our Students Work At</p>
+              <h2 className="t-h2 c-heading" style={{ marginBottom: 0 }}>Top Companies Hiring Our Graduates</h2>
+            </div>
+            <div className="companies-marquee-wrap">
+              <div className="company-track">
+                {row1.map((name, i) => (
+                  <div key={`c1a-${i}`} className="company-item">{name}</div>
+                ))}
+                {row1.map((name, i) => (
+                  <div key={`c1b-${i}`} className="company-item">{name}</div>
+                ))}
+              </div>
+            </div>
+            <div className="companies-marquee-wrap">
+              <div className="company-track-reverse">
+                {row2.map((name, i) => (
+                  <div key={`c2a-${i}`} className="company-item">{name}</div>
+                ))}
+                {row2.map((name, i) => (
+                  <div key={`c2b-${i}`} className="company-item">{name}</div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      })()}
+
       {/* ── Institution Marquee ── */}
       {institutionNames.length > 0 && (() => {
-        // Repeat enough times so the track always has at least 12 items for a seamless loop
         const minItems = 12
         const repeats = Math.ceil(minItems / institutionNames.length)
         const filled = Array.from({ length: repeats }, () => institutionNames).flat()
         return (
-          <section className="s-light s-sm">
-            <div style={{ borderTop: '1px solid #dbeafe', borderBottom: '1px solid #dbeafe', padding: '20px 0' }}>
+          <section className="institution-marquee-section">
+            <div className="institution-marquee-title">
+              <h3>Our Partner Colleges</h3>
+            </div>
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)', borderBottom: '1px solid rgba(255,255,255,0.12)', padding: '20px 0' }}>
               <div className="marquee-wrap">
                 <div className="marquee-track">
                   {filled.map((name, i) => (
@@ -127,40 +179,33 @@ export default async function HomePage() {
         )
       })()}
 
-      {/* ── Featured Trainers ── */}
-      {trainers.length > 0 && (
-        <section className="s-dark">
-          <div className="container">
-            <div className="section-header text-center">
-              <p className="section-eyebrow">Our Faculty</p>
-              <h2 className="t-h2 c-heading">Industry-Trained Experts</h2>
-              <p>Our trainers are working engineers and architects from top MNCs — they teach what they practice every day.</p>
+      {/* ── Mentors Marquee ── */}
+      {mentors.length >= 3 && (() => {
+        const minCards = 8
+        const repeats = Math.ceil(minCards / mentors.length)
+        const filled = Array.from({ length: repeats }, () => mentors).flat()
+        return (
+          <section className="mentor-marquee-section">
+            <div className="container">
+              <div className="section-header text-center">
+                <p className="section-eyebrow">Our Mentors</p>
+                <h2 className="t-h2 c-heading">Learn from Industry Leaders</h2>
+                <p>Our mentors are working professionals from top companies — guiding you through real-world career challenges.</p>
+              </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 220px))', gap: 20, marginTop: 40, justifyContent: 'center', alignItems: 'stretch' }}>
-              {trainers.map(t => (
-                <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none', display: 'flex' }}>
-                  <div className="card card-dark" style={{ textAlign: 'center', padding: '28px 20px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', fontSize: 28, background: '#eff6ff', color: '#2563eb' }}>
-                      {t.name.charAt(0)}
-                    </div>
-                    <div style={{ marginTop: 'auto', width: '100%' }}>
-                      <p className="t-card c-white" style={{ marginBottom: 4 }}>{t.name}</p>
-                      <p className="t-sm c-muted">{t.designation}</p>
-                      {t.currentCompany && <p className="t-micro" style={{ marginTop: 6, color: '#93c5fd', fontWeight: 600 }}>{t.currentCompany}</p>}
-                      {t.expertiseTags?.slice(0, 2).map((tag: string) => (
-                        <span key={tag} className="badge badge-dark" style={{ marginTop: 8, marginRight: 4 }}>{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                </Link>
-              ))}
+            <div className="mentor-marquee-wrap">
+              <div className="mentor-marquee-track">
+                {[...filled, ...filled].map((m, i) => (
+                  <MentorCard key={`mentor-${i}`} mentor={m} />
+                ))}
+              </div>
             </div>
-            <div className="text-center" style={{ marginTop: 36 }}>
-              <Link href="/trainers" className="btn btn-outline">View All Trainers →</Link>
+            <div className="container text-center" style={{ marginTop: 32 }}>
+              <Link href="/mentors" className="btn btn-outline-white">View All Mentors →</Link>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )
+      })()}
 
       {/* ── Technology Stacks ── */}
       {stacks.length > 0 && (
