@@ -48,7 +48,7 @@ export default function InstitutionEditForm({ institution }: Props) {
       return
     }
     toast.success('Institution saved!')
-    router.refresh()
+    router.push('/admin/institutions')
   }
 
   async function handlePublish() {

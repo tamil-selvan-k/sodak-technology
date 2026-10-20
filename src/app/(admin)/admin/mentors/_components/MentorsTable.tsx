@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTransition, useState, useEffect, useRef } from 'react'
 import { useConfirm } from '@/components/ui/ConfirmDialog'
+import Pagination from '@/components/ui/Pagination'
 import { useToast } from '@/components/ui/Toast'
 
 interface MentorRow {
@@ -14,11 +15,14 @@ interface MentorRow {
   consentOnFile: boolean
 }
 
+interface PaginationMeta { total: number; page: number; perPage: number; pages: number }
+
 interface Props {
   mentors: MentorRow[]
+  pagination: PaginationMeta
 }
 
-export default function MentorsTable({ mentors }: Props) {
+export default function MentorsTable({ mentors, pagination }: Props) {
   const router = useRouter()
   const confirm = useConfirm()
   const { toast } = useToast()
@@ -66,6 +70,7 @@ export default function MentorsTable({ mentors }: Props) {
   }
 
   return (
+    <div>
     <div style={{ background: '#ffffff', borderRadius: 12, border: '1px solid #dbeafe', overflow: openMenu ? 'visible' : 'hidden', marginTop: 24, boxShadow: '0 1px 4px rgba(37,99,235,0.06)', opacity: isPending ? 0.6 : 1, transition: 'opacity 0.2s' }}>
       <div style={{ overflowX: openMenu ? 'visible' : 'auto', WebkitOverflowScrolling: 'touch' }}>
       <table style={{ width: '100%', minWidth: 480, borderCollapse: 'collapse' }}>
@@ -164,5 +169,8 @@ export default function MentorsTable({ mentors }: Props) {
       </table>
       </div>
     </div>
+
+    <Pagination {...pagination} />
+  </div>
   )
 }

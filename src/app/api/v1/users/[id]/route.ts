@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { auth, hasRole } from '@/lib/auth'
+import { writeAuditLog } from '@/lib/audit'
 import { db } from '@/lib/db'
 export const dynamic = 'force-dynamic'
 
@@ -66,6 +67,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       data: parsed.data,
       select: USER_SELECT,
     })
+    await writeAuditLog({ actorId: session.user.id, action: 'UPDATE', entityType: 'user', entityId: params.id, oldValue: { role: user.role, isActive: user.isActive, name: user.name }, newValue: parsed.data })
 
     return NextResponse.json({ data: updated })
   } catch (err) {

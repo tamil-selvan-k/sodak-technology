@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { listInstitutions } from '@/modules/institutions/institutions.service'
 
 export const revalidate = 60
@@ -37,16 +38,26 @@ export default async function InstitutionsPage() {
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
-              {institutions.map((inst: { id: string; slug: string; name: string; city?: string | null; state?: string | null; institutionType?: string | null }) => (
+              {institutions.map((inst: { id: string; slug: string; name: string; city?: string | null; state?: string | null; institutionType?: string | null; logoUrl?: string | null; logoPermission?: boolean }) => (
                 <Link key={inst.id} href={`/institutions/${inst.slug}`} style={{ textDecoration: 'none' }}>
-                  <div className="card card-dark" style={{ padding: '20px 24px' }}>
+                  <div className="card card-dark" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 16, height: '100%', minHeight: 100 }}>
+                    {inst.logoPermission && inst.logoUrl ? (
+                      <Image src={inst.logoUrl} alt={inst.name} width={48} height={48}
+                        style={{ objectFit: 'contain', borderRadius: 8, flexShrink: 0, width: 48, height: 48, background: '#fff', padding: 4 }} />
+                    ) : (
+                      <div style={{ width: 48, height: 48, flexShrink: 0, borderRadius: 8, background: '#1e3a5f', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#93c5fd"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+                      </div>
+                    )}
+                    <div style={{ flex: 1, minWidth: 0 }}>
                     <p className="t-card c-white" style={{ marginBottom: 6 }}>{inst.name}</p>
                     {(inst.city || inst.state) && (
                       <p className="t-sm c-muted">{[inst.city, inst.state].filter(Boolean).join(', ')}</p>
                     )}
                     {inst.institutionType && (
-                      <span className="badge badge-dark" style={{ marginTop: 8 }}>{inst.institutionType.replace('_', ' ')}</span>
+                      <span className="badge badge-dark" style={{ marginTop: 8, display: 'inline-block' }}>{inst.institutionType.replace('_', ' ')}</span>
                     )}
+                    </div>
                   </div>
                 </Link>
               ))}

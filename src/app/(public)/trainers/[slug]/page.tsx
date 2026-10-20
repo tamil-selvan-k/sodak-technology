@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import DOMPurify from 'isomorphic-dompurify'
 import { getTrainerBySlug } from '@/modules/trainers/trainers.service'
@@ -38,9 +39,14 @@ export default async function TrainerProfilePage({ params }: Props) {
             <span className="active">{trainer.name}</span>
           </div>
           <div style={{ display: 'flex', gap: 28, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-            <div className="avatar avatar-xxl" style={{ background: '#eff6ff', color: '#2563eb', fontSize: 40, flexShrink: 0 }}>
-              {trainer.name.charAt(0)}
-            </div>
+            {trainer.photoUrl ? (
+              <Image src={trainer.photoUrl} alt={trainer.name} width={96} height={96}
+                style={{ objectFit: 'cover', borderRadius: '50%', width: 96, height: 96, flexShrink: 0 }} />
+            ) : (
+              <div className="avatar avatar-xxl" style={{ background: '#eff6ff', color: '#2563eb', fontSize: 40, flexShrink: 0 }}>
+                {trainer.name.charAt(0)}
+              </div>
+            )}
             <div>
               <h1 className="t-h1 c-white" style={{ marginBottom: 8 }}>{trainer.name}</h1>
               <p className="t-lg c-muted">{trainer.designation}</p>

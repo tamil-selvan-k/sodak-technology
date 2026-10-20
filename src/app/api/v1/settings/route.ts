@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
+import { writeAuditLog } from '@/lib/audit'
 import * as settingsService from '@/modules/settings/settings.service'
 import { updateSettingsSchema } from '@/modules/settings/settings.schema'
 export const dynamic = 'force-dynamic'
@@ -26,6 +27,7 @@ export async function PATCH(req: NextRequest) {
     const parsed = updateSettingsSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.' } }, { status: 422 })
     const settings = await settingsService.updateSettings(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'UPDATE', entityType: 'settings', entityId: 'global', newValue: parsed.data })
     return NextResponse.json({ data: settings })
   } catch (err) {
     console.error('[settings/PATCH] error:', err)

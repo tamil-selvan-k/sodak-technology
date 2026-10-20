@@ -22,9 +22,9 @@ function stripHtml(html: string): string {
 }
 
 function MentorAvatar({ name, photoUrl, size }: { name: string; photoUrl?: string | null; size: 'card' | 'popup' }) {
-  const dim = size === 'card' ? 72 : 56
-  const fontSize = size === 'card' ? 28 : 24
-  const cls = size === 'card' ? 'avatar avatar-lg' : 'popup-avatar'
+  const dim = size === 'card' ? 96 : 56
+  const fontSize = size === 'card' ? 36 : 24
+  const cls = size === 'card' ? 'avatar avatar-xl' : 'popup-avatar'
 
   if (photoUrl) {
     return (

@@ -67,7 +67,7 @@ export default async function AdminMentorsPage({ searchParams }: Props) {
         ))}
       </div>
 
-      <MentorsTable mentors={mentors} />
+      <MentorsTable mentors={mentors} pagination={pagination} />
 
       <p style={{ marginTop: 16, fontSize: 12, color: '#1e40af', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 8, padding: '10px 16px' }}>
         <strong>Note:</strong> Mentors are trainers with the &quot;Is Mentor&quot; flag enabled.

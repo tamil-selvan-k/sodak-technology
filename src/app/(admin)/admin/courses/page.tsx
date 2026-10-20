@@ -61,7 +61,7 @@ export default async function AdminCoursesPage({ searchParams }: Props) {
         ))}
       </div>
 
-      <CoursesTable courses={courses} />
+      <CoursesTable courses={courses} pagination={pagination} />
     </main>
   )
 }

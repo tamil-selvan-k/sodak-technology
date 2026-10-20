@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { listTrainers } from '@/modules/trainers/trainers.service'
 import PublicPagination from '@/components/ui/PublicPagination'
 
@@ -68,9 +69,14 @@ export default async function TrainersPage({ searchParams }: Props) {
               {trainers.map(t => (
                 <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-dark" style={{ padding: '28px 20px', textAlign: 'center', height: '100%' }}>
-                    <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', background: '#eff6ff', color: '#2563eb', fontSize: 26 }}>
-                      {t.name.charAt(0)}
-                    </div>
+                    {t.photoUrl ? (
+                      <Image src={t.photoUrl} alt={t.name} width={72} height={72}
+                        style={{ objectFit: 'cover', borderRadius: '50%', width: 72, height: 72, margin: '0 auto 14px' }} />
+                    ) : (
+                      <div className="avatar avatar-lg" style={{ margin: '0 auto 14px', background: '#eff6ff', color: '#2563eb', fontSize: 26 }}>
+                        {t.name.charAt(0)}
+                      </div>
+                    )}
                     <p className="t-card c-white" style={{ marginBottom: 4 }}>{t.name}</p>
                     <p className="t-sm c-muted">{t.designation}</p>
                     {t.currentCompany && (
