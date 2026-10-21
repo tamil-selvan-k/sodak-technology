@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import * as programsService from '@/modules/programs/programs.service'
 import { createProgramSchema } from '@/modules/programs/programs.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
     const parsed = createProgramSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.', details: parsed.error.flatten() } }, { status: 422 })
     const program = await programsService.createProgram(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'program', entityId: program.id, newValue: program })
     return NextResponse.json({ data: program }, { status: 201 })
   } catch (err) {
     console.error('[programs/POST] error:', err)

@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { uploadFile, publicUrl } from '@/lib/storage'
 import { processAndUploadImage } from '@/lib/image'
+import { writeAuditLog } from '@/lib/audit'
 import { randomUUID } from 'crypto'
 export const dynamic = 'force-dynamic'
 
@@ -72,6 +73,7 @@ export async function POST(req: Request) {
     const record = await db.mediaFile.create({
       data: { key, url: fileUrl, mimeType: file.type, sizeBytes: file.size, originalName: file.name, variants, uploadedById: userRow?.id ?? null },
     })
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'media', entityId: record.id, newValue: { key, mimeType: file.type, originalName: file.name } })
 
     return NextResponse.json({ data: record }, { status: 201 })
   } catch (err) {

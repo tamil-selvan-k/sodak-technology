@@ -365,8 +365,9 @@ export default function ImageUpload({
             {/* Modal body */}
             <div style={{ flex: 1, overflowY: 'auto', padding: 20 }}>
               {mediaLoading ? (
-                <div style={{ textAlign: 'center', padding: 40, color: '#64748b', fontSize: 14 }}>
-                  Loading media...
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 40, gap: 12 }}>
+                  <div style={{ width: 28, height: 28, border: '3px solid #DBEAFE', borderTopColor: '#2563EB', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+                  <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
                 </div>
               ) : mediaFiles.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: 40, color: '#64748b', fontSize: 14 }}>

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { listPhotos, createPhoto } from '@/modules/gallery/gallery.service'
 import { createPhotoSchema } from '@/modules/gallery/gallery.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
     const parsed = createPhotoSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
     const photo = await createPhoto(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'photo', entityId: photo.id, newValue: photo })
     return NextResponse.json({ data: photo }, { status: 201 })
   } catch (err) {
     console.error('[photos/POST] error:', err)

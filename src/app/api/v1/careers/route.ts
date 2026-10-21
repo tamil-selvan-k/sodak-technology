@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { listJobs, createJob } from '@/modules/careers/careers.service'
 import { createJobSchema } from '@/modules/careers/careers.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
     const parsed = createJobSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
     const job = await createJob(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'job_post', entityId: job.id, newValue: job })
     return NextResponse.json({ data: job }, { status: 201 })
   } catch (err) {
     console.error('[careers/POST] error:', err)

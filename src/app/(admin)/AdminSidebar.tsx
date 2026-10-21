@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import { signOut } from 'next-auth/react'
+import { broadcastLogout } from '@/components/AuthSyncProvider'
 
 // ── SVG icons (inline, no external dep) ─────────────────────────────────────
 const Icons: Record<string, React.ReactNode> = {
@@ -220,13 +222,32 @@ export default function AdminSidebar({ email, role }: Props) {
           })}
         </nav>
 
-        {/* Footer — hidden when collapsed */}
-        {!collapsed && (
-          <div style={{ padding: '12px 20px', borderTop: `1px solid ${DIVIDER}`, flexShrink: 0 }}>
-            <p title={email} style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>
-            <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.42)', marginTop: 2 }}>{role}</p>
-          </div>
-        )}
+        {/* Footer */}
+        <div style={{ borderTop: `1px solid ${DIVIDER}`, flexShrink: 0 }}>
+          {!collapsed && (
+            <div style={{ padding: '12px 20px 8px' }}>
+              <p title={email} style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.42)', marginTop: 2 }}>{role}</p>
+            </div>
+          )}
+          <button
+            onClick={() => { broadcastLogout(); signOut({ callbackUrl: '/admin/login' }) }}
+            title="Log out"
+            style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              width: '100%', border: 'none', cursor: 'pointer',
+              padding: collapsed ? '12px 0' : '8px 20px 12px',
+              justifyContent: collapsed ? 'center' : 'flex-start',
+              background: 'transparent', color: TEXT_NAV,
+              fontSize: 13, transition: 'background 0.15s, color 0.15s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = BG_HOVER; e.currentTarget.style.color = '#fff' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = TEXT_NAV }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0, opacity: 0.75 }}><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+            {!collapsed && <span>Log out</span>}
+          </button>
+        </div>
       </aside>
     </>
   )

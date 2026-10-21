@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { addNote } from '@/modules/leads/leads.service'
+import { writeAuditLog } from '@/lib/audit'
 import { z } from 'zod'
 export const dynamic = 'force-dynamic'
 
@@ -17,6 +18,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
 
     const note = await addNote(params.id, session.user.id, parsed.data.body)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'lead_note', entityId: note.id, newValue: { leadId: params.id, body: parsed.data.body } })
     return NextResponse.json({ data: note }, { status: 201 })
   } catch (err) {
     console.error('[leads/[id]/notes/POST] error:', err)

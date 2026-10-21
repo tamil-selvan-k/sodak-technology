@@ -2,6 +2,7 @@ import { auth } from '@/lib/auth'
 import AdminSidebar from './AdminSidebar'
 import { ToastProvider } from '@/components/ui/Toast'
 import { ConfirmDialogProvider } from '@/components/ui/ConfirmDialog'
+import AuthSyncProvider from '@/components/AuthSyncProvider'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
@@ -10,15 +11,17 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!session) return <>{children}</>
 
   return (
-    <ToastProvider>
-      <ConfirmDialogProvider>
-        <div className="flex min-h-screen scrollbar-visible" style={{ background: '#EFF6FF' }}>
-          <AdminSidebar email={session.user.email ?? ''} role={session.user.role ?? ''} />
-          <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden overflow-y-auto scrollbar-visible" style={{ height: '100vh' }}>
-            {children}
+    <AuthSyncProvider>
+      <ToastProvider>
+        <ConfirmDialogProvider>
+          <div className="flex min-h-screen scrollbar-visible" style={{ background: '#EFF6FF' }}>
+            <AdminSidebar email={session.user.email ?? ''} role={session.user.role ?? ''} />
+            <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden overflow-y-auto scrollbar-visible" style={{ height: '100vh' }}>
+              {children}
+            </div>
           </div>
-        </div>
-      </ConfirmDialogProvider>
-    </ToastProvider>
+        </ConfirmDialogProvider>
+      </ToastProvider>
+    </AuthSyncProvider>
   )
 }

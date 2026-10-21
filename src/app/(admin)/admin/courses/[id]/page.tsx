@@ -102,7 +102,14 @@ export default function EditCoursePage() {
     setPublishing(false)
   }
 
-  if (loading) return <main className="admin-main"><p style={{ color: '#64748b' }}>Loading…</p></main>
+  if (loading) return (
+    <main className="admin-main">
+      <div style={{ minHeight: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 32, height: 32, border: '3px solid #DBEAFE', borderTopColor: '#2563EB', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    </main>
+  )
   if (!course) return <main className="admin-main"><p style={{ color: '#ef4444' }}>Course not found.</p></main>
 
   const labelStyle = { fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase' as const, letterSpacing: '0.06em', marginBottom: 6, display: 'block' }

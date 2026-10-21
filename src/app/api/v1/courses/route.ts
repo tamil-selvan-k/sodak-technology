@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { listCourses, createCourse } from '@/modules/courses/courses.service'
 import { createCourseSchema } from '@/modules/courses/courses.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
@@ -31,6 +32,7 @@ export async function POST(req: Request) {
     const parsed = createCourseSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
     const course = await createCourse(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'course', entityId: course.id, newValue: course })
     return NextResponse.json({ data: course }, { status: 201 })
   } catch (err) {
     console.error('[courses/POST] error:', err)

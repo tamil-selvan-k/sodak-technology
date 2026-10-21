@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { listInternships, createInternship } from '@/modules/internships/internships.service'
 import { createInternshipSchema } from '@/modules/internships/internships.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
@@ -25,6 +26,7 @@ export async function POST(req: Request) {
     const parsed = createInternshipSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
     const internship = await createInternship(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'internship', entityId: internship.id, newValue: internship })
     return NextResponse.json({ data: internship }, { status: 201 })
   } catch (err) {
     console.error('[internships/POST] error:', err)

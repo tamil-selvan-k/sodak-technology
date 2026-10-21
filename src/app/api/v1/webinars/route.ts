@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import { listWebinars, createWebinar } from '@/modules/webinars/webinars.service'
 import { createWebinarSchema } from '@/modules/webinars/webinars.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
@@ -25,6 +26,7 @@ export async function POST(req: Request) {
     const parsed = createWebinarSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION', details: parsed.error.flatten() } }, { status: 400 })
     const webinar = await createWebinar(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'webinar', entityId: webinar.id, newValue: webinar })
     return NextResponse.json({ data: webinar }, { status: 201 })
   } catch (err) {
     console.error('[webinars/POST] error:', err)

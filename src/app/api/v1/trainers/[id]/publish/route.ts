@@ -16,7 +16,7 @@ export async function POST(_req: NextRequest, { params }: Params) {
 
   try {
     const trainer = await trainersService.publishTrainer(params.id)
-    await writeAuditLog({ actorId: session.user.id, action: 'published', entityType: 'trainer', entityId: params.id, newValue: trainer })
+    await writeAuditLog({ actorId: session.user.id, action: 'PUBLISH', entityType: 'trainer', entityId: params.id, newValue: trainer })
     return NextResponse.json({ data: trainer })
   } catch (err) {
     if (err instanceof ConsentError) {

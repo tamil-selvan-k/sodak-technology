@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import * as blogService from '@/modules/blog/blog.service'
 import { createPostSchema } from '@/modules/blog/blog.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
     const parsed = createPostSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.' } }, { status: 422 })
     const post = await blogService.createPost(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'blog_post', entityId: post.id, newValue: post })
     return NextResponse.json({ data: post }, { status: 201 })
   } catch (err) {
     console.error('[blog/POST] error:', err)

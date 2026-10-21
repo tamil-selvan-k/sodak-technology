@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     const trainer = await trainersService.createTrainer(parsed.data)
-    await writeAuditLog({ actorId: session.user.id, action: 'created', entityType: 'trainer', entityId: trainer.id, newValue: trainer })
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'trainer', entityId: trainer.id, newValue: trainer })
 
     return NextResponse.json({ data: trainer }, { status: 201 })
   } catch (err) {

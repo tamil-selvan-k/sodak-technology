@@ -91,7 +91,12 @@ export default function EditUserPage() {
         {user && <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>{user.email}</p>}
       </div>
 
-      {loading && <p style={{ fontSize: 13, color: '#64748b' }}>Loading…</p>}
+      {loading && (
+        <div style={{ minHeight: '30vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 32, height: 32, border: '3px solid #DBEAFE', borderTopColor: '#2563EB', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      )}
 
       {!loading && user && (
         <div style={{ maxWidth: 520 }}>

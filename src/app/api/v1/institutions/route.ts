@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth, hasRole } from '@/lib/auth'
 import * as institutionsService from '@/modules/institutions/institutions.service'
 import { createInstitutionSchema } from '@/modules/institutions/institutions.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
     const parsed = createInstitutionSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.' } }, { status: 422 })
     const institution = await institutionsService.createInstitution(parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'institution', entityId: institution.id, newValue: institution })
     return NextResponse.json({ data: institution }, { status: 201 })
   } catch (err) {
     console.error('[institutions/POST] error:', err)

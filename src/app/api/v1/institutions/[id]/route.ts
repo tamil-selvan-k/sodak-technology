@@ -6,6 +6,7 @@ import {
   softDeleteInstitution,
 } from '@/modules/institutions/institutions.service'
 import { updateInstitutionSchema } from '@/modules/institutions/institutions.schema'
+import { writeAuditLog } from '@/lib/audit'
 export const dynamic = 'force-dynamic'
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
@@ -26,7 +27,9 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const body = await req.json()
     const parsed = updateInstitutionSchema.safeParse(body)
     if (!parsed.success) return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.' } }, { status: 422 })
+    const before = await getInstitutionById(params.id)
     const institution = await updateInstitution(params.id, parsed.data)
+    await writeAuditLog({ actorId: session.user.id, action: 'UPDATE', entityType: 'institution', entityId: params.id, oldValue: before, newValue: institution })
     return NextResponse.json({ data: institution })
   } catch (err) {
     console.error('[institutions/[id]/PATCH] error:', err)
@@ -38,7 +41,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
   try {
     const session = await auth()
     if (!session || !hasRole(session.user.role, 'editor')) return NextResponse.json({ error: { code: 'FORBIDDEN', message: 'Forbidden.' } }, { status: 403 })
+    const before = await getInstitutionById(params.id)
     await softDeleteInstitution(params.id)
+    await writeAuditLog({ actorId: session.user.id, action: 'DELETE', entityType: 'institution', entityId: params.id, oldValue: before, newValue: null })
     return NextResponse.json({ data: null }, { status: 200 })
   } catch (err) {
     console.error('[institutions/[id]/DELETE] error:', err)

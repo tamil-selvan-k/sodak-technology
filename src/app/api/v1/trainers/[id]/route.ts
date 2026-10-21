@@ -33,7 +33,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
     const before  = await trainersService.getTrainerById(params.id)
     const trainer = await trainersService.updateTrainer(params.id, parsed.data)
-    await writeAuditLog({ actorId: session.user.id, action: 'updated', entityType: 'trainer', entityId: params.id, oldValue: before, newValue: trainer })
+    await writeAuditLog({ actorId: session.user.id, action: 'UPDATE', entityType: 'trainer', entityId: params.id, oldValue: before, newValue: trainer })
 
     return NextResponse.json({ data: trainer })
   } catch (err) {
@@ -51,7 +51,7 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
 
     const before = await trainersService.getTrainerById(params.id)
     await trainersService.softDeleteTrainer(params.id)
-    await writeAuditLog({ actorId: session.user.id, action: 'deleted', entityType: 'trainer', entityId: params.id, oldValue: before, newValue: null })
+    await writeAuditLog({ actorId: session.user.id, action: 'DELETE', entityType: 'trainer', entityId: params.id, oldValue: before, newValue: null })
 
     return new NextResponse(null, { status: 204 })
   } catch (err) {
