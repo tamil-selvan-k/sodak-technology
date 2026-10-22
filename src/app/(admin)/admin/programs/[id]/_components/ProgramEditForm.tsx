@@ -44,7 +44,7 @@ export default function ProgramEditForm({ program }: Props) {
       return
     }
     toast.success('Program saved!')
-    router.refresh()
+    router.push('/admin/programs')
   }
 
   async function handlePublish() {

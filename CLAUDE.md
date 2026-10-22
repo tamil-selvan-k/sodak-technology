@@ -94,6 +94,8 @@ Barrel export via `src/components/ui/index.ts`.
 
 Public GET API routes and the admin login page are always accessible.
 
+Auth secret resolution: middleware reads `AUTH_SECRET ?? NEXTAUTH_SECRET` — either env var works, but `AUTH_SECRET` takes precedence.
+
 ## API Conventions
 
 Base path: `/api/v1/`
@@ -122,7 +124,8 @@ These are hard constraints enforced in service code, not UI toggles:
 
 Custom Tailwind tokens in `tailwind.config.ts`. Key conventions:
 - Blue-based palette (navy, gold tokens map to blues, not literal gold/navy)
-- Font families: `font-sans` (Inter), `font-heading` (Plus Jakarta Sans) — loaded via `next/font/google` in root layout
+- Font families: `font-sans` (Inter), `font-heading` (Plus Jakarta Sans) — loaded via `next/font/google` in root layout with CSS variables `--font-inter` and `--font-plus-jakarta`
+- **Known issue:** `tailwind.config.ts` references `--font-open-sans` and `--font-instrument-sans` but `src/app/layout.tsx` generates `--font-inter` and `--font-plus-jakarta` — these CSS variable names don't match
 - Glass card effect: `backdrop-blur-glass` + semi-transparent backgrounds
 - Max content width: `max-w-container` (1280px)
 
@@ -138,7 +141,9 @@ Soft delete pattern: `deletedAt DateTime?` on most content models. Always filter
 
 ## Environment
 
-Copy `.env.example` to `.env.local` for local development. Required variable groups: Database, Auth, SMTP, AWS S3, Upstash Redis, Cloudflare Turnstile.
+Copy `.env.example` to `.env.local` for local development. Required variable groups: Database, Auth (`AUTH_SECRET`/`NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `REVALIDATE_SECRET`), SMTP (`SMTP_HOST/PORT/USER/PASS/FROM`), Notification (`NOTIFICATION_EMAIL`), AWS S3, Upstash Redis, Cloudflare Turnstile, Site (`NEXT_PUBLIC_SITE_URL`).
+
+Note: The README and CI stubs reference Resend (`RESEND_API_KEY`) but the actual codebase uses Nodemailer SMTP — the Resend references are stale.
 
 The `next.config.mjs` dynamically loads redirects from the DB `redirects` table at build time, sets security headers (CSP, HSTS), and externalizes native binaries (`@node-rs/argon2`, `sharp`) from the webpack server bundle.
 

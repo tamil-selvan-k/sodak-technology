@@ -87,7 +87,7 @@ export default function EditCoursePage() {
     })
     const data = await res.json()
     if (!res.ok) { setError(data?.error?.message ?? 'Save failed.'); toast.error(data?.error?.message ?? 'Save failed.') }
-    else { setSuccess('Saved.'); setIsPublished(data.data.isPublished); toast.success('Course saved!') }
+    else { toast.success('Course saved!'); router.push('/admin/courses') }
     setSaving(false)
   }
 

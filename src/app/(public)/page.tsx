@@ -8,6 +8,8 @@ import { listInstitutionNames } from '@/modules/institutions/institutions.servic
 import StatCounter from '@/components/ui/StatCounter'
 import StackIcon from '@/components/ui/StackIcon'
 import MentorCard from '@/components/ui/MentorCard'
+import HeroReveal from '@/components/ui/HeroReveal'
+import { ScrollReveal, StaggerContainer } from '@/components/ui/ScrollReveal'
 
 export const metadata: Metadata = {
   title: 'Campus Placement Training in Chennai | SODAK Technology',
@@ -72,21 +74,29 @@ export default async function HomePage() {
         <div className="container" style={{ paddingBottom: 60 }}>
           <div className="hero-grid">
             <div>
-              <h1 className="t-hero c-heading" style={{ marginBottom: 20 }}>
-                {settings?.heroHeadline ?? 'Launch Your Tech Career'}
-              </h1>
-              <p className="t-lg c-muted" style={{ marginBottom: 32, maxWidth: 520 }}>
-                {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by 1000+ colleges across Tamil Nadu'}
-              </p>
-              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                <Link href="/programs" className="btn btn-gold btn-lg">Explore Programs →</Link>
-                <Link href="/contact" className="btn btn-outline-white btn-lg">Book a Visit</Link>
-              </div>
-              <div style={{ display: 'flex', gap: 24, marginTop: 32, flexWrap: 'wrap' }}>
-                <span className="t-sm c-muted">✓ Free demo class</span>
-                <span className="t-sm c-muted">✓ No registration fee</span>
-                <span className="t-sm c-muted">✓ Placement guarantee*</span>
-              </div>
+              <HeroReveal delay={0}>
+                <h1 className="t-hero c-heading" style={{ marginBottom: 20 }}>
+                  {settings?.heroHeadline ?? 'Launch Your Tech Career'}
+                </h1>
+              </HeroReveal>
+              <HeroReveal delay={0.15}>
+                <p className="t-lg c-muted" style={{ marginBottom: 32, maxWidth: 520 }}>
+                  {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by 1000+ colleges across Tamil Nadu'}
+                </p>
+              </HeroReveal>
+              <HeroReveal delay={0.3}>
+                <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+                  <Link href="/programs" className="btn btn-gold btn-lg">Explore Programs →</Link>
+                  <Link href="/contact" className="btn btn-outline-white btn-lg">Book a Visit</Link>
+                </div>
+              </HeroReveal>
+              <HeroReveal delay={0.45}>
+                <div style={{ display: 'flex', gap: 24, marginTop: 32, flexWrap: 'wrap' }}>
+                  <span className="t-sm c-muted">✓ Free demo class</span>
+                  <span className="t-sm c-muted">✓ No registration fee</span>
+                  <span className="t-sm c-muted">✓ Placement guarantee*</span>
+                </div>
+              </HeroReveal>
             </div>
             <div className="hero-img-box" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <HeroCarousel />
@@ -218,26 +228,28 @@ export default async function HomePage() {
                 From full stack web to cybersecurity — our programs are built around what companies actually hire for.
               </p>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginTop: 40 }}>
+            <StaggerContainer style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginTop: 40 }}>
               {stacks.map(stack => (
-                <Link key={stack.id} href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
-                  <div className="card card-light" style={{ padding: '28px 24px', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
-                      <div style={{ lineHeight: 1, flexShrink: 0, color: stack.colorToken ?? '#2563eb' }}><StackIcon slug={stack.slug} size={32} /></div>
-                      <div>
-                        <p className="t-card c-heading">{stack.name}</p>
-                        <p className="t-sm c-body" style={{ marginTop: 4 }}>{stack.summary}</p>
+                <ScrollReveal key={stack.id}>
+                  <Link href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+                    <div className="card card-light" style={{ padding: '28px 24px', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
+                        <div style={{ lineHeight: 1, flexShrink: 0, color: stack.colorToken ?? '#2563eb' }}><StackIcon slug={stack.slug} size={32} /></div>
+                        <div>
+                          <p className="t-card c-heading">{stack.name}</p>
+                          <p className="t-sm c-body" style={{ marginTop: 4 }}>{stack.summary}</p>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
+                        {(stack.technologies ?? []).slice(0, 4).map((tech: { name: string; logoUrl: string | null; displayOrder: number }) => (
+                          <span key={tech.name} className="badge badge-light">{tech.name}</span>
+                        ))}
                       </div>
                     </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
-                      {(stack.technologies ?? []).slice(0, 4).map((tech: { name: string; logoUrl: string | null; displayOrder: number }) => (
-                        <span key={tech.name} className="badge badge-light">{tech.name}</span>
-                      ))}
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                </ScrollReveal>
               ))}
-            </div>
+            </StaggerContainer>
             <div className="text-center" style={{ marginTop: 36 }}>
               <Link href="/training" className="btn btn-ghost">View All Stacks →</Link>
             </div>
@@ -254,11 +266,13 @@ export default async function HomePage() {
               <h2 className="t-h2 c-heading">Trusted by Leading Institutions</h2>
               <p style={{ color: '#94a3b8' }}>We deliver on-campus training directly inside your institution — no student travel required.</p>
             </div>
-            <div className="trust-grid">
+            <StaggerContainer className="trust-grid" staggerDelay={0.06}>
               {institutionNames.map((name, i) => (
-                <div key={`trust-${i}-${name}`} className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
+                <ScrollReveal key={`trust-${i}-${name}`}>
+                  <div className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
+                </ScrollReveal>
               ))}
-            </div>
+            </StaggerContainer>
             <div className="text-center" style={{ marginTop: 36 }}>
               <Link href="/institutions" className="btn btn-outline">See All Partners →</Link>
             </div>
@@ -276,7 +290,7 @@ export default async function HomePage() {
               Five structured tracks and a custom option — designed to fit any campus placement requirement.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20, marginTop: 40 }}>
+          <StaggerContainer style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20, marginTop: 40 }}>
             {[
               { label:'Full Stack Web', icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>, color:'#3b82f6', href:'/programs' },
               { label:'Java & Backend', icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>, color:'#f97316', href:'/programs' },
@@ -285,16 +299,18 @@ export default async function HomePage() {
               { label:'Cybersecurity',  icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>, color:'#ef4444', href:'/programs' },
               { label:'Custom Program', icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>, color:'#22c55e', href:'/contact'  },
             ].map(p => (
-              <Link key={p.label} href={p.href} style={{ textDecoration: 'none' }}>
-                <div className="card card-light" style={{ textAlign: 'center', padding: '32px 20px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>
-                    <div className="icon-box" style={{ margin: '0 auto' }}>{p.icon}</div>
+              <ScrollReveal key={p.label}>
+                <Link href={p.href} style={{ textDecoration: 'none' }}>
+                  <div className="card card-light" style={{ textAlign: 'center', padding: '32px 20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>
+                      <div className="icon-box" style={{ margin: '0 auto' }}>{p.icon}</div>
+                    </div>
+                    <p className="t-card c-heading">{p.label}</p>
                   </div>
-                  <p className="t-card c-heading">{p.label}</p>
-                </div>
-              </Link>
+                </Link>
+              </ScrollReveal>
             ))}
-          </div>
+          </StaggerContainer>
           <div className="text-center" style={{ marginTop: 36 }}>
             <Link href="/programs" className="btn btn-ghost">View Full Curriculum →</Link>
           </div>
@@ -328,24 +344,26 @@ export default async function HomePage() {
               Our proprietary tools are designed to assess, practice, and certify students for industry roles.
             </p>
           </div>
-          <div className="platform-grid">
+          <StaggerContainer className="platform-grid">
             {[
               { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>, title:'SODAK LMS', desc:'Structured learning paths with video lessons, quizzes, and progress tracking.', href:'/platform/lms' },
               { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>, title:'SODAK CTF', desc:'Capture-the-Flag competitions to build practical cybersecurity skills.', href:'/platform/ctf' },
               { icon: <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>, title:'Assessment Engine', desc:'AI-proctored aptitude and coding tests mirroring company formats.', href:'/platform/assessments' },
             ].map(p => (
-              <Link key={p.title} href={p.href} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
-                <div className="card card-light" style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
-                  <div style={{ display: 'flex', marginBottom: 14 }}>
-                    <div className="icon-box">{p.icon}</div>
+              <ScrollReveal key={p.title} className="h-full">
+                <Link href={p.href} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+                  <div className="card card-light" style={{ height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', marginBottom: 14 }}>
+                      <div className="icon-box">{p.icon}</div>
+                    </div>
+                    <p className="t-h3 c-heading" style={{ marginBottom: 8 }}>{p.title}</p>
+                    <div style={{ flex: 1 }}><p className="t-sm c-body">{p.desc}</p></div>
+                    <p className="t-sm" style={{ color: '#2563eb', fontWeight: 600, marginTop: 14 }}>Learn more →</p>
                   </div>
-                  <p className="t-h3 c-heading" style={{ marginBottom: 8 }}>{p.title}</p>
-                  <div style={{ flex: 1 }}><p className="t-sm c-body">{p.desc}</p></div>
-                  <p className="t-sm" style={{ color: '#2563eb', fontWeight: 600, marginTop: 14 }}>Learn more →</p>
-                </div>
-              </Link>
+                </Link>
+              </ScrollReveal>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
       </section>
 

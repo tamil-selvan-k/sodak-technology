@@ -50,7 +50,7 @@ export default function CareerEditForm({ job }: Props) {
       return
     }
     toast.success('Job opening saved!')
-    router.refresh()
+    router.push('/admin/careers')
   }
 
   async function handlePublish() {

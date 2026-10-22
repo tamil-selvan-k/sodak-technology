@@ -66,7 +66,7 @@ export default function BlogEditForm({ post, trainers }: Props) {
         return
       }
       toast.success('Post saved!')
-      router.refresh()
+      router.push('/admin/blog')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Network error — please retry.')
     } finally {

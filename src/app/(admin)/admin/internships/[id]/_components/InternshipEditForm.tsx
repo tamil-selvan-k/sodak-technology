@@ -52,7 +52,7 @@ export default function InternshipEditForm({ internship }: Props) {
       return
     }
     toast.success('Internship saved!')
-    router.refresh()
+    router.push('/admin/internships')
   }
 
   async function handlePublish() {

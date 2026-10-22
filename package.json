@@ -31,6 +31,7 @@
     "@prisma/client": "^5.16.0",
     "@upstash/ratelimit": "^2.0.1",
     "@upstash/redis": "^1.34.0",
+    "framer-motion": "^14.5.0",
     "ioredis": "^5.4.1",
     "isomorphic-dompurify": "^4.6.0",
     "next": "14.2.5",

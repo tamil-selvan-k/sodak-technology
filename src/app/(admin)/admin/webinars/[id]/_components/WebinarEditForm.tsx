@@ -52,7 +52,7 @@ export default function WebinarEditForm({ webinar }: Props) {
       return
     }
     toast.success('Webinar saved!')
-    router.refresh()
+    router.push('/admin/webinars')
   }
 
   async function handlePublish() {
