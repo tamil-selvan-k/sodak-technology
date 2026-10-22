@@ -401,6 +401,87 @@ section.s-lg { padding: 88px 0; }
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(37,99,235,0.12), 0 4px 12px rgba(37,99,235,0.08);
 }
+
+/* ── Teach Cards (What We Teach — Uniq-style hover) ── */
+.teach-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  padding: 30px 26px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+}
+.teach-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.06);
+  transform: translateY(-4px);
+  border-color: #bfdbfe;
+}
+.teach-card .teach-icon {
+  width: 52px;
+  height: 52px;
+  background: #eff6ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 18px;
+  transition: all 0.3s ease-in-out;
+}
+.teach-card:hover .teach-icon {
+  background: #2563eb;
+  color: #ffffff !important;
+  transform: scale(1.1);
+}
+.teach-card:hover .teach-icon svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none;
+}
+.teach-card:hover .teach-icon svg circle[fill="currentColor"] {
+  fill: #ffffff !important;
+}
+.teach-card .teach-title {
+  font-family: var(--font-plus-jakarta), sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.teach-card .teach-desc {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.6;
+  flex: 1;
+}
+.teach-card .teach-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 12px;
+}
+.teach-card .teach-tags .badge {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+.teach-card:hover .teach-tags .badge {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+
 .card-ghost {
   background: #eff6ff;
   border: 1px solid #dbeafe;
@@ -438,8 +519,8 @@ section.s-lg { padding: 88px 0; }
 .btn-gold:hover:not(:disabled) { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(29,78,216,0.4); }
 .btn-gold:active:not(:disabled) { background: #1e40af; transform: translateY(0); box-shadow: 0 1px 4px rgba(37,99,235,0.3); }
 .btn-gold:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-.btn-ghost { background: transparent; border: 1.5px solid #2563eb; color: #2563eb !important; }
-.btn-ghost:hover:not(:disabled) { background: #eff6ff; border-color: #1d4ed8; color: #1d4ed8 !important; }
+.btn-ghost { background: transparent; border: 1.5px solid #2563eb !important; color: #2563eb !important; }
+.btn-ghost:hover:not(:disabled) { background: #eff6ff; border-color: #1d4ed8 !important; color: #1d4ed8 !important; }
 .btn-ghost:active:not(:disabled) { background: #dbeafe; }
 .btn-ghost:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
 .btn-outline { background: transparent; border: 1.5px solid #dbeafe; color: #1e40af !important; border-radius: 2.5rem; padding: 10px 24px; }

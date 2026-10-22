@@ -293,21 +293,19 @@ export default async function HomePage() {
                 From full stack web to cybersecurity — our programs are built around what companies actually hire for.
               </p>
             </div>
-            <StaggerContainer style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginTop: 40 }}>
+            <StaggerContainer style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20, marginTop: 36 }}>
               {stacks.map(stack => (
                 <ScrollReveal key={stack.id}>
                   <Link href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
-                    <div className="card card-light" style={{ padding: '28px 24px', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
-                        <div style={{ lineHeight: 1, flexShrink: 0, color: stack.colorToken ?? '#2563eb' }}><StackIcon slug={stack.slug} size={32} /></div>
-                        <div>
-                          <p className="t-card c-heading">{stack.name}</p>
-                          <p className="t-sm c-body" style={{ marginTop: 4 }}>{stack.summary}</p>
-                        </div>
+                    <div className="teach-card">
+                      <div className="teach-icon" style={{ color: stack.colorToken ?? '#2563eb' }}>
+                        <StackIcon slug={stack.slug} size={26} />
                       </div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
+                      <p className="teach-title">{stack.name}</p>
+                      <p className="teach-desc">{stack.summary}</p>
+                      <div className="teach-tags">
                         {(stack.technologies ?? []).slice(0, 4).map((tech: { name: string; logoUrl: string | null; displayOrder: number }) => (
-                          <span key={tech.name} className="badge badge-light">{tech.name}</span>
+                          <span key={tech.name} className="badge">{tech.name}</span>
                         ))}
                       </div>
                     </div>
