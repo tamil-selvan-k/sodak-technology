@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import HeroCarousel from '@/components/ui/HeroCarousel'
+
 import { listMentors } from '@/modules/mentors/mentors.service'
 import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
@@ -71,37 +71,30 @@ export default async function HomePage() {
     <>
       {/* ── Hero ── */}
       <section className="home-hero">
-        <div className="container" style={{ paddingBottom: 60 }}>
-          <div className="hero-grid">
-            <div>
-              <HeroReveal delay={0}>
-                <h1 className="t-hero c-heading" style={{ marginBottom: 20 }}>
-                  {settings?.heroHeadline ?? 'Launch Your Tech Career'}
-                </h1>
-              </HeroReveal>
-              <HeroReveal delay={0.15}>
-                <p className="t-lg c-muted" style={{ marginBottom: 32, maxWidth: 520 }}>
-                  {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by 1000+ colleges across Tamil Nadu'}
-                </p>
-              </HeroReveal>
-              <HeroReveal delay={0.3}>
-                <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                  <Link href="/programs" className="btn btn-gold btn-lg">Explore Programs →</Link>
-                  <Link href="/contact" className="btn btn-outline-white btn-lg">Book a Visit</Link>
-                </div>
-              </HeroReveal>
-              <HeroReveal delay={0.45}>
-                <div style={{ display: 'flex', gap: 24, marginTop: 32, flexWrap: 'wrap' }}>
-                  <span className="t-sm c-muted">✓ Free demo class</span>
-                  <span className="t-sm c-muted">✓ No registration fee</span>
-                  <span className="t-sm c-muted">✓ Placement guarantee*</span>
-                </div>
-              </HeroReveal>
+        <div className="hero-center">
+          <HeroReveal delay={0}>
+            <h1 className="hero-headline">
+              {settings?.heroHeadline ?? 'Launch Your Tech Career'}
+            </h1>
+          </HeroReveal>
+          <HeroReveal delay={0.15}>
+            <p className="hero-subtitle">
+              {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by 1000+ colleges across Tamil Nadu'}
+            </p>
+          </HeroReveal>
+          <HeroReveal delay={0.3}>
+            <div className="hero-ctas">
+              <Link href="/programs" className="btn hero-btn-primary btn-lg">Explore Programs</Link>
+              <Link href="/contact" className="btn hero-btn-secondary btn-lg">Book a Visit</Link>
             </div>
-            <div className="hero-img-box" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <HeroCarousel />
+          </HeroReveal>
+          <HeroReveal delay={0.45}>
+            <div className="hero-trust">
+              <span>Free demo class</span>
+              <span>No registration fee</span>
+              <span>Placement guarantee*</span>
             </div>
-          </div>
+          </HeroReveal>
         </div>
       </section>
 
