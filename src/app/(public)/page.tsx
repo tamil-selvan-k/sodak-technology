@@ -9,6 +9,8 @@ import StatCounter from '@/components/ui/StatCounter'
 import StackIcon from '@/components/ui/StackIcon'
 import MentorCard from '@/components/ui/MentorCard'
 import HeroReveal from '@/components/ui/HeroReveal'
+import StackCycler from '@/components/ui/StackCycler'
+import type { StackCyclerItem } from '@/components/ui/StackCycler'
 import { ScrollReveal, StaggerContainer } from '@/components/ui/ScrollReveal'
 
 export const metadata: Metadata = {
@@ -23,6 +25,15 @@ export const metadata: Metadata = {
     type: 'website',
   },
 }
+
+const HERO_STACKS: StackCyclerItem[] = [
+  { label: 'Full Stack Web Development', icon: 'web', from: '#60a5fa', to: '#818cf8' },
+  { label: 'Java & Backend Engineering', icon: 'java', from: '#fbbf24', to: '#f97316' },
+  { label: 'Python & Machine Learning', icon: 'python', from: '#34d399', to: '#06b6d4' },
+  { label: 'DevOps & Cloud Computing', icon: 'cloud', from: '#38bdf8', to: '#6366f1' },
+  { label: 'Cybersecurity Training', icon: 'security', from: '#ef4444', to: '#f97316' },
+  { label: 'Campus Placement Prep', icon: 'placement', from: '#a78bfa', to: '#ec4899' },
+]
 
 const COMPANIES = [
   'TCS','Infosys','Wipro','HCL','Cognizant','Accenture','IBM','Capgemini',
@@ -82,7 +93,10 @@ export default async function HomePage() {
               {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by 1000+ colleges across Tamil Nadu'}
             </p>
           </HeroReveal>
-          <HeroReveal delay={0.3}>
+          <HeroReveal delay={0.25}>
+            <StackCycler items={HERO_STACKS} />
+          </HeroReveal>
+          <HeroReveal delay={0.35}>
             <div className="hero-ctas">
               <Link href="/programs" className="btn hero-btn-primary btn-lg">Explore Programs</Link>
               <Link href="/contact" className="btn hero-btn-secondary btn-lg">Book a Visit</Link>
@@ -95,27 +109,6 @@ export default async function HomePage() {
               <span>Placement guarantee*</span>
             </div>
           </HeroReveal>
-        </div>
-      </section>
-
-      {/* ── Stats Band ── */}
-      <section className="stats-band">
-        <div className="container">
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {[
-              { value: stats.placements ?? 5000, suffix: '+', label: 'Students Placed' },
-              { value: stats.colleges   ?? 500,  suffix: '+', label: 'Partner Colleges' },
-              { value: stats.trainers   ?? 50,   suffix: '+', label: 'Expert Trainers' },
-              { value: stats.years      ?? 8,    suffix: '+', label: 'Years of Excellence' },
-            ].map(s => (
-              <div key={s.label} className="hero-stat-glass">
-                <div className="stat-value">
-                  <StatCounter value={s.value} suffix={s.suffix} />
-                </div>
-                <div className="stat-label">{s.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -156,6 +149,79 @@ export default async function HomePage() {
         )
       })()}
 
+      {/* ── Who We Are ── */}
+      <section className="who-section">
+        <div className="container">
+          <ScrollReveal>
+            <div className="who-grid">
+              {/* Left column — text + stats */}
+              <div>
+                <p style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase' as const,
+                  color: '#2563EB',
+                  marginBottom: 12,
+                }}>
+                  Who We Are
+                </p>
+                <h2 style={{
+                  fontFamily: 'var(--font-plus-jakarta), sans-serif',
+                  fontSize: 'clamp(1.4rem, 2.8vw, 2.2rem)',
+                  fontWeight: 700,
+                  lineHeight: 1.18,
+                  color: '#172554',
+                  margin: '0 0 18px',
+                }}>
+                  From a Campus Coaching Unit to Chennai&apos;s Most Trusted Placement Partner
+                </h2>
+                <p style={{
+                  fontFamily: 'var(--font-inter), sans-serif',
+                  fontSize: 15,
+                  lineHeight: 1.75,
+                  color: '#334155',
+                  margin: '0 0 4px',
+                }}>
+                  Founded in 2016 by engineers who had been through the campus placement grind, SODAK Technology trains across 500+ colleges with 50+ working engineers as trainers — every one of them currently employed at the companies your students aspire to join.
+                </p>
+
+                {/* Stat badges */}
+                <div className="who-stats-row">
+                  {[
+                    { value: 8, suffix: '+', label: 'Years Experience' },
+                    { value: 500, suffix: '+', label: 'Partner Colleges' },
+                    { value: 5000, suffix: '+', label: 'Students Placed' },
+                  ].map(s => (
+                    <div key={s.label} className="who-stat">
+                      <div className="who-stat-value">
+                        <StatCounter value={s.value} suffix={s.suffix} />
+                      </div>
+                      <div className="who-stat-label">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <Link href="/about" className="btn btn-ghost" style={{ marginTop: 4 }}>
+                  Learn More About Us →
+                </Link>
+              </div>
+
+              {/* Right column — team image */}
+              <div className="who-image">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"
+                  alt="SODAK Technology training team collaborating"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* ── Institution Marquee ── */}
       {institutionNames.length > 0 && (() => {
         const minItems = 12
@@ -166,7 +232,7 @@ export default async function HomePage() {
             <div className="institution-marquee-title">
               <h3>Our Partner Colleges</h3>
             </div>
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)', borderBottom: '1px solid rgba(255,255,255,0.12)', padding: '20px 0' }}>
+            <div style={{ borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', padding: '20px 0' }}>
               <div className="marquee-wrap">
                 <div className="marquee-track">
                   {filled.map((name, i) => (
@@ -190,22 +256,28 @@ export default async function HomePage() {
         return (
           <section className="mentor-marquee-section">
             <div className="container">
-              <div className="section-header text-center">
-                <p className="section-eyebrow">Our Mentors</p>
-                <h2 className="t-h2 c-heading">Learn from Industry Leaders</h2>
-                <p>Our mentors are working professionals from top companies — guiding you through real-world career challenges.</p>
+              <ScrollReveal>
+                <div className="section-header text-center">
+                  <p className="section-eyebrow">Our Mentors</p>
+                  <h2 className="t-h2 c-heading">Learn from Industry Leaders</h2>
+                  <p>Working professionals who train on weekends — because the best teachers are those still building in the industry.</p>
+                </div>
+              </ScrollReveal>
+            </div>
+            <ScrollReveal delay={0.2}>
+              <div className="mentor-marquee-wrap">
+                <div className="mentor-marquee-track">
+                  {[...filled, ...filled].map((m, i) => (
+                    <MentorCard key={`mentor-${i}`} mentor={m} />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="mentor-marquee-wrap">
-              <div className="mentor-marquee-track">
-                {[...filled, ...filled].map((m, i) => (
-                  <MentorCard key={`mentor-${i}`} mentor={m} />
-                ))}
+            </ScrollReveal>
+            <ScrollReveal delay={0.35}>
+              <div className="container text-center" style={{ marginTop: 32 }}>
+                <Link href="/mentors" className="btn btn-outline-white">View All Mentors →</Link>
               </div>
-            </div>
-            <div className="container text-center" style={{ marginTop: 32 }}>
-              <Link href="/mentors" className="btn btn-outline-white">View All Mentors →</Link>
-            </div>
+            </ScrollReveal>
           </section>
         )
       })()}
