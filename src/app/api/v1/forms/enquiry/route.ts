@@ -20,19 +20,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ data: { ok: true } }) // silently accept to not reveal detection
     }
 
-    // Validate Turnstile
-    const turnstileOk = await verifyTurnstile(body.turnstileToken, ip)
-    if (!turnstileOk) {
-      return NextResponse.json({ error: { code: 'TURNSTILE_FAILED', message: 'CAPTCHA verification failed.' } }, { status: 422 })
-    }
-
     const parsed = enquirySchema.safeParse(body)
     if (!parsed.success) {
       return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.', details: parsed.error.flatten() } }, { status: 422 })
     }
 
     // Capture UTM + referrer from meta
-    const { consent: _consent, website_url: _hp, turnstileToken: _tk, ...leadData } = parsed.data
+    const { consent: _consent, website_url: _hp, ...leadData } = parsed.data
     const lead = await leadsService.createLead({
       ...leadData,
       source: 'enquiry-form',

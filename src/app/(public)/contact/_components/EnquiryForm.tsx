@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Turnstile } from '@marsidev/react-turnstile'
 
 const ROLES = [
   { value: 'TPO',       label: 'Training & Placement Officer' },
@@ -14,16 +13,10 @@ type Role = typeof ROLES[number]['value']
 
 export default function EnquiryForm() {
   const [role, setRole]       = useState<Role>('TPO')
-  const [token, setToken]     = useState('')
   const [loading, setLoading] = useState(false)
   const [status, setStatus]   = useState<'idle' | 'success' | 'error'>('idle')
   const [errMsg, setErrMsg]   = useState('')
   const utmRef = useRef<Record<string, string>>({})
-
-  // Auto-set bypass token in dev so submit button isn't blocked
-  useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') setToken('dev-bypass')
-  }, [])
 
   // Capture UTM params + referrer once on mount
   useEffect(() => {
@@ -49,7 +42,6 @@ export default function EnquiryForm() {
       role,
       website_url:   fd.get('website_url') as string, // honeypot
       consent:       true,
-      turnstileToken: token,
       utm:           utmRef.current,
       referrer:      utmRef.current.referrer,
     }
@@ -150,15 +142,6 @@ export default function EnquiryForm() {
         />
       </div>
 
-      {/* Cloudflare Turnstile — only rendered in production */}
-      {process.env.NODE_ENV === 'production' && (
-        <Turnstile
-          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''}
-          onSuccess={setToken}
-          options={{ theme: 'light', size: 'normal' }}
-        />
-      )}
-
       {errMsg && (
         <p style={{ color: '#ef4444', fontSize: 13, marginTop: 4 }}>{errMsg}</p>
       )}
@@ -167,7 +150,7 @@ export default function EnquiryForm() {
         type="submit"
         className="btn btn-gold btn-lg"
         style={{ width: '100%', marginTop: 8, opacity: loading ? 0.65 : 1 }}
-        disabled={loading || !token}
+        disabled={loading}
       >
         {loading ? 'Sending…' : 'Send message →'}
       </button>

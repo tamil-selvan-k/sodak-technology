@@ -10,11 +10,10 @@ export const enquirySchema = z.object({
   programOfInterest:   z.string().max(200).optional(),
   batchSize:           z.number().int().min(1).optional(),
   preferredTimeline:   z.string().optional(),
-  message:             z.string().max(2000).optional(),
+  message:             z.string().min(1).max(2000),
   consent:             z.literal(true, { errorMap: () => ({ message: 'Consent is required.' }) }),
   // honeypot — must be empty
   website_url:         z.string().max(0).optional(),
-  turnstileToken:      z.string().min(1),
 })
 
 export type EnquiryInput = z.infer<typeof enquirySchema>
