@@ -7,7 +7,13 @@ export async function middleware(req: NextRequest) {
 
   const isAdminLoginPage = pathname === '/admin/login'
   const isAdminRoute     = pathname.startsWith('/admin')
-  const isWriteApiRoute  = pathname.startsWith('/api/v1') && req.method !== 'GET'
+  const isPublicWriteApiRoute = [
+    '/api/v1/forms/enquiry',
+    '/api/v1/forms/careers',
+    '/api/v1/forms/internship',
+    '/api/v1/forms/webinar'
+  ].includes(pathname);
+  const isWriteApiRoute  = pathname.startsWith('/api/v1') && req.method !== 'GET' && !isPublicWriteApiRoute;
 
   // Always allow the login page through
   if (isAdminLoginPage) return NextResponse.next()
