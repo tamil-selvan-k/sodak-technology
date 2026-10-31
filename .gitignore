@@ -1,5 +1,6 @@
 # deps
 node_modules/
+pnpm-workspace.yaml
 .pnp
 .pnp.js
 .claude
