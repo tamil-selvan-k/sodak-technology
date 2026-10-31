@@ -1,14 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { listTrainers } from '@/modules/trainers/trainers.service'
-import { getSettings } from '@/modules/settings/settings.service'
-import StatCounter from '@/components/ui/StatCounter'
 
 export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description: 'Learn about SODAK Technology — founded in 2016, now partnered with 500+ engineering colleges across Tamil Nadu and helping 5,000+ students land their dream jobs every year.',
+  description: 'Learn about SODAK Technology — founded in 2016, helping students land their dream jobs with expert-led campus placement training across Tamil Nadu.',
   openGraph: {
     title: 'About SODAK Technology',
     description: 'Our story, our values, and the team behind India\'s fastest-growing campus placement training company.',
@@ -34,12 +32,10 @@ const VALUES = [
 ]
 
 export default async function AboutPage() {
-  const [trainersResult, settings] = await Promise.all([
+  const [trainersResult] = await Promise.all([
     listTrainers({ isPublished: true, perPage: 8 }).catch(() => ({ data: [] })),
-    getSettings().catch(() => null),
   ])
   const trainers = trainersResult.data ?? []
-  const stats = (settings?.stats ?? { placements: 5000, colleges: 500, trainers: 50, years: 8 }) as Record<string, number>
 
   return (
     <>
@@ -74,26 +70,11 @@ export default async function AboutPage() {
                 Our founding team were engineers who had been through the grind — campus drives, aptitude tests, technical rounds, and HR interviews. They knew exactly what students were missing and built SODAK to fill that gap.
               </p>
               <p className="t-body c-muted">
-                Today we train across 1000+ colleges, with a roster of 50+ working engineers as trainers — every one of them currently employed at the same companies your students aspire to join.
+                Today we have a roster of 50+ working engineers as trainers — every one of them currently employed at the same companies your students aspire to join.
               </p>
             </div>
-            <div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                {[
-                  { value: stats.placements ?? 5000, suffix: '+', label: 'Placements' },
-                  { value: stats.colleges   ?? 500,  suffix: '+', label: 'Partner Colleges' },
-                  { value: stats.trainers   ?? 50,   suffix: '+', label: 'Expert Trainers' },
-                  { value: stats.years      ?? 8,    suffix: '+', label: 'Years Active' },
-                ].map(s => (
-                  <div key={s.label} className="card card-dark" style={{ textAlign: 'center', padding: '24px 16px' }}>
-                    <div className="stat-value" style={{ fontSize: 32 }}>
-                      <StatCounter value={s.value} suffix={s.suffix} />
-                    </div>
-                    <p className="stat-label" style={{ marginTop: 6 }}>{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Stats counters hidden */}
+            <div />
           </div>
         </div>
       </section>

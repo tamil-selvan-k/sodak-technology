@@ -23,7 +23,6 @@ function stripHtml(html: string): string {
 
 function MentorAvatar({ name, photoUrl, size }: { name: string; photoUrl?: string | null; size: 'card' | 'popup' }) {
   const dim = size === 'card' ? 96 : 56
-  const fontSize = size === 'card' ? 36 : 24
   const cls = size === 'card' ? 'avatar avatar-xl' : 'popup-avatar'
 
   if (photoUrl) {
@@ -39,7 +38,16 @@ function MentorAvatar({ name, photoUrl, size }: { name: string; photoUrl?: strin
     )
   }
 
-  return <div className={cls} style={{ fontSize }}>{name.charAt(0)}</div>
+  return (
+    <Image
+      src="/images/default-avatar.svg"
+      alt={name}
+      width={dim}
+      height={dim}
+      className={cls}
+      style={{ objectFit: 'cover', borderRadius: '50%', width: dim, height: dim }}
+    />
+  )
 }
 
 export default function MentorCard({ mentor }: { mentor: Mentor }) {

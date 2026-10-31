@@ -48,7 +48,8 @@ const COLUMNS = [
     links: [
       { label: 'Chennai, Tamil Nadu 600 001', href: '#' },
       { label: '+91 89393 66259',             href: 'tel:+918939366259' },
-      { label: 'hello@sodakedutech.in',       href: 'mailto:hello@sodakedutech.in' },
+      { label: '+91 63814 74648',             href: 'tel:+916381474648' },
+      { label: 'sodakedutech@gmail.com',      href: 'mailto:sodakedutech@gmail.com' },
       { label: 'Chat on WhatsApp',            href: 'https://wa.me/918939366259' },
     ],
   },
@@ -88,7 +89,7 @@ export default function Footer() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
             <div style={{ textAlign: 'right' }}>
               <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: '#bfdbfe', marginBottom: 4 }}>Ready to upskill your campus?</p>
-              <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: '#ffffff', fontWeight: 600 }}>+91 89393 66259 · hello@sodakedutech.in</p>
+              <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: '#ffffff', fontWeight: 600 }}>+91 89393 66259 · +91 63814 74648 · sodakedutech@gmail.com</p>
             </div>
             <Link href="/contact" style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,

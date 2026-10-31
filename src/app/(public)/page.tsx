@@ -5,7 +5,6 @@ import { listMentors } from '@/modules/mentors/mentors.service'
 import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
 import { listInstitutionNames } from '@/modules/institutions/institutions.service'
-import StatCounter from '@/components/ui/StatCounter'
 import StackIcon from '@/components/ui/StackIcon'
 import MentorCard from '@/components/ui/MentorCard'
 import HeroReveal from '@/components/ui/HeroReveal'
@@ -35,18 +34,13 @@ const HERO_STACKS: StackCyclerItem[] = [
   { label: 'Campus Placement Prep', icon: 'placement', from: '#a78bfa', to: '#ec4899' },
 ]
 
-const COMPANIES = [
-  'TCS','Infosys','Wipro','HCL','Cognizant','Accenture','IBM','Capgemini',
-  'Tech Mahindra','Mphasis','L&T Infotech','Hexaware','Zoho','Freshworks','Zomato',
+const MENTOR_COMPANIES_ROW1 = [
+  'Amazon', 'Northern Arc', 'Zoho', 'TCS', 'Deloitte',
+  'Accenture', 'Cognizant', 'PayPal',
 ]
-
-const HIRING_COMPANIES_ROW1 = [
-  'Amazon', 'Microsoft', 'PhonePe', 'PayPal', 'Juspay',
-  'Accenture', 'Cognizant', 'Infosys', 'Capgemini',
-]
-const HIRING_COMPANIES_ROW2 = [
-  'Capgemini', 'Juspay', 'Amazon', 'Infosys', 'PayPal',
-  'Microsoft', 'Cognizant', 'Accenture', 'PhonePe',
+const MENTOR_COMPANIES_ROW2 = [
+  'PayPal', 'Deloitte', 'Amazon', 'Zoho', 'TCS',
+  'Cognizant', 'Accenture', 'Northern Arc',
 ]
 
 const REVIEWS = [
@@ -71,7 +65,6 @@ export default async function HomePage() {
 
   const mentors = mentorsResult.data ?? []
   const stacks   = Array.isArray(stacksResult) ? stacksResult : []
-  const stats    = (settings?.stats ?? { placements: 5000, colleges: 500, trainers: 50, years: 8 }) as Record<string, number>
 
   const dbInstitutionNames: string[] = institutionsResult.data.map((i) => i.name)
   const institutionNames = dbInstitutionNames.length > 0
@@ -90,7 +83,7 @@ export default async function HomePage() {
           </HeroReveal>
           <HeroReveal delay={0.15}>
             <p className="hero-subtitle">
-              {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by 1000+ colleges across Tamil Nadu'}
+              {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by colleges across Tamil Nadu'}
             </p>
           </HeroReveal>
           <HeroReveal delay={0.25}>
@@ -115,15 +108,15 @@ export default async function HomePage() {
       {/* ── Companies Marquee ── */}
       {(() => {
         const minItems = 12
-        const row1Repeats = Math.ceil(minItems / HIRING_COMPANIES_ROW1.length)
-        const row1 = Array.from({ length: row1Repeats }, () => HIRING_COMPANIES_ROW1).flat()
-        const row2Repeats = Math.ceil(minItems / HIRING_COMPANIES_ROW2.length)
-        const row2 = Array.from({ length: row2Repeats }, () => HIRING_COMPANIES_ROW2).flat()
+        const row1Repeats = Math.ceil(minItems / MENTOR_COMPANIES_ROW1.length)
+        const row1 = Array.from({ length: row1Repeats }, () => MENTOR_COMPANIES_ROW1).flat()
+        const row2Repeats = Math.ceil(minItems / MENTOR_COMPANIES_ROW2.length)
+        const row2 = Array.from({ length: row2Repeats }, () => MENTOR_COMPANIES_ROW2).flat()
         return (
           <section className="companies-section" style={{ padding: '40px 0 20px' }}>
             <div className="container text-center" style={{ marginBottom: 24 }}>
-              <p className="section-eyebrow">Our Students Work At</p>
-              <h2 className="t-h2 c-heading" style={{ marginBottom: 0 }}>Top Companies Hiring Our Graduates</h2>
+              <p className="section-eyebrow">Our Mentors</p>
+              <h2 className="t-h2 c-heading" style={{ marginBottom: 0 }}>Top Companies Our Mentors Working In</h2>
             </div>
             <div className="companies-marquee-wrap">
               <div className="company-track">
@@ -154,7 +147,7 @@ export default async function HomePage() {
         <div className="container">
           <ScrollReveal>
             <div className="who-grid">
-              {/* Left column — text + stats */}
+              {/* Left column — text */}
               <div>
                 <p style={{
                   fontSize: 11,
@@ -183,24 +176,8 @@ export default async function HomePage() {
                   color: '#334155',
                   margin: '0 0 4px',
                 }}>
-                  Founded in 2016 by engineers who had been through the campus placement grind, SODAK Technology trains across 500+ colleges with 50+ working engineers as trainers — every one of them currently employed at the companies your students aspire to join.
+                  Founded in 2016 by engineers who had been through the campus placement grind, SODAK Technology trains with 50+ working engineers as trainers — every one of them currently employed at the companies your students aspire to join.
                 </p>
-
-                {/* Stat badges */}
-                <div className="who-stats-row">
-                  {[
-                    { value: 8, suffix: '+', label: 'Years Experience' },
-                    { value: 500, suffix: '+', label: 'Partner Colleges' },
-                    { value: 5000, suffix: '+', label: 'Students Placed' },
-                  ].map(s => (
-                    <div key={s.label} className="who-stat">
-                      <div className="who-stat-value">
-                        <StatCounter value={s.value} suffix={s.suffix} />
-                      </div>
-                      <div className="who-stat-label">{s.label}</div>
-                    </div>
-                  ))}
-                </div>
 
                 {/* CTA */}
                 <Link href="/about" className="btn btn-ghost" style={{ marginTop: 4 }}>
@@ -222,31 +199,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Institution Marquee ── */}
-      {institutionNames.length > 0 && (() => {
-        const minItems = 12
-        const repeats = Math.ceil(minItems / institutionNames.length)
-        const filled = Array.from({ length: repeats }, () => institutionNames).flat()
-        return (
-          <section className="institution-marquee-section">
-            <div className="institution-marquee-title">
-              <h3>Our Partner Colleges</h3>
-            </div>
-            <div style={{ borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', padding: '20px 0' }}>
-              <div className="marquee-wrap">
-                <div className="marquee-track">
-                  {filled.map((name, i) => (
-                    <div key={`a-${i}-${name}`} className="marquee-item">{name}</div>
-                  ))}
-                  {filled.map((name, i) => (
-                    <div key={`b-${i}-${name}`} className="marquee-item">{name}</div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-        )
-      })()}
+      {/* ── Institution Marquee (hidden) ── */}
 
       {/* ── Mentors Marquee ── */}
       {mentors.length >= 3 && (() => {
@@ -320,28 +273,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ── Partner Institutions ── */}
-      {institutionNames.length >= 3 && (
-        <section className="s-light">
-          <div className="container">
-            <div className="section-header text-center">
-              <p className="section-eyebrow">Our Network</p>
-              <h2 className="t-h2 c-heading">Trusted by Leading Institutions</h2>
-              <p style={{ color: '#94a3b8' }}>We deliver on-campus training directly inside your institution — no student travel required.</p>
-            </div>
-            <StaggerContainer className="trust-grid" staggerDelay={0.06}>
-              {institutionNames.map((name, i) => (
-                <ScrollReveal key={`trust-${i}-${name}`}>
-                  <div className="badge badge-dark badge-lg" style={{ textAlign: 'center', justifyContent: 'center' }}>{name}</div>
-                </ScrollReveal>
-              ))}
-            </StaggerContainer>
-            <div className="text-center" style={{ marginTop: 36 }}>
-              <Link href="/institutions" className="btn btn-outline">See All Partners →</Link>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* ── Partner Institutions (hidden) ── */}
 
       {/* ── Programs ── */}
       <section className="s-light">

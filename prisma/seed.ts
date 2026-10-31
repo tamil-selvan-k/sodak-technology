@@ -145,7 +145,7 @@ async function main() {
     create: {
       id:                1,
       heroHeadline:      'Launch Your Tech Career',
-      heroSubhead:       'Expert-led campus placement training trusted by 500+ colleges across Tamil Nadu',
+      heroSubhead:       'Expert-led campus placement training trusted by colleges across Tamil Nadu',
       notificationEmail: 'tamildeveloper2007@gmail.com',
       stats: {
         placements: 5000,
@@ -163,63 +163,47 @@ async function main() {
   })
   console.log('  ✓ SiteSetting singleton')
 
-  // ── Sample trainers (unpublished — consent not on file) ─────────────────────
-  const trainer1 = await db.trainer.upsert({
-    where:  { slug: 'arjun-kumar' },
-    update: {},
-    create: {
-      name:            'Arjun Kumar',
-      slug:            'arjun-kumar',
-      designation:     'Senior Full Stack Engineer',
-      currentCompany:  'TCS',
-      yearsExperience: 8,
-      expertiseTags:   ['React', 'Node.js', 'TypeScript', 'PostgreSQL'],
-      bioHtml:         '<p>8 years of full stack development experience. Trained 2000+ students in web technologies.</p>',
-      linkedinUrl:     'https://linkedin.com/in/arjun-kumar',
-      isFeatured:      false,
-      isMentor:        false,
-      isPublished:     false, // requires consent before publishing
-      consentOnFile:   false,
-      displayOrder:    1,
-    },
-  })
+  // ── Remove dummy trainers/mentors ───────────────────────────────────────────
+  const dummySlugs = ['arjun-kumar', 'priya-venkatesh']
+  for (const slug of dummySlugs) {
+    const existing = await db.trainer.findUnique({ where: { slug } })
+    if (existing) {
+      await db.trainerStack.deleteMany({ where: { trainerId: existing.id } })
+      await db.trainer.delete({ where: { slug } })
+      console.log(`  ✗ Removed dummy: ${existing.name}`)
+    }
+  }
 
-  await db.trainerStack.upsert({
-    where:  { trainerId_stackId: { trainerId: trainer1.id, stackId: stacks['full-stack-web']! } },
-    update: {},
-    create: { trainerId: trainer1.id, stackId: stacks['full-stack-web']! },
-  })
-  console.log(`  ✓ Trainer: ${trainer1.name} (unpublished)`)
+  // ── Mentors ─────────────────────────────────────────────────────────────────
+  const mentorsData = [
+    { name: 'Nithesh R',           slug: 'nithesh-r',           company: 'Amazon',      order: 2 },
+    { name: 'Harish Raj B',        slug: 'harish-raj-b',        company: 'Northern Arc', order: 3 },
+    { name: 'Sai Varun',           slug: 'sai-varun',           company: 'Zoho',         order: 4 },
+    { name: 'Neeharika',           slug: 'neeharika',           company: 'TCS',          order: 5 },
+    { name: 'Vinothini',           slug: 'vinothini',           company: 'Deloitte',     order: 6 },
+    { name: 'Rajendhira Prasath',  slug: 'rajendhira-prasath',  company: 'Accenture',    order: 7 },
+    { name: 'Vishab',              slug: 'vishab',              company: 'Cognizant',    order: 8 },
+    { name: 'Rahul',               slug: 'rahul',               company: 'PayPal',       order: 9 },
+    { name: 'Sarasuraman',         slug: 'sarasuraman',         company: 'Zoho',         order: 10 },
+  ]
 
-  const mentor1 = await db.trainer.upsert({
-    where:  { slug: 'priya-venkatesh' },
-    update: {},
-    create: {
-      name:               'Priya Venkatesh',
-      slug:               'priya-venkatesh',
-      designation:        'Cloud Solutions Architect',
-      currentCompany:     'Infosys',
-      yearsExperience:    10,
-      expertiseTags:      ['AWS', 'Docker', 'Kubernetes', 'DevOps'],
-      bioHtml:            '<p>AWS certified architect with 10+ years in cloud infrastructure and DevOps practices.</p>',
-      linkedinUrl:        'https://linkedin.com/in/priya-venkatesh',
-      isFeatured:         false,
-      isMentor:           true,
-      isPublished:        false,
-      consentOnFile:      false,
-      displayOrder:       1,
-      mentorBio:          'Helping engineers transition into cloud-native roles.',
-      sessionTypes:       ['Career guidance', 'Technical mock interview', 'Resume review'],
-      availabilityStatus: 'available',
-    },
-  })
-
-  await db.trainerStack.upsert({
-    where:  { trainerId_stackId: { trainerId: mentor1.id, stackId: stacks['devops-cloud']! } },
-    update: {},
-    create: { trainerId: mentor1.id, stackId: stacks['devops-cloud']! },
-  })
-  console.log(`  ✓ Mentor: ${mentor1.name} (unpublished)`)
+  for (const m of mentorsData) {
+    const mentor = await db.trainer.upsert({
+      where:  { slug: m.slug },
+      update: { currentCompany: m.company, isMentor: true, isPublished: true, consentOnFile: true },
+      create: {
+        name:           m.name,
+        slug:           m.slug,
+        currentCompany: m.company,
+        expertiseTags:  [],
+        isMentor:       true,
+        isPublished:    true,
+        consentOnFile:  true,
+        displayOrder:   m.order,
+      },
+    })
+    console.log(`  ✓ Mentor: ${mentor.name} (${m.company})`)
+  }
 
   // ── Sample programs (one per track, unpublished) ────────────────────────────
   const programsData = [

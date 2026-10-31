@@ -176,7 +176,7 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
             { label: 'LinkedIn URL', value: linkedin, set: setLinkedin, ph: 'https://linkedin.com/company/sodakedutech' },
             { label: 'Twitter / X URL', value: twitter, set: setTwitter, ph: 'https://twitter.com/sodakedutech' },
             { label: 'YouTube URL', value: youtube, set: setYoutube, ph: 'https://youtube.com/@sodakedutech' },
-            { label: 'WhatsApp Number', value: whatsapp, set: setWhatsapp, ph: '+918939366259' },
+            { label: 'WhatsApp Number', value: whatsapp, set: setWhatsapp, ph: '+916381474648' },
           ].map(f => (
             <div key={f.label}>
               <label style={labelStyle}>{f.label}</label>

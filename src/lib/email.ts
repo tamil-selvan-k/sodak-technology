@@ -161,7 +161,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
 
         <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:16px 20px;">
           <p style="margin:0 0 8px;font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Need to reach us faster?</p>
-          <p style="margin:0;font-size:13px;color:#94a3b8;">📞 <a href="tel:+918939366259" style="color:#3B82F6;text-decoration:none;">+91 89393 66259</a> &nbsp;|&nbsp; ✉ <a href="mailto:hello@sodakedutech.in" style="color:#3B82F6;text-decoration:none;">hello@sodakedutech.in</a></p>
+          <p style="margin:0;font-size:13px;color:#94a3b8;">📞 <a href="tel:+918939366259" style="color:#3B82F6;text-decoration:none;">+91 89393 66259</a> &nbsp;|&nbsp; 📞 <a href="tel:+916381474648" style="color:#3B82F6;text-decoration:none;">+91 63814 74648</a> &nbsp;|&nbsp; ✉ <a href="mailto:sodakedutech@gmail.com" style="color:#3B82F6;text-decoration:none;">sodakedutech@gmail.com</a></p>
         </div>
       `
       return baseLayout(content, 'Thanks for reaching out — SODAK Technology')
@@ -227,7 +227,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
           <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.7;">Our team reviews applications within <strong style="color:#ffffff;">5 business days</strong>. Shortlisted candidates will be contacted for a brief screening call.</p>
         </div>
 
-        <p style="margin:0;font-size:13px;color:#64748b;">Questions? Email us at <a href="mailto:hello@sodakedutech.in" style="color:#3B82F6;text-decoration:none;">hello@sodakedutech.in</a>.</p>
+        <p style="margin:0;font-size:13px;color:#64748b;">Questions? Email us at <a href="mailto:sodakedutech@gmail.com" style="color:#3B82F6;text-decoration:none;">sodakedutech@gmail.com</a>.</p>
       `
       return baseLayout(content, 'Application received — SODAK Technology')
     }
@@ -243,7 +243,7 @@ function renderTemplate(template: EmailTemplate, data: Record<string, unknown>):
         <div style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.3);border-radius:6px;padding:12px 16px;margin-top:8px;">
           <p style="margin:0;font-size:13px;color:#3B82F6;">⏱ This download link expires in <strong>1 hour</strong>.</p>
         </div>
-        <p style="margin:20px 0 0;font-size:13px;color:#64748b;">Want to discuss the program? Call us at <a href="tel:+918939366259" style="color:#3B82F6;text-decoration:none;">+91 89393 66259</a> or reply to this email.</p>
+        <p style="margin:20px 0 0;font-size:13px;color:#64748b;">Want to discuss the program? Call us at <a href="tel:+918939366259" style="color:#3B82F6;text-decoration:none;">+91 89393 66259</a> / <a href="tel:+916381474648" style="color:#3B82F6;text-decoration:none;">+91 63814 74648</a> or reply to this email.</p>
       `
       return baseLayout(content, 'Your program brochure — SODAK Technology')
     }
