@@ -36,7 +36,7 @@ export async function getPhotoById(id: string) {
 }
 
 export async function updatePhoto(id: string, input: UpdatePhotoInput) {
-  return db.photo.update({ where: { id }, data: input })
+  return db.photo.update({ where: { id, deletedAt: null }, data: input })
 }
 
 export async function publishPhoto(id: string) {

@@ -41,20 +41,19 @@ const nextConfig = {
             hostname: `${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION ?? 'ap-south-1'}.amazonaws.com`,
           }]
         : []),
-      {
-        protocol: 'https',
-        hostname: 'sodaktech-media-588738574145-ap-south-1-an.s3.ap-south-1.amazonaws.com',
-      },
     ],
   },
   async headers() {
     const isDev = process.env.NODE_ENV === 'development'
 
     // In dev, Next.js uses eval() for HMR — 'unsafe-eval' is required there.
-    // In production, use strict-inline only (no eval).
+    // Next.js 14 App Router injects inline <script> tags for __NEXT_DATA__ and client-component
+    // hydration bootstrapping. Removing 'unsafe-inline' blocks these scripts and causes a blank
+    // page after SSR. A nonce-based policy would be the correct long-term fix but requires
+    // middleware-level nonce injection. Keeping 'unsafe-inline' until that is implemented.
     const scriptSrc = isDev
-      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com"
-      : "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com"
+      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+      : "script-src 'self' 'unsafe-inline'"
 
     const csp = [
       "default-src 'self'",
@@ -62,7 +61,6 @@ const nextConfig = {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self'",
-      "frame-src https://challenges.cloudflare.com",
       "connect-src 'self' https:",
       "base-uri 'self'",
       "form-action 'self'",

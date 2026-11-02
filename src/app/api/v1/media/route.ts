@@ -7,7 +7,7 @@ import { writeAuditLog } from '@/lib/audit'
 import { randomUUID } from 'crypto'
 export const dynamic = 'force-dynamic'
 
-const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf']
+const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif', 'application/pdf']
 const MAX_BYTES = 10 * 1024 * 1024
 
 export async function GET(req: Request) {

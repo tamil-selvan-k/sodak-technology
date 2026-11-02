@@ -51,10 +51,34 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
+        // Initial sign-in: persist id and role into the token.
         token.id   = user.id
         token.role = (user as { role: UserRole }).role
+        return token
+      }
+      // Subsequent session reads: re-verify the user is still active and
+      // keep the role in sync with the DB. This prevents deactivated users
+      // from continuing to use an existing JWT for the remainder of its
+      // expiry window.
+      // Note: the Edge-Runtime middleware uses getToken() which does NOT
+      // invoke this callback, so a deactivated user can still pass the
+      // middleware gate until the JWT expires. Full protection requires
+      // short JWT expiry (configured in authConfig) or switching to DB
+      // sessions, which is incompatible with the Credentials provider in
+      // Edge middleware.
+      if (token.id) {
+        try {
+          const dbUser = await db.user.findUnique({
+            where:  { id: token.id as string },
+            select: { isActive: true, role: true },
+          })
+          if (!dbUser || !dbUser.isActive) return null // invalidate session
+          token.role = dbUser.role // keep role in sync with DB
+        } catch {
+          // DB unreachable — keep existing token rather than crashing the session
+        }
       }
       return token
     },

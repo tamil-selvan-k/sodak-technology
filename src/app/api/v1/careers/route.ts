@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { listJobs, createJob } from '@/modules/careers/careers.service'
 import { createJobSchema } from '@/modules/careers/careers.schema'
 import { writeAuditLog } from '@/lib/audit'
+import { Prisma } from '@prisma/client'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
@@ -33,6 +34,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ data: job }, { status: 201 })
   } catch (err) {
     console.error('[careers/POST] error:', err)
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+      return NextResponse.json({ error: { code: 'CONFLICT', message: 'A record with this name already exists.' } }, { status: 409 })
+    }
     return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
   }
 }

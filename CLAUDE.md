@@ -37,7 +37,7 @@ CI runs lint, type-check, and build on every PR to `main` (see `.github/workflow
 - **Zod** for schema-first validation (API + forms)
 - **AWS S3** for media storage, optional CloudFront CDN, **Sharp** for image processing
 - **Nodemailer** (SMTP) for transactional email
-- **Upstash Redis** for rate limiting; **Cloudflare Turnstile** + honeypot for spam protection
+- **Upstash Redis** for rate limiting; honeypot for spam protection
 - **pnpm** as the package manager; **Node.js >=22**
 
 ## Architecture
@@ -73,21 +73,13 @@ Cross-module side effects (e.g., "publish trainer → send email") use the event
 | `storage.ts` | AWS S3 wrapper |
 | `email.ts` | Nodemailer SMTP wrapper |
 | `image.ts` | Sharp resize pipeline — uploads `original`, `lg` (1200px), `md` (800px), `sm` (400px), `thumb` (200px), `lg_avif`, `md_avif` variants |
-| `cache.ts` | Redis cache layer (admin paths only — public ISR pages use Next.js CDN caching) |
 | `redis.ts` | Redis client |
 | `rate-limit.ts` | Upstash rate limiting |
-| `turnstile.ts` | Cloudflare Turnstile verification |
 | `events.ts` | In-process event emitter (serverless-aware) |
 | `audit.ts` | Audit log writer |
 | `paginate.ts` | Pagination helper |
 | `slugify.ts` | Slug generation |
 | `upload-progress.ts` | SSE progress for bulk uploads |
-
-**Cache key convention** (`src/lib/cache.ts`):
-- `{module}:list:v{version}:{params}` — list query results (TTL 120s)
-- `{module}:id:{id}` / `{module}:slug:{slug}` — single-record lookups (TTL 300s)
-- `{module}:v` — integer version counter (no TTL) — increment to orphan stale list keys
-- No SCAN/KEYS/pattern-based deletes (unavailable on Upstash free tier)
 
 ### Components (`src/components/`)
 
@@ -154,7 +146,7 @@ Soft delete pattern: `deletedAt DateTime?` on most content models. Always filter
 
 ## Environment
 
-Copy `.env.example` to `.env.local` for local development. Required variable groups: Database, Auth (`AUTH_SECRET`/`NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `REVALIDATE_SECRET`), SMTP (`SMTP_HOST/PORT/USER/PASS/FROM`), Notification (`NOTIFICATION_EMAIL`), AWS S3, Upstash Redis, Cloudflare Turnstile, Site (`NEXT_PUBLIC_SITE_URL`).
+Copy `.env.example` to `.env.local` for local development. Required variable groups: Database, Auth (`AUTH_SECRET`/`NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `REVALIDATE_SECRET`), SMTP (`SMTP_HOST/PORT/USER/PASS/FROM`), Notification (`NOTIFICATION_EMAIL`), AWS S3, Upstash Redis, Site (`NEXT_PUBLIC_SITE_URL`).
 
 Note: The README and CI stubs reference Resend (`RESEND_API_KEY`) but the actual codebase uses Nodemailer SMTP — the Resend references are stale.
 

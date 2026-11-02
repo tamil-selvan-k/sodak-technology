@@ -20,7 +20,6 @@ export const applicationSchema = z.object({
   phone:           z.string().optional(),
   yearsExperience: z.number().int().min(0).optional(),
   coverNote:       z.string().max(3000).optional(),
-  turnstileToken:  z.string().min(1),
 })
 
 export const updateJobSchema = createJobSchema.partial()

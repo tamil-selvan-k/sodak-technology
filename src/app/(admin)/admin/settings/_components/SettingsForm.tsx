@@ -63,6 +63,7 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
 
   const [heroHeadline, setHeroHeadline] = useState(settings.heroHeadline ?? '')
   const [heroSubhead, setHeroSubhead] = useState(settings.heroSubhead ?? '')
+  const [aboutImageUrl, setAboutImageUrl] = useState((settings as { aboutImageUrl?: string | null }).aboutImageUrl ?? '')
   const [notificationEmail, setNotificationEmail] = useState(settings.notificationEmail ?? '')
 
   const [stacks, setStacks] = useState(String(stats.stacks ?? ''))
@@ -85,6 +86,7 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
       const payload = {
         heroHeadline: heroHeadline || undefined,
         heroSubhead: heroSubhead || undefined,
+        aboutImageUrl: aboutImageUrl || undefined,
         notificationEmail: notificationEmail || undefined,
         stats: {
           ...(stacks ? { stacks: Number(stacks) } : {}),
@@ -140,6 +142,27 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
               placeholder="Supporting text shown below the headline"
             />
           </div>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div style={cardStyle}>
+        <p style={sectionHeadStyle}>About Section (Homepage)</p>
+        <div>
+          <label style={labelStyle}>About Image URL</label>
+          <input
+            style={inputStyle}
+            value={aboutImageUrl}
+            onChange={e => setAboutImageUrl(e.target.value)}
+            placeholder="https://… (paste URL from Media panel)"
+          />
+          {aboutImageUrl && (
+            <div style={{ marginTop: 10, borderRadius: 8, overflow: 'hidden', maxWidth: 320, border: '1px solid #DBEAFE' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={aboutImageUrl} alt="About section preview" style={{ width: '100%', height: 180, objectFit: 'cover', display: 'block' }} />
+            </div>
+          )}
+          <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 6 }}>Upload an image via the Media panel, copy its URL, and paste here.</p>
         </div>
       </div>
 

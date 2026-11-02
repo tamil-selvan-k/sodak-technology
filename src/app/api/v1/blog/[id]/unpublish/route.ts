@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { auth, hasRole } from '@/lib/auth'
 import { unpublishPost } from '@/modules/blog/blog.service'
 import { writeAuditLog } from '@/lib/audit'
@@ -12,6 +13,8 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     }
     const post = await unpublishPost(params.id)
     await writeAuditLog({ actorId: session.user.id, action: 'UNPUBLISH', entityType: 'blog_post', entityId: params.id })
+    revalidatePath('/insights')
+    revalidatePath('/insights/[slug]', 'page')
     return NextResponse.json({ data: post })
   } catch (err) {
     console.error('[blog/[id]/unpublish/POST] error:', err)

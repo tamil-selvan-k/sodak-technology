@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { listWebinars, createWebinar } from '@/modules/webinars/webinars.service'
 import { createWebinarSchema } from '@/modules/webinars/webinars.schema'
 import { writeAuditLog } from '@/lib/audit'
+import { Prisma } from '@prisma/client'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
@@ -30,6 +31,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ data: webinar }, { status: 201 })
   } catch (err) {
     console.error('[webinars/POST] error:', err)
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+      return NextResponse.json({ error: { code: 'CONFLICT', message: 'A record with this name already exists.' } }, { status: 409 })
+    }
     return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
   }
 }

@@ -20,6 +20,16 @@ export async function GET(req: Request) {
       )
     }
 
+    // Ownership check — read the job before starting the SSE stream so we can
+    // reject mismatched callers early instead of leaking progress events.
+    const initialProgress = await kv.get<UploadProgress>(`upload:progress:${jobId}`)
+    if (initialProgress !== null && initialProgress.uploaderId !== session.user.id) {
+      return NextResponse.json(
+        { error: { code: 'FORBIDDEN', message: 'You do not have access to this upload job.' } },
+        { status: 403 },
+      )
+    }
+
     const encoder = new TextEncoder()
 
     const stream = new ReadableStream({
@@ -31,7 +41,17 @@ export async function GET(req: Request) {
           ticks++
           try {
             const progress = await kv.get<UploadProgress>(`upload:progress:${jobId}`)
-            const payload  = progress ?? { done: 0, total: 0, errors: [] }
+
+            // Guard against a race where the job is re-created by a different user
+            // after the initial ownership check above.
+            if (progress !== null && progress.uploaderId !== session.user.id) {
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: 'FORBIDDEN' })}\n\n`))
+              clearInterval(interval)
+              controller.close()
+              return
+            }
+
+            const payload  = progress ?? { uploaderId: session.user.id, done: 0, total: 0, errors: [] }
             controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`))
 
             const done = progress && progress.total > 0 && progress.done >= progress.total

@@ -35,9 +35,11 @@ export default function EnquiryForm() {
     setErrMsg('')
 
     const fd = new FormData(e.currentTarget)
+    const phone = (fd.get('phone') as string | null)?.trim()
     const body = {
       name:          fd.get('name') as string,
       email:         fd.get('email') as string,
+      phone:         phone || undefined,
       message:       fd.get('message') as string,
       role,
       website_url:   fd.get('website_url') as string, // honeypot
@@ -126,6 +128,17 @@ export default function EnquiryForm() {
         <input
           id="enq-email" name="email" type="email" required
           className="form-input" placeholder="you@college.ac.in"
+        />
+      </div>
+
+      {/* Mobile Number */}
+      <div className="form-group">
+        <label className="form-label" htmlFor="enq-phone">
+          Mobile Number
+        </label>
+        <input
+          id="enq-phone" name="phone" type="tel"
+          className="form-input" placeholder="+91 98765 43210"
         />
       </div>
 

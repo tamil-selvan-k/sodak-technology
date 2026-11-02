@@ -3,6 +3,7 @@ import { auth, hasRole } from '@/lib/auth'
 import { listCourses, createCourse } from '@/modules/courses/courses.service'
 import { createCourseSchema } from '@/modules/courses/courses.schema'
 import { writeAuditLog } from '@/lib/audit'
+import { Prisma } from '@prisma/client'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
@@ -36,6 +37,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ data: course }, { status: 201 })
   } catch (err) {
     console.error('[courses/POST] error:', err)
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+      return NextResponse.json({ error: { code: 'CONFLICT', message: 'A record with this name already exists.' } }, { status: 409 })
+    }
     return NextResponse.json({ error: { code: 'INTERNAL', message: 'An unexpected error occurred.' } }, { status: 500 })
   }
 }

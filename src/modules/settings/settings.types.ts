@@ -6,6 +6,7 @@ export interface UpdateSettingsInput {
   heroHeadline?: string
   heroSubhead?: string
   heroImageUrl?: string
+  aboutImageUrl?: string
   notificationEmail?: string
   stats?: Record<string, number>
   socialLinks?: Record<string, string>

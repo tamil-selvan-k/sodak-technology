@@ -614,6 +614,7 @@ model SiteSetting {
   heroHeadline      String?
   heroSubhead       String?
   heroImageUrl      String?
+  aboutImageUrl     String?
   notificationEmail String?
   stats             Json?
   socialLinks       Json?

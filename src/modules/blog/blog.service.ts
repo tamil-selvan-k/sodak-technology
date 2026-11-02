@@ -79,15 +79,15 @@ export async function updatePost(id: string, input: UpdatePostInput) {
 }
 
 export async function submitForReview(id: string) {
-  return db.blogPost.update({ where: { id }, data: { status: 'in_review' } })
+  return db.blogPost.update({ where: { id, deletedAt: null }, data: { status: 'in_review' } })
 }
 
 export async function publishPost(id: string) {
-  return db.blogPost.update({ where: { id }, data: { status: 'published', publishedAt: new Date() } })
+  return db.blogPost.update({ where: { id, deletedAt: null }, data: { status: 'published', publishedAt: new Date() } })
 }
 
 export async function unpublishPost(id: string) {
-  return db.blogPost.update({ where: { id }, data: { status: 'draft', publishedAt: null } })
+  return db.blogPost.update({ where: { id, deletedAt: null }, data: { status: 'draft', publishedAt: null } })
 }
 
 export async function softDeletePost(id: string) {

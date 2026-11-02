@@ -18,25 +18,46 @@ export async function createStack(input: CreateStackInput) {
     db.stack.findFirst({ where: { slug: c }, select: { id: true } }).then(Boolean),
   )
   const { technologies, ...stackData } = input
-  const stack = await db.stack.create({ data: { ...stackData, slug }, include: WITH_TECHNOLOGIES })
-  if (technologies && technologies.length > 0) {
-    await db.technology.createMany({
-      data: technologies.map((name: string, i: number) => ({ name, stackId: stack.id, displayOrder: i + 1 })),
-      skipDuplicates: true,
-    })
-    return db.stack.findUnique({ where: { id: stack.id }, include: WITH_TECHNOLOGIES })
-  }
+  const stack = await db.stack.create({
+    data: {
+      ...stackData,
+      slug,
+      ...(technologies && technologies.length > 0 && {
+        technologies: {
+          createMany: {
+            data: technologies.map((name: string, i: number) => ({ name, displayOrder: i + 1 })),
+            skipDuplicates: true,
+          },
+        },
+      }),
+    },
+    include: WITH_TECHNOLOGIES,
+  })
   return stack
 }
 
 export async function updateStack(id: string, input: UpdateStackInput) {
-  const { technologies: _technologies, ...stackData } = input
-  return db.stack.update({
-    where: { id },
-    data: { ...stackData, ...(stackData.name && { slug: await makeUniqueSlug(stackData.name, (c) =>
-      db.stack.findFirst({ where: { slug: c, id: { not: id } }, select: { id: true } }).then(Boolean),
-    ) }) },
-    include: WITH_TECHNOLOGIES,
+  const { technologies, ...stackData } = input
+  const newSlug = stackData.name
+    ? await makeUniqueSlug(stackData.name, (c) =>
+        db.stack.findFirst({ where: { slug: c, id: { not: id } }, select: { id: true } }).then(Boolean),
+      )
+    : undefined
+  return db.$transaction(async (tx) => {
+    await tx.stack.update({
+      where: { id },
+      data: { ...stackData, ...(newSlug && { slug: newSlug }) },
+    })
+    if (technologies !== undefined) {
+      await tx.technology.deleteMany({ where: { stackId: id } })
+      if (technologies.length > 0) {
+        await tx.technology.createMany({
+          data: technologies.map((name: string, i: number) => ({ name, stackId: id, displayOrder: i + 1 })),
+          skipDuplicates: true,
+        })
+      }
+    }
+    return tx.stack.findUnique({ where: { id }, include: WITH_TECHNOLOGIES })
   })
 }
 

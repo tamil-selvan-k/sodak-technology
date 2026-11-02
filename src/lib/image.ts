@@ -1,6 +1,6 @@
 import sharp from 'sharp'
 import { randomUUID } from 'crypto'
-import { uploadFile } from './storage'
+import { uploadFile, deleteFile } from './storage'
 
 export type ImageVariant = 'original' | 'lg' | 'md' | 'sm' | 'thumb' | 'lg_avif' | 'md_avif'
 
@@ -25,31 +25,40 @@ export async function processAndUploadImage(
   const base = randomUUID()
   const ext  = originalName.split('.').pop()?.toLowerCase() ?? 'jpg'
   const results: ProcessedImage[] = []
+  const uploadedKeys: string[] = []
 
-  // original — normalise 'jpg' → 'jpeg' for correct MIME type
-  const origKey  = `images/${base}/original.${ext}`
-  const origMime = ext === 'jpg' ? 'image/jpeg' : `image/${ext}`
-  const origUrl  = await uploadFile(origKey, buffer, origMime)
-  const origMeta = await sharp(buffer).metadata()
-  results.push({ variant: 'original', url: origUrl, width: origMeta.width ?? 0, height: origMeta.height ?? 0 })
+  try {
+    // original — normalise 'jpg' → 'jpeg' for correct MIME type
+    const origKey  = `images/${base}/original.${ext}`
+    const origMime = ext === 'jpg' ? 'image/jpeg' : `image/${ext}`
+    const origUrl  = await uploadFile(origKey, buffer, origMime)
+    uploadedKeys.push(origKey)
+    const origMeta = await sharp(buffer).metadata()
+    results.push({ variant: 'original', url: origUrl, width: origMeta.width ?? 0, height: origMeta.height ?? 0 })
 
-  // resized variants — WebP for all
-  for (const [variant, width] of Object.entries(SIZES) as [Exclude<ImageVariant, 'original'>, number][]) {
-    const resized = await sharp(buffer).resize({ width, withoutEnlargement: true }).webp({ quality: 82 }).toBuffer()
-    const meta    = await sharp(resized).metadata()
-    const key     = `images/${base}/${variant}.webp`
-    const url     = await uploadFile(key, resized, 'image/webp')
-    results.push({ variant, url, width: meta.width ?? 0, height: meta.height ?? 0 })
-  }
+    // resized variants — WebP for all
+    for (const [variant, width] of Object.entries(SIZES) as [Exclude<ImageVariant, 'original'>, number][]) {
+      const resized = await sharp(buffer).resize({ width, withoutEnlargement: true }).webp({ quality: 82 }).toBuffer()
+      const meta    = await sharp(resized).metadata()
+      const key     = `images/${base}/${variant}.webp`
+      const url     = await uploadFile(key, resized, 'image/webp')
+      uploadedKeys.push(key)
+      results.push({ variant, url, width: meta.width ?? 0, height: meta.height ?? 0 })
+    }
 
-  // AVIF for lg and md (better compression for above-fold images)
-  for (const variant of ['lg', 'md'] as const) {
-    const width   = SIZES[variant]
-    const avif    = await sharp(buffer).resize({ width, withoutEnlargement: true }).avif({ quality: 60 }).toBuffer()
-    const meta    = await sharp(avif).metadata()
-    const key     = `images/${base}/${variant}.avif`
-    const url     = await uploadFile(key, avif, 'image/avif')
-    results.push({ variant: `${variant}_avif` as ImageVariant, url, width: meta.width ?? 0, height: meta.height ?? 0 })
+    // AVIF for lg and md (better compression for above-fold images)
+    for (const variant of ['lg', 'md'] as const) {
+      const width   = SIZES[variant]
+      const avif    = await sharp(buffer).resize({ width, withoutEnlargement: true }).avif({ quality: 60 }).toBuffer()
+      const meta    = await sharp(avif).metadata()
+      const key     = `images/${base}/${variant}.avif`
+      const url     = await uploadFile(key, avif, 'image/avif')
+      uploadedKeys.push(key)
+      results.push({ variant: `${variant}_avif` as ImageVariant, url, width: meta.width ?? 0, height: meta.height ?? 0 })
+    }
+  } catch (err) {
+    await Promise.allSettled(uploadedKeys.map((key) => deleteFile(key)))
+    throw err
   }
 
   return results

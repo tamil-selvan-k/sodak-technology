@@ -176,7 +176,7 @@ export default async function HomePage() {
                   color: '#334155',
                   margin: '0 0 4px',
                 }}>
-                  Founded in 2016 by engineers who had been through the campus placement grind, SODAK Technology trains with 50+ working engineers as trainers — every one of them currently employed at the companies your students aspire to join.
+                  Founded in 2016 by engineers who had been through the campus placement grind, SODAK Technology trains with working engineers as trainers — every one of them currently employed at the companies your students aspire to join.
                 </p>
 
                 {/* CTA */}
@@ -189,7 +189,7 @@ export default async function HomePage() {
               <div className="who-image">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"
+                  src={(settings as { aboutImageUrl?: string | null }).aboutImageUrl ?? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800'}
                   alt="SODAK Technology training team collaborating"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

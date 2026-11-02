@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const TIMELINE = [
   { year: '2016', title: 'SODAK Founded', desc: 'Started as a small placement coaching unit serving 3 colleges in Chennai.' },
-  { year: '2018', title: 'Expanded to 50+ Colleges', desc: 'Grew our network to 50+ partner institutions across Tamil Nadu.' },
+  { year: '2018', title: 'Expanded College Network', desc: 'Grew our network of partner institutions across Tamil Nadu.' },
   { year: '2020', title: 'Launched CTF Platform', desc: 'Built SODAK CTF — a gamified cybersecurity practice platform for students.' },
   { year: '2022', title: '5000+ Placements', desc: 'Crossed the milestone of 5,000 students placed at top MNCs.' },
   { year: '2024', title: 'Pan-India Expansion', desc: 'Opened operations in Bengaluru, Coimbatore, and Hyderabad.' },
@@ -32,9 +32,7 @@ const VALUES = [
 ]
 
 export default async function AboutPage() {
-  const [trainersResult] = await Promise.all([
-    listTrainers({ isPublished: true, perPage: 8 }).catch(() => ({ data: [] })),
-  ])
+  const trainersResult = await listTrainers({ isPublished: true, perPage: 8 }).catch(() => ({ data: [] }))
   const trainers = trainersResult.data ?? []
 
   return (
@@ -70,7 +68,7 @@ export default async function AboutPage() {
                 Our founding team were engineers who had been through the grind — campus drives, aptitude tests, technical rounds, and HR interviews. They knew exactly what students were missing and built SODAK to fill that gap.
               </p>
               <p className="t-body c-muted">
-                Today we have a roster of 50+ working engineers as trainers — every one of them currently employed at the same companies your students aspire to join.
+                Today we have a roster of working engineers as trainers — every one of them currently employed at the same companies your students aspire to join.
               </p>
             </div>
             {/* Stats counters hidden */}
@@ -107,7 +105,7 @@ export default async function AboutPage() {
               <h2 className="t-h1 c-heading">The Engineers Behind SODAK</h2>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 220px))', gap: 20, marginTop: 40, justifyContent: 'center' }}>
-              {trainers.slice(0, 8).map((t: { id: string; name: string; slug: string; designation: string | null; currentCompany: string | null }) => (
+              {trainers.map((t: { id: string; name: string; slug: string; designation: string | null; currentCompany: string | null }) => (
                 <Link key={t.id} href={`/trainers/${t.slug}`} style={{ textDecoration: 'none' }}>
                   <div className="card card-dark" style={{ textAlign: 'center', padding: '24px 16px' }}>
                     <div className="avatar avatar-lg" style={{ margin: '0 auto 12px', background: '#eff6ff', color: '#2563eb', fontSize: 24 }}>
