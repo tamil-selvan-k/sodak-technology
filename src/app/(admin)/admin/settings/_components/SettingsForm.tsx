@@ -63,7 +63,7 @@ export default function SettingsForm({ settings }: { settings: SiteSetting }) {
 
   const [heroHeadline, setHeroHeadline] = useState(settings.heroHeadline ?? '')
   const [heroSubhead, setHeroSubhead] = useState(settings.heroSubhead ?? '')
-  const [aboutImageUrl, setAboutImageUrl] = useState((settings as { aboutImageUrl?: string | null }).aboutImageUrl ?? '')
+  const [aboutImageUrl, setAboutImageUrl] = useState((settings as SiteSetting & { aboutImageUrl?: string | null }).aboutImageUrl ?? '')
   const [notificationEmail, setNotificationEmail] = useState(settings.notificationEmail ?? '')
 
   const [stacks, setStacks] = useState(String(stats.stacks ?? ''))

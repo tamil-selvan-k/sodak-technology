@@ -189,7 +189,7 @@ export default async function HomePage() {
               <div className="who-image">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={(settings as { aboutImageUrl?: string | null }).aboutImageUrl ?? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800'}
+                  src={settings?.aboutImageUrl ?? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800'}
                   alt="SODAK Technology training team collaborating"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
