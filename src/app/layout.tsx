@@ -8,6 +8,7 @@ const inter = Inter({
   weight: ['400', '500', '600', '700'],
   variable: '--font-inter',
   display: 'swap',
+  adjustFontFallback: false,
 })
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -15,6 +16,7 @@ const plusJakarta = Plus_Jakarta_Sans({
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-plus-jakarta',
   display: 'swap',
+  adjustFontFallback: false,
 })
 
 export const metadata: Metadata = {

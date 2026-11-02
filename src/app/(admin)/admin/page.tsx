@@ -26,25 +26,25 @@ const ACTION_DOT: Record<string, string> = {
 
 export default async function AdminDashboardPage() {
   const [totalLeads, pendingLeads, activePrograms, institutions, recentLeads, recentActivity] = await Promise.all([
-    db.lead.count(),
-    db.lead.count({ where: { status: 'new' } }),
-    db.program.count({ where: { isPublished: true, deletedAt: null } }),
-    db.institution.count({ where: { isPublished: true, deletedAt: null } }),
+    db.lead.count().catch(() => 0),
+    db.lead.count({ where: { status: 'new' } }).catch(() => 0),
+    db.program.count({ where: { isPublished: true, deletedAt: null } }).catch(() => 0),
+    db.institution.count({ where: { isPublished: true, deletedAt: null } }).catch(() => 0),
     db.lead.findMany({
       orderBy: { createdAt: 'desc' },
       take: 5,
       select: { id: true, name: true, institutionOrCompany: true, role: true, programOfInterest: true, createdAt: true, status: true },
-    }),
+    }).catch(() => []),
     db.auditLog.findMany({
       orderBy: { createdAt: 'desc' },
       take: 6,
       include: { actor: { select: { name: true } } },
-    }),
+    }).catch(() => []),
   ])
 
   const leadsThisMonth = await db.lead.count({
     where: { createdAt: { gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) } },
-  })
+  }).catch(() => 0)
 
   const STATS = [
     {

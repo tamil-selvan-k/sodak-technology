@@ -2,22 +2,12 @@ import { auth, hasRole } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { listLeads } from '@/modules/leads/leads.service'
 import Link from 'next/link'
+import LeadsTable from './_components/LeadsTable'
 
 export const metadata = { title: 'Leads — SODAK Admin' }
 
 interface Props { searchParams: { status?: string; page?: string } }
 
-const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> = {
-  new:           { label: 'New',           color: '#2563eb', bg: 'rgba(59,130,246,0.1)' },
-  contacted:     { label: 'Contacted',     color: '#92400e', bg: 'rgba(251,191,36,0.1)' },
-  proposal_sent: { label: 'Proposal Sent', color: '#166534', bg: 'rgba(34,197,94,0.1)' },
-  won:           { label: 'Won',           color: '#2563EB', bg: 'rgba(37,99,235,0.12)' },
-  lost:          { label: 'Lost',          color: '#64748b', bg: 'rgba(100,116,139,0.1)' },
-}
-
-function formatDate(iso: string | Date) {
-  return new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
-}
 
 export default async function AdminLeadsPage({ searchParams }: Props) {
   const session = await auth()
@@ -66,71 +56,12 @@ export default async function AdminLeadsPage({ searchParams }: Props) {
               border: `1px solid ${searchParams.status === s || (!s && !searchParams.status) ? '#2563EB' : '#DBEAFE'}`,
             }}
           >
-            {s ? (STATUS_MAP[s]?.label ?? s) : 'All'}
+            {s ? ({ new: 'New', contacted: 'Contacted', proposal_sent: 'Proposal Sent', won: 'Won', lost: 'Lost' }[s] ?? s) : 'All'}
           </Link>
         ))}
       </div>
 
-      {/* Table */}
-      <div style={{ background: '#ffffff', border: '1px solid #dbeafe', borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 4px rgba(37,99,235,0.06)' }}>
-        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-        <table style={{ width: '100%', minWidth: 750, borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: '#f1f5f9' }}>
-              {['Name', 'Email', 'Role', 'Institution / Company', 'Program', 'Source', 'Status', 'Date'].map(h => (
-                <th key={h} style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#172554', textAlign: 'left', borderBottom: '1px solid #dbeafe' }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.length === 0 && (
-              <tr>
-                <td colSpan={8} style={{ padding: '40px 14px', textAlign: 'center', fontSize: 13, color: '#64748b' }}>
-                  No leads found.
-                </td>
-              </tr>
-            )}
-            {data.map(lead => {
-              const sm = STATUS_MAP[lead.status] ?? STATUS_MAP.new!
-              return (
-                <tr key={lead.id} style={{ borderTop: '1px solid #DBEAFE' }} className="hover:bg-[#EFF6FF]">
-                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#334155', fontWeight: 600 }}>{lead.name}</td>
-                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{lead.email}</td>
-                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{lead.role ?? '—'}</td>
-                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{lead.institutionOrCompany ?? '—'}</td>
-                  <td style={{ padding: '11px 14px', fontSize: 13, color: '#64748b' }}>{lead.programOfInterest ?? '—'}</td>
-                  <td style={{ padding: '11px 14px', fontSize: 12, color: '#64748b' }}>{lead.source ?? '—'}</td>
-                  <td style={{ padding: '11px 14px' }}>
-                    <span style={{ padding: '2px 9px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: sm.bg, color: sm.color }}>
-                      {sm.label}
-                    </span>
-                  </td>
-                  <td style={{ padding: '11px 14px', fontSize: 12, color: '#64748b' }}>{formatDate(lead.createdAt)}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-        </div>{/* /scroll-wrapper */}
-      </div>
-
-      {pagination.pages > 1 && (
-        <div style={{ display: 'flex', gap: 8, marginTop: 16, justifyContent: 'flex-end', alignItems: 'center' }}>
-          <span style={{ fontSize: 12, color: '#64748b' }}>Page {pagination.page} of {pagination.pages} ({pagination.total} total)</span>
-          {pagination.page > 1 && (
-            <Link href={`/admin/leads?page=${pagination.page - 1}${searchParams.status ? `&status=${searchParams.status}` : ''}`}
-              style={{ padding: '6px 14px', fontSize: 13, border: '1px solid #DBEAFE', borderRadius: 6, textDecoration: 'none', color: '#334155', background: '#EFF6FF' }}>
-              ← Previous
-            </Link>
-          )}
-          {pagination.page < pagination.pages && (
-            <Link href={`/admin/leads?page=${pagination.page + 1}${searchParams.status ? `&status=${searchParams.status}` : ''}`}
-              style={{ padding: '6px 14px', fontSize: 13, border: '1px solid #DBEAFE', borderRadius: 6, textDecoration: 'none', color: '#334155', background: '#EFF6FF' }}>
-              Next →
-            </Link>
-          )}
-        </div>
-      )}
+      <LeadsTable leads={data} pagination={pagination} currentStatus={searchParams.status} />
     </main>
   )
 }

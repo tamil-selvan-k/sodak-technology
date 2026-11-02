@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -28,7 +27,6 @@ const labelStyle: React.CSSProperties = {
 }
 
 export default function LoginForm() {
-  const router = useRouter()
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
   const [error,    setError]    = useState('')
@@ -42,7 +40,7 @@ export default function LoginForm() {
     const result = await signIn('credentials', { email, password, redirect: false })
     setLoading(false)
     if (result?.error) { setError('Invalid email or password.'); return }
-    router.push('/admin')
+    window.location.href = '/admin'
   }
 
   return (
