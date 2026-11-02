@@ -56,7 +56,7 @@ export default function AssessmentsPage() {
             <h2>Run Placement Mock Tests at Your Campus</h2>
             <p>Our assessment engine is available to all partner colleges — no per-student fee.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Set Up Assessments →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Set Up Assessments <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

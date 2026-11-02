@@ -72,7 +72,7 @@ export default async function InstitutionsPage() {
             <h2>Is Your College Not Listed?</h2>
             <p>Reach out to become a SODAK partner institution — onboarding is free.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Partner With Us →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Partner With Us <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

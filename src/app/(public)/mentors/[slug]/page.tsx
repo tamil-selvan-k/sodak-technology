@@ -77,7 +77,7 @@ export default async function MentorProfilePage({ params }: Props) {
                     ))}
                   </div>
                 )}
-                <Link href="/contact" className="btn btn-gold btn-full btn-lg">Request a Session →</Link>
+                <Link href="/contact" className="btn btn-gold btn-full btn-lg arrow-link">Request a Session <span className="arrow-icon">→</span></Link>
                 <p className="t-micro c-muted text-center" style={{ marginTop: 10 }}>Sessions confirmed within 24 hours</p>
               </div>
             </div>
@@ -91,7 +91,7 @@ export default async function MentorProfilePage({ params }: Props) {
             <h2>Ready to Connect with {mentor.name}?</h2>
             <p>Book your 1-on-1 session — career guidance, mock interview, or code review.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book Now →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book Now <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

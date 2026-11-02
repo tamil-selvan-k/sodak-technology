@@ -71,7 +71,7 @@ export default async function CareersPage({ searchParams }: Props) {
                 <p className="t-body c-body" style={{ marginBottom: 20 }}>
                   We hire on a rolling basis. Express your interest and we&apos;ll reach out when a match opens up.
                 </p>
-                <Link href="/contact" className="btn btn-ghost">Express Interest →</Link>
+                <Link href="/contact" className="btn btn-ghost arrow-link">Express Interest <span className="arrow-icon">→</span></Link>
               </div>
             </div>
           ) : (
@@ -87,7 +87,7 @@ export default async function CareersPage({ searchParams }: Props) {
                         {job.employmentType && <span className="badge badge-green">{job.employmentType}</span>}
                       </div>
                     </div>
-                    <span className="btn btn-ghost btn-sm">View Details →</span>
+                    <span className="btn btn-ghost btn-sm arrow-link">View Details <span className="arrow-icon">→</span></span>
                   </div>
                 </Link>
               ))}
@@ -105,7 +105,7 @@ export default async function CareersPage({ searchParams }: Props) {
             <h2>Don&apos;t See Your Role?</h2>
             <p>We&apos;re always looking for passionate trainers and technologists. Reach out.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Get in Touch →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Get in Touch <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

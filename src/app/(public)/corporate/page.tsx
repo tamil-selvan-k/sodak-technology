@@ -53,7 +53,7 @@ export default function CorporatePage() {
                 {p.features.map(f => (
                   <p key={f} className="t-sm c-muted" style={{ marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>{f}</p>
                 ))}
-                <Link href="/contact" className="btn btn-gold btn-full" style={{ marginTop: 20 }}>Enquire →</Link>
+                <Link href="/contact" className="btn btn-gold btn-full arrow-link" style={{ marginTop: 20 }}>Enquire <span className="arrow-icon">→</span></Link>
               </div>
             ))}
           </div>
@@ -66,7 +66,7 @@ export default function CorporatePage() {
             <h2>Talk to Our Corporate Team</h2>
             <p>We design programs around your organisation&apos;s specific skills gap — no generic syllabi.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Start the Conversation →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Start the Conversation <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

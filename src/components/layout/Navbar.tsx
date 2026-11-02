@@ -251,9 +251,10 @@ export default function Navbar() {
             transition: 'all 0.15s',
             boxShadow: '0 2px 8px rgba(37,99,235,0.25)',
           }}
+          className="arrow-link"
           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#1d4ed8'; }}
           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#2563eb'; }}>
-            Book a Program →
+            Book a Program <span className="arrow-icon">→</span>
           </Link>
         </div>
 
@@ -307,8 +308,8 @@ export default function Navbar() {
             borderRadius: '2.5rem', background: '#2563eb', color: '#ffffff',
             fontFamily: 'var(--font-inter), sans-serif',
             fontSize: 13, fontWeight: 600, textDecoration: 'none',
-          }} onClick={() => setOpen(false)}>
-            Book a Program →
+          }} className="arrow-link" onClick={() => setOpen(false)}>
+            Book a Program <span className="arrow-icon">→</span>
           </Link>
         </div>
       )}

@@ -53,7 +53,7 @@ export default function LMSPage() {
               <p className="t-body c-muted" style={{ marginBottom: 24 }}>
                 SODAK LMS is being built alongside our campus programs. Register interest for early access.
               </p>
-              <Link href="/contact" className="btn btn-gold btn-lg">Register Interest →</Link>
+              <Link href="/contact" className="btn btn-gold btn-lg arrow-link">Register Interest <span className="arrow-icon">→</span></Link>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function LMSPage() {
             <h2>Complement Classroom Training With the LMS</h2>
             <p>LMS access is bundled with all campus training programs at no extra cost.</p>
           </div>
-          <Link href="/programs" className="btn-cta">See Our Programs →</Link>
+          <Link href="/programs" className="btn-cta arrow-link">See Our Programs <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

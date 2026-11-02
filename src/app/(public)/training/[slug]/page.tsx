@@ -80,8 +80,8 @@ export default async function TrainingStackPage({ params }: Props) {
                 <p className="t-sm c-body" style={{ marginBottom: 24 }}>
                   This stack is available as a standalone module or as part of a custom campus program.
                 </p>
-                <Link href="/contact" className="btn btn-gold btn-full" style={{ display: 'block', textAlign: 'center' }}>Enquire Now →</Link>
-                <Link href="/programs" className="btn btn-outline btn-full" style={{ marginTop: 10, display: 'block', textAlign: 'center' }}>Browse Programs →</Link>
+                <Link href="/contact" className="btn btn-gold btn-full arrow-link" style={{ display: 'block', textAlign: 'center' }}>Enquire Now <span className="arrow-icon">→</span></Link>
+                <Link href="/programs" className="btn btn-outline btn-full arrow-link" style={{ marginTop: 10, display: 'block', textAlign: 'center' }}>Browse Programs <span className="arrow-icon">→</span></Link>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default async function TrainingStackPage({ params }: Props) {
             <h2>Ready to Train in {stack.name}?</h2>
             <p>Book a campus session or explore our programs that include this stack.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book a Demo →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book a Demo <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

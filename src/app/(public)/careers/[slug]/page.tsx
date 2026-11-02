@@ -69,7 +69,7 @@ export default async function CareerDetailPage({ params }: Props) {
                     <label className="form-label c-muted" htmlFor="app-note">Cover Note</label>
                     <textarea id="app-note" name="coverNote" className="form-input form-textarea" rows={3} style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)', color: '#fff' }} />
                   </div>
-                  <Link href="/contact" className="btn btn-gold btn-full">Submit Application →</Link>
+                  <Link href="/contact" className="btn btn-gold btn-full arrow-link">Submit Application <span className="arrow-icon">→</span></Link>
                 </form>
               </div>
             </div>
@@ -83,7 +83,7 @@ export default async function CareerDetailPage({ params }: Props) {
             <h2>More Questions?</h2>
             <p>Talk to our team before applying — we&apos;re happy to explain the role in detail.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Contact Us →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Contact Us <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

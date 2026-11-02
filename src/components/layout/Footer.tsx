@@ -91,7 +91,7 @@ export default function Footer() {
               <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: '#bfdbfe', marginBottom: 4 }}>Ready to upskill your campus?</p>
               <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: '#ffffff', fontWeight: 600 }}>+91 89393 66259 · +91 63814 74648 · sodakedutech@gmail.com</p>
             </div>
-            <Link href="/contact" style={{
+            <Link href="/contact" className="arrow-link" style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
               padding: '10px 22px', borderRadius: '2.5rem',
               background: '#2563eb', color: '#ffffff',
@@ -100,7 +100,7 @@ export default function Footer() {
               whiteSpace: 'nowrap', transition: 'all 0.15s',
               boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
             }}>
-              Book a Program →
+              Book a Program <span className="arrow-icon">→</span>
             </Link>
           </div>
         </div>

@@ -56,7 +56,7 @@ export default async function WebinarsPage() {
                           </p>
                         )}
                         {w.presenter && <p className="t-micro c-muted" style={{ marginTop: 4 }}>Hosted by {w.presenter.name}</p>}
-                        <Link href="/contact" className="btn btn-gold btn-full" style={{ marginTop: 16 }}>Register Free →</Link>
+                        <Link href="/contact" className="btn btn-gold btn-full arrow-link" style={{ marginTop: 16 }}>Register Free <span className="arrow-icon">→</span></Link>
                       </div>
                     ))}
                   </div>
@@ -89,7 +89,7 @@ export default async function WebinarsPage() {
             <h2>Want Us to Host a Webinar for Your Students?</h2>
             <p>We can run exclusive live sessions for your college — free of charge.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Request a Webinar →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Request a Webinar <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

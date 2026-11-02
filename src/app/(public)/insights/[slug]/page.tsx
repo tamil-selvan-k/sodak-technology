@@ -97,7 +97,7 @@ export default async function InsightPostPage({ params }: Props) {
             <h2>Found This Useful?</h2>
             <p>Share it with a student preparing for placements, or book a session with our trainers.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book a Session →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book a Session <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

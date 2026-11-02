@@ -107,8 +107,8 @@ export default async function TrainerProfilePage({ params }: Props) {
                   {(trainer.sessionTypes as string[] ?? []).map(st => (
                     <p key={st} className="t-sm c-muted" style={{ marginBottom: 4 }}>✓ {st}</p>
                   ))}
-                  <Link href="/contact" className="btn btn-gold btn-full" style={{ marginTop: 16 }}>
-                    Book a Session →
+                  <Link href="/contact" className="btn btn-gold btn-full arrow-link" style={{ marginTop: 16 }}>
+                    Book a Session <span className="arrow-icon">→</span>
                   </Link>
                 </div>
               )}
@@ -169,7 +169,7 @@ export default async function TrainerProfilePage({ params }: Props) {
             <h2>Bring {trainer.name} to Your Campus</h2>
             <p>Book a training session or workshop with this trainer for your institution.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book Now →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book Now <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

@@ -105,7 +105,7 @@ export default async function MentorsPage() {
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}><svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg></div>
               <h2 className="t-h2 c-heading" style={{ marginBottom: 10 }}>Mentor profiles coming soon</h2>
               <p className="t-body c-body">Our mentor roster is being finalised. Reach out to express interest in early access.</p>
-              <Link href="/contact" className="btn btn-ghost" style={{ marginTop: 20 }}>Get Early Access →</Link>
+              <Link href="/contact" className="btn btn-ghost arrow-link" style={{ marginTop: 20 }}>Get Early Access <span className="arrow-icon">→</span></Link>
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginTop: 40 }}>
@@ -157,7 +157,7 @@ export default async function MentorsPage() {
             <h2>Not Sure Which Mentor to Choose?</h2>
             <p>Tell us your goals — we&apos;ll match you with the right mentor from our network.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Find My Mentor →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Find My Mentor <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

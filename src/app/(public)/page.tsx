@@ -180,8 +180,8 @@ export default async function HomePage() {
                 </p>
 
                 {/* CTA */}
-                <Link href="/about" className="btn btn-ghost" style={{ marginTop: 4 }}>
-                  Learn More About Us →
+                <Link href="/about" className="btn btn-ghost arrow-link" style={{ marginTop: 4 }}>
+                  Learn More About Us <span className="arrow-icon">→</span>
                 </Link>
               </div>
 
@@ -218,7 +218,7 @@ export default async function HomePage() {
 
           <ScrollReveal delay={0.35}>
             <div className="container text-center" style={{ marginTop: 32 }}>
-              <Link href="/mentors" className="btn btn-outline-white">Explore all mentors →</Link>
+              <Link href="/mentors" className="btn btn-outline-white arrow-link">Explore all mentors <span className="arrow-icon">→</span></Link>
             </div>
           </ScrollReveal>
         </section>
@@ -256,7 +256,7 @@ export default async function HomePage() {
               ))}
             </StaggerContainer>
             <div className="text-center" style={{ marginTop: 36 }}>
-              <Link href="/training" className="btn btn-ghost">View All Stacks →</Link>
+              <Link href="/training" className="btn btn-ghost arrow-link">View All Stacks <span className="arrow-icon">→</span></Link>
             </div>
           </div>
         </section>
@@ -296,7 +296,7 @@ export default async function HomePage() {
             ))}
           </StaggerContainer>
           <div className="text-center" style={{ marginTop: 36 }}>
-            <Link href="/programs" className="btn btn-ghost">View Full Curriculum →</Link>
+            <Link href="/programs" className="btn btn-ghost arrow-link">View Full Curriculum <span className="arrow-icon">→</span></Link>
           </div>
         </div>
       </section>
@@ -342,7 +342,7 @@ export default async function HomePage() {
                     </div>
                     <p className="t-h3 c-heading" style={{ marginBottom: 8 }}>{p.title}</p>
                     <div style={{ flex: 1 }}><p className="t-sm c-body">{p.desc}</p></div>
-                    <p className="t-sm" style={{ color: '#2563eb', fontWeight: 600, marginTop: 14 }}>Learn more →</p>
+                    <p className="t-sm arrow-link" style={{ color: '#2563eb', fontWeight: 600, marginTop: 14 }}>Learn more <span className="arrow-icon">→</span></p>
                   </div>
                 </Link>
               </ScrollReveal>
@@ -390,7 +390,7 @@ export default async function HomePage() {
             <h2>Ready to Transform Your Campus Placements?</h2>
             <p>Book a free demo session — we come to your campus. No commitments.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book a Free Demo →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book a Free Demo <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

@@ -83,9 +83,9 @@ export default async function ProgramsPage() {
                   </div>
                   <div style={{ flexShrink: 0 }}>
                     {program ? (
-                      <Link href={`/programs/${program.slug}`} className="btn btn-gold">Details →</Link>
+                      <Link href={`/programs/${program.slug}`} className="btn btn-gold arrow-link">Details <span className="arrow-icon">→</span></Link>
                     ) : (
-                      <Link href="/contact" className="btn btn-outline-white">Enquire →</Link>
+                      <Link href="/contact" className="btn btn-outline-white arrow-link">Enquire <span className="arrow-icon">→</span></Link>
                     )}
                   </div>
                 </div>
@@ -126,7 +126,7 @@ export default async function ProgramsPage() {
             <h2>Customise a Program for Your Campus</h2>
             <p>Tell us your timeline and student count — we&apos;ll design a program that fits.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Get a Custom Quote →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Get a Custom Quote <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

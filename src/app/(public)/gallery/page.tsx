@@ -59,7 +59,7 @@ export default async function GalleryPage() {
             <h2>Want to See a Session in Action?</h2>
             <p>Book a campus visit — we&apos;ll show you exactly how a SODAK training day runs.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book a Visit →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book a Visit <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

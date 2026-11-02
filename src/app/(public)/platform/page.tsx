@@ -58,7 +58,7 @@ export default function PlatformPage() {
                     <p key={f} className="t-sm c-muted" style={{ display: 'flex', alignItems: 'center', gap: 6 }}><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>{f}</p>
                   ))}
                 </div>
-                <Link href={p.href} className="btn btn-gold">Learn More →</Link>
+                <Link href={p.href} className="btn btn-gold arrow-link">Learn More <span className="arrow-icon">→</span></Link>
               </div>
             ))}
           </div>
@@ -71,7 +71,7 @@ export default function PlatformPage() {
             <h2>Want Platform Access for Your Campus?</h2>
             <p>All platform tools are included with any SODAK campus training program.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book a Demo →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book a Demo <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

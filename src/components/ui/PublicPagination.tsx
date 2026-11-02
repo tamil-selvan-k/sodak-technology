@@ -47,7 +47,7 @@ export default function PublicPagination({ page, pages, basePath, searchParams =
         <Link key={p} href={href(p)} style={linkStyle(p === page)}>{p}</Link>
       ))}
       {page < pages && (
-        <Link href={href(page + 1)} style={linkStyle(false)}>Next →</Link>
+        <Link href={href(page + 1)} style={linkStyle(false)} className="arrow-link">Next <span className="arrow-icon">→</span></Link>
       )}
     </div>
   )

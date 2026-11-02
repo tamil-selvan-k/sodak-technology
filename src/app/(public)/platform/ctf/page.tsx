@@ -53,7 +53,7 @@ export default function CTFPage() {
               <p className="t-body c-muted" style={{ marginBottom: 24 }}>
                 SODAK CTF is currently in private beta. Get early access by registering your interest.
               </p>
-              <Link href="/contact" className="btn btn-gold btn-lg">Get Early Access →</Link>
+              <Link href="/contact" className="btn btn-gold btn-lg arrow-link">Get Early Access <span className="arrow-icon">→</span></Link>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function CTFPage() {
             <h2>Bring CTF Training to Your Campus</h2>
             <p>Our cybersecurity track includes hands-on CTF workshops delivered on-site.</p>
           </div>
-          <Link href="/programs" className="btn-cta">View Cyber Program →</Link>
+          <Link href="/programs" className="btn-cta arrow-link">View Cyber Program <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

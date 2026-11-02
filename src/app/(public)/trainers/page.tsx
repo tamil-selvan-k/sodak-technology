@@ -106,7 +106,7 @@ export default async function TrainersPage({ searchParams }: Props) {
             <h2>Bring Our Trainers to Your Campus</h2>
             <p>We deliver training on-site — no student travel, no logistics hassle.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book a Trainer →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book a Trainer <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

@@ -111,7 +111,7 @@ export default async function ProgramDetailPage({ params }: Props) {
                     </div>
                   ))}
                 </div>
-                <Link href="/contact" className="btn btn-gold btn-full btn-lg">Enquire Now →</Link>
+                <Link href="/contact" className="btn btn-gold btn-full btn-lg arrow-link">Enquire Now <span className="arrow-icon">→</span></Link>
                 <Link href="/contact" className="btn btn-outline btn-full" style={{ marginTop: 10 }}>Request Brochure</Link>
               </div>
             </div>
@@ -126,7 +126,7 @@ export default async function ProgramDetailPage({ params }: Props) {
             <h2>Interested in This Program?</h2>
             <p>Contact us to check availability and get a customised schedule for your institution.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Book a Consultation →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Book a Consultation <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

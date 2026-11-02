@@ -121,7 +121,7 @@ export default async function AboutPage() {
               ))}
             </div>
             <div className="text-center" style={{ marginTop: 36 }}>
-              <Link href="/trainers" className="btn btn-outline">Meet All Trainers →</Link>
+              <Link href="/trainers" className="btn btn-outline arrow-link">Meet All Trainers <span className="arrow-icon">→</span></Link>
             </div>
           </div>
         </section>
@@ -159,7 +159,7 @@ export default async function AboutPage() {
             <h2>Partner With SODAK Technology</h2>
             <p>Bring world-class placement training to your campus — backed by 8+ years of results.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Start a Conversation →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Start a Conversation <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

@@ -135,7 +135,7 @@ export default async function CoursesPage() {
             <h2>Want a Full Curriculum?</h2>
             <p>Download our program brochure or book a demo session for your institution.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Get a Brochure →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Get a Brochure <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

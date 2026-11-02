@@ -39,7 +39,7 @@ export default async function InternshipsPage() {
               </div>
               <h2 className="t-h2 c-heading" style={{ marginBottom: 10 }}>Internships coming soon</h2>
               <p className="t-body c-muted">New opportunities will be posted here. Express your interest via the form below.</p>
-              <Link href="/contact" className="btn btn-outline" style={{ marginTop: 20 }}>Express Interest →</Link>
+              <Link href="/contact" className="btn btn-outline arrow-link" style={{ marginTop: 20 }}>Express Interest <span className="arrow-icon">→</span></Link>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 860, margin: '0 auto' }}>
@@ -89,7 +89,7 @@ export default async function InternshipsPage() {
                       </p>
                     )}
                   </div>
-                  <Link href="/contact" className="btn btn-gold btn-sm" style={{ flexShrink: 0, whiteSpace: 'nowrap' }}>Apply →</Link>
+                  <Link href="/contact" className="btn btn-gold btn-sm arrow-link" style={{ flexShrink: 0, whiteSpace: 'nowrap' }}>Apply <span className="arrow-icon">→</span></Link>
                 </div>
               ))}
             </div>
@@ -103,7 +103,7 @@ export default async function InternshipsPage() {
             <h2>Looking for an Internship Partner?</h2>
             <p>We connect colleges with companies offering structured internship programs for students.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Partner With Us →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Partner With Us <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>

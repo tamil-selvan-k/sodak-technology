@@ -1711,3 +1711,12 @@ section.s-lg { padding: 88px 0; }
     transform: none;
   }
 }
+
+/* ── Arrow button hover animation ── */
+.arrow-link .arrow-icon {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.arrow-link:hover .arrow-icon {
+  transform: translateX(4px);
+}

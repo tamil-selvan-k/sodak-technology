@@ -59,7 +59,7 @@ export default async function TrainingPage() {
             <h2>Need a Blend of Stacks?</h2>
             <p>We can combine topics from multiple stacks into a custom program for your institution.</p>
           </div>
-          <Link href="/contact" className="btn-cta">Request Custom Program →</Link>
+          <Link href="/contact" className="btn-cta arrow-link">Request Custom Program <span className="arrow-icon">→</span></Link>
         </div>
       </div>
     </>
