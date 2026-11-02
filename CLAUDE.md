@@ -51,7 +51,9 @@ CI runs lint, type-check, and build on every PR to `main` (see `.github/workflow
 
 ### Module System (`src/modules/`)
 
-Each business domain has its own directory with three files:
+Domains: `blog`, `careers`, `courses`, `gallery`, `institutions`, `internships`, `leads`, `mentors`, `programs`, `settings`, `stacks`, `trainers`, `webinars`.
+
+Each domain has three files:
 - `{domain}.service.ts` — DB operations and business logic
 - `{domain}.schema.ts` — Zod validation schemas
 - `{domain}.types.ts` — TypeScript types
@@ -59,6 +61,8 @@ Each business domain has its own directory with three files:
 **Hard rule: services never import from other module services.** Cross-module data assembly happens only in API route handlers (`src/app/api/v1/[resource]/route.ts`), which call multiple services and compose the response.
 
 Cross-module side effects (e.g., "publish trainer → send email") use the event emitter in `src/lib/events.ts`, not direct service-to-service calls. Handlers register in `src/lib/notification-handlers.ts`.
+
+**Events are not durable.** The in-process emitter only works when the handler is registered and the event is fired in the same module import chain during the same request. On a cold-start Vercel instance the handler Map is empty. For reliability-critical side effects, move to Upstash QStash.
 
 ### Shared Infrastructure (`src/lib/`)
 
@@ -68,8 +72,8 @@ Cross-module side effects (e.g., "publish trainer → send email") use the event
 | `auth.ts` | NextAuth session helper |
 | `storage.ts` | AWS S3 wrapper |
 | `email.ts` | Nodemailer SMTP wrapper |
-| `image.ts` | Sharp resize pipeline (WebP + AVIF variants) |
-| `cache.ts` | Redis cache layer |
+| `image.ts` | Sharp resize pipeline — uploads `original`, `lg` (1200px), `md` (800px), `sm` (400px), `thumb` (200px), `lg_avif`, `md_avif` variants |
+| `cache.ts` | Redis cache layer (admin paths only — public ISR pages use Next.js CDN caching) |
 | `redis.ts` | Redis client |
 | `rate-limit.ts` | Upstash rate limiting |
 | `turnstile.ts` | Cloudflare Turnstile verification |
@@ -79,10 +83,17 @@ Cross-module side effects (e.g., "publish trainer → send email") use the event
 | `slugify.ts` | Slug generation |
 | `upload-progress.ts` | SSE progress for bulk uploads |
 
+**Cache key convention** (`src/lib/cache.ts`):
+- `{module}:list:v{version}:{params}` — list query results (TTL 120s)
+- `{module}:id:{id}` / `{module}:slug:{slug}` — single-record lookups (TTL 300s)
+- `{module}:v` — integer version counter (no TTL) — increment to orphan stale list keys
+- No SCAN/KEYS/pattern-based deletes (unavailable on Upstash free tier)
+
 ### Components (`src/components/`)
 
 - `ui/` — shared primitives (Button, Card, Input, etc.) used by both public and admin
 - `layout/` — Navbar, Footer, FloatButtons (public site chrome)
+- `AuthSyncProvider.tsx` — cross-tab logout sync via BroadcastChannel; wraps the admin layout
 
 Barrel export via `src/components/ui/index.ts`.
 
@@ -108,9 +119,11 @@ Response envelope:
 
 Public form submissions go to `/api/v1/forms/{enquiry,careers,internship,webinar}`.
 
+Media uploads go to `/api/v1/media` (admin-only POST). Max 10 MB; allowed types: `image/jpeg`, `image/png`, `image/webp`, `image/gif`, `application/pdf`. Images are processed through Sharp into multiple size variants before being stored in S3.
+
 ## Auth & RBAC
 
-Five roles: `super_admin`, `editor`, `contributor`, `sales`, `visitor`. Defined as a Prisma enum (`UserRole`). RBAC is enforced at the API middleware level — UI hiding alone is never sufficient.
+Four roles: `super_admin`, `editor`, `contributor`, `sales`. Defined as a Prisma enum (`UserRole`). RBAC is enforced at the API middleware level — UI hiding alone is never sufficient.
 
 ## Consent Gates (Service Layer)
 

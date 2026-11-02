@@ -1,55 +1,17 @@
 // Rule: only imports from own types/schema, src/lib/*, npm packages.
 import { db } from '@/lib/db'
 import { parsePagination, buildMeta } from '@/lib/paginate'
-import {
-  cacheGet,
-  cacheSet,
-  cacheDel,
-  cacheInvalidateLists,
-  cacheGetVersion,
-  LIST_TTL,
-  RECORD_TTL,
-} from '@/lib/cache'
 import type { GalleryFilters } from './gallery.types'
 import type { CreatePhotoInput, UpdatePhotoInput } from './gallery.schema'
 import type { Prisma } from '@prisma/client'
 import type { PaginationMeta } from '@/lib/paginate'
 
 type PhotoRecord = Prisma.PhotoGetPayload<object>
-type PhotoListResult = { data: PhotoRecord[]; pagination: PaginationMeta }
 
-const VERSION_KEY = 'gallery:v'
+// ── Service functions ─────────────────────────────────────────────────────────
 
-function buildListKey(version: number, filters: GalleryFilters): string {
-  const {
-    page = 1, perPage = 20,
-    includeUnpublished, institutionId, year, tag,
-  } = filters
-  return (
-    `gallery:list:v${version}:p${page}:pp${perPage}` +
-    `:incl${includeUnpublished ? 1 : 0}` +
-    `:inst${institutionId ?? ''}` +
-    `:y${year ?? ''}` +
-    `:tag${tag ?? ''}`
-  )
-}
-
-function idKey(id: string): string { return `gallery:id:${id}` }
-
-async function invalidate(id: string): Promise<void> {
-  await Promise.all([
-    cacheInvalidateLists(VERSION_KEY),
-    cacheDel(idKey(id)),
-  ])
-}
-
-export async function listPhotos(filters: GalleryFilters = {}): Promise<PhotoListResult> {
+export async function listPhotos(filters: GalleryFilters = {}): Promise<{ data: PhotoRecord[]; pagination: PaginationMeta }> {
   const { skip, take, page, perPage } = parsePagination(filters)
-
-  const version = await cacheGetVersion(VERSION_KEY)
-  const key = buildListKey(version, { ...filters, page, perPage })
-  const cached = await cacheGet<PhotoListResult>(key)
-  if (cached !== null) return cached
 
   const where = {
     ...(filters.includeUnpublished ? {} : { isPublished: true }),
@@ -62,31 +24,19 @@ export async function listPhotos(filters: GalleryFilters = {}): Promise<PhotoLis
     db.photo.findMany({ where, orderBy: { displayOrder: 'asc' }, skip, take }),
     db.photo.count({ where }),
   ])
-  const result: PhotoListResult = { data: photos, pagination: buildMeta(total, page, perPage) }
-  await cacheSet(key, result, LIST_TTL)
-  return result
+  return { data: photos, pagination: buildMeta(total, page, perPage) }
 }
 
 export async function createPhoto(input: CreatePhotoInput) {
-  const photo = await db.photo.create({ data: input as Prisma.PhotoUncheckedCreateInput })
-  await cacheInvalidateLists(VERSION_KEY)
-  return photo
+  return db.photo.create({ data: input as Prisma.PhotoUncheckedCreateInput })
 }
 
 export async function getPhotoById(id: string) {
-  const key = idKey(id)
-  const cached = await cacheGet<PhotoRecord>(key)
-  if (cached !== null) return cached
-
-  const photo = await db.photo.findFirst({ where: { id, deletedAt: null } })
-  if (photo) await cacheSet(key, photo, RECORD_TTL)
-  return photo
+  return db.photo.findFirst({ where: { id, deletedAt: null } })
 }
 
 export async function updatePhoto(id: string, input: UpdatePhotoInput) {
-  const photo = await db.photo.update({ where: { id }, data: input })
-  await invalidate(id)
-  return photo
+  return db.photo.update({ where: { id }, data: input })
 }
 
 export async function publishPhoto(id: string) {
@@ -95,21 +45,15 @@ export async function publishPhoto(id: string) {
   if (photo.hasStudentFaces && !photo.studentConsentRef) {
     throw new ConsentError('student_consent_ref is required when has_student_faces is true.')
   }
-  const updated = await db.photo.update({ where: { id }, data: { isPublished: true } })
-  await invalidate(id)
-  return updated
+  return db.photo.update({ where: { id }, data: { isPublished: true } })
 }
 
 export async function unpublishPhoto(id: string) {
-  const photo = await db.photo.update({ where: { id }, data: { isPublished: false } })
-  await invalidate(id)
-  return photo
+  return db.photo.update({ where: { id }, data: { isPublished: false } })
 }
 
 export async function deletePhoto(id: string) {
-  const photo = await db.photo.update({ where: { id }, data: { deletedAt: new Date() } })
-  await invalidate(id)
-  return photo
+  return db.photo.update({ where: { id }, data: { deletedAt: new Date() } })
 }
 
 export class AltTextError extends Error {

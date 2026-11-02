@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import { createPortal } from 'react-dom'
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -11,163 +10,66 @@ interface Mentor {
   photoUrl?: string | null
   designation?: string | null
   currentCompany?: string | null
-  bioHtml?: string | null
   expertiseTags?: string[]
-  sessionTypes?: string[]
-  bookingUrl?: string | null
+  yearsExperience?: number | null
 }
 
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, '').trim()
-}
-
-function MentorAvatar({ name, photoUrl, size }: { name: string; photoUrl?: string | null; size: 'card' | 'popup' }) {
-  const dim = size === 'card' ? 96 : 56
-  const cls = size === 'card' ? 'avatar avatar-xl' : 'popup-avatar'
-
-  if (photoUrl) {
-    return (
-      <Image
-        src={photoUrl}
-        alt={name}
-        width={dim}
-        height={dim}
-        className={cls}
-        style={{ objectFit: 'cover', borderRadius: '50%', width: dim, height: dim }}
-      />
-    )
-  }
+export default function MentorCard({ mentor: m }: { mentor: Mentor }) {
+  const [imgError, setImgError] = useState(false)
+  const showPhoto = !!m.photoUrl && !imgError
 
   return (
-    <Image
-      src="/images/default-avatar.svg"
-      alt={name}
-      width={dim}
-      height={dim}
-      className={cls}
-      style={{ objectFit: 'cover', borderRadius: '50%', width: dim, height: dim }}
-    />
-  )
-}
-
-export default function MentorCard({ mentor }: { mentor: Mentor }) {
-  const [open, setOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const cardRef = useRef<HTMLDivElement>(null)
-  const openedAt = useRef(0)
-
-  useEffect(() => { setMounted(true) }, [])
-  useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current) }, [])
-
-  useEffect(() => {
-    const track = cardRef.current?.closest('.mentor-marquee-track') as HTMLElement | null
-    if (!track) return
-    if (open) {
-      track.style.animationPlayState = 'paused'
-      openedAt.current = Date.now()
-    } else {
-      track.style.animationPlayState = ''
-    }
-    return () => { track.style.animationPlayState = '' }
-  }, [open])
-
-  const cancelClose = useCallback(() => {
-    if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null }
-  }, [])
-
-  const close = useCallback(() => { cancelClose(); setOpen(false) }, [cancelClose])
-
-  const scheduleClose = useCallback((ms = 400) => {
-    cancelClose()
-    closeTimer.current = setTimeout(close, ms)
-  }, [cancelClose, close])
-
-  const m = mentor
-  const bio = m.bioHtml ? stripHtml(m.bioHtml) : null
-  const hasExtraDetails = !!(bio || (m.expertiseTags && m.expertiseTags.length > 0) || (m.sessionTypes && m.sessionTypes.length > 0))
-
-  const GRACE_MS = 800
-
-  return (
-    <div
-      ref={cardRef}
-      className="mentor-card"
-      onMouseEnter={() => { cancelClose(); setOpen(true) }}
-      onMouseLeave={() => scheduleClose(500)}
-    >
-      <MentorAvatar name={m.name} photoUrl={m.photoUrl} size="card" />
-      <p className="t-card c-white" style={{ marginBottom: 4 }}>{m.name}</p>
-      <p className="t-sm" style={{ color: '#bfdbfe' }}>{m.designation}</p>
-      {m.currentCompany && (
-        <p className="t-micro" style={{ marginTop: 6, color: '#93c5fd', fontWeight: 600 }}>{m.currentCompany}</p>
-      )}
-
-      {mounted && open && createPortal(
-        <div
-          className="mentor-modal-overlay"
-          onClick={close}
-          onMouseMove={(e) => {
-            if (e.target === e.currentTarget && Date.now() - openedAt.current > GRACE_MS) {
-              scheduleClose(300)
-            }
-          }}
-        >
-          <div
-            className="mentor-popup"
-            onClick={(e) => e.stopPropagation()}
-            onMouseEnter={cancelClose}
-            onMouseLeave={() => scheduleClose(200)}
-          >
-            <button className="popup-close" onClick={close} aria-label="Close">&times;</button>
-            <div className="popup-top">
-              <MentorAvatar name={m.name} photoUrl={m.photoUrl} size="popup" />
-              <div>
-                <p className="popup-name">{m.name}</p>
-                <p className="popup-designation">
-                  {m.designation}{m.currentCompany ? ` at ${m.currentCompany}` : ''}
-                </p>
-              </div>
-            </div>
-            {hasExtraDetails && (
-              <div className="popup-body">
-                {bio && (
-                  <div className="popup-detail-row">
-                    <span className="popup-label">About</span>
-                    <p className="popup-bio">{bio}</p>
-                  </div>
-                )}
-                {m.expertiseTags && m.expertiseTags.length > 0 && (
-                  <div className="popup-detail-row">
-                    <span className="popup-label">Expertise</span>
-                    <div className="popup-tags">
-                      {m.expertiseTags.slice(0, 5).map((tag) => (
-                        <span key={tag} className="badge badge-light">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {m.sessionTypes && m.sessionTypes.length > 0 && (
-                  <div className="popup-detail-row">
-                    <span className="popup-label">Sessions Offered</span>
-                    <div className="popup-sessions">
-                      {m.sessionTypes.map((s) => (
-                        <span key={s} className="badge badge-gold">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-            <div className="popup-footer">
-              <Link href={`/mentors/${m.slug}`} className="btn btn-gold btn-sm popup-view-more">
-                View More →
-              </Link>
-            </div>
+    <article className="group bg-white border border-[#e0ebff] rounded-[22px] shadow-[0_10px_28px_rgba(5,25,80,0.12)] overflow-hidden flex flex-col transition-[transform,box-shadow] duration-[250ms] ease-out hover:-translate-y-[5px] hover:shadow-[0_18px_38px_rgba(5,25,80,0.20)]">
+      {/* Photo banner */}
+      <div className="relative aspect-[16/10] bg-gradient-to-br from-[#dce8ff] to-[#b9ccf0] overflow-hidden">
+        {showPhoto ? (
+          <Image
+            src={m.photoUrl!}
+            alt={m.name}
+            fill
+            className="object-cover transition-transform duration-[450ms] ease-out group-hover:scale-[1.045]"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#7799d9] to-[#294e9c] text-white text-5xl font-bold">
+            {m.name.charAt(0).toUpperCase()}
           </div>
-        </div>,
-        document.body
-      )}
-    </div>
+        )}
+        <span className="absolute top-3 left-3 bg-white/95 text-[#236044] px-2.5 py-1.5 rounded-full text-[10px] font-[800] shadow-[0_3px_12px_rgba(0,0,0,0.08)]">
+          Industry mentor
+        </span>
+      </div>
+
+      {/* Card body */}
+      <div className="p-[19px] flex flex-col flex-1">
+        <h2 className="text-[20px] font-bold tracking-[-0.4px] leading-tight">{m.name}</h2>
+        <p className="mt-1.5 text-[13px] text-[#53647e] leading-[1.45]">{m.designation ?? ''}</p>
+
+        {m.currentCompany && (
+          <p className="mt-2.5 flex items-center gap-1.5 text-[12px] font-[800] text-[#2454ae]">
+            <span className="w-2 h-2 rounded-sm bg-[#3974ee] flex-none" />
+            {m.currentCompany}
+          </p>
+        )}
+
+        {m.expertiseTags && m.expertiseTags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-3.5">
+            {m.expertiseTags.slice(0, 4).map(tag => (
+              <span key={tag} className="rounded-full bg-[#f0f5ff] text-[#405a87] px-2.5 py-1.5 text-[10px] font-[700]">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-auto pt-3 border-t border-[#edf1f8] flex items-center justify-between gap-2">
+          <span className="text-[11px] text-[#8390a5]">Industry professional</span>
+          <Link href={`/mentors/${m.slug}`} className="group/link inline-flex items-center gap-1 text-[12px] font-[800] text-[#2454c6] whitespace-nowrap transition-colors duration-200 hover:text-[#173da8]">
+            View profile
+            <span className="inline-block transition-transform duration-200 group-hover/link:translate-x-1">→</span>
+          </Link>
+        </div>
+      </div>
+    </article>
   )
 }

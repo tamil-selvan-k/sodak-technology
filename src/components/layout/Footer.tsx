@@ -64,7 +64,7 @@ export default function Footer() {
           display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
           gap: 32, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.12)',
           flexWrap: 'wrap',
-        }}>
+        }} className="footer-top-strip">
           <div style={{ maxWidth: 320 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
               <div style={{ width: 38, height: 38, background: '#fff', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
@@ -86,8 +86,8 @@ export default function Footer() {
               Placement-first. Practice-led. Industry-backed.
             </p>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-            <div style={{ textAlign: 'right' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }} className="footer-cta-group">
+            <div style={{ textAlign: 'right' }} className="footer-cta-text">
               <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 12, color: '#bfdbfe', marginBottom: 4 }}>Ready to upskill your campus?</p>
               <p style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 13, color: '#ffffff', fontWeight: 600 }}>+91 89393 66259 · +91 63814 74648 · sodakedutech@gmail.com</p>
             </div>

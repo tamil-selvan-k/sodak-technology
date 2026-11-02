@@ -822,6 +822,23 @@ section.s-lg { padding: 88px 0; }
 }
 
 /* ── Footer columns grid ── */
+@media (max-width: 767px) {
+  .footer-top-strip {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footer-cta-group {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .footer-cta-text {
+    text-align: center !important;
+  }
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

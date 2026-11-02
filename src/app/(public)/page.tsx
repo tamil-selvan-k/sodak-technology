@@ -6,7 +6,7 @@ import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
 import { listInstitutionNames } from '@/modules/institutions/institutions.service'
 import StackIcon from '@/components/ui/StackIcon'
-import MentorCard from '@/components/ui/MentorCard'
+import MentorCarousel from '@/components/ui/MentorCarousel'
 import HeroReveal from '@/components/ui/HeroReveal'
 import StackCycler from '@/components/ui/StackCycler'
 import type { StackCyclerItem } from '@/components/ui/StackCycler'
@@ -34,14 +34,6 @@ const HERO_STACKS: StackCyclerItem[] = [
   { label: 'Campus Placement Prep', icon: 'placement', from: '#a78bfa', to: '#ec4899' },
 ]
 
-const MENTOR_COMPANIES_ROW1 = [
-  'Amazon', 'Northern Arc', 'Zoho', 'TCS', 'Deloitte',
-  'Accenture', 'Cognizant', 'PayPal',
-]
-const MENTOR_COMPANIES_ROW2 = [
-  'PayPal', 'Deloitte', 'Amazon', 'Zoho', 'TCS',
-  'Cognizant', 'Accenture', 'Northern Arc',
-]
 
 const REVIEWS = [
   { name: 'Harini S.', college: 'Anna University', text: 'Placed at TCS within 2 months of the training. The mock interviews were incredibly realistic.', stars: 5 },
@@ -83,7 +75,7 @@ export default async function HomePage() {
           </HeroReveal>
           <HeroReveal delay={0.15}>
             <p className="hero-subtitle">
-              {settings?.heroSubhead ?? 'Expert-led campus placement training trusted by colleges across Tamil Nadu'}
+              {settings?.heroSubhead ?? 'Expert-led campus placement training for engineering students across Tamil Nadu'}
             </p>
           </HeroReveal>
           <HeroReveal delay={0.25}>
@@ -99,7 +91,6 @@ export default async function HomePage() {
             <div className="hero-trust">
               <span>Free demo class</span>
               <span>No registration fee</span>
-              <span>Placement guarantee*</span>
             </div>
           </HeroReveal>
         </div>
@@ -107,11 +98,20 @@ export default async function HomePage() {
 
       {/* ── Companies Marquee ── */}
       {(() => {
+        // Build unique company list from live mentor data
+        const uniqueCompanies = Array.from(
+          new Set(mentors.map(m => m.currentCompany).filter((c): c is string => !!c))
+        )
+        if (uniqueCompanies.length === 0) return null
+
+        // Row 2 is the same list reversed so the two marquee rows look different
+        const companiesRow2 = [...uniqueCompanies].reverse()
+
         const minItems = 12
-        const row1Repeats = Math.ceil(minItems / MENTOR_COMPANIES_ROW1.length)
-        const row1 = Array.from({ length: row1Repeats }, () => MENTOR_COMPANIES_ROW1).flat()
-        const row2Repeats = Math.ceil(minItems / MENTOR_COMPANIES_ROW2.length)
-        const row2 = Array.from({ length: row2Repeats }, () => MENTOR_COMPANIES_ROW2).flat()
+        const row1Repeats = Math.ceil(minItems / uniqueCompanies.length)
+        const row1 = Array.from({ length: row1Repeats }, () => uniqueCompanies).flat()
+        const row2Repeats = Math.ceil(minItems / companiesRow2.length)
+        const row2 = Array.from({ length: row2Repeats }, () => companiesRow2).flat()
         return (
           <section className="companies-section" style={{ padding: '40px 0 20px' }}>
             <div className="container text-center" style={{ marginBottom: 24 }}>
@@ -201,39 +201,28 @@ export default async function HomePage() {
 
       {/* ── Institution Marquee (hidden) ── */}
 
-      {/* ── Mentors Marquee ── */}
-      {mentors.length >= 3 && (() => {
-        const minCards = 8
-        const repeats = Math.ceil(minCards / mentors.length)
-        const filled = Array.from({ length: repeats }, () => mentors).flat()
-        return (
-          <section className="mentor-marquee-section">
-            <div className="container">
-              <ScrollReveal>
-                <div className="section-header text-center">
-                  <p className="section-eyebrow">Our Mentors</p>
-                  <h2 className="t-h2 c-heading">Learn from Industry Leaders</h2>
-                  <p>Working professionals who train on weekends — because the best teachers are those still building in the industry.</p>
-                </div>
-              </ScrollReveal>
+      {/* ── Mentors Carousel ── */}
+      {mentors.length > 0 && (
+        <section className="mentor-marquee-section" id="mentors" aria-labelledby="mentor-heading">
+          <div className="container">
+            <ScrollReveal>
+              <div className="section-header text-center">
+                <p className="section-eyebrow">Our industry mentors</p>
+                <h2 className="t-h2 c-heading" id="mentor-heading">Learn from Industry Leaders</h2>
+                <p>Working professionals who bring real-world experience into every learning session.</p>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          <MentorCarousel mentors={mentors} />
+
+          <ScrollReveal delay={0.35}>
+            <div className="container text-center" style={{ marginTop: 32 }}>
+              <Link href="/mentors" className="btn btn-outline-white">Explore all mentors →</Link>
             </div>
-            <ScrollReveal delay={0.2}>
-              <div className="mentor-marquee-wrap">
-                <div className="mentor-marquee-track">
-                  {[...filled, ...filled].map((m, i) => (
-                    <MentorCard key={`mentor-${i}`} mentor={m} />
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal delay={0.35}>
-              <div className="container text-center" style={{ marginTop: 32 }}>
-                <Link href="/mentors" className="btn btn-outline-white">View All Mentors →</Link>
-              </div>
-            </ScrollReveal>
-          </section>
-        )
-      })()}
+          </ScrollReveal>
+        </section>
+      )}
 
       {/* ── Technology Stacks ── */}
       {stacks.length > 0 && (

@@ -15,10 +15,14 @@ function createUpstashKV(): KV {
     token: process.env.UPSTASH_REDIS_REST_TOKEN!,
   })
   return {
-    get:  (key)                    => client.get(key),
-    set:  (key, value, exSeconds)  => client.set(key, value, { ex: exSeconds }).then(() => undefined),
-    del:  (key)                    => client.del(key).then(() => undefined),
-    incr: (key)                    => client.incr(key),
+    get:  (key) => client.get(key),
+    set:  (key, value, exSeconds) => {
+      const jitter = Math.round(exSeconds * 0.1 * (Math.random() * 2 - 1)) // ±10%
+      const ttl = Math.max(1, exSeconds + jitter)
+      return client.set(key, value, { ex: ttl }).then(() => undefined)
+    },
+    del:  (key) => client.del(key).then(() => undefined),
+    incr: (key) => client.incr(key),
   }
 }
 
@@ -28,9 +32,17 @@ function createIoRedisKV(): KV {
     maxRetriesPerRequest: 1,
     enableOfflineQueue: false,
   })
-  // Prevent unhandled 'error' event from crashing the process when Redis is unavailable
+
+  let errorLogged = false
   client.on('error', (err: Error) => {
-    console.error('[redis] connection error (cache disabled):', err.message)
+    if (!errorLogged) {
+      errorLogged = true
+      console.error('[redis] ioredis connection failed (cache disabled):', err.message)
+    }
+  })
+  client.once('ready', () => {
+    errorLogged = false // reset so a future disconnect logs again
+    console.info('[redis] ioredis connected')
   })
 
   return {
@@ -42,7 +54,9 @@ function createIoRedisKV(): KV {
       } catch { return null }
     },
     async set(key: string, value: unknown, exSeconds: number) {
-      try { await client.setex(key, exSeconds, JSON.stringify(value)) } catch { /* cache miss */ }
+      const jitter = Math.round(exSeconds * 0.1 * (Math.random() * 2 - 1)) // ±10%
+      const ttl = Math.max(1, exSeconds + jitter)
+      try { await client.setex(key, ttl, JSON.stringify(value)) } catch { /* cache miss */ }
     },
     async del(key: string) {
       try { await client.del(key) } catch { /* cache miss */ }

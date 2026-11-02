@@ -3,19 +3,12 @@
 
 import { db } from '@/lib/db'
 import { parsePagination, buildMeta } from '@/lib/paginate'
-import {
-  cacheGet,
-  cacheSet,
-  cacheInvalidateLists,
-  LIST_TTL,
-} from '@/lib/cache'
 import type { Prisma } from '@prisma/client'
 import type { PaginationMeta } from '@/lib/paginate'
 
 const WITH_STACKS = { stacks: { include: { stack: true } } } as const
 
 type MentorRecord = Prisma.TrainerGetPayload<{ include: typeof WITH_STACKS }>
-type MentorListResult = { data: MentorRecord[]; pagination: PaginationMeta }
 
 export interface MentorFilters {
   search?: string
@@ -25,25 +18,8 @@ export interface MentorFilters {
   perPage?: number
 }
 
-const VERSION_KEY = 'mentors:v'
-
-function buildListKey(version: number, filters: MentorFilters): string {
-  const { page = 1, perPage = 20, includeUnpublished, isPublished, search } = filters
-  return (
-    `mentors:list:v${version}:p${page}:pp${perPage}` +
-    `:incl${includeUnpublished ? 1 : 0}` +
-    `:pub${isPublished ?? ''}` +
-    `:q${search ?? ''}`
-  )
-}
-
-export async function listMentors(filters: MentorFilters = {}): Promise<MentorListResult> {
+export async function listMentors(filters: MentorFilters = {}): Promise<{ data: MentorRecord[]; pagination: PaginationMeta }> {
   const { skip, take, page, perPage } = parsePagination(filters)
-
-  const version = await cacheGet<number>(VERSION_KEY).then(v => v ?? 0)
-  const key = buildListKey(version, { ...filters, page, perPage })
-  const cached = await cacheGet<MentorListResult>(key)
-  if (cached !== null) return cached
 
   const where: Prisma.TrainerWhereInput = {
     isMentor: true,
@@ -57,7 +33,5 @@ export async function listMentors(filters: MentorFilters = {}): Promise<MentorLi
     db.trainer.count({ where }),
   ])
 
-  const result: MentorListResult = { data: mentors, pagination: buildMeta(total, page, perPage) }
-  await cacheSet(key, result, LIST_TTL)
-  return result
+  return { data: mentors, pagination: buildMeta(total, page, perPage) }
 }
