@@ -1,11 +1,12 @@
 import { z } from 'zod'
 
 export const createStackSchema = z.object({
-  name:        z.string().min(2).max(100),
-  icon:        z.string().optional(),
-  summary:     z.string().max(500).optional(),
-  colorToken:  z.string().optional(),
-  displayOrder:z.number().int().default(0),
+  name:         z.string().min(2).max(100),
+  icon:         z.string().optional(),
+  summary:      z.string().max(500).optional(),
+  colorToken:   z.string().optional(),
+  displayOrder: z.number().int().default(0),
+  technologies: z.array(z.string().min(1).max(100)).optional(),
 })
 
 export const updateStackSchema = createStackSchema.partial()

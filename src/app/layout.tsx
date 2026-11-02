@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sodakedutech.in'),
   title: { default: 'SODAK Technology — Campus Placement Training', template: '%s — SODAK Technology' },
   description: 'Campus placement training by engineers from Amazon, Zoho, TCS and Accenture. Placement-first. Practice-led. Industry-backed.',
+  icons: {
+    icon: '/api/favicon',
+    apple: '/api/favicon',
+  },
   openGraph: {
     type: 'website',
     siteName: 'SODAK Technology',

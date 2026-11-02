@@ -8,6 +8,7 @@ export interface CreateStackInput {
   summary?: string
   colorToken?: string
   displayOrder?: number
+  technologies?: string[]
 }
 
 export type UpdateStackInput = Partial<CreateStackInput>

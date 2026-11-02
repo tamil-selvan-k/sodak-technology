@@ -236,7 +236,7 @@ export default async function HomePage() {
               </p>
             </div>
             <StaggerContainer style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20, marginTop: 36 }}>
-              {stacks.map(stack => (
+              {stacks.slice(0, 6).map(stack => (
                 <ScrollReveal key={stack.id}>
                   <Link href={`/training/${stack.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
                     <div className="teach-card">

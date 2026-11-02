@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast'
@@ -10,6 +10,21 @@ export default function StackForm() {
   const { toast } = useToast()
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [technologies, setTechnologies] = useState<string[]>([])
+  const [techInput, setTechInput] = useState('')
+  const techRef = useRef<HTMLInputElement>(null)
+
+  function addTech() {
+    const val = techInput.trim()
+    if (!val || technologies.includes(val)) return
+    setTechnologies(prev => [...prev, val])
+    setTechInput('')
+    techRef.current?.focus()
+  }
+
+  function removeTech(name: string) {
+    setTechnologies(prev => prev.filter(t => t !== name))
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -21,6 +36,7 @@ export default function StackForm() {
       summary:      (fd.get('summary') as string).trim() || undefined,
       colorToken:   (fd.get('colorToken') as string).trim() || undefined,
       displayOrder: fd.get('displayOrder') ? Number(fd.get('displayOrder')) : 0,
+      technologies: technologies.length > 0 ? technologies : undefined,
     }
     const res = await fetch('/api/v1/stacks', {
       method: 'POST',
@@ -95,6 +111,50 @@ export default function StackForm() {
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Technologies */}
+            <div style={cardStyle}>
+              <p style={sectionHeadStyle}>Technologies</p>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+                <input
+                  ref={techRef}
+                  type="text"
+                  value={techInput}
+                  onChange={e => setTechInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addTech() } }}
+                  placeholder="e.g. React, Node.js, PostgreSQL"
+                  style={{ ...inputStyle, flex: 1 }}
+                  onFocus={e => (e.currentTarget.style.borderColor = '#2563eb')}
+                  onBlur={e  => (e.currentTarget.style.borderColor = '#dbeafe')}
+                />
+                <button
+                  type="button"
+                  onClick={addTech}
+                  style={{ padding: '10px 16px', background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#2563EB', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                >
+                  + Add
+                </button>
+              </div>
+              {technologies.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {technologies.map(tech => (
+                    <span key={tech} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', background: '#EFF6FF', border: '1px solid #DBEAFE', borderRadius: 20, fontSize: 12, fontWeight: 500, color: '#1e40af' }}>
+                      {tech}
+                      <button
+                        type="button"
+                        onClick={() => removeTech(tech)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 1, color: '#60a5fa', fontSize: 14, fontWeight: 700 }}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+              {technologies.length === 0 && (
+                <p style={{ fontSize: 12, color: '#94a3b8' }}>No technologies added yet. Type a name and press Enter or click Add.</p>
+              )}
             </div>
           </div>
 

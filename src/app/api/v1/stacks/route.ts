@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: { code: 'VALIDATION_ERROR', message: 'Invalid input.', details: parsed.error.flatten() } }, { status: 422 })
     }
     const stack = await stacksService.createStack(parsed.data)
+    if (!stack) return NextResponse.json({ error: { code: 'INTERNAL', message: 'Failed to create stack.' } }, { status: 500 })
     await writeAuditLog({ actorId: session.user.id, action: 'CREATE', entityType: 'stack', entityId: stack.id, newValue: stack })
     return NextResponse.json({ data: stack }, { status: 201 })
   } catch (err) {
