@@ -33,10 +33,36 @@ export default function MentorCarousel({ mentors }: { mentors: MentorItem[] }) {
   }, [])
 
   const maxIndex = Math.max(0, mentors.length - visCount)
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const pauseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [paused, setPaused] = useState(false)
 
   const goTo = useCallback((next: number) => {
     setIndex(Math.max(0, Math.min(next, maxIndex)))
   }, [maxIndex])
+
+  const advance = useCallback(() => {
+    setIndex(prev => prev >= maxIndex ? 0 : prev + 1)
+  }, [maxIndex])
+
+  const pauseAutoplay = useCallback(() => {
+    setPaused(true)
+    if (pauseTimeout.current) clearTimeout(pauseTimeout.current)
+    pauseTimeout.current = setTimeout(() => setPaused(false), 5000)
+  }, [])
+
+  useEffect(() => {
+    if (paused || maxIndex === 0) {
+      if (autoplayRef.current) { clearInterval(autoplayRef.current); autoplayRef.current = null }
+      return
+    }
+    autoplayRef.current = setInterval(advance, 3000)
+    return () => { if (autoplayRef.current) clearInterval(autoplayRef.current) }
+  }, [paused, advance, maxIndex])
+
+  useEffect(() => {
+    return () => { if (pauseTimeout.current) clearTimeout(pauseTimeout.current) }
+  }, [])
 
   useEffect(() => {
     setIndex(i => Math.min(i, maxIndex))
@@ -54,7 +80,7 @@ export default function MentorCarousel({ mentors }: { mentors: MentorItem[] }) {
   function onPointerDown(e: React.PointerEvent) { startX.current = e.clientX }
   function onPointerUp(e: React.PointerEvent) {
     const delta = e.clientX - startX.current
-    if (Math.abs(delta) > 45) goTo(index + (delta < 0 ? 1 : -1))
+    if (Math.abs(delta) > 45) { pauseAutoplay(); goTo(index + (delta < 0 ? 1 : -1)) }
   }
 
   const pad = (n: number) => String(n + 1).padStart(2, '0')
@@ -81,8 +107,8 @@ export default function MentorCarousel({ mentors }: { mentors: MentorItem[] }) {
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onKeyDown={e => {
-            if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(index - 1) }
-            if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1) }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); pauseAutoplay(); goTo(index - 1) }
+            if (e.key === 'ArrowRight') { e.preventDefault(); pauseAutoplay(); goTo(index + 1) }
           }}
         >
           <div
@@ -101,7 +127,7 @@ export default function MentorCarousel({ mentors }: { mentors: MentorItem[] }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, marginTop: 22 }}>
           <div style={{ display: 'flex', gap: 9 }}>
             <button
-              onClick={() => goTo(index - 1)}
+              onClick={() => { pauseAutoplay(); goTo(index - 1) }}
               disabled={index === 0}
               aria-label="Previous mentors"
               style={{ width: 42, height: 42, display: 'grid', placeItems: 'center', borderRadius: '50%', border: '1px solid rgba(220,234,255,0.65)', color: 'white', background: 'rgba(255,255,255,0.10)', cursor: index === 0 ? 'not-allowed' : 'pointer', opacity: index === 0 ? 0.35 : 1, transition: 'background 0.2s' }}
@@ -111,7 +137,7 @@ export default function MentorCarousel({ mentors }: { mentors: MentorItem[] }) {
               </svg>
             </button>
             <button
-              onClick={() => goTo(index + 1)}
+              onClick={() => { pauseAutoplay(); goTo(index + 1) }}
               disabled={index === maxIndex}
               aria-label="Next mentors"
               style={{ width: 42, height: 42, display: 'grid', placeItems: 'center', borderRadius: '50%', border: '1px solid rgba(220,234,255,0.65)', color: 'white', background: 'rgba(255,255,255,0.10)', cursor: index === maxIndex ? 'not-allowed' : 'pointer', opacity: index === maxIndex ? 0.35 : 1, transition: 'background 0.2s' }}
@@ -127,7 +153,7 @@ export default function MentorCarousel({ mentors }: { mentors: MentorItem[] }) {
             {Array.from({ length: maxIndex + 1 }, (_, i) => (
               <button
                 key={i}
-                onClick={() => goTo(i)}
+                onClick={() => { pauseAutoplay(); goTo(i) }}
                 aria-label={`Show mentor set ${i + 1}`}
                 aria-current={i === index ? 'true' : undefined}
                 style={{
