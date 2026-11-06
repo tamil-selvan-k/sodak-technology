@@ -123,7 +123,7 @@ jobs:
           npm install -g vercel@latest --allow-scripts=esbuild
 
           set +e
-          OUTPUT=$(vercel --yes --token="$VERCEL_TOKEN" 2>&1)
+          OUTPUT=$(vercel --prod --yes --token="$VERCEL_TOKEN" 2>&1)
           EXIT_CODE=$?
           set -e
 
