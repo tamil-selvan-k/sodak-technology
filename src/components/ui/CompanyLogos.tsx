@@ -27,6 +27,9 @@ export default function CompanyLogos({ companies }: CompanyLogosProps) {
               <img
                 src={company.logo}
                 alt={company.name}
+                width={140}
+                height={60}
+                style={{ maxWidth: 140, maxHeight: 60, width: 'auto', height: 'auto', objectFit: 'contain' }}
                 onError={(e) => handleImageError(e, company.fallback)}
               />
             </div>
@@ -36,6 +39,9 @@ export default function CompanyLogos({ companies }: CompanyLogosProps) {
               <img
                 src={company.logo}
                 alt={company.name}
+                width={140}
+                height={60}
+                style={{ maxWidth: 140, maxHeight: 60, width: 'auto', height: 'auto', objectFit: 'contain' }}
                 onError={(e) => handleImageError(e, company.fallback)}
               />
             </div>
@@ -49,6 +55,9 @@ export default function CompanyLogos({ companies }: CompanyLogosProps) {
               <img
                 src={company.logo}
                 alt={company.name}
+                width={140}
+                height={60}
+                style={{ maxWidth: 140, maxHeight: 60, width: 'auto', height: 'auto', objectFit: 'contain' }}
                 onError={(e) => handleImageError(e, company.fallback)}
               />
             </div>
@@ -58,6 +67,9 @@ export default function CompanyLogos({ companies }: CompanyLogosProps) {
               <img
                 src={company.logo}
                 alt={company.name}
+                width={140}
+                height={60}
+                style={{ maxWidth: 140, maxHeight: 60, width: 'auto', height: 'auto', objectFit: 'contain' }}
                 onError={(e) => handleImageError(e, company.fallback)}
               />
             </div>

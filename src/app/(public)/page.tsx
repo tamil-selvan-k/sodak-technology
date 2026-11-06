@@ -11,6 +11,7 @@ import StackCycler from '@/components/ui/StackCycler'
 import type { StackCyclerItem } from '@/components/ui/StackCycler'
 import { ScrollReveal, StaggerContainer } from '@/components/ui/ScrollReveal'
 import CompanyLogos from '@/components/ui/CompanyLogos'
+import StatCounter from '@/components/ui/StatCounter'
 
 export const metadata: Metadata = {
   title: 'Campus Placement Training in Chennai | SODAK Technology',
@@ -144,6 +145,28 @@ export default async function HomePage() {
                 }}>
                   Founded in 2016 by engineers who had been through the campus placement grind, SODAK Technology trains with working engineers as trainers — every one of them currently employed at the companies your students aspire to join.
                 </p>
+
+                {/* Stats */}
+                {(() => {
+                  const stats = settings?.stats as Record<string, unknown> | null
+                  const trainers = Number(stats?.trainers) || 10
+                  const studentsTrained = Number(stats?.studentsTrained) || 1000
+                  return (
+                <div className="who-stats-row">
+                  {[
+                    { value: trainers, suffix: '+', label: 'No. of Trainers' },
+                    { value: studentsTrained, suffix: '+', label: 'Students Trained' },
+                  ].map(s => (
+                    <div key={s.label} className="who-stat">
+                      <div className="who-stat-value">
+                        <StatCounter value={s.value} suffix={s.suffix} />
+                      </div>
+                      <div className="who-stat-label">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+                  )
+                })()}
 
                 {/* CTA */}
                 <Link href="/about" className="btn btn-ghost arrow-link" style={{ marginTop: 4 }}>
