@@ -4,13 +4,13 @@ import Link from 'next/link'
 import { listMentors } from '@/modules/mentors/mentors.service'
 import { listStacks } from '@/modules/stacks/stacks.service'
 import { getSettings } from '@/modules/settings/settings.service'
-import { listInstitutionNames } from '@/modules/institutions/institutions.service'
 import StackIcon from '@/components/ui/StackIcon'
 import MentorCarousel from '@/components/ui/MentorCarousel'
 import HeroReveal from '@/components/ui/HeroReveal'
 import StackCycler from '@/components/ui/StackCycler'
 import type { StackCyclerItem } from '@/components/ui/StackCycler'
 import { ScrollReveal, StaggerContainer } from '@/components/ui/ScrollReveal'
+import CompanyLogos from '@/components/ui/CompanyLogos'
 
 export const metadata: Metadata = {
   title: 'Campus Placement Training in Chennai | SODAK Technology',
@@ -48,20 +48,14 @@ const REVIEWS = [
 export const revalidate = 60
 
 export default async function HomePage() {
-  const [mentorsResult, stacksResult, settings, institutionsResult] = await Promise.all([
+  const [mentorsResult, stacksResult, settings] = await Promise.all([
     listMentors({ isPublished: true, perPage: 12 }).catch(() => ({ data: [], pagination: { total: 0, page: 1, perPage: 12, pages: 0 } })),
     listStacks().catch(() => []),
     getSettings().catch(() => null),
-    listInstitutionNames({ showOnHome: true, perPage: 20 }).catch(() => ({ data: [] as Array<{ id: string; name: string; slug: string; logoUrl: string | null; logoPermission: boolean }>, pagination: { total: 0, page: 1, perPage: 20, pages: 0 } })),
   ])
 
   const mentors = mentorsResult.data ?? []
   const stacks   = Array.isArray(stacksResult) ? stacksResult : []
-
-  const dbInstitutionNames: string[] = institutionsResult.data.map((i) => i.name)
-  const institutionNames = dbInstitutionNames.length > 0
-    ? dbInstitutionNames
-    : ['St. Joseph\'s Institute of Technology', 'Sathyabama University']
 
   return (
     <>
@@ -97,50 +91,22 @@ export default async function HomePage() {
       </section>
 
       {/* ── Companies Marquee ── */}
-      {(() => {
-        // Build unique company list from live mentor data
-        const uniqueCompanies = Array.from(
-          new Set(mentors.map(m => m.currentCompany).filter((c): c is string => !!c))
-        )
-        if (uniqueCompanies.length === 0) return null
-
-        // Row 2 is the same list reversed so the two marquee rows look different
-        const companiesRow2 = [...uniqueCompanies].reverse()
-
-        const minItems = 12
-        const row1Repeats = Math.ceil(minItems / uniqueCompanies.length)
-        const row1 = Array.from({ length: row1Repeats }, () => uniqueCompanies).flat()
-        const row2Repeats = Math.ceil(minItems / companiesRow2.length)
-        const row2 = Array.from({ length: row2Repeats }, () => companiesRow2).flat()
-        return (
-          <section className="companies-section" style={{ padding: '40px 0 20px' }}>
-            <div className="container text-center" style={{ marginBottom: 24 }}>
-              <p className="section-eyebrow">Our Mentors</p>
-              <h2 className="t-h2 c-heading" style={{ marginBottom: 0 }}>Top Companies Our Mentors Working In</h2>
-            </div>
-            <div className="companies-marquee-wrap">
-              <div className="company-track">
-                {row1.map((name, i) => (
-                  <div key={`c1a-${i}`} className="company-item">{name}</div>
-                ))}
-                {row1.map((name, i) => (
-                  <div key={`c1b-${i}`} className="company-item">{name}</div>
-                ))}
-              </div>
-            </div>
-            <div className="companies-marquee-wrap">
-              <div className="company-track-reverse">
-                {row2.map((name, i) => (
-                  <div key={`c2a-${i}`} className="company-item">{name}</div>
-                ))}
-                {row2.map((name, i) => (
-                  <div key={`c2b-${i}`} className="company-item">{name}</div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )
-      })()}
+      <section className="companies-section" style={{ padding: '60px 0 40px', background: '#f8fafc' }}>
+        <div className="container text-center" style={{ marginBottom: 32 }}>
+          <p className="section-eyebrow">Our Mentors</p>
+          <h2 className="t-h2 c-heading" style={{ marginBottom: 0 }}>Top Companies Our Mentors Working In</h2>
+        </div>
+        <CompanyLogos companies={[
+          { name: 'Zoho', logo: '/images/companies/zoho.svg', fallback: '/images/companies/zoho.svg' },
+          { name: 'TCS', logo: '/images/companies/tcs.png', fallback: '/images/companies/tcs.svg' },
+          { name: 'Deloitte', logo: '/images/companies/deloitte.svg', fallback: '/images/companies/deloitte.svg' },
+          { name: 'Accenture', logo: '/images/companies/accenture.svg', fallback: '/images/companies/accenture.svg' },
+          { name: 'Cognizant', logo: '/images/companies/cognizant.svg', fallback: '/images/companies/cognizant.svg' },
+          { name: 'PayPal', logo: '/images/companies/paypal.svg', fallback: '/images/companies/paypal.svg' },
+          { name: 'Amazon', logo: '/images/companies/amazon.png', fallback: '/images/companies/amazon.svg' },
+          { name: 'Northern Arc', logo: '/images/companies/northern-arc.svg', fallback: '/images/companies/northern-arc.svg' },
+        ]} />
+      </section>
 
       {/* ── Who We Are ── */}
       <section className="who-section">

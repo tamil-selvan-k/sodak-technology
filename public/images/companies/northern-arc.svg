@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 120" role="img" aria-labelledby="title">
+<title id="title">Northern Arc</title>
+<g transform="translate(10 10)" fill="none" stroke="#00A6C8" stroke-width="3">
+<path d="M30 4 38 18 53 11 48 27 64 31 49 40 58 55 41 51 33 67 25 51 8 56 17 40 2 31 18 26 13 10 28 18z"/>
+<path d="M30 4 30 67M2 31 64 31M8 56 53 11M13 10 58 55"/>
+</g>
+<text x="92" y="65" font-family="Arial, Helvetica, sans-serif" font-size="43" font-weight="700" letter-spacing="1.5" fill="#173D55">NORTHERN ARC</text>
+<path d="M94 80h310" stroke="#00A6C8" stroke-width="3"/>
+</svg>

@@ -1429,6 +1429,14 @@ section.s-lg { padding: 88px 0; }
 .companies-marquee-wrap::before { left: 0; background: linear-gradient(to right, #ffffff, transparent); }
 .companies-marquee-wrap::after  { right: 0; background: linear-gradient(to left,  #ffffff, transparent); }
 
+/* Companies section with gray background */
+.companies-section .companies-marquee-wrap::before {
+  background: linear-gradient(to right, #f8fafc, transparent);
+}
+.companies-section .companies-marquee-wrap::after {
+  background: linear-gradient(to left, #f8fafc, transparent);
+}
+
 .company-track {
   display: flex; gap: 20px;
   animation: marquee 28s linear infinite;
@@ -1456,6 +1464,63 @@ section.s-lg { padding: 88px 0; }
   border-color: #2563eb;
   background: #dbeafe;
   color: #1e40af;
+}
+
+/* ── Company Logo Items ── */
+.company-logo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 32px;
+  border-radius: 1rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  height: 100px;
+  min-width: 180px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.company-logo-item:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
+}
+.company-logo-item img {
+  max-width: 140px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(0%);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+.company-logo-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments for company logos */
+@media (max-width: 768px) {
+  .company-logo-item {
+    height: 80px;
+    min-width: 140px;
+    padding: 16px 24px;
+  }
+  .company-logo-item img {
+    max-width: 110px;
+    max-height: 48px;
+  }
+}
+@media (max-width: 480px) {
+  .company-logo-item {
+    height: 70px;
+    min-width: 120px;
+    padding: 12px 20px;
+  }
+  .company-logo-item img {
+    max-width: 90px;
+    max-height: 40px;
+  }
 }
 
 /* ── Institution marquee title support ── */

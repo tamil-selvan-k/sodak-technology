@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 100" role="img" aria-labelledby="title">
+<title id="title">Tata Consultancy Services</title>
+<g fill="#1B3F8B">
+<path d="M8 18h72v12H52v54H36V30H8z"/>
+<path d="M92 84 122 18h17l30 66h-18l-6-15h-29l-6 15zm29-29h19l-9-23z"/>
+<path d="M224 30c-7-5-14-7-22-7-17 0-28 11-28 27s11 27 28 27c9 0 17-3 23-8l9 12c-9 8-20 12-33 12-28 0-46-17-46-43s19-43 47-43c13 0 24 4 32 11z"/>
+</g>
+<g fill="#222" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" letter-spacing="1">
+<text x="276" y="42">TATA</text><text x="276" y="64">CONSULTANCY</text><text x="276" y="86">SERVICES</text>
+</g>
+</svg>

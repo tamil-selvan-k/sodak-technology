@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 110" role="img" aria-labelledby="title">
+<title id="title">Cognizant</title>
+<g transform="translate(8 14)" fill="none" stroke-linejoin="round" stroke-width="8">
+<path d="M42 4 76 24 76 61 42 81 8 61 8 24z" stroke="#00A3E0"/>
+<path d="M42 4 42 43 76 61" stroke="#0076B8"/>
+<path d="M8 24 42 43 42 81" stroke="#00A3E0"/>
+</g>
+<text x="108" y="82" font-family="Arial, Helvetica, sans-serif" font-size="70" font-weight="600" letter-spacing="-2" fill="#143A52">cognizant</text>
+</svg>
