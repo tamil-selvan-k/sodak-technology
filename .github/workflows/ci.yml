@@ -1,3 +1,4 @@
+
 name: CI / CD
 
 on:
@@ -119,13 +120,31 @@ jobs:
       - name: Deploy to Vercel (preview)
         id: deploy
         run: |
-          npm install -g vercel@latest
-          OUTPUT=$(vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }} 2>&1)
-          echo "$OUTPUT"
+          npm install -g vercel@latest --allow-scripts=esbuild
+
+          set +e
+          OUTPUT=$(vercel --yes --token="$VERCEL_TOKEN" 2>&1)
+          EXIT_CODE=$?
+          set -e
+
+          printf '%s\n' "$OUTPUT"
+
+          if [ "$EXIT_CODE" -ne 0 ]; then
+            echo "::error::Vercel staging deployment failed with exit code $EXIT_CODE"
+            exit "$EXIT_CODE"
+          fi
+
           DEPLOY_URL=$(echo "$OUTPUT" | grep -oE 'https://[a-zA-Z0-9._-]+\.vercel\.app' | head -1)
+
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "::error::Vercel deployment succeeded but no deployment URL was found"
+            exit 1
+          fi
+
           echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
           echo "Staging URL: $DEPLOY_URL"
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
