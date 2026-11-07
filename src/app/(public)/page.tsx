@@ -99,12 +99,12 @@ export default async function HomePage() {
         </div>
         <CompanyLogos companies={[
           { name: 'Zoho', logo: '/images/companies/zoho.svg', fallback: '/images/companies/zoho.svg' },
-          { name: 'TCS', logo: '/images/companies/tcs.png', fallback: '/images/companies/tcs.svg' },
+          { name: 'TCS', logo: '/images/companies/tcs.svg', fallback: '/images/companies/tcs.svg' },
           { name: 'Deloitte', logo: '/images/companies/deloitte.svg', fallback: '/images/companies/deloitte.svg' },
           { name: 'Accenture', logo: '/images/companies/accenture.svg', fallback: '/images/companies/accenture.svg' },
           { name: 'Cognizant', logo: '/images/companies/cognizant.svg', fallback: '/images/companies/cognizant.svg' },
           { name: 'PayPal', logo: '/images/companies/paypal.svg', fallback: '/images/companies/paypal.svg' },
-          { name: 'Amazon', logo: '/images/companies/amazon.png', fallback: '/images/companies/amazon.svg' },
+          { name: 'Amazon', logo: '/images/companies/amazon.svg', fallback: '/images/companies/amazon.svg' },
           { name: 'Northern Arc', logo: '/images/companies/northern-arc.svg', fallback: '/images/companies/northern-arc.svg' },
         ]} />
       </section>
